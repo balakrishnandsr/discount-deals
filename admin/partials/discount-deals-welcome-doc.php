@@ -1,6 +1,8 @@
 <?php
 /**
  * Discount deals For WooCommerce About/Landing page
+ *
+ * @package Discount_Deals
  */
 
 // Exit if accessed directly.

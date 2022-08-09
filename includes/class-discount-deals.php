@@ -51,8 +51,6 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * Set the plugin name and the plugin version that can be used throughout the plugin.
 		 * Load the dependencies, define the locale, and set the hooks for the admin area and
 		 * the public-facing side of the site.
-		 *
-		 * @since    1.0.0
 		 */
 		public function __construct() {
 			if ( defined( 'DISCOUNT_DEALS_VERSION' ) ) {
@@ -76,14 +74,12 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * Include the following files that make up the plugin:
 		 *
 		 * - Discount_Deals_Loader. Orchestrates the hooks of the plugin.
-		 * - Discount_Deals_i18n. Defines internationalization functionality.
+		 * - Discount_Deals_I18n. Defines internationalization functionality.
 		 * - Discount_Deals_Admin. Defines all hooks for the admin area.
 		 * - Discount_Deals_Public. Defines all hooks for the public side of the site.
 		 *
 		 * Create an instance of the loader which will be used to register the hooks
 		 * with WordPress.
-		 *
-		 * @since    1.0.0
 		 *
 		 * @return void
 		 */
@@ -115,18 +111,16 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		/**
 		 * Define the locale for this plugin for internationalization.
 		 *
-		 * Uses the Discount_Deals_i18n class in order to set the domain and to register the hook
+		 * Uses the Discount_Deals_I18n class in order to set the domain and to register the hook
 		 * with WordPress.
-		 *
-		 * @since    1.0.0
 		 *
 		 * @return void
 		 */
 		private function set_locale() {
 
-			$plugin_i18n = new Discount_Deals_i18n();
+			$plugin_i18n = new Discount_Deals_I18n();
 
-			add_action( 'plugins_loaded', array( $plugin_i18n, 'load_plugin_textdomain' ) );
+			add_action( 'plugins_loaded', array( $plugin_i18n, 'load_plugin_text_domain' ) );
 
 		}//end set_locale()
 
@@ -135,7 +129,6 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * Register all the hooks related to the admin area functionality
 		 * of the plugin.
 		 *
-		 * @since    1.0.0
 		 * @return void
 		 */
 		private function init_admin() {
@@ -150,8 +143,6 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * WordPress and to define internationalization functionality.
 		 *
 		 * @return    string    The name of the plugin.
-		 * @since     1.0.0
-		 * @return void
 		 */
 		public function get_plugin_slug() {
 			return $this->plugin_slug;
@@ -162,8 +153,6 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * Retrieve the version number of the plugin.
 		 *
 		 * @return    string    The version number of the plugin.
-		 * @since     1.0.0
-		 * @return void
 		 */
 		public function get_version() {
 			return $this->version;
@@ -174,7 +163,6 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * Register all the hooks related to the public-facing functionality
 		 * of the plugin.
 		 *
-		 * @since    1.0.0
 		 * @return void
 		 */
 		private function init_public() {
@@ -187,8 +175,7 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		/**
 		 * Run the loader to execute all the hooks with WordPress.
 		 *
-		 * @since    1.0.0
-		 * @return void
+		 * @return self
 		 */
 		public static function run() {
 			if ( is_null( self::$instance ) || ! self::$instance instanceof Discount_Deals ) {

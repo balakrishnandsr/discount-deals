@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin activation.
  *
@@ -7,9 +6,6 @@
  *
  * @package    Discount_Deals
  * @subpackage Discount_Deals/includes
- *
- * @since      1.0.0
- * @version    1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,8 +21,6 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 
 		/**
 		 * Run the loader to execute all the hooks with WordPress.
-		 *
-		 * @since    1.0.0
 		 */
 		public static function activate() {
 			self::create_tables();
@@ -73,10 +67,6 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 
 			dbDelta( $dd_tables );
 		}//end create_tables()
-
-
 	}//end class
-
-
 }
 

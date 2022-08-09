@@ -1,6 +1,8 @@
 <?php
 /**
  * The admin-specific functionality of the plugin.
+ *
+ * @package Discount_Deals
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -52,7 +54,6 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		/**
 		 * Register the stylesheets for the admin area.
 		 *
-		 * @since    1.0.0
 		 * @return void
 		 */
 		public function enqueue_styles() {
@@ -65,7 +66,6 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		/**
 		 * Register the JavaScript for the admin area.
 		 *
-		 * @since    1.0.0
 		 * @return void
 		 */
 		public function enqueue_scripts() {
@@ -83,7 +83,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			// Translators: A small arrow.
 			add_submenu_page( 'woocommerce', __( 'Discount Deals', 'discount-deals' ), __( 'Discount Deals', 'discount-deals' ), 'manage_woocommerce', 'discount-deals', array( $this, 'discount_deals_plugin_page' ) );
 
-			$get_page = ( ! empty( $_GET['page'] ) ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : '';
+			$get_page = discount_deals_get_data( 'page', '' );
 
 			if ( 'discount-deals-welcome-doc' === $get_page ) {
 				add_submenu_page( 'woocommerce', __( 'Getting Started', 'discount-deals' ), __( 'Getting Started', 'discount-deals' ), 'manage_woocommerce', 'discount-deals-welcome-doc', array( $this, 'welcome_docs_page' ) );
@@ -204,7 +204,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return mixed|string
 		 */
 		private function get_active_tab() {
-			$get_active_tab = ( ! empty( $_GET['tab'] ) ) ? wc_clean( wp_unslash( $_GET['tab'] ) ) : '';
+			$get_active_tab = discount_deals_get_data( 'tab', '' );
 			return ! empty( $get_active_tab ) ? $get_active_tab : 'workflows';
 		}//end get_active_tab()
 
@@ -214,7 +214,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 *
 		 * @return void
 		 */
-		function plugin_activation_redirect() {
+		public function plugin_activation_redirect() {
 			if ( get_option( 'discount_deals_do_activation_redirect', false ) ) {
 				delete_option( 'discount_deals_do_activation_redirect' );
 				wp_safe_redirect( admin_url( 'admin.php?page=discount-deals-welcome-doc' ) );

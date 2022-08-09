@@ -1,3 +1,9 @@
+/**
+ * JS file contains all code necessary for frontend
+ *
+ * @package Discount_Deals
+ */
+
 (function( $ ) {
 	'use strict';
 

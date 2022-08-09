@@ -1,11 +1,16 @@
 <?php
-
 /**
  * This class defines all code necessary to workflow
  *
- * @since      1.0.0
  * @package    Discount_Deals
- * @subpackage Discount_Deals/includes/workflows
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Data for workflow validation and discount
  */
 class Discount_Deals_Workflow_Data_Layer {
 	/**
@@ -25,7 +30,7 @@ class Discount_Deals_Workflow_Data_Layer {
 	 * @param string $name Name.
 	 * @return boolean false
 	 */
-	function get_item( $name ) {
+	public function get_item( $name ) {
 		return false;
 	}//end get_item()
 

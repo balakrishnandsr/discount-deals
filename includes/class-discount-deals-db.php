@@ -1,6 +1,16 @@
 <?php
 /**
  * This class defines all abstract class for database
+ *
+ * @package Discount_Deals
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * It is an abstract DB class handles most of the operation (CURD)
  */
 abstract class Discount_Deals_DB {
 
@@ -19,9 +29,7 @@ abstract class Discount_Deals_DB {
 	public $primary_key;
 
 	/**
-	 * ES_DB constructor.
-	 *
-	 * @since 4.0.0
+	 * Discount_Deals_DB constructor.
 	 */
 	public function __construct() {
 	}//end __construct()
@@ -530,7 +538,8 @@ abstract class Discount_Deals_DB {
 	 * @param array   $values            Values.
 	 * @param integer $length            Length.
 	 * @param boolean $return_insert_ids Return_insert_ids.
-	 * @return bool
+	 *
+	 * @return boolean
 	 */
 	public function bulk_insert( $values = array(), $length = 100, $return_insert_ids = false ) {
 		global $wpbd;

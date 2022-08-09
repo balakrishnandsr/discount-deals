@@ -1,7 +1,17 @@
 <?php
-	/**
-	 * This class defines all code necessary to workflow.
-	 */
+/**
+ * This class defines all code necessary to workflow.
+ *
+ * @package Discount_Deals
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Class object of each workflow
+ */
 class Discount_Deals_Workflow {
 	/**
 	 * Workflow id
@@ -364,6 +374,8 @@ class Discount_Deals_Workflow {
 
 
 	/**
+	 * Set the status of the workflow
+	 *
 	 * @param integer $status Status.
 	 *
 	 * @return void
@@ -384,6 +396,8 @@ class Discount_Deals_Workflow {
 
 
 	/**
+	 * Set the workflow type
+	 *
 	 * @param string $type Type.
 	 *
 	 * @return void
@@ -591,4 +605,3 @@ class Discount_Deals_Workflow {
 
 
 }//end class
-

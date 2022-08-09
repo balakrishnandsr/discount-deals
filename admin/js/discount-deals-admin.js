@@ -1,3 +1,9 @@
+/**
+ * Code contains all stuffs related to admin
+ *
+ * @package Discount_Deals
+ */
+
 (function( $ ) {
 	'use strict';
 

@@ -10,6 +10,8 @@
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       discount-deals
  * Domain Path:       /languages
+ *
+ * @package Discount_Deals
  */
 
 // If this file is called directly, abort.
@@ -17,19 +19,15 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-/*
- * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
- */
-
-defined( 'DISCOUNT_DEALS_VERSION' ) or define( 'DISCOUNT_DEALS_VERSION', '1.0.0' );
-defined( 'DISCOUNT_DEALS_PLUGIN_FILE' ) or define( 'DISCOUNT_DEALS_PLUGIN_FILE', __FILE__ );
-defined( 'DISCOUNT_DEALS_ABSPATH' ) or define( 'DISCOUNT_DEALS_ABSPATH', dirname( DISCOUNT_DEALS_PLUGIN_FILE ) . '/' );
+defined( 'DISCOUNT_DEALS_VERSION' ) || define( 'DISCOUNT_DEALS_VERSION', '1.0.0' );
+defined( 'DISCOUNT_DEALS_PLUGIN_FILE' ) || define( 'DISCOUNT_DEALS_PLUGIN_FILE', __FILE__ );
+defined( 'DISCOUNT_DEALS_ABSPATH' ) || define( 'DISCOUNT_DEALS_ABSPATH', dirname( DISCOUNT_DEALS_PLUGIN_FILE ) . '/' );
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-discount-deals-activator.php
+ *
+ * @return void
  */
 function activate_discount_deals() {
 	include_once 'includes/class-discount-deals-activator.php';
@@ -41,6 +39,8 @@ register_activation_hook( __FILE__, 'activate_discount_deals' );
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-discount-deals-deactivator.php
+ *
+ * @return void
  */
 function deactivate_discount_deals() {
 	include_once 'includes/class-discount-deals-deactivator.php';
@@ -51,9 +51,12 @@ register_deactivation_hook( __FILE__, 'deactivate_discount_deals' );
 
 /**
  * Load Discount Deals For WooCommerce only if woocommerce is activated
+ *
+ * @return Discount_Deals
  */
 function discount_deals() {
 	require plugin_dir_path( __FILE__ ) . 'includes/class-discount-deals.php';
+	require plugin_dir_path( __FILE__ ) . 'includes/discount-deals-functions.php';
 	return Discount_Deals::run();
 }//end discount_deals()
 
