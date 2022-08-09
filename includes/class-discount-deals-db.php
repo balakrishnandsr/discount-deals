@@ -28,16 +28,16 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Prepare data for operation
+	 * Prepare data for operation.
 	 *
-	 * @param $data
-	 * @param $column_formats
-	 * @param $column_defaults
-	 * @param boolean         $insert
+	 * @param array   $data            Data.
+	 * @param array   $column_formats  Column Formats.
+	 * @param array   $column_defaults Column_defaults.
+	 * @param boolean $insert          Insert.
 	 *
 	 * @return array
 	 */
-	public static function prepare_data( $data, $column_formats, $column_defaults, $insert = true ) {
+	public static function prepare_data( $data = array(), $column_formats = array(), $column_defaults = array(), $insert = true ) {
 
 		// Set default values.
 		if ( $insert ) {
@@ -62,15 +62,15 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Bulk insert data into given table
+	 * Bulk insert data into given table.
 	 *
-	 * @param $fields
-	 * @param $place_holders
-	 * @param $values
+	 * @param array  $fields        Fields.
+	 * @param string $place_holders Place_holders.
+	 * @param array  $values        Values.
 	 *
 	 * @return boolean
 	 */
-	public function do_insert( $fields, $place_holders, $values ) {
+	public function do_insert( $fields = array(), $place_holders = '', $values = array() ) {
 		global $wpbd;
 
 		$fields_str = '`' . implode( '`, `', $fields ) . '`';
@@ -100,11 +100,11 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Set table name
+	 * Set table name.
 	 *
-	 * @param mixed $table_name
+	 * @param string $table_name Table_name.
 	 */
-	public function set_table_name( $table_name ) {
+	public function set_table_name( $table_name = '' ) {
 		$this->table_name = $table_name;
 	}//end set_table_name()
 
@@ -112,9 +112,9 @@ abstract class Discount_Deals_DB {
 	/**
 	 * Retrieve a row by the primary key
 	 *
-	 * @param integer $row_id
-	 * @param string  $output
-	 * @param false   $use_cache
+	 * @param integer $row_id    Row_id.
+	 * @param array   $output    Output.
+	 * @param boolean $use_cache Use_cache.
 	 *
 	 * @return false|mixed
 	 */
@@ -140,7 +140,7 @@ abstract class Discount_Deals_DB {
 	/**
 	 * Set primary key of the table
 	 *
-	 * @param mixed $primary_key
+	 * @param mixed $primary_key Primary_key.
 	 */
 	public function set_primary_key( $primary_key ) {
 		$this->primary_key = $primary_key;
@@ -150,14 +150,14 @@ abstract class Discount_Deals_DB {
 	/**
 	 * Retrieve a row by a specific column / value
 	 *
-	 * @param $column
-	 * @param $row_id
-	 * @param string $output
-	 * @param false  $use_cache
+	 * @param array   $column    Column.
+	 * @param integer $row_id    Row_id.
+	 * @param string  $output    Output.
+	 * @param boolean $use_cache Use_cache.
 	 *
 	 * @return false|mixed
 	 */
-	public function get_by( $column, $row_id, $output = ARRAY_A, $use_cache = false ) {
+	public function get_by( $column = array(), $row_id = 0, $output = ARRAY_A, $use_cache = false ) {
 		global $wpbd;
 		$column = esc_sql( $column );
 
@@ -180,9 +180,9 @@ abstract class Discount_Deals_DB {
 	/**
 	 * Get rows by conditions
 	 *
-	 * @param string $where
-	 * @param string $output
-	 * @param false  $use_cache
+	 * @param string  $where     Where.
+	 * @param string  $output    Output.
+	 * @param boolean $use_cache Use_cache.
 	 *
 	 * @return false|mixed
 	 */
@@ -200,11 +200,11 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Retrieve a specific column's value by the primary key
+	 * Retrieve a specific column's value by the primary key.
 	 *
-	 * @param string  $column
-	 * @param integer $row_id
-	 * @param boolean $use_cache
+	 * @param string  $column    Column.
+	 * @param integer $row_id    Row_id.
+	 * @param boolean $use_cache Use_cache.
 	 *
 	 * @return null|string|array
 	 */
@@ -232,11 +232,11 @@ abstract class Discount_Deals_DB {
 	/**
 	 * Retrieve a specific column's value by the the specified column / value
 	 *
-	 * @param string  $column
-	 * @param string  $column_where
-	 * @param string  $column_value
-	 * @param boolean $only_one
-	 * @param boolean $use_cache
+	 * @param string  $column       Column.
+	 * @param string  $column_where Column_where.
+	 * @param string  $column_value Column_value.
+	 * @param boolean $only_one     Only_one.
+	 * @param boolean $use_cache    Use_cache.
 	 *
 	 * @return array|string|null
 	 */
@@ -264,11 +264,11 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Get column based on where condition
+	 * Get column based on where condition.
 	 *
-	 * @param string  $column
-	 * @param string  $where
-	 * @param boolean $use_cache
+	 * @param string  $column    Column.
+	 * @param string  $where     Where.
+	 * @param boolean $use_cache Use_cache.
 	 *
 	 * @return array
 	 */
@@ -287,14 +287,14 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Insert a new row
+	 * Insert a new row.
 	 *
-	 * @param $data
-	 * @param string $type
+	 * @param array  $data Data.
+	 * @param string $type Type.
 	 *
 	 * @return integer
 	 */
-	public function insert( $data, $type = '' ) {
+	public function insert( $data = array(), $type = '' ) {
 		global $wpdb;
 
 		// Set default values.
@@ -322,29 +322,29 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Get columns default values
+	 * Get columns default values.
 	 *
 	 * @return array
 	 */
 	abstract public function get_column_defaults();
 
 	/**
-	 * Get default columns
+	 * Get default columns.
 	 *
 	 * @return array
 	 */
 	abstract public function get_columns();
 
 	/**
-	 * Update a specific row
+	 * Update a specific row.
 	 *
-	 * @param $row_id
-	 * @param array  $data
-	 * @param string $where
+	 * @param integer $row_id Row_id.
+	 * @param array   $data   Data.
+	 * @param string  $where  Where.
 	 *
 	 * @return boolean
 	 */
-	public function update( $row_id, $data = array(), $where = '' ) {
+	public function update( $row_id = 0, $data = array(), $where = '' ) {
 
 		global $wpdb;
 
@@ -381,9 +381,9 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Delete a row by primary key
+	 * Delete a row by primary key.
 	 *
-	 * @param integer $row_id
+	 * @param integer $row_id Row_id.
 	 *
 	 * @return boolean
 	 */
@@ -409,9 +409,9 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Delete records based on $where
+	 * Delete records based on $where.
 	 *
-	 * @param string $where
+	 * @param string $where Where.
 	 *
 	 * @return boolean
 	 */
@@ -431,9 +431,9 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Delete rows by primary key
+	 * Delete rows by primary key.
 	 *
-	 * @param array $row_ids
+	 * @param array $row_ids Row_ids.
 	 *
 	 * @return boolean
 	 */
@@ -456,9 +456,9 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Prepare string for SQL IN query
+	 * Prepare string for SQL IN query.
 	 *
-	 * @param array $array
+	 * @param array $array Array.
 	 *
 	 * @return string
 	 */
@@ -475,7 +475,7 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Check whether table installed
+	 * Check whether table installed.
 	 *
 	 * @return boolean
 	 */
@@ -485,9 +485,9 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Check whether table exists or not
+	 * Check whether table exists or not.
 	 *
-	 * @param $table
+	 * @param array $table Table.
 	 *
 	 * @return boolean
 	 */
@@ -500,10 +500,10 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Get total count
+	 * Get total count.
 	 *
-	 * @param string  $where
-	 * @param boolean $use_cache
+	 * @param string  $where     Where.
+	 * @param boolean $use_cache Use_cache.
 	 *
 	 * @return string|null
 	 */
@@ -521,11 +521,11 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Insert data into bulk
+	 * Insert data into bulk.
 	 *
-	 * @param array   $values
-	 * @param integer $length
-	 * @param boolean $return_insert_ids
+	 * @param array   $values            Values.
+	 * @param integer $length            Length.
+	 * @param boolean $return_insert_ids Return_insert_ids.
 	 */
 	public function bulk_insert( $values = array(), $length = 100, $return_insert_ids = false ) {
 		global $wpbd;
@@ -545,7 +545,7 @@ abstract class Discount_Deals_DB {
 		// Initialise column format array.
 		$column_formats = $this->get_columns();
 
-		// Remove primary key as we don't require while inserting data
+		// Remove primary key as we don't require while inserting data.
 		unset( $column_formats[ $this->get_primary_key() ] );
 
 		// Force fields to lower case.
@@ -579,7 +579,7 @@ abstract class Discount_Deals_DB {
 
 				$formats = array();
 				foreach ( $column_formats as $column => $format ) {
-					$final_values[] = isset( $value[ $column ] ) ? $value[ $column ] : $data[ $column ]; // set default if we don't have
+					$final_values[] = isset( $value[ $column ] ) ? $value[ $column ] : $data[ $column ]; // Set default if we don't have.
 					$formats[]      = $format;
 				}
 
@@ -615,9 +615,9 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Get ID, Name Map
+	 * Get ID, Name Map.
 	 *
-	 * @param string $where
+	 * @param string $where Where.
 	 *
 	 * @return array
 	 */
@@ -627,13 +627,13 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Get map of two columns
+	 * Get map of two columns.
 	 *
-	 * E.g array($column_1 => $column_2)
+	 * E.g array($column_1 => $column_2).
 	 *
-	 * @param string $column_1
-	 * @param string $column_2
-	 * @param string $where
+	 * @param string $column_1 Column_1.
+	 * @param string $column_2 Column_2.
+	 * @param string $where    Where.
 	 *
 	 * @return array
 	 */
@@ -658,12 +658,12 @@ abstract class Discount_Deals_DB {
 
 
 	/**
-	 * Select few columns based on condition
+	 * Select few columns based on condition.
 	 *
-	 * @param array   $columns
-	 * @param string  $where
-	 * @param string  $output
-	 * @param boolean $use_cache
+	 * @param array   $columns   Columns.
+	 * @param string  $where     Where.
+	 * @param string  $output    Output.
+	 * @param boolean $use_cache Use_cache.
 	 *
 	 * @return array|object|null
 	 */

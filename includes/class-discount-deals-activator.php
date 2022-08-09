@@ -11,19 +11,78 @@
  * @since      1.0.0
  * @version    1.0.0
  */
-class Discount_Deals_Activator {
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
+	 * Class to handle installation of the plugin
 	 */
-	public static function activate() {
+	class Discount_Deals_Activator {
 
-	}//end activate()
+		/**
+		 * Constructor
+		 */
+		public function __construct() {
+			$this->install();
+		}//end __construct()
 
 
-}//end class
+		/**
+		 * Function to handle install process
+		 */
+		public function install() {
+			$this->create_tables();
+		}//end install()
+
+
+		/**
+		 * Function to create tables
+		 */
+		public function create_tables() {
+			global $wpdb;
+
+			$collate = '';
+
+			if ( $wpdb->has_cap( 'collation' ) ) {
+				if ( $wpdb->has_cap( 'collation' ) ) {
+					$collate = $wpdb->get_charset_collate();
+				}
+				if ( ! empty( $wpdb->collate ) ) {
+					$collate .= " COLLATE $wpdb->collate";
+				}
+			}
+
+			include_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+			$dd_tables = "
+							CREATE TABLE {$wpdb->prefix}dd_workflows (
+							  	id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+								title varchar(255) NOT NULL,
+								type enum('product', 'cart') DEFAULT 'product',
+								rules text DEFAULT NULL,
+								discount text NOT NULL,
+								exclusive enum('yes', 'no') DEFAULT 'no',
+								status tinyint(1) DEFAULT '1',
+								user_id int(11) NOT NULL,
+								language text DEFAULT NULL,
+								created_at datetime	 NOT NULL,
+								updated_at datetime	 NOT NULL, 
+								PRIMARY KEY  (id)
+								) $collate;
+							";
+
+			dbDelta( $dd_tables );
+		}//end create_tables()
+
+
+	}//end class
+
+
+}
+
+new Discount_Deals_Activator();
 

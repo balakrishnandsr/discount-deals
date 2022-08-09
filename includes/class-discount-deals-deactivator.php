@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin deactivation.
  *
@@ -11,19 +10,37 @@
  * @since      1.0.0
  * @version    1.0.0
  */
-class Discount_Deals_Deactivator {
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+if ( ! class_exists( 'Discount_Deals_Deactivator' ) ) {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
+	 * Class to handle installation of the plugin
 	 */
-	public static function deactivate() {
-
-	}//end deactivate()
+	class Discount_Deals_Deactivator {
 
 
-}//end class
+		/**
+		 * Constructor
+		 */
+		public function __construct() {
+			$this->uninstall();
+		}//end __construct()
+
+
+		/**
+		 * Function to handle uninstall process
+		 */
+		public function uninstall() {
+			delete_option( 'dd_db_version' );
+		}//end uninstall()
+
+	}//end class
+
+}
+
+new Discount_Deals_Deactivator();
 

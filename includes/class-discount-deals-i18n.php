@@ -4,12 +4,6 @@
  *
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
- *
- * @package    Discount_Deals
- * @subpackage Discount_Deals/includes
- *
- * @since      1.0.0
- * @version    1.0.0
  */
 class Discount_Deals_i18n {
 

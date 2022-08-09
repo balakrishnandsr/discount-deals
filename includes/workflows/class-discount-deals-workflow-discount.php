@@ -8,6 +8,11 @@
  * @subpackage Discount_Deals/includes/workflows
  */
 class Discount_Deals_Workflow_Discount {
+	/**
+	 * Get name.
+	 *
+	 * @return string
+	 */
 	function get_name() {
 		return 'name';
 	}//end get_name()

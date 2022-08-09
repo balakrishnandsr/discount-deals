@@ -22,6 +22,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
+
 defined( 'DISCOUNT_DEALS_VERSION' ) or define( 'DISCOUNT_DEALS_VERSION', '1.0.0' );
 
 /**
@@ -29,9 +30,27 @@ defined( 'DISCOUNT_DEALS_VERSION' ) or define( 'DISCOUNT_DEALS_VERSION', '1.0.0'
  * This action is documented in includes/class-discount-deals-activator.php
  */
 function activate_discount_deals() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-discount-deals-activator.php';
-	Discount_Deals_Activator::activate();
+	include_once 'includes/class-discount-deals-activator.php';
+	add_option( 'ddfw_do_activation_redirect', true );
+	add_option( 'ddfw_db_version', '1.0.0', '', 'no' );
 }//end activate_discount_deals()
+
+
+register_activation_hook( __FILE__, 'activate_discount_deals' );
+
+/**
+ * Handle redirect
+ */
+function ddfw_redirect() {
+	if ( get_option( 'ddfw_do_activation_redirect', false ) ) {
+		delete_option( 'ddfw_do_activation_redirect' );
+		wp_safe_redirect( admin_url( 'admin.php?page=discount-deals-for-woocommerce-documentation' ) );
+		exit;
+	}
+}//end ddfw_redirect()
+
+
+add_action( 'admin_init', 'ddfw_redirect' );
 
 
 /**
@@ -39,34 +58,40 @@ function activate_discount_deals() {
  * This action is documented in includes/class-discount-deals-deactivator.php
  */
 function deactivate_discount_deals() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-discount-deals-deactivator.php';
-	Discount_Deals_Deactivator::deactivate();
+	include_once 'includes/class-discount-deals-deactivator.php';
 }//end deactivate_discount_deals()
 
 
-register_activation_hook( __FILE__, 'activate_discount_deals' );
 register_deactivation_hook( __FILE__, 'deactivate_discount_deals' );
 
-/*
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
-require plugin_dir_path( __FILE__ ) . 'includes/class-discount-deals.php';
-
 /**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    1.0.0
+ * Load Discount Deals For WooCommerce only if woocommerce is activated
  */
-function discount_deals() {
+function initialize_discount_deals_for_woocommerce() {
+	define( 'DDFW_PLUGIN_FILE', __FILE__ );
+	define( 'DDFW_ABSPATH', dirname( DDFW_PLUGIN_FILE ) . '/' );
+	if ( ! defined( 'DDFW_PLUGIN_DIRPATH' ) ) {
+		define( 'DDFW_PLUGIN_DIRPATH', dirname( __FILE__ ) );
+	}
 
-	return Discount_Deals::run();
+	$active_plugins = (array) get_option( 'active_plugins', array() );
+	if ( is_multisite() ) {
+		$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+	}
 
-}//end discount_deals()
+	if ( ( in_array( 'woocommerce/woocommerce.php', $active_plugins, true ) || array_key_exists( 'woocommerce/woocommerce.php', $active_plugins ) ) ) {
+		require plugin_dir_path( __FILE__ ) . 'includes/class-discount-deals.php';
+		$GLOBALS['discount_deals_for_woocommerce'] = Discount_Deals::run();
+	} else {
+		if ( is_admin() ) {
+			?>
+			<div class="notice notice-error">
+				<p><?php echo esc_html__( 'Discount Deals for WooCommerce requires WooCommerce to be activated.', 'discount-deals-for-woocommerce' ); ?></p>
+			</div>
+			<?php
+		}
+	}
+}//end initialize_discount_deals_for_woocommerce()
 
 
-discount_deals();
+add_action( 'plugins_loaded', 'initialize_discount_deals_for_woocommerce' );

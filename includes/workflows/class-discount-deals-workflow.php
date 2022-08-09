@@ -251,7 +251,7 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set workflow priority
 	 *
-	 * @param integer $priority
+	 * @param integer $priority Priority.
 	 */
 	public function set_priority( $priority = 0 ) {
 		$this->priority = $priority;
@@ -271,7 +271,7 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set workflow created date / time
 	 *
-	 * @param string $created_at
+	 * @param string $created_at Created At.
 	 */
 	public function set_created_at( $created_at = '' ) {
 		$this->created_at = $created_at;
