@@ -5,7 +5,6 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  */
-
 class Discount_Deals_Public {
 	/**
 	 * The ID of this plugin.
@@ -40,6 +39,8 @@ class Discount_Deals_Public {
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
+	 *
+	 * @return void
 	 */
 	public function enqueue_styles() {
 
@@ -52,6 +53,7 @@ class Discount_Deals_Public {
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
 	 * @since    1.0.0
+	 * @return void
 	 */
 	public function enqueue_scripts() {
 

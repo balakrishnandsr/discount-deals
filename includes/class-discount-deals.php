@@ -7,6 +7,8 @@
  *
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
+ *
+ * @package Discount_Deals
  */
 
 // Exit if accessed directly.
@@ -82,6 +84,8 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * with WordPress.
 		 *
 		 * @since    1.0.0
+		 *
+		 * @return void
 		 */
 		private function load_dependencies() {
 			/*
@@ -89,21 +93,21 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 			 * of the plugin.
 			 */
 
-			include_once DDFW_ABSPATH . 'includes/class-discount-deals-i18n.php';
+			include_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-i18n.php';
 
 			/*
 			 * The class responsible for defining all actions that occur in the admin area.
 			 */
 
-			include_once DDFW_ABSPATH . 'admin/class-discount-deals-admin.php';
-			include_once DDFW_ABSPATH . 'admin/partials/class-discount-deals-admin-display.php';
+			include_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin.php';
+			include_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/class-discount-deals-admin-display.php';
 
 			/*
 			 * The class responsible for defining all actions that occur in the public-facing
 			 * side of the site.
 			 */
 
-			include_once DDFW_ABSPATH . 'public/class-discount-deals-public.php';
+			include_once DISCOUNT_DEALS_ABSPATH . 'public/class-discount-deals-public.php';
 
 		}//end load_dependencies()
 
@@ -115,6 +119,8 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * with WordPress.
 		 *
 		 * @since    1.0.0
+		 *
+		 * @return void
 		 */
 		private function set_locale() {
 
@@ -130,6 +136,7 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * of the plugin.
 		 *
 		 * @since    1.0.0
+		 * @return void
 		 */
 		private function init_admin() {
 
@@ -144,6 +151,7 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 *
 		 * @return    string    The name of the plugin.
 		 * @since     1.0.0
+		 * @return void
 		 */
 		public function get_plugin_slug() {
 			return $this->plugin_slug;
@@ -155,6 +163,7 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 *
 		 * @return    string    The version number of the plugin.
 		 * @since     1.0.0
+		 * @return void
 		 */
 		public function get_version() {
 			return $this->version;
@@ -166,6 +175,7 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * of the plugin.
 		 *
 		 * @since    1.0.0
+		 * @return void
 		 */
 		private function init_public() {
 
@@ -178,6 +188,7 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 * Run the loader to execute all the hooks with WordPress.
 		 *
 		 * @since    1.0.0
+		 * @return void
 		 */
 		public static function run() {
 			if ( is_null( self::$instance ) || ! self::$instance instanceof Discount_Deals ) {
@@ -199,7 +210,7 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}
 
-			return get_plugin_data( DDFW_PLUGIN_FILE );
+			return get_plugin_data( DISCOUNT_DEALS_PLUGIN_FILE );
 		}//end get_plugin_data()
 
 

@@ -22,25 +22,16 @@ if ( ! class_exists( 'Discount_Deals_Deactivator' ) ) {
 	 */
 	class Discount_Deals_Deactivator {
 
-
-		/**
-		 * Constructor
-		 */
-		public function __construct() {
-			$this->uninstall();
-		}//end __construct()
-
-
 		/**
 		 * Function to handle uninstall process
 		 */
-		public function uninstall() {
-			delete_option( 'dd_db_version' );
-		}//end uninstall()
+		public static function deactivate() {
+
+		}//end deactivate()
 
 	}//end class
 
 }
 
-new Discount_Deals_Deactivator();
+
 

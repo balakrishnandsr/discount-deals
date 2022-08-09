@@ -40,10 +40,11 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'admin_menu', array( $this, 'add_ddfw_admin_menu' ), 20 );
-			add_action( 'admin_head', array( $this, 'add_ddfw_remove_submenu' ) );
+			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+			add_action( 'admin_head', array( $this, 'add_remove_submenu' ) );
 			// Filter to add Settings link on Plugins page.
-			add_filter( 'plugin_action_links_' . plugin_basename( DDFW_PLUGIN_FILE ), array( $this, 'plugin_action_links' ) );
+			add_filter( 'plugin_action_links_' . plugin_basename( DISCOUNT_DEALS_PLUGIN_FILE ), array( $this, 'plugin_action_links' ) );
+			add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
 
 		}//end __construct()
 
@@ -52,6 +53,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * Register the stylesheets for the admin area.
 		 *
 		 * @since    1.0.0
+		 * @return void
 		 */
 		public function enqueue_styles() {
 
@@ -64,6 +66,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * Register the JavaScript for the admin area.
 		 *
 		 * @since    1.0.0
+		 * @return void
 		 */
 		public function enqueue_scripts() {
 
@@ -73,30 +76,30 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 
 		/**
 		 * Admin menus
+		 *
+		 * @return void
 		 */
-		public function add_ddfw_admin_menu() {
+		public function add_admin_menu() {
 			// Translators: A small arrow.
-			add_submenu_page( 'woocommerce', __( 'Discount Deals Dashboard', 'discount-deals-for-woocommerce' ), __( 'Discount Deals', 'discount-deals-for-woocommerce' ), 'manage_woocommerce', 'discount-deals-for-woocommerce', array( $this, 'ddfw_dashboard_page' ) );
+			add_submenu_page( 'woocommerce', __( 'Discount Deals', 'discount-deals' ), __( 'Discount Deals', 'discount-deals' ), 'manage_woocommerce', 'discount-deals', array( $this, 'discount_deals_plugin_page' ) );
 
-            $get_page = ( ! empty( $_GET['page'] ) ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore
+			$get_page = ( ! empty( $_GET['page'] ) ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : '';
 
-			if ( empty( $get_page ) ) {
-				return;
+			if ( 'discount-deals-welcome-doc' === $get_page ) {
+				add_submenu_page( 'woocommerce', __( 'Getting Started', 'discount-deals' ), __( 'Getting Started', 'discount-deals' ), 'manage_woocommerce', 'discount-deals-welcome-doc', array( $this, 'welcome_docs_page' ) );
 			}
 
-			if ( 'discount-deals-for-woocommerce-documentation' === $get_page ) {
-				add_submenu_page( 'woocommerce', sprintf( __( 'Getting Started', 'discount-deals-for-woocommerce' ), '&rsaquo;' ), __( 'Getting Started', 'discount-deals-for-woocommerce' ), 'manage_woocommerce', 'discount-deals-for-woocommerce-documentation', array( $this, 'ddfw_docs' ) );
-			}
-
-		}//end add_ddfw_admin_menu()
+		}//end add_admin_menu()
 
 
 		/**
 		 * Remove Affiliate For WooCommerce's unnecessary submenus.
+		 *
+		 * @return void
 		 */
-		public function add_ddfw_remove_submenu() {
-			remove_submenu_page( 'woocommerce', 'discount-deals-for-woocommerce-documentation' );
-		}//end add_ddfw_remove_submenu()
+		public function add_remove_submenu() {
+			remove_submenu_page( 'woocommerce', 'discount-deals-welcome-doc' );
+		}//end add_remove_submenu()
 
 
 		/**
@@ -110,19 +113,19 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			$settings_link = add_query_arg(
 				array(
 					'page' => 'wc-settings',
-					'tab'  => 'discount-deals-for-woocommerce-settings',
+					'tab'  => 'discount-deals-settings',
 				),
 				admin_url( 'admin.php' )
 			);
 
-			$getting_started_link = add_query_arg( array( 'page' => 'discount-deals-for-woocommerce-documentation' ), admin_url( 'admin.php' ) );
+			$getting_started_link = add_query_arg( array( 'page' => 'discount-deals-welcome-doc' ), admin_url( 'admin.php' ) );
 
 			$action_links = array(
-				'getting-started' => '<a href="' . esc_url( $getting_started_link ) . '">' . esc_html( __( 'Getting started', 'discount-deals-for-woocommerce' ) ) . '</a>',
-				'settings'        => '<a href="' . esc_url( $settings_link ) . '">' . esc_html( __( 'Settings', 'discount-deals-for-woocommerce' ) ) . '</a>',
-				'docs'            => '<a target="_blank" href="' . esc_url( 'https://woocommerce.com/document/discount-deals-for-woocommerce/' ) . '">' . __( 'Docs', 'discount-deals-for-woocommerce' ) . '</a>',
-				'support'         => '<a target="_blank" href="' . esc_url( 'https://woocommerce.com/my-account/create-a-ticket/' ) . '">' . __( 'Support', 'discount-deals-for-woocommerce' ) . '</a>',
-				'review'          => '<a target="_blank" href="' . esc_url( 'https://woocommerce.com/products/discount-deals-for-woocommerce/#reviews' ) . '">' . __( 'Review', 'discount-deals-for-woocommerce' ) . '</a>',
+				'getting-started' => '<a href="' . esc_url( $getting_started_link ) . '">' . esc_html( __( 'Getting started', 'discount-deals' ) ) . '</a>',
+				'settings'        => '<a href="' . esc_url( $settings_link ) . '">' . esc_html( __( 'Settings', 'discount-deals' ) ) . '</a>',
+				'docs'            => '<a target="_blank" href="' . esc_url( 'https://woocommerce.com/document/discount-deals/' ) . '">' . __( 'Docs', 'discount-deals' ) . '</a>',
+				'support'         => '<a target="_blank" href="' . esc_url( 'https://woocommerce.com/my-account/create-a-ticket/' ) . '">' . __( 'Support', 'discount-deals' ) . '</a>',
+				'review'          => '<a target="_blank" href="' . esc_url( 'https://woocommerce.com/products/discount-deals/#reviews' ) . '">' . __( 'Review', 'discount-deals' ) . '</a>',
 			);
 
 			return array_merge( $action_links, $links );
@@ -132,46 +135,48 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 
 		/**
 		 * Function to show admin dashboard.
+		 *
+		 * @return void
 		 */
-		public function ddfw_dashboard_page() {
+		public function discount_deals_plugin_page() {
 
 			$settings_link = add_query_arg(
 				array(
 					'page' => 'wc-settings',
-					'tab'  => 'discount-deals-for-woocommerce-settings',
+					'tab'  => 'discount-deals-settings',
 				),
 				admin_url( 'admin.php' )
 			);
 
-			$current_tab = $this->getCurrentTab();
-			$tabs        = array(
-				'dashboard' => 'Dashboard',
+			$active_tab = $this->get_active_tab();
+			$tabs       = array(
+				'workflows' => 'Workflows',
 				'tab2'      => 'Tab 2',
 			);
 
 			?>
 
 			<div class="ddfw-main">
-				<h2 class="ddfw_tabs_container nav-tab-wrapper">
+				<h2 class="discount_deals_tabs_container nav-tab-wrapper">
 					<?php
 					foreach ( $tabs as $tab_key => $tab_title ) {
 						$params = array(
-							'page' => 'discount-deals-for-woocommerce',
+							'page' => 'discount-deals',
 							'tab'  => $tab_key,
 						);
 						$target = '';
 						$link   = esc_url( admin_url( 'admin.php?' . http_build_query( $params ) ) );
 						?>
-						<a class="nav-tab <?php echo esc_attr( ( $tab_key === $current_tab ? 'nav-tab-active' : '' ) ); ?>"
+						<a class="nav-tab <?php echo esc_attr( ( $tab_key === $active_tab ? 'nav-tab-active' : '' ) ); ?>"
 						   href="<?php echo esc_url( $link ); ?>" <?php echo esc_attr( $target ); ?>><?php echo esc_html( $tab_title ); ?></a>
 					<?php } ?>
 				</h2>
 				<div class="clear"></div>
 		</div>
 			<?php
-			if ( 'dashboard' === $current_tab ) {
+			if ( 'workflows' === $active_tab ) {
 				?>
-				<div id="ddfw-admin-dasboard" class="ddfw-admin-dasboard">
+				<div id="ddfw-admin-workflows" class="ddfw-admin-workflows">
 					<h2>hello... Woocommerce</h2>
 				</div>
 				<?php
@@ -179,16 +184,18 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			?>
 
 			<?php
-		}//end ddfw_dashboard_page()
+		}//end discount_deals_plugin_page()
 
 
 		/**
 		 * Include Admin Doc file
+		 *
+		 * @return void
 		 */
-		public function ddfw_docs() {
+		public function welcome_docs_page() {
 			global $wpdb;
-			include 'partials/about-discount-deals-for-woocommerce.php';
-		}//end ddfw_docs()
+			include 'partials/discount-deals-welcome-doc.php';
+		}//end welcome_docs_page()
 
 
 		/**
@@ -196,10 +203,25 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 *
 		 * @return mixed|string
 		 */
-		private function getCurrentTab() {
-			$get_current_tab = ( ! empty( $_REQUEST['tab'] ) ) ? wc_clean( wp_unslash( $_REQUEST['tab'] ) ) : '';
-			return ! empty( $get_current_tab ) ? $get_current_tab : 'dashboard';
-		}//end getCurrentTab()
+		private function get_active_tab() {
+			$get_active_tab = ( ! empty( $_GET['tab'] ) ) ? wc_clean( wp_unslash( $_GET['tab'] ) ) : '';
+			return ! empty( $get_active_tab ) ? $get_active_tab : 'workflows';
+		}//end get_active_tab()
+
+
+		/**
+		 * Handle redirect
+		 *
+		 * @return void
+		 */
+		function plugin_activation_redirect() {
+			if ( get_option( 'discount_deals_do_activation_redirect', false ) ) {
+				delete_option( 'discount_deals_do_activation_redirect' );
+				wp_safe_redirect( admin_url( 'admin.php?page=discount-deals-welcome-doc' ) );
+				exit;
+			}
+		}//end plugin_activation_redirect()
+
 
 
 	}//end class

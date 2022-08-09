@@ -37,7 +37,7 @@ abstract class Discount_Deals_DB {
 	 *
 	 * @return array
 	 */
-	public static function prepare_data( $data = array(), $column_formats = array(), $column_defaults = array(), $insert = true ) {
+	public static function prepare_data( array $data = array(), $column_formats = array(), $column_defaults = array(), $insert = true ) {
 
 		// Set default values.
 		if ( $insert ) {
@@ -103,8 +103,10 @@ abstract class Discount_Deals_DB {
 	 * Set table name.
 	 *
 	 * @param string $table_name Table_name.
+	 * @return void
 	 */
 	public function set_table_name( $table_name = '' ) {
+
 		$this->table_name = $table_name;
 	}//end set_table_name()
 
@@ -141,8 +143,10 @@ abstract class Discount_Deals_DB {
 	 * Set primary key of the table
 	 *
 	 * @param mixed $primary_key Primary_key.
+	 *
+	 * @return void
 	 */
-	public function set_primary_key( $primary_key ) {
+	public function set_primary_key( $primary_key = '' ) {
 		$this->primary_key = $primary_key;
 	}//end set_primary_key()
 
@@ -526,6 +530,7 @@ abstract class Discount_Deals_DB {
 	 * @param array   $values            Values.
 	 * @param integer $length            Length.
 	 * @param boolean $return_insert_ids Return_insert_ids.
+	 * @return bool
 	 */
 	public function bulk_insert( $values = array(), $length = 100, $return_insert_ids = false ) {
 		global $wpbd;

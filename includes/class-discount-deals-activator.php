@@ -24,25 +24,21 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 	class Discount_Deals_Activator {
 
 		/**
-		 * Constructor
+		 * Run the loader to execute all the hooks with WordPress.
+		 *
+		 * @since    1.0.0
 		 */
-		public function __construct() {
-			$this->install();
-		}//end __construct()
-
-
-		/**
-		 * Function to handle install process
-		 */
-		public function install() {
-			$this->create_tables();
-		}//end install()
+		public static function activate() {
+			self::create_tables();
+			add_option( 'discount_deals_do_activation_redirect', true );
+			add_option( 'discount_deals_db_version', '1.0.0', '', 'no' );
+		}//end activate()
 
 
 		/**
 		 * Function to create tables
 		 */
-		public function create_tables() {
+		public static function create_tables() {
 			global $wpdb;
 
 			$collate = '';
@@ -59,7 +55,7 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 			$dd_tables = "
-							CREATE TABLE {$wpdb->prefix}dd_workflows (
+							CREATE TABLE IF NOT EXISTS {$wpdb->prefix}dd_workflows (
 							  	id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 								title varchar(255) NOT NULL,
 								type enum('product', 'cart') DEFAULT 'product',
@@ -83,6 +79,4 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 
 
 }
-
-new Discount_Deals_Activator();
 
