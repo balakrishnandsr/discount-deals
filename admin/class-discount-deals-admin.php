@@ -167,8 +167,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 						$target = '';
 						$link   = esc_url( admin_url( 'admin.php?' . http_build_query( $params ) ) );
 						?>
-						<a class="nav-tab <?php echo esc_attr( ( $tab_key === $active_tab ? 'nav-tab-active' : '' ) ); ?>"
-						   href="<?php echo esc_url( $link ); ?>" <?php echo esc_attr( $target ); ?>><?php echo esc_html( $tab_title ); ?></a>
+						<a class="nav-tab <?php echo esc_attr( ( $tab_key === $active_tab ? 'nav-tab-active' : '' ) ); ?>" href="<?php echo esc_url( $link ); ?>" <?php echo esc_attr( $target ); ?>><?php echo esc_html( $tab_title ); ?></a>
 					<?php } ?>
 				</h2>
 				<div class="clear"></div>

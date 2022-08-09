@@ -45,7 +45,7 @@ abstract class Discount_Deals_DB {
 	 *
 	 * @return array
 	 */
-	public static function prepare_data( array $data = array(), $column_formats = array(), $column_defaults = array(), $insert = true ) {
+	public static function prepare_data( $data = array(), $column_formats = array(), $column_defaults = array(), $insert = true ) {
 
 		// Set default values.
 		if ( $insert ) {
@@ -312,8 +312,6 @@ abstract class Discount_Deals_DB {
 		// Set default values.
 		$data = wp_parse_args( $data, $this->get_column_defaults() );
 
-		do_action( 'ig_es_pre_insert_' . $type, $data );
-
 		// Initialise column format array.
 		$column_formats = $this->get_columns();
 
@@ -381,10 +379,11 @@ abstract class Discount_Deals_DB {
 		$data = array_intersect_key( $data, $column_formats );
 
 		// Reorder $column_formats to match the order of columns given in $data.
-		$data_keys      = array_keys( $data );
-		$column_formats = array_merge( array_flip( $data_keys ), $column_formats );
+		$data_keys       = array_keys( $data );
+		$column_formats  = array_merge( array_flip( $data_keys ), $column_formats );
+		$update_response = $wpdb->update( $this->get_table_name(), $data, array( $where => $row_id ), $column_formats );
 
-		if ( false === $wpdb->update( $this->get_table_name(), $data, array( $where => $row_id ), $column_formats ) ) {
+		if ( false === $update_response ) {
 			return false;
 		}
 
@@ -499,7 +498,7 @@ abstract class Discount_Deals_DB {
 	/**
 	 * Check whether table exists or not.
 	 *
-	 * @param array $table Table.
+	 * @param string $table Table.
 	 *
 	 * @return boolean
 	 */
