@@ -44,7 +44,19 @@ class Discount_Deals_Public {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		add_action( 'woocommerce_int', array( $this, 'init_public_hooks' ) );
+
 	}//end __construct()
+
+	/**
+	 * Init all public facing hooks
+	 *
+	 * @return void
+	 */
+	public function init_public_hooks() {
+
+	}//end init_public_hooks()
+
 
 
 	/**
