@@ -1,11 +1,16 @@
 <?php
-
 /**
  * This class defines all code necessary to workflow
  *
- * @since      1.0.0
  * @package    Discount_Deals
- * @subpackage Discount_Deals/includes/workflows
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * DB class for dd_workflows
  */
 class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 

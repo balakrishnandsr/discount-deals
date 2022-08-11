@@ -4,8 +4,17 @@
  *
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
+ *
+ * @package Discount_Deals
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * All stuffs like discount calculation, applying discount finding perfect workflows for products and cart will go here
+ */
 class Discount_Deals_Public {
 	/**
 	 * The ID of this plugin.
@@ -35,11 +44,25 @@ class Discount_Deals_Public {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		add_action( 'woocommerce_int', array( $this, 'init_public_hooks' ) );
+
 	}//end __construct()
+
+	/**
+	 * Init all public facing hooks
+	 *
+	 * @return void
+	 */
+	public function init_public_hooks() {
+
+	}//end init_public_hooks()
+
 
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
+	 *
+	 * @return void
 	 */
 	public function enqueue_styles() {
 
@@ -51,7 +74,7 @@ class Discount_Deals_Public {
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @return void
 	 */
 	public function enqueue_scripts() {
 

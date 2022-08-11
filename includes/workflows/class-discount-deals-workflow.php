@@ -1,6 +1,16 @@
 <?php
 /**
  * This class defines all code necessary to workflow.
+ *
+ * @package Discount_Deals
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Class object of each workflow
  */
 class Discount_Deals_Workflow {
 	/**
@@ -142,6 +152,8 @@ class Discount_Deals_Workflow {
 	 * Set workflow title
 	 *
 	 * @param string $title Title.
+	 *
+	 * @return void
 	 */
 	public function set_title( $title = '' ) {
 		$this->title = $title;
@@ -172,6 +184,7 @@ class Discount_Deals_Workflow {
 	 * Set workflow updated date
 	 *
 	 * @param string $updated_at Updated at.
+	 * @return void
 	 */
 	public function set_updated_at( $updated_at = '' ) {
 		$this->updated_at = $updated_at;
@@ -193,6 +206,7 @@ class Discount_Deals_Workflow {
 	 *
 	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer          Data layer.
 	 * @param boolean                                  $reset_workflow_data Reset workflow data.
+	 * @return void
 	 */
 	public function set_data_layer( $data_layer = null, $reset_workflow_data = false ) {
 
@@ -212,6 +226,8 @@ class Discount_Deals_Workflow {
 	 * Reset the workflow object
 	 * Clears any data that is related to the last run
 	 * The trigger and actions don't need to be reset because their data flows from the workflow options not the workflow data layer
+	 *
+	 * @return void
 	 */
 	public function reset_data() {
 
@@ -232,6 +248,8 @@ class Discount_Deals_Workflow {
 	 * Set workflow rules
 	 *
 	 * @param array $rules Rules.
+	 *
+	 * @return void
 	 */
 	public function set_rules( $rules = array() ) {
 		$this->rules = $rules;
@@ -251,7 +269,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set workflow priority
 	 *
-	 * @param integer $priority
+	 * @param integer $priority Priority.
+	 *
+	 * @return void
 	 */
 	public function set_priority( $priority = 0 ) {
 		$this->priority = $priority;
@@ -271,7 +291,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set workflow created date / time
 	 *
-	 * @param string $created_at
+	 * @param string $created_at Created At.
+	 *
+	 * @return void
 	 */
 	public function set_created_at( $created_at = '' ) {
 		$this->created_at = $created_at;
@@ -311,6 +333,8 @@ class Discount_Deals_Workflow {
 	 * Set discounts
 	 *
 	 * @param Discount_Deals_Workflow_Discount[] $discounts Discounts.
+	 *
+	 * @return void
 	 */
 	public function set_discounts( $discounts = array() ) {
 		$this->discounts = $discounts;
@@ -350,7 +374,11 @@ class Discount_Deals_Workflow {
 
 
 	/**
+	 * Set the status of the workflow
+	 *
 	 * @param integer $status Status.
+	 *
+	 * @return void
 	 */
 	public function set_status( $status = 0 ) {
 		$this->status = $status;
@@ -368,7 +396,11 @@ class Discount_Deals_Workflow {
 
 
 	/**
+	 * Set the workflow type
+	 *
 	 * @param string $type Type.
+	 *
+	 * @return void
 	 */
 	public function set_type( $type = '' ) {
 		$this->type = $type;
@@ -475,6 +507,7 @@ class Discount_Deals_Workflow {
 	 *
 	 * @param string $name Name.
 	 * @param array  $item Item.
+	 * @return void
 	 */
 	public function set_data_item( $name = '', $item = array() ) {
 		$this->data_layer()->set_item( $name, $item );
@@ -497,6 +530,8 @@ class Discount_Deals_Workflow {
 	 * Set workflow meta
 	 *
 	 * @param array $meta Meta.
+	 *
+	 * @return void
 	 */
 	public function set_meta( $meta = array() ) {
 		$this->meta = $meta;
@@ -562,6 +597,7 @@ class Discount_Deals_Workflow {
 	 * Set If of the workflow
 	 *
 	 * @param integer $id Int.
+	 * @return void
 	 */
 	public function set_id( $id = 0 ) {
 		$this->id = $id;
@@ -569,4 +605,3 @@ class Discount_Deals_Workflow {
 
 
 }//end class
-

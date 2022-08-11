@@ -6,8 +6,8 @@
  *
  * @package    Discount_Deals
  * @subpackage Discount_Deals/public/partials
- *
- * @since      1.0.0
- * @version    1.0.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}

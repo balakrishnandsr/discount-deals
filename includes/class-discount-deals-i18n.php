@@ -5,21 +5,22 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @package    Discount_Deals
- * @subpackage Discount_Deals/includes
- *
- * @since      1.0.0
- * @version    1.0.0
+ * @package Discount_Deals
  */
-class Discount_Deals_i18n {
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * This class handles all the i18n related stuffs
+ */
+class Discount_Deals_I18n {
 
 	/**
 	 * Load the plugin text domain for translation.
-	 *
-	 * @since    1.0.0
 	 */
-	public function load_plugin_textdomain() {
+	public function load_plugin_text_domain() {
 
 		load_plugin_textdomain(
 			'discount-deals',
@@ -27,7 +28,7 @@ class Discount_Deals_i18n {
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
 
-	}//end load_plugin_textdomain()
+	}//end load_plugin_text_domain()
 
 
 
