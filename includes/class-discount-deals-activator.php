@@ -46,7 +46,7 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 				}
 			}
 
-			include_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 			$dd_tables = "
 							CREATE TABLE IF NOT EXISTS {$wpdb->prefix}dd_workflows (

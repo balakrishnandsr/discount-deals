@@ -89,21 +89,21 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 			 * of the plugin.
 			 */
 
-			include_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-i18n.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-i18n.php';
 
 			/*
 			 * The class responsible for defining all actions that occur in the admin area.
 			 */
 
-			include_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin.php';
-			include_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/class-discount-deals-admin-display.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/class-discount-deals-admin-display.php';
 
 			/*
 			 * The class responsible for defining all actions that occur in the public-facing
 			 * side of the site.
 			 */
 
-			include_once DISCOUNT_DEALS_ABSPATH . 'public/class-discount-deals-public.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'public/class-discount-deals-public.php';
 
 		}//end load_dependencies()
 
@@ -194,7 +194,7 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		public static function get_plugin_data() {
 
 			if ( ! function_exists( 'get_plugin_data' ) ) {
-				include_once ABSPATH . 'wp-admin/includes/plugin.php';
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}
 
 			return get_plugin_data( DISCOUNT_DEALS_PLUGIN_FILE );
