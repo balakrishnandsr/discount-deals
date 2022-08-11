@@ -30,10 +30,17 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		private $version;
 
 		/**
+		 * Workflow listing table of the plugin.
+		 *
+		 * @var  Discount_Deals_Admin_Workflows_List_Table $_workflow_listing_page Workflow listing page.
+		 */
+		private $_workflow_listing_page;
+
+		/**
 		 * Initialize the class and set its properties.
 		 *
 		 * @param string $plugin_name The name of this plugin.
-		 * @param string $version     The version of this plugin.
+		 * @param string $version The version of this plugin.
 		 */
 		public function __construct( $plugin_name, $version ) {
 
@@ -81,16 +88,54 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function add_admin_menu() {
 			// Translators: A small arrow.
-			add_submenu_page( 'woocommerce', __( 'Discount Deals', 'discount-deals' ), __( 'Discount Deals', 'discount-deals' ), 'manage_woocommerce', 'discount-deals', array( $this, 'discount_deals_plugin_page' ) );
+			$workflow_list_table = add_submenu_page(
+				'woocommerce',
+				__( 'Discount Deals', 'discount-deals' ),
+				__( 'Discount Deals', 'discount-deals' ),
+				'manage_woocommerce',
+				'discount-deals',
+				array(
+					$this,
+					'discount_deals_plugin_page',
+				)
+			);
 
 			$get_page = discount_deals_get_data( 'page', '' );
 
 			if ( 'discount-deals-welcome-doc' === $get_page ) {
-				add_submenu_page( 'woocommerce', __( 'Getting Started', 'discount-deals' ), __( 'Getting Started', 'discount-deals' ), 'manage_woocommerce', 'discount-deals-welcome-doc', array( $this, 'welcome_docs_page' ) );
+				add_submenu_page(
+					'woocommerce',
+					__( 'Getting Started', 'discount-deals' ),
+					__( 'Getting Started', 'discount-deals' ),
+					'manage_woocommerce',
+					'discount-deals-welcome-doc',
+					array(
+						$this,
+						'welcome_docs_page',
+					)
+				);
 			}
+
+			add_action( "load-$workflow_list_table", array( $this, 'workflow_list_table_screen_options' ) );
 
 		}//end add_admin_menu()
 
+		/**
+		 * Add screen options for workflow listing page
+		 *
+		 * @return void
+		 */
+		public function workflow_list_table_screen_options() {
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin-workflows-list-table.php';
+			$option = 'per_page';
+			$args   = array(
+				'label'   => __( 'Workflows', 'discount-deals' ),
+				'default' => 20,
+				'option'  => 'workflows_per_page',
+			);
+			add_screen_option( $option, $args );
+			$this->_workflow_listing_page = new Discount_Deals_Admin_Workflows_List_Table();
+		}
 
 		/**
 		 * Remove Affiliate For WooCommerce's unnecessary submenus.
@@ -140,48 +185,18 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function discount_deals_plugin_page() {
 
-			$settings_link = add_query_arg(
-				array(
-					'page' => 'wc-settings',
-					'tab'  => 'discount-deals-settings',
-				),
-				admin_url( 'admin.php' )
-			);
-
-			$active_tab = $this->get_active_tab();
-			$tabs       = array(
-				'workflows' => 'Workflows',
-				'tab2'      => 'Tab 2',
-			);
-
+			$this->_workflow_listing_page->prepare_items();
 			?>
-
-			<div class="ddfw-main">
-				<h2 class="discount_deals_tabs_container nav-tab-wrapper">
+			<div class="wrap">
+				<h2><?php esc_html_e( 'Workflows', 'discount-deals' ); ?></h2>
+				<form method="post">
+					<input type="hidden" name="page"
+						   value="<?php esc_attr( discount_deals_get_data( 'page', '' ) ); ?>">
 					<?php
-					foreach ( $tabs as $tab_key => $tab_title ) {
-						$params = array(
-							'page' => 'discount-deals',
-							'tab'  => $tab_key,
-						);
-						$target = '';
-						$link   = esc_url( admin_url( 'admin.php?' . http_build_query( $params ) ) );
-						?>
-						<a class="nav-tab <?php echo esc_attr( ( $tab_key === $active_tab ? 'nav-tab-active' : '' ) ); ?>" href="<?php echo esc_url( $link ); ?>" <?php echo esc_attr( $target ); ?>><?php echo esc_html( $tab_title ); ?></a>
-					<?php } ?>
-				</h2>
-				<div class="clear"></div>
-		</div>
-			<?php
-			if ( 'workflows' === $active_tab ) {
-				?>
-				<div id="ddfw-admin-workflows" class="ddfw-admin-workflows">
-					<h2>hello... Woocommerce</h2>
-				</div>
-				<?php
-			}
-			?>
-
+					$this->_workflow_listing_page->search_box( 'search', 'search_id' );
+					$this->_workflow_listing_page->display();
+					?>
+			</div>
 			<?php
 		}//end discount_deals_plugin_page()
 

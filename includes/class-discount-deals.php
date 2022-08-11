@@ -85,22 +85,27 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 */
 		private function load_dependencies() {
 			/*
-			 * The class responsible for defining internationalization functionality
-			 * of the plugin.
+			 * Include DB related files.
+			 */
+
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-db.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/db/class-discount-deals-workflow-db.php';
+
+			/*
+			 * Include I18N related files.
 			 */
 
 			require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-i18n.php';
 
 			/*
-			 * The class responsible for defining all actions that occur in the admin area.
+			 * Include admin area related files.
 			 */
 
 			require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin.php';
 			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/class-discount-deals-admin-display.php';
 
 			/*
-			 * The class responsible for defining all actions that occur in the public-facing
-			 * side of the site.
+			 * Include storefront related files.
 			 */
 
 			require_once DISCOUNT_DEALS_ABSPATH . 'public/class-discount-deals-public.php';
