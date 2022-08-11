@@ -30,7 +30,7 @@ defined( 'DISCOUNT_DEALS_ABSPATH' ) || define( 'DISCOUNT_DEALS_ABSPATH', dirname
  * @return void
  */
 function activate_discount_deals() {
-	include_once 'includes/class-discount-deals-activator.php';
+	include_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-activator.php';
 	Discount_Deals_Activator::activate();
 }//end activate_discount_deals()
 
@@ -43,7 +43,7 @@ register_activation_hook( __FILE__, 'activate_discount_deals' );
  * @return void
  */
 function deactivate_discount_deals() {
-	include_once 'includes/class-discount-deals-deactivator.php';
+	include_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-deactivator.php';
 	Discount_Deals_Deactivator::deactivate();
 }//end deactivate_discount_deals()
 
@@ -55,8 +55,8 @@ register_deactivation_hook( __FILE__, 'deactivate_discount_deals' );
  * @return Discount_Deals
  */
 function discount_deals() {
-	require plugin_dir_path( __FILE__ ) . 'includes/class-discount-deals.php';
-	require plugin_dir_path( __FILE__ ) . 'includes/discount-deals-functions.php';
+	require DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals.php';
+	require DISCOUNT_DEALS_ABSPATH . 'discount-deals-functions.php';
 	return Discount_Deals::run();
 }//end discount_deals()
 

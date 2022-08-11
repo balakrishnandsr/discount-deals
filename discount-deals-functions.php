@@ -13,7 +13,7 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	/**
 	 * Get data from the GET request
 	 *
-	 * @param string $key Key of the array.
+	 * @param string $key     Key of the array.
 	 * @param mixed  $default If there is no data then return default value.
 	 *
 	 * @return mixed|string
@@ -24,5 +24,5 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 		}
 
 		return $default;
-	}
+	}//end discount_deals_get_data()
 }
