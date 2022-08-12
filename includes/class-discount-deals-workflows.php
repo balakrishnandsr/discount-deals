@@ -36,6 +36,7 @@ class Discount_Deals_Workflows {
 	public function load_discounts() {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-discount.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php';
 	}
 
 	/**
@@ -46,6 +47,7 @@ class Discount_Deals_Workflows {
 	public static function get_all_discounts() {
 		$valid_discounts = array(
 			'simple_discount' => 'Discount_Deals_Workflow_Simple_Discount',
+			'bulk_discount' => 'Discount_Deals_Workflow_Bulk_Discount',
 		);
 		if ( count( self::$_discounts ) < count( $valid_discounts ) ) {
 			foreach ( $valid_discounts as $discount_name => $class_name ) {
@@ -55,7 +57,7 @@ class Discount_Deals_Workflows {
 				 * @var Discount_Deals_Workflow_Discount $discount_class Discount.
 				 */
 				$discount_class->set_name( $discount_name );
-				self::$_discounts[ $discount_name ] = new $discount_class();
+				self::$_discounts[ $discount_name ] = $discount_class;
 			}
 		}
 

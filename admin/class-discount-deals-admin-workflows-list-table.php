@@ -167,6 +167,11 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 				}
 
 				return __( 'Invalid Discount Type', 'discount-deals' );
+            case 'dd_status':
+                if( 1 == $item[ $column_name ] ){
+                    return  __( 'Yes', 'discount-deals' );
+                }
+                return __( 'No', 'discount-deals' );
 			default:
 				return $item[ $column_name ];
 		}
