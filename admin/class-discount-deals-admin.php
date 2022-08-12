@@ -32,9 +32,9 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		/**
 		 * Workflow listing table of the plugin.
 		 *
-		 * @var  Discount_Deals_Admin_Workflows_List_Table $_workflow_listing_page Workflow listing page.
+		 * @var  Discount_Deals_Workflow $_workflow Workflow details.
 		 */
-		private $_workflow_listing_page;
+		private $_workflow;
 
 		/**
 		 * Initialize the class and set its properties.
@@ -88,7 +88,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function add_admin_menu() {
 			// Translators: A small arrow.
-			$workflow_list_table = add_submenu_page(
+			$admin_page_hook = add_submenu_page(
 				'woocommerce',
 				__( 'Discount Deals', 'discount-deals' ),
 				__( 'Discount Deals', 'discount-deals' ),
@@ -96,7 +96,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				'discount-deals',
 				array(
 					$this,
-					'discount_deals_plugin_page',
+					'discount_deals_main_page',
 				)
 			);
 
@@ -116,25 +116,142 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				);
 			}
 
-			add_action( "load-$workflow_list_table", array( $this, 'workflow_list_table_screen_options' ) );
+			add_action( "load-$admin_page_hook", array( $this, 'register_meta_boxes' ) );
+			add_action( "admin_footer-$admin_page_hook", array( $this, 'print_script_in_footer' ) );
 
 		}//end add_admin_menu()
+
+		/**
+		 * Print admin meta box init scripts
+		 *
+		 * @return void
+		 */
+		public function print_script_in_footer() {
+			$action = discount_deals_get_data( 'action', 'list' );
+
+			if ( 'new' != $action && 'edit' != $action ) {
+				// Don't load meta boxes if it is not an add/edit workflow screen.
+				return;
+			}
+			?>
+			<script>
+				jQuery(document).ready(function () {
+					postboxes.add_postbox_toggles(pagenow);
+				});
+			</script>
+			<?php
+		}
 
 		/**
 		 * Add screen options for workflow listing page
 		 *
 		 * @return void
 		 */
-		public function workflow_list_table_screen_options() {
-			require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin-workflows-list-table.php';
-			$option = 'per_page';
-			$args   = array(
-				'label'   => __( 'Workflows', 'discount-deals' ),
-				'default' => 20,
-				'option'  => 'workflows_per_page',
+		public function register_meta_boxes() {
+			$action = discount_deals_get_data( 'action', 'list' );
+
+			if ( 'new' != $action && 'edit' != $action ) {
+				// Don't load meta boxes if it is not an add/edit workflow screen.
+				return;
+			}
+
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+			add_filter( 'screen_options_show_screen', array( $this, 'remove_screen_options' ) );
+
+			// Trigger the add_meta_boxes hooks to allow meta boxes to be added.
+			do_action( 'add_meta_boxes', 'discount_deals_workflows', null );
+
+			// Enqueue WordPress' script for handling the meta boxes.
+			wp_enqueue_script( 'postbox' );
+
+			// Add screen option: user can choose between 1 or 2 columns (default 2).
+			add_screen_option(
+				'layout_columns',
+				array(
+					'max'     => 2,
+					'default' => 2,
+				)
 			);
-			add_screen_option( $option, $args );
-			$this->_workflow_listing_page = new Discount_Deals_Admin_Workflows_List_Table();
+		}
+
+		/**
+		 * Add meta boxes to workflow
+		 *
+		 * @return void
+		 */
+		public function add_meta_boxes() {
+			add_meta_box(
+				'discount_deals_workflow_discounts',
+				__( 'Discounts', 'discount-deals' ),
+				array(
+					$this,
+					'discounts_meta_box',
+				),
+				'page_discount-deals',
+				'normal',
+				'high'
+			);
+
+			add_meta_box(
+				'discount_deals_workflow_rules',
+				__( 'Rules (Optional)', 'discount-deals' ),
+				array(
+					$this,
+					'rules_meta_box',
+				),
+				'page_discount-deals',
+				'normal',
+				'core'
+			);
+
+			add_meta_box(
+				'discount_deals_workflow_save',
+				__( 'Save', 'discount-deals' ),
+				array(
+					$this,
+					'save_meta_box',
+				),
+				'page_discount-deals',
+				'side'
+			);
+		}
+
+		/**
+		 * Add discount meta box to add/edit workflow page
+		 *
+		 * @return void
+		 */
+		public function discounts_meta_box() {
+			echo 'discounts';
+		}
+
+		/**
+		 * Add rules meta box to add/edit workflow page
+		 *
+		 * @return void
+		 */
+		public function rules_meta_box() {
+			echo 'rules̵';
+		}
+
+		/**
+		 * Add save workflow meta box to add/edit workflow page
+		 *
+		 * @return void
+		 */
+		public function save_meta_box() {
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-save.php';
+		}
+
+		/**
+		 * Method to remove screen options tab on workflow add/edit page.
+		 *
+		 * @param bool $show_screen_options Show/Hide Screen options.
+		 *
+		 * @return bool
+		 */
+		public function remove_screen_options( $show_screen_options ) {
+			return false;
 		}
 
 		/**
@@ -177,28 +294,24 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		}//end plugin_action_links()
 
 
-
 		/**
 		 * Function to show admin dashboard.
 		 *
 		 * @return void
 		 */
-		public function discount_deals_plugin_page() {
+		public function discount_deals_main_page() {
+			$action      = discount_deals_get_data( 'action', 'list' );
+			$workflow_id = intval( discount_deals_get_data( 'workflow', 0 ) );
+			if ( 'new' === $action ) {
+				require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/discount-deals-admin-workflow-add-or-edit.php';
+			} elseif ( 'edit' === $action && 0 < $workflow_id ) {
+				$this->_workflow = Discount_Deals_Workflow::get_instance( $workflow_id );
+				require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/discount-deals-admin-workflow-add-or-edit.php';
+			} else {
+				require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/discount-deals-admin-workflows-list-table.php';
+			}
 
-			$this->_workflow_listing_page->prepare_items();
-			?>
-			<div class="wrap">
-				<h2><?php esc_html_e( 'Workflows', 'discount-deals' ); ?></h2>
-				<form method="post">
-					<input type="hidden" name="page"
-						   value="<?php esc_attr( discount_deals_get_data( 'page', '' ) ); ?>">
-					<?php
-					$this->_workflow_listing_page->search_box( 'search', 'search_id' );
-					$this->_workflow_listing_page->display();
-					?>
-			</div>
-			<?php
-		}//end discount_deals_plugin_page()
+		}//end discount_deals_main_page()
 
 
 		/**
@@ -207,20 +320,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function welcome_docs_page() {
-			global $wpdb;
 			include 'partials/discount-deals-welcome-doc.php';
 		}//end welcome_docs_page()
-
-
-		/**
-		 * get current active tab
-		 *
-		 * @return mixed|string
-		 */
-		private function get_active_tab() {
-			$get_active_tab = discount_deals_get_data( 'tab', '' );
-			return ! empty( $get_active_tab ) ? $get_active_tab : 'workflows';
-		}//end get_active_tab()
 
 
 		/**

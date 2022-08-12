@@ -166,8 +166,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function column_dd_title( $item ) {
 		$actions = array(
-			'edit'   => sprintf( '<a href="?page=%s&action=%s&book=%s">Edit</a>', discount_deals_get_data( 'page', '' ), 'edit', $item['dd_id'] ),
-			'delete' => sprintf( '<a href="?page=%s&action=%s&book=%s">Delete</a>', discount_deals_get_data( 'page', '' ), 'delete', $item['dd_id'] ),
+			'edit'   => sprintf( '<a href="?page=%s&action=%s&workflow=%s">Edit</a>', discount_deals_get_data( 'page', '' ), 'edit', $item['dd_id'] ),
+			'delete' => sprintf( '<a href="?page=%s&action=%s&workflow=%s">Delete</a>', discount_deals_get_data( 'page', '' ), 'delete', $item['dd_id'] ),
 		);
 
 		return sprintf( '%1$s %2$s', $item['dd_title'], $this->row_actions( $actions ) );

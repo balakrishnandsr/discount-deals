@@ -92,6 +92,13 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 			require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/db/class-discount-deals-workflow-db.php';
 
 			/*
+			 * Required files.
+			 */
+
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/class-discount-deals-workflow-data-layer.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/class-discount-deals-workflow.php';
+
+			/*
 			 * Include I18N related files.
 			 */
 
@@ -102,7 +109,6 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 			 */
 
 			require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin.php';
-			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/class-discount-deals-admin-display.php';
 
 			/*
 			 * Include storefront related files.

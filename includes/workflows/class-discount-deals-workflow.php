@@ -60,7 +60,7 @@ class Discount_Deals_Workflow {
 	 *
 	 * @var integer
 	 */
-	public $priority = 0;
+	public $exclusive = 0;
 
 	/**
 	 * Workflow creation date/time
@@ -102,16 +102,16 @@ class Discount_Deals_Workflow {
 		}
 
 		if ( is_object( $workflow ) ) {
-			$this->set_id( $workflow->id );
-			$this->set_title( $workflow->title );
-			$this->set_type( $workflow->type );
-			$this->set_rules( maybe_unserialize( (string) $workflow->rules ) );
-			$this->set_discounts( maybe_unserialize( (string) $workflow->discounts ) );
-			$this->set_meta( maybe_unserialize( (string) $workflow->meta ) );
-			$this->set_status( $workflow->status );
-			$this->set_priority( $workflow->priority );
-			$this->set_created_at( $workflow->created_at );
-			$this->set_updated_at( $workflow->updated_at );
+			$this->set_id( $workflow->dd_id );
+			$this->set_title( $workflow->dd_title );
+			$this->set_type( $workflow->dd_type );
+			$this->set_rules( maybe_unserialize( (string) $workflow->dd_rules ) );
+			$this->set_discounts( maybe_unserialize( (string) $workflow->dd_discounts ) );
+			$this->set_meta( maybe_unserialize( (string) $workflow->dd_meta ) );
+			$this->set_status( $workflow->dd_status );
+			$this->set_exclusive( $workflow->dd_exclusive );
+			$this->set_created_at( $workflow->dd_created_at );
+			$this->set_updated_at( $workflow->dd_updated_at );
 		}
 	}//end __construct()
 
@@ -129,7 +129,9 @@ class Discount_Deals_Workflow {
 		if ( ! $workflow_id ) {
 			return false;
 		}
-		$workflow = ES()->workflows_db->get_workflow( $workflow_id, 'object' );
+		$workflow_db = new Discount_Deals_Workflow_DB();
+		$workflow = $workflow_db->get_workflow_by_id( $workflow_id, 'object' );
+
 		if ( ! $workflow ) {
 			return false;
 		}
@@ -261,21 +263,21 @@ class Discount_Deals_Workflow {
 	 *
 	 * @return integer
 	 */
-	public function get_priority() {
-		return $this->priority;
-	}//end get_priority()
+	public function get_exclusive() {
+		return $this->exclusive;
+	}//end get_exclusive()
 
 
 	/**
 	 * Set workflow priority
 	 *
-	 * @param integer $priority Priority.
+	 * @param string $exclusive Priority.
 	 *
 	 * @return void
 	 */
-	public function set_priority( $priority = 0 ) {
-		$this->priority = $priority;
-	}//end set_priority()
+	public function set_exclusive( $exclusive = 'no' ) {
+		$this->exclusive = ( 'yes' == $exclusive );
+	}//end set_exclusive()
 
 
 	/**

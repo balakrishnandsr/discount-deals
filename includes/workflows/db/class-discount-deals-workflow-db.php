@@ -36,6 +36,7 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 			'dd_discounts'  => '%s',
 			'dd_meta'       => '%s',
 			'dd_status'     => '%d',
+			'dd_user_id'    => '%d',
 			'dd_type'       => '%d',
 			'dd_exclusive'  => '%s',
 			'dd_language'   => '%s',
@@ -52,6 +53,7 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		return array(
 			'dd_name'       => null,
 			'dd_title'      => null,
+			'dd_user_id'    => 0,
 			'dd_rules'      => '',
 			'dd_language'   => '',
 			'dd_discounts'  => '',
@@ -63,6 +65,28 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 			'dd_updated_at' => gmdate( 'Y-m-d H:i:s' ),
 		);
 	}//end get_column_defaults()
+
+	/**
+	 * Get workflows by id
+	 *
+	 * @param int    $id Workflow.
+	 * @param string $output Output format.
+	 *
+	 * @return array|object|null
+	 */
+	public function get_workflow_by_id( $id, $output ) {
+		if ( empty( $id ) ) {
+			return null;
+		}
+
+		$workflows = $this->get_by_conditions( " dd_id = $id", $output );
+
+		if ( ! empty( $workflows ) && 1 == count( $workflows ) ) {
+			return $workflows[0];
+		}
+
+		return null;
+	}
 
 }//end class
 
