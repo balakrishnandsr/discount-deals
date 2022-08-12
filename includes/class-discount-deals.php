@@ -46,6 +46,13 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		protected $version;
 
 		/**
+		 * Workflow handler for discounts.
+		 *
+		 * @var      Discount_Deals_Workflows $workflow_handler Handler.
+		 */
+		protected $workflow_handler;
+
+		/**
 		 * Define the core functionality of the plugin.
 		 *
 		 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -97,6 +104,7 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 
 			require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/class-discount-deals-workflow-data-layer.php';
 			require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/class-discount-deals-workflow.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-workflows.php';
 
 			/*
 			 * Include I18N related files.
@@ -115,6 +123,8 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 			 */
 
 			require_once DISCOUNT_DEALS_ABSPATH . 'public/class-discount-deals-public.php';
+
+			$this->workflow_handler = new Discount_Deals_Workflows();
 
 		}//end load_dependencies()
 

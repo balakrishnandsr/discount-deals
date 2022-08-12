@@ -18,7 +18,7 @@ $workflow           = $this->_workflow;
 $workflow_id        = discount_deals_get_data( 'workflow', 0 );
 $workflows_page_url = menu_page_url( 'discount-deals', false );
 
-$workflow_action = ig_es_get_request_data( 'action' );
+$workflow_action = discount_deals_get_data( 'action', '' );
 if ( 'new' === $workflow_action ) {
 	$workflow_title = __( ' Add New Workflow', 'discount-deals' );
 } else {

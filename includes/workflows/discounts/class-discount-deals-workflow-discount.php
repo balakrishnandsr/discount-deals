@@ -12,6 +12,93 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class to handle all the discounts of products and cart
  */
-class Discount_Deals_Workflow_Discount {
+abstract class Discount_Deals_Workflow_Discount {
+	/**
+	 * Data items of the discount
+	 *
+	 * @var array $supplied_data_items valid data items
+	 */
+	protected $supplied_data_items = array();
+
+	/**
+	 * Title for the discount type
+	 *
+	 * @var string $title discount title
+	 */
+	public $title = '';
+
+	/**
+	 * Name for the discount type
+	 *
+	 * @var string $name discount type slug
+	 */
+	public $name = '';
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+	}
+
+	/**
+	 * Set title for the discount
+	 *
+	 * @param string $title Title for the discount type.
+	 */
+	public function set_title( $title ) {
+		$this->title = $title;
+	}
+
+	/**
+	 * Get tile of the discount
+	 *
+	 * @return string
+	 */
+	public function get_title() {
+		return $this->title;
+	}
+
+	/**
+	 * Get the name of the discount
+	 *
+	 * @return string
+	 */
+	public function get_name() {
+		return $this->name;
+	}
+
+	/**
+	 * Set name for the discount
+	 *
+	 * @param string $name Name for the discount type.
+	 */
+	public function set_name( $name ) {
+		$this->name = $name;
+	}
+
+	/**
+	 * Valid data items for discount
+	 *
+	 * @return array
+	 */
+	public function get_supplied_data_items() {
+		return $this->supplied_data_items;
+	}
+
+	/**
+	 * Set supplied data items for discount
+	 *
+	 * @return void
+	 */
+	abstract public function set_supplied_data_items();
+
+
+	/**
+	 * Calculate discount for given data item
+	 *
+	 * @param mixed $data_item Calculate for which data item.
+	 */
+	abstract public function calculate_discount( $data_item );
 
 }//end class
+
