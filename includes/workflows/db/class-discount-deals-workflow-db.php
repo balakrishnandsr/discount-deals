@@ -1,6 +1,6 @@
 <?php
 /**
- * This class defines all code necessary to workflow
+ * This class defines all code necessary to workflow DB
  *
  * @package    Discount_Deals
  */
@@ -30,16 +30,18 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	 */
 	public function get_columns() {
 		return array(
-			'id'         => '%d',
-			'title'      => '%s',
-			'rules'      => '%s',
-			'discounts'  => '%s',
-			'meta'       => '%s',
-			'status'     => '%d',
-			'type'       => '%d',
-			'priority'   => '%d',
-			'created_at' => '%s',
-			'updated_at' => '%s',
+			'dd_id'         => '%d',
+			'dd_title'      => '%s',
+			'dd_rules'      => '%s',
+			'dd_discounts'  => '%s',
+			'dd_meta'       => '%s',
+			'dd_status'     => '%d',
+			'dd_user_id'    => '%d',
+			'dd_type'       => '%d',
+			'dd_exclusive'  => '%s',
+			'dd_language'   => '%s',
+			'dd_created_at' => '%s',
+			'dd_updated_at' => '%s',
 		);
 	}//end get_columns()
 
@@ -49,20 +51,42 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	 */
 	public function get_column_defaults() {
 		return array(
-			'name'            => null,
-			'title'           => null,
-			'trigger_name'    => null,
-			'trigger_options' => '',
-			'rules'           => '',
-			'actions'         => '',
-			'meta'            => '',
-			'status'          => 1,
-			'type'            => 0,
-			'priority'        => 0,
-			'created_at'      => gmdate( 'Y-m-d H:i:s' ),
-			'updated_at'      => gmdate( 'Y-m-d H:i:s' ),
+			'dd_name'       => null,
+			'dd_title'      => null,
+			'dd_user_id'    => 0,
+			'dd_rules'      => '',
+			'dd_language'   => '',
+			'dd_discounts'  => '',
+			'dd_meta'       => '',
+			'dd_status'     => 1,
+			'dd_type'       => 'product',
+			'dd_exclusive'  => 'no',
+			'dd_created_at' => gmdate( 'Y-m-d H:i:s' ),
+			'dd_updated_at' => gmdate( 'Y-m-d H:i:s' ),
 		);
 	}//end get_column_defaults()
+
+	/**
+	 * Get workflows by id
+	 *
+	 * @param int    $id Workflow.
+	 * @param string $output Output format.
+	 *
+	 * @return array|object|null
+	 */
+	public function get_workflow_by_id( $id, $output ) {
+		if ( empty( $id ) ) {
+			return null;
+		}
+
+		$workflows = $this->get_by_conditions( " dd_id = $id", $output );
+
+		if ( ! empty( $workflows ) && 1 == count( $workflows ) ) {
+			return $workflows[0];
+		}
+
+		return null;
+	}
 
 }//end class
 

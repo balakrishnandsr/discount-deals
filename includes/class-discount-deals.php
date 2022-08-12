@@ -46,6 +46,13 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		protected $version;
 
 		/**
+		 * Workflow handler for discounts.
+		 *
+		 * @var      Discount_Deals_Workflows $workflow_handler Handler.
+		 */
+		protected $workflow_handler;
+
+		/**
 		 * Define the core functionality of the plugin.
 		 *
 		 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -85,25 +92,39 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 		 */
 		private function load_dependencies() {
 			/*
-			 * The class responsible for defining internationalization functionality
-			 * of the plugin.
+			 * Include DB related files.
+			 */
+
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-db.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/db/class-discount-deals-workflow-db.php';
+
+			/*
+			 * Required files.
+			 */
+
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/class-discount-deals-workflow-data-layer.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/class-discount-deals-workflow.php';
+			require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-workflows.php';
+
+			/*
+			 * Include I18N related files.
 			 */
 
 			require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-i18n.php';
 
 			/*
-			 * The class responsible for defining all actions that occur in the admin area.
+			 * Include admin area related files.
 			 */
 
 			require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin.php';
-			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/class-discount-deals-admin-display.php';
 
 			/*
-			 * The class responsible for defining all actions that occur in the public-facing
-			 * side of the site.
+			 * Include storefront related files.
 			 */
 
 			require_once DISCOUNT_DEALS_ABSPATH . 'public/class-discount-deals-public.php';
+
+			$this->workflow_handler = new Discount_Deals_Workflows();
 
 		}//end load_dependencies()
 

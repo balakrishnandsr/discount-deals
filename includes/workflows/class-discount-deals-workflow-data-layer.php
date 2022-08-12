@@ -1,6 +1,6 @@
 <?php
 /**
- * This class defines all code necessary to workflow
+ * This class defines all code necessary to workflow data
  *
  * @package    Discount_Deals
  */

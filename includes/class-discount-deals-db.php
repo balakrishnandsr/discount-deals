@@ -79,15 +79,15 @@ abstract class Discount_Deals_DB {
 	 * @return boolean
 	 */
 	public function do_insert( $fields = array(), $place_holders = '', $values = array() ) {
-		global $wpbd;
+		global $wpdb;
 
 		$fields_str = '`' . implode( '`, `', $fields ) . '`';
 
 		$query  = "INSERT INTO {$this->get_table_name()} ({$fields_str}) VALUES ";
 		$query .= implode( ', ', $place_holders );
-		$sql    = $wpbd->prepare( $query, $values );
+		$sql    = $wpdb->prepare( $query, $values );
 
-		if ( $wpbd->query( $sql ) ) {
+		if ( $wpdb->query( $sql ) ) {
 			return true;
 		} else {
 			return false;
@@ -129,11 +129,11 @@ abstract class Discount_Deals_DB {
 	 * @return false|mixed
 	 */
 	public function get( $row_id = 0, $output = ARRAY_A, $use_cache = false ) {
-		global $wpbd;
+		global $wpdb;
 
-		$query = $wpbd->prepare( "SELECT * FROM {$this->get_table_name()} WHERE {$this->get_primary_key()} = %s LIMIT 1;", $row_id );
+		$query = $wpdb->prepare( "SELECT * FROM {$this->get_table_name()} WHERE {$this->get_primary_key()} = %s LIMIT 1;", $row_id );
 
-		return $wpbd->get_row( $query, $output );
+		return $wpdb->get_row( $query, $output );
 	}//end get()
 
 
@@ -170,12 +170,12 @@ abstract class Discount_Deals_DB {
 	 * @return false|mixed
 	 */
 	public function get_by( $column = array(), $row_id = 0, $output = ARRAY_A, $use_cache = false ) {
-		global $wpbd;
+		global $wpdb;
 		$column = esc_sql( $column );
 
-		$query = $wpbd->prepare( "SELECT * FROM {$this->get_table_name()} WHERE $column = %s LIMIT 1;", $row_id );
+		$query = $wpdb->prepare( "SELECT * FROM {$this->get_table_name()} WHERE $column = %s LIMIT 1;", $row_id );
 
-		return $wpbd->get_row( $query, $output );
+		return $wpdb->get_row( $query, $output );
 	}//end get_by()
 
 
@@ -199,7 +199,7 @@ abstract class Discount_Deals_DB {
 	 * @return false|mixed
 	 */
 	public function get_by_conditions( $where = '', $output = ARRAY_A, $use_cache = false ) {
-		global $wpbd;
+		global $wpdb;
 
 		$query = "SELECT * FROM {$this->get_table_name()}";
 
@@ -207,7 +207,7 @@ abstract class Discount_Deals_DB {
 			$query .= " WHERE $where";
 		}
 
-		return $wpbd->get_results( $query, $output );
+		return $wpdb->get_results( $query, $output );
 	}//end get_by_conditions()
 
 
@@ -221,20 +221,20 @@ abstract class Discount_Deals_DB {
 	 * @return null|string|array
 	 */
 	public function get_column( $column = '', $row_id = 0, $use_cache = false ) {
-		global $wpbd;
+		global $wpdb;
 
 		$column = esc_sql( $column );
 
 		if ( $row_id ) {
-			$query = $wpbd->prepare( "SELECT $column FROM {$this->get_table_name()} WHERE {$this->get_primary_key()} = %s LIMIT 1;", $row_id );
+			$query = $wpdb->prepare( "SELECT $column FROM {$this->get_table_name()} WHERE {$this->get_primary_key()} = %s LIMIT 1;", $row_id );
 		} else {
 			$query = "SELECT $column FROM {$this->get_table_name()}";
 		}
 
 		if ( $row_id ) {
-			$result = $wpbd->get_var( $query );
+			$result = $wpdb->get_var( $query );
 		} else {
-			$result = $wpbd->get_col( $query );
+			$result = $wpdb->get_col( $query );
 		}
 
 		return $result;
@@ -253,22 +253,22 @@ abstract class Discount_Deals_DB {
 	 * @return array|string|null
 	 */
 	public function get_column_by( $column = '', $column_where = '', $column_value = '', $only_one = true, $use_cache = false ) {
-		global $wpbd;
+		global $wpdb;
 
 		$column_where = esc_sql( $column_where );
 
 		$column = esc_sql( $column );
 
 		if ( $only_one ) {
-			$query = $wpbd->prepare( "SELECT $column FROM {$this->get_table_name()} WHERE $column_where = %s LIMIT 1;", $column_value );
+			$query = $wpdb->prepare( "SELECT $column FROM {$this->get_table_name()} WHERE $column_where = %s LIMIT 1;", $column_value );
 		} else {
-			$query = $wpbd->prepare( "SELECT $column FROM {$this->get_table_name()} WHERE $column_where = %s;", $column_value );
+			$query = $wpdb->prepare( "SELECT $column FROM {$this->get_table_name()} WHERE $column_where = %s;", $column_value );
 		}
 
 		if ( $only_one ) {
-			$result = $wpbd->get_var( $query );
+			$result = $wpdb->get_var( $query );
 		} else {
-			$result = $wpbd->get_col( $query );
+			$result = $wpdb->get_col( $query );
 		}
 
 		return $result;
@@ -285,7 +285,7 @@ abstract class Discount_Deals_DB {
 	 * @return array
 	 */
 	public function get_column_by_condition( $column = '', $where = '', $use_cache = false ) {
-		global $wpbd;
+		global $wpdb;
 
 		$column = esc_sql( $column );
 
@@ -294,7 +294,7 @@ abstract class Discount_Deals_DB {
 			$query .= " WHERE $where";
 		}
 
-		return $wpbd->get_col( $query );
+		return $wpdb->get_col( $query );
 	}//end get_column_by_condition()
 
 
@@ -400,7 +400,7 @@ abstract class Discount_Deals_DB {
 	 */
 	public function delete( $row_id = 0 ) {
 
-		global $wpbd;
+		global $wpdb;
 
 		// Row ID must be positive integer.
 		$row_id = absint( $row_id );
@@ -409,7 +409,7 @@ abstract class Discount_Deals_DB {
 			return false;
 		}
 
-		$where = $wpbd->prepare( "{$this->get_primary_key()} = %d", $row_id );
+		$where = $wpdb->prepare( "{$this->get_primary_key()} = %d", $row_id );
 
 		if ( false === $this->delete_by_condition( $where ) ) {
 			return false;
@@ -427,13 +427,13 @@ abstract class Discount_Deals_DB {
 	 * @return boolean
 	 */
 	public function delete_by_condition( $where = '' ) {
-		global $wpbd;
+		global $wpdb;
 
 		if ( empty( $where ) ) {
 			return false;
 		}
 
-		if ( false === $wpbd->query( "DELETE FROM {$this->get_table_name()} WHERE $where" ) ) {
+		if ( false === $wpdb->query( "DELETE FROM {$this->get_table_name()} WHERE $where" ) ) {
 			return false;
 		}
 
@@ -519,7 +519,7 @@ abstract class Discount_Deals_DB {
 	 * @return string|null
 	 */
 	public function count( $where = '', $use_cache = false ) {
-		global $wpbd;
+		global $wpdb;
 
 		$query = "SELECT count(*) FROM {$this->get_table_name()}";
 
@@ -527,7 +527,7 @@ abstract class Discount_Deals_DB {
 			$query .= " WHERE $where";
 		}
 
-		return $wpbd->get_var( $query );
+		return $wpdb->get_var( $query );
 	}//end count()
 
 
@@ -541,7 +541,7 @@ abstract class Discount_Deals_DB {
 	 * @return boolean
 	 */
 	public function bulk_insert( $values = array(), $length = 100, $return_insert_ids = false ) {
-		global $wpbd;
+		global $wpdb;
 
 		if ( ! is_array( $values ) ) {
 			return false;
@@ -602,12 +602,12 @@ abstract class Discount_Deals_DB {
 
 			$query  = "INSERT INTO {$this->get_table_name()} ({$fields_str}) VALUES ";
 			$query .= implode( ', ', $place_holders );
-			$sql    = $wpbd->prepare( $query, $final_values );
+			$sql    = $wpdb->prepare( $query, $final_values );
 
-			if ( ! $wpbd->query( $sql ) ) {
+			if ( ! $wpdb->query( $sql ) ) {
 				$error_flag = true;
 			} else {
-				$start_id = $wpbd->insert_id;
+				$start_id = $wpdb->insert_id;
 				$end_id   = ( $start_id - 1 ) + count( $batch );
 				array_push( $bulk_rows_start_end_ids, $start_id );
 				array_push( $bulk_rows_start_end_ids, $end_id );
@@ -681,7 +681,7 @@ abstract class Discount_Deals_DB {
 	 * @return array|object|null
 	 */
 	public function get_columns_by_condition( $columns = array(), $where = '', $output = ARRAY_A, $use_cache = false ) {
-		global $wpbd;
+		global $wpdb;
 
 		if ( ! is_array( $columns ) ) {
 			return array();
@@ -696,7 +696,7 @@ abstract class Discount_Deals_DB {
 			$query .= " WHERE $where";
 		}
 
-		return $wpbd->get_results( $query, $output );
+		return $wpdb->get_results( $query, $output );
 	}//end get_columns_by_condition()
 
 }//end class

@@ -52,9 +52,10 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 							CREATE TABLE IF NOT EXISTS {$wpdb->prefix}dd_workflows (
 							  	dd_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 								dd_title varchar(255) NOT NULL,
-								dd_type enum('product', 'cart') DEFAULT 'product',
+								dd_type enum('simple_discount', 'bulk_discount', 'bxgx_discount', 'bxgy_discount', 'cart_discount') DEFAULT 'simple_discount',
 								dd_rules text DEFAULT NULL,
-								dd_discount text NOT NULL,
+								dd_discounts text NOT NULL,
+								dd_meta text DEFAULT NULL,
 								dd_exclusive enum('yes', 'no') DEFAULT 'no',
 								dd_status tinyint(1) DEFAULT '1',
 								dd_user_id int(11) NOT NULL,
