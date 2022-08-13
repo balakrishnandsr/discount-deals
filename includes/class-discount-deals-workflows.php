@@ -65,6 +65,41 @@ class Discount_Deals_Workflows {
 	}
 
 	/**
+	 * Get discount class by discount name
+	 *
+	 * @param string $discount_type Discount type name.
+	 *
+	 * @return Discount_Deals_Workflow_Discount
+	 */
+	public static function get_discount_type( $discount_type ) {
+		$all_discounts = self::get_all_discounts();
+
+		return $all_discounts[ $discount_type ];
+	}
+
+	/**
+	 * Get data for discount
+	 *
+	 * @param Discount_Deals_Workflow_Discount $discount Discount class.
+	 *
+	 * @return array|false
+	 */
+	public static function get_discount_data( $discount ) {
+		$data = array();
+
+		if ( ! $discount ) {
+			return false;
+		}
+
+		$data['title']               = $discount->get_title();
+		$data['name']                = $discount->get_name();
+		$data['description']         = $discount->get_description();
+		$data['supplied_data_items'] = array_values( $discount->get_supplied_data_items() );
+
+		return $data;
+	}
+
+	/**
 	 * Function to handle uninstall process
 	 *
 	 * @return void

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
-$workflow           = $this->_workflow;
+$workflow           = $this->get_workflow();
 $workflow_id        = discount_deals_get_data( 'workflow', 0 );
 $workflows_page_url = menu_page_url( 'discount-deals', false );
 
@@ -59,13 +59,13 @@ if ( 'new' === $workflow_action ) {
 					</div>
 					<div id="postbox-container-1" class="postbox-container">
 						<?php
-						do_meta_boxes( 'page_discount-deals', 'side', null );
+						do_meta_boxes( 'admin_page_discount-deals', 'side', null );
 						?>
 					</div>
 					<div id="postbox-container-2" class="postbox-container">
 						<?php
-						do_meta_boxes( 'page_discount-deals', 'normal', null );
-						do_meta_boxes( 'page_discount-deals', 'advanced', null );
+						do_meta_boxes( 'admin_page_discount-deals', 'normal', null );
+						do_meta_boxes( 'admin_page_discount-deals', 'advanced', null );
 						?>
 					</div>
 				</div>

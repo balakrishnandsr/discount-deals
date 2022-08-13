@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
-$workflow = $this->_workflow;
+$workflow = $this->get_workflow();
 ?>
 <div class="submitbox" id="submitpost">
 	<div class="wide">

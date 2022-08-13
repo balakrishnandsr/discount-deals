@@ -153,25 +153,16 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			case 'dd_exclusive':
 				return ucfirst( $item[ $column_name ] );
 			case 'dd_type':
-				$all_discounts = Discount_Deals_Workflows::get_all_discounts();
-				$discount_type = $item[ $column_name ];
-				if ( array_key_exists( $discount_type, $all_discounts ) ) {
-					$discount_class = $all_discounts[ $discount_type ];
+				$discount_type  = $item[ $column_name ];
+				$discount_class = Discount_Deals_Workflows::get_discount_type( $discount_type );
 
-					/**
-					 * Discount class
-					 *
-					 * @var Discount_Deals_Workflow_Discount $discount_class
-					 */
-					return $discount_class->get_title();
+				return $discount_class->get_title();
+			case 'dd_status':
+				if ( 1 == $item[ $column_name ] ) {
+					return __( 'Yes', 'discount-deals' );
 				}
 
-				return __( 'Invalid Discount Type', 'discount-deals' );
-            case 'dd_status':
-                if( 1 == $item[ $column_name ] ){
-                    return  __( 'Yes', 'discount-deals' );
-                }
-                return __( 'No', 'discount-deals' );
+				return __( 'No', 'discount-deals' );
 			default:
 				return $item[ $column_name ];
 		}

@@ -52,10 +52,29 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 			add_action( 'admin_head', array( $this, 'add_remove_submenu' ) );
 			// Filter to add Settings link on Plugins page.
-			add_filter( 'plugin_action_links_' . plugin_basename( DISCOUNT_DEALS_PLUGIN_FILE ), array( $this, 'plugin_action_links' ) );
+			add_filter(
+				'plugin_action_links_' . plugin_basename( DISCOUNT_DEALS_PLUGIN_FILE ),
+				array(
+					$this,
+					'plugin_action_links',
+				)
+			);
 			add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
 
+			$this->include_required_files();
+
+			Discount_Deals_Admin_Ajax::init();
+
 		}//end __construct()
+
+		/**
+		 * Include required files of the admin
+		 *
+		 * @return void
+		 */
+		public function include_required_files() {
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin-ajax.php';
+		}
 
 
 		/**
@@ -82,6 +101,15 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		}//end enqueue_scripts()
 
 		/**
+		 * Get workflow
+		 *
+		 * @return Discount_Deals_Workflow
+		 */
+		public function get_workflow() {
+			return $this->_workflow;
+		}
+
+		/**
 		 * Admin menus
 		 *
 		 * @return void
@@ -89,7 +117,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		public function add_admin_menu() {
 			// Translators: A small arrow.
 			$admin_page_hook = add_submenu_page(
-				'woocommerce',
+				'discount-deals',
 				__( 'Discount Deals', 'discount-deals' ),
 				__( 'Discount Deals', 'discount-deals' ),
 				'manage_woocommerce',
@@ -104,7 +132,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 
 			if ( 'discount-deals-welcome-doc' === $get_page ) {
 				add_submenu_page(
-					'woocommerce',
+					'discount-deals',
 					__( 'Getting Started', 'discount-deals' ),
 					__( 'Getting Started', 'discount-deals' ),
 					'manage_woocommerce',
@@ -118,8 +146,22 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 
 			add_action( "load-$admin_page_hook", array( $this, 'register_meta_boxes' ) );
 			add_action( "admin_footer-$admin_page_hook", array( $this, 'print_script_in_footer' ) );
+			add_filter( 'woocommerce_screen_ids', array( $this, 'set_wc_screen_ids' ) );
 
 		}//end add_admin_menu()
+
+		/**
+		 * Add our screen id to woocommerce screens
+		 *
+		 * @param array $screen WooCommerce Screens.
+		 *
+		 * @return array
+		 */
+		public function set_wc_screen_ids( $screen ) {
+			$screen[] = 'admin_page_discount-deals';
+
+			return $screen;
+		}
 
 		/**
 		 * Print admin meta box init scripts
@@ -155,6 +197,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				return;
 			}
 
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/discount-deals-meta-box-functions.php';
+
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 			add_filter( 'screen_options_show_screen', array( $this, 'remove_screen_options' ) );
 
@@ -181,37 +225,37 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function add_meta_boxes() {
 			add_meta_box(
-				'discount_deals_workflow_discounts',
+				'discount_deals_workflow_discounts_box',
 				__( 'Discounts', 'discount-deals' ),
 				array(
 					$this,
 					'discounts_meta_box',
 				),
-				'page_discount-deals',
+				'admin_page_discount-deals',
 				'normal',
 				'high'
 			);
 
 			add_meta_box(
-				'discount_deals_workflow_rules',
+				'discount_deals_workflow_rules_box',
 				__( 'Rules (Optional)', 'discount-deals' ),
 				array(
 					$this,
 					'rules_meta_box',
 				),
-				'page_discount-deals',
+				'admin_page_discount-deals',
 				'normal',
 				'core'
 			);
 
 			add_meta_box(
-				'discount_deals_workflow_save',
+				'discount_deals_workflow_save_box',
 				__( 'Save', 'discount-deals' ),
 				array(
 					$this,
 					'save_meta_box',
 				),
-				'page_discount-deals',
+				'admin_page_discount-deals',
 				'side'
 			);
 		}
@@ -222,7 +266,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function discounts_meta_box() {
-			echo 'discounts';
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-discounts.php';
 		}
 
 		/**
@@ -260,7 +304,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function add_remove_submenu() {
-			remove_submenu_page( 'woocommerce', 'discount-deals-welcome-doc' );
+			remove_submenu_page( 'discount-deals', 'discount-deals-welcome-doc' );
 		}//end add_remove_submenu()
 
 
