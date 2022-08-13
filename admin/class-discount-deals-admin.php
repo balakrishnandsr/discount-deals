@@ -40,7 +40,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * Initialize the class and set its properties.
 		 *
 		 * @param string $plugin_name The name of this plugin.
-		 * @param string $version The version of this plugin.
+		 * @param string $version     The version of this plugin.
 		 */
 		public function __construct( $plugin_name, $version ) {
 
@@ -140,7 +140,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				});
 			</script>
 			<?php
-		}
+		}//end print_script_in_footer()
+
 
 		/**
 		 * Add screen options for workflow listing page
@@ -172,7 +173,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 					'default' => 2,
 				)
 			);
-		}
+		}//end register_meta_boxes()
+
 
 		/**
 		 * Add meta boxes to workflow
@@ -214,7 +216,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				'page_discount-deals',
 				'side'
 			);
-		}
+		}//end add_meta_boxes()
+
 
 		/**
 		 * Add discount meta box to add/edit workflow page
@@ -223,7 +226,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function discounts_meta_box() {
 			echo 'discounts';
-		}
+		}//end discounts_meta_box()
+
 
 		/**
 		 * Add rules meta box to add/edit workflow page
@@ -232,7 +236,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function rules_meta_box() {
 			echo 'rules̵';
-		}
+		}//end rules_meta_box()
+
 
 		/**
 		 * Add save workflow meta box to add/edit workflow page
@@ -241,18 +246,20 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function save_meta_box() {
 			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-save.php';
-		}
+		}//end save_meta_box()
+
 
 		/**
 		 * Method to remove screen options tab on workflow add/edit page.
 		 *
-		 * @param bool $show_screen_options Show/Hide Screen options.
+		 * @param boolean $show_screen_options Show/Hide Screen options.
 		 *
-		 * @return bool
+		 * @return boolean
 		 */
 		public function remove_screen_options( $show_screen_options ) {
 			return false;
-		}
+		}//end remove_screen_options()
+
 
 		/**
 		 * Remove Affiliate For WooCommerce's unnecessary submenus.

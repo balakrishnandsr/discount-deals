@@ -79,7 +79,7 @@ class Discount_Deals_Workflow {
 	/**
 	 * Workflow discounts
 	 *
-	 * @var Discount_Deals_Workflow_Discount[]
+	 * @var Discount_Deals_Workflow_Discount | false
 	 */
 	private $discounts;
 
@@ -130,7 +130,7 @@ class Discount_Deals_Workflow {
 			return false;
 		}
 		$workflow_db = new Discount_Deals_Workflow_DB();
-		$workflow = $workflow_db->get_workflow_by_id( $workflow_id, 'object' );
+		$workflow    = $workflow_db->get_workflow_by_id( $workflow_id, 'object' );
 
 		if ( ! $workflow ) {
 			return false;
@@ -324,22 +324,28 @@ class Discount_Deals_Workflow {
 	/**
 	 * Get all actions in current workflow.
 	 *
-	 * @return Discount_Deals_Workflow_Discount[]
+	 * @return Discount_Deals_Workflow_Discount | false
 	 */
 	public function get_discounts() {
-		return array();
+		return $this->discounts;
 	}//end get_discounts()
 
 
 	/**
 	 * Set discounts
 	 *
-	 * @param Discount_Deals_Workflow_Discount[] $discounts Discounts.
+	 * @param array $discounts Discounts.
 	 *
 	 * @return void
 	 */
 	public function set_discounts( $discounts = array() ) {
-		$this->discounts = $discounts;
+		$discount_type = $this->get_type();
+		$all_discounts = Discount_Deals_Workflows::get_all_discounts();
+
+		if ( array_key_exists( $discount_type, $all_discounts ) ) {
+			$this->discounts = $all_discounts[ $discount_type ];
+		}
+
 	}//end set_discounts()
 
 
@@ -604,6 +610,21 @@ class Discount_Deals_Workflow {
 	public function set_id( $id = 0 ) {
 		$this->id = $id;
 	}//end set_id()
+
+	/**
+	 * May have product discount.
+	 *
+	 * @param object $product Product.
+	 * @return integer|void
+	 */
+	public function may_have_product_discount( $product ) {
+		$discounts = $this->get_discounts();
+		if ( is_a( $discounts, 'Discount_Deals_Workflow_Discount' ) ) {
+			return $discounts->calculate_discount( $product );
+		}
+		return 0;
+	}//end may_have_product_discount()
+
 
 
 }//end class

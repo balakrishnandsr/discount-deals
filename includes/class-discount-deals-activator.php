@@ -21,6 +21,8 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 
 		/**
 		 * Run the loader to execute all the hooks with WordPress.
+		 *
+		 * @return void
 		 */
 		public static function activate() {
 			self::create_tables();
@@ -30,7 +32,9 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 
 
 		/**
-		 * Function to create tables
+		 * Function to create tables.
+		 *
+		 * @return void
 		 */
 		public static function create_tables() {
 			global $wpdb;

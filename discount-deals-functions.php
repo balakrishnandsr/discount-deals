@@ -64,3 +64,18 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 		return $default;
 	}//end discount_deals_get_post_data()
 }
+
+if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
+	/**
+	 * Calculate the discount for the product.
+	 *
+	 * @param WC_Product $product Product object.
+	 *
+	 * @return mixed|string
+	 */
+	function discount_deals_get_product_discount( $product ) {
+		Discount_Deals_Workflows::calculate_product_discount( $product );
+		return 10;
+	}//end discount_deals_get_product_discount()
+}
+

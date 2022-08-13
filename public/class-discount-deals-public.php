@@ -44,7 +44,7 @@ class Discount_Deals_Public {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		add_action( 'woocommerce_int', array( $this, 'init_public_hooks' ) );
+		add_action( 'woocommerce_init', array( $this, 'init_public_hooks' ) );
 
 	}//end __construct()
 
@@ -54,7 +54,7 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function init_public_hooks() {
-
+		add_filter( 'woocommerce_product_get_price', array( $this, 'get_product_price' ), 99, 2 );
 	}//end init_public_hooks()
 
 
@@ -81,6 +81,19 @@ class Discount_Deals_Public {
 		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-public.js', array( 'jquery' ), $this->version, false );
 
 	}//end enqueue_scripts()
+
+	/**
+	 * Set woocommerce product price as per simple discount.
+	 *
+	 * @param float  $price   Product price.
+	 * @param object $product Product object.
+	 * @return float
+	 */
+	public function get_product_price( $price, $product ) {
+		discount_deals_get_product_discount( $product );
+		return 10;
+	}//end get_product_price()
+
 
 
 }//end class

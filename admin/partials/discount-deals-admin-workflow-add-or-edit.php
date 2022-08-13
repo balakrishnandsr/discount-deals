@@ -9,11 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
+/*
  * Variable declaration
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
+
 $workflow           = $this->_workflow;
 $workflow_id        = discount_deals_get_data( 'workflow', 0 );
 $workflows_page_url = menu_page_url( 'discount-deals', false );

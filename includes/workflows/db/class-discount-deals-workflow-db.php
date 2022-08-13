@@ -27,6 +27,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 
 	/**
 	 * Get columns and formats
+	 *
+	 * @return array
 	 */
 	public function get_columns() {
 		return array(
@@ -48,6 +50,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 
 	/**
 	 * Get default column values
+	 *
+	 * @return array
 	 */
 	public function get_column_defaults() {
 		return array(
@@ -69,8 +73,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Get workflows by id
 	 *
-	 * @param int    $id Workflow.
-	 * @param string $output Output format.
+	 * @param integer $id     Workflow.
+	 * @param string  $output Output format.
 	 *
 	 * @return array|object|null
 	 */
@@ -86,7 +90,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		}
 
 		return null;
-	}
+	}//end get_workflow_by_id()
+
 
 }//end class
 

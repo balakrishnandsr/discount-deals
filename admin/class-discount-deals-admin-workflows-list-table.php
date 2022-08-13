@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 /**
@@ -32,7 +32,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		);
 
 		add_action( 'admin_head', array( &$this, 'admin_header' ) );
-	}
+	}//end __construct()
+
 
 	/**
 	 * Set some style for the tables
@@ -46,7 +47,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		}
 		echo '<style type="text/css">';
 		echo '</style>';
-	}
+	}//end admin_header()
+
 
 	/**
 	 * If there is no workflows then print the message to the user
@@ -55,7 +57,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function no_items() {
 		esc_html_e( 'No workflows found, Please create a new one by clicking here.' );
-	}
+	}//end no_items()
+
 
 	/**
 	 * Prepare items to display
@@ -106,7 +109,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		);
 
 		$this->items = $items;
-	}
+	}//end prepare_items()
+
 
 	/**
 	 * Get columns of the table
@@ -123,7 +127,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'dd_updated_at' => __( 'Updated At', 'discount-deals' ),
 			'dd_status'     => __( 'Status', 'discount-deals' ),
 		);
-	}
+	}//end get_columns()
+
 
 	/**
 	 * Columns that can be sortable
@@ -138,15 +143,16 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'dd_status'     => array( 'dd_status', false ),
 			'dd_exclusive'  => array( 'dd_exclusive', false ),
 		);
-	}
+	}//end get_sortable_columns()
+
 
 	/**
 	 * Return default value for the workflow
 	 *
-	 * @param array|object $item Workflow details.
+	 * @param array|object $item        Workflow details.
 	 * @param string       $column_name column name.
 	 *
-	 * @return bool|mixed|string|void
+	 * @return boolean|mixed|string|void
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
@@ -158,7 +164,7 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 				if ( array_key_exists( $discount_type, $all_discounts ) ) {
 					$discount_class = $all_discounts[ $discount_type ];
 
-					/**
+					/*
 					 * Discount class
 					 *
 					 * @var Discount_Deals_Workflow_Discount $discount_class
@@ -167,15 +173,16 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 				}
 
 				return __( 'Invalid Discount Type', 'discount-deals' );
-            case 'dd_status':
-                if( 1 == $item[ $column_name ] ){
-                    return  __( 'Yes', 'discount-deals' );
-                }
-                return __( 'No', 'discount-deals' );
+			case 'dd_status':
+				if ( 1 == $item[ $column_name ] ) {
+					return __( 'Yes', 'discount-deals' );
+				}
+				return __( 'No', 'discount-deals' );
 			default:
 				return $item[ $column_name ];
 		}
-	}
+	}//end column_default()
+
 
 	/**
 	 * Display Edit & Delete option for WorkFlow
@@ -191,7 +198,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		);
 
 		return sprintf( '%1$s %2$s', $item['dd_title'], $this->row_actions( $actions ) );
-	}
+	}//end column_dd_title()
+
 
 	/**
 	 * Multi select checkbox
@@ -205,7 +213,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'<input type="checkbox" name="book[]" value="%s" />',
 			$item['dd_id']
 		);
-	}
+	}//end column_cb()
+
 
 	/**
 	 * Bulk actions of the workflows
@@ -220,5 +229,7 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'exclusive'     => __( 'Mark as Exclusive', 'discount-deals' ),
 			'not_exclusive' => __( 'Mark as Not-Exclusive', 'discount-deals' ),
 		);
-	}
-}
+	}//end get_bulk_actions()
+
+}//end class
+
