@@ -48,7 +48,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			$this->version     = $version;
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+//			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 			add_action( 'admin_head', array( $this, 'add_remove_submenu' ) );
 			// Filter to add Settings link on Plugins page.
@@ -61,9 +61,9 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			);
 			add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
 
-			$this->include_required_files();
+//			$this->include_required_files();
 
-			Discount_Deals_Admin_Ajax::init();
+//			Discount_Deals_Admin_Ajax::init();
 
 		}//end __construct()
 
@@ -96,7 +96,14 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function enqueue_scripts() {
 
-			wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin.js', array(
+				'jquery',
+				'jquery-ui-datepicker',
+				'jquery-tiptip',
+				'backbone',
+				'underscore'
+			), $this->version );
+//			wp_localize_script( $this->plugin_slug, 'discount_deals_workflow_localize_script', $this->get_js_data() );
 
 		}//end enqueue_scripts()
 
@@ -107,6 +114,37 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function get_workflow() {
 			return $this->_workflow;
+		}
+
+		/**
+		 * @return array
+		 */
+		function get_js_data() {
+			$rule_options = [];
+
+			return [
+				'ruleOptions' => $rule_options,
+				'allRules'    => self::get_rules_data(),
+			];
+		}
+
+		/**
+		 * Get all the rule's data for admin
+		 *
+		 * @return array
+		 */
+		public static function get_rules_data() {
+			$data = [];
+
+			foreach ( Discount_Deals_Workflows::get_all_rules() as $rule ) {
+				$rule_data = (array) $rule;
+				if ( is_callable( [ $rule, 'get_search_ajax_action' ] ) ) {
+					$rule_data['ajax_action'] = $rule->get_search_ajax_action();
+				}
+				$data[ $rule->get_name() ] = $rule_data;
+			}
+
+			return $data;
 		}
 
 		/**
@@ -275,7 +313,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function rules_meta_box() {
-			echo 'rules̵';
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-rules.php';
 		}
 
 		/**

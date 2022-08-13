@@ -240,7 +240,7 @@ function discount_deals_select( $field ) {
 				?>
 			</select>
 			<?php if ( $field['value_description'] ) : ?>
-				<div class="<?php echo esc_attr( $field['id'] ); ?>-description"></div>
+				<div class="<?php echo esc_attr( $field['id'] ); ?>_description"></div>
 			<?php endif; ?>
 		</td>
 	</tr>

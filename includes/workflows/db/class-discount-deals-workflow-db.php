@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 
 	/**
-	 * ES_DB_Workflows constructor.
+	 * Discount_Deals_Workflow_DB constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
