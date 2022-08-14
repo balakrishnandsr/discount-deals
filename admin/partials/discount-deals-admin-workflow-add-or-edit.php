@@ -41,7 +41,7 @@ if ( 'new' === $workflow_action ) {
 			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 			?>
 			<div id="poststuff">
-				<div id="post-body" class="metabox-holder columns-2">
+				<div id="post-body" class="meta-box-holder columns-2">
 					<div id="post-body-content">
 						<div id="titlediv">
 							<div id="titlewrap">

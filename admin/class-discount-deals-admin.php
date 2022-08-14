@@ -48,7 +48,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			$this->version     = $version;
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-//			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 			add_action( 'admin_head', array( $this, 'add_remove_submenu' ) );
 			// Filter to add Settings link on Plugins page.
@@ -61,9 +61,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			);
 			add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
 
-//			$this->include_required_files();
-
-//			Discount_Deals_Admin_Ajax::init();
+			$this->include_required_files();
+			Discount_Deals_Admin_Ajax::init();
 
 		}//end __construct()
 
@@ -95,15 +94,24 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function enqueue_scripts() {
+			$action = discount_deals_get_data( 'action', 'list' );
+
+			if ( 'new' != $action && 'edit' != $action ) {
+				// Don't load meta boxes if it is not an add/edit workflow screen.
+				return;
+			}
+			wp_enqueue_script( 'wc-enhanced-select' );
+			wp_enqueue_script( 'jquery-tiptip' );
+			wp_enqueue_script( 'jquery-ui-sortable' );
+			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
 			wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin.js', array(
 				'jquery',
-				'jquery-ui-datepicker',
-				'jquery-tiptip',
+				'wp-util',
 				'backbone',
 				'underscore'
 			), $this->version );
-//			wp_localize_script( $this->plugin_slug, 'discount_deals_workflow_localize_script', $this->get_js_data() );
+			wp_localize_script( $this->plugin_slug, 'discount_deals_workflow_localize_script', $this->get_js_data() );
 
 		}//end enqueue_scripts()
 
@@ -123,8 +131,14 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			$rule_options = [];
 
 			return [
-				'ruleOptions' => $rule_options,
-				'allRules'    => self::get_rules_data(),
+				'id'              => 1,
+				'isNew'           => true,
+				'trigger'         => false,
+				'rule_options'    => $rule_options,
+				'all_rules'       => self::get_rules_data(),
+				'actions'         => array(),
+				'variables'       => array(),
+				'metaBoxHelpTips' => []
 			];
 		}
 
@@ -155,7 +169,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		public function add_admin_menu() {
 			// Translators: A small arrow.
 			$admin_page_hook = add_submenu_page(
-				'discount-deals',
+				'woocommerce',
 				__( 'Discount Deals', 'discount-deals' ),
 				__( 'Discount Deals', 'discount-deals' ),
 				'manage_woocommerce',
@@ -170,7 +184,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 
 			if ( 'discount-deals-welcome-doc' === $get_page ) {
 				add_submenu_page(
-					'discount-deals',
+					'woocommerce',
 					__( 'Getting Started', 'discount-deals' ),
 					__( 'Getting Started', 'discount-deals' ),
 					'manage_woocommerce',
