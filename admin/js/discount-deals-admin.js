@@ -250,6 +250,15 @@
 				'change .discount-deals-rule-select': 'updated_rule_name',
 				'change .discount-deals-rule-compare-field': 'updated_rule_compare_type',
 				'change .discount-deals-rule-value-field': 'updated_rule_value',
+				'change .discount-deals-rule-value-from': 'update_minimum_from_value_date',
+			},
+			update_minimum_from_value_date: function () {
+				var $from = this.$el.find('.discount-deals-rule-value-from');
+				var $to = this.$el.find('.discount-deals-rule-value-to');
+
+				if ($from.length && $to.length) {
+					$to.datepicker('option', 'minDate', $from.val());
+				}
 			},
 			updated_rule_value: function (e) {
 				var value;
@@ -298,8 +307,27 @@
 				}));
 				this.set_name();
 				this.set_compare();
+				this.init_date_picker();
+				this.maybe_toggle_value_display();
 				$(document.body).trigger('wc-enhanced-select-init');
 				return this;
+			},
+			maybe_toggle_value_display: function () {
+				var compare = this.model.get('compare');
+				var value_field = this.$el.find('[data-discount-deals-compare]');
+				if (value_field.length) {
+					// Hide value fields.
+					value_field.addClass('discount-deals-hidden').prop('required', false).find('select, input').prop('required', false);
+
+					// Show our selected rules.
+					value_field.filter('[data-discount-deals-compare~="' + compare + '"]').removeClass('discount-deals-hidden').prop('required', true).find('select, input').prop('required', true);
+				}
+			},
+			init_date_picker: function () {
+				this.$el.find('.discount-deals-date-picker').datepicker({
+					dateFormat: 'yy-mm-dd',
+					showButtonPanel: true,
+				});
 			},
 			set_name: function () {
 				this.$el.find('.discount-deals-rule-select').val(this.model.get('name'));

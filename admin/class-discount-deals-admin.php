@@ -102,6 +102,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			}
 			wp_enqueue_script( 'wc-enhanced-select' );
 			wp_enqueue_script( 'jquery-tiptip' );
+			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 

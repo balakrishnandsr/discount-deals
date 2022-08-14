@@ -56,12 +56,80 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
             <div class="discount-deals-rule-field-value discount-deals-rule__field-container <# if ( data.rule.is_value_loading ) { #>discount-deals-loading<# } #>">
                 <# if ( data.rule.isValueLoading ) { #>
-                    <div class="aw-loader"></div>
+                    <div class="discount-deals-loader"></div>
                 <# } else { #>
 
                     <# if ( data.rule.object.type === 'number' ) { #>
                         <input name="{{ data.fieldNameBase }}[value]" class="discount-deals-field discount-deals-rule-value-field" type="text" required>
+                    <# } else if ( data.rule.object.type === 'object' ) { #>
+                        <select name="{{ data.fieldNameBase }}[value]{{ data.rule.object.is_multi ? '[]' : '' }}"
+                                class="{{ data.rule.object.class }} discount-deals-field discount-deals-rule-value-field"
+                                data-placeholder="{{ data.rule.object.placeholder }}"
+                                data-action="{{ data.rule.object.ajax_action }}"
+                                {{ data.rule.object.is_multi ? 'multiple="multiple"' : '' }} ></select>
+                    <# } else if ( data.rule.object.type === 'select' ) { #>
+                        <# if ( data.rule.object.is_single_select ) { #>
+                            <select name="{{ data.fieldNameBase }}[value]" class="discount-deals-field wc-enhanced-select discount-deals-rule-value-field" data-placeholder="{{{ data.rule.object.placeholder }}}">
+                                <# if ( data.rule.object.placeholder ) { #>
+                                <option></option>
+                                <# } #>
+                        <# } else { #>
+                            <select name="{{ data.fieldNameBase }}[value][]" multiple="multiple" class="discount-deals-field wc-enhanced-select discount-deals-rule-value-field">
+                        <# } #>
+                                <# _.each( data.rule.object.select_choices, function( option, key ) { #>
+                                <option value="{{ key }}">{{{ option }}}</option>
+                                <# }) #>
+                            </select>
+                    <# } else if ( data.rule.object.type === 'string' && ( data.rule.compare != 'blank' && data.rule.compare != 'not_blank' ) )  { #>
+                        <input name="{{ data.fieldNameBase }}[value]" class="discount-deals-field discount-deals-rule-value-field" type="text" required>
+                    <# } else if ( data.rule.object.type === 'meta' )  { #>
+                        <input name="{{ data.fieldNameBase }}[value][]" class="discount-deals-field discount-deals-rule-value-field" type="text" placeholder="<?php esc_attr_e( 'key', 'discount-deals' ); ?>">
+                        <input name="{{ data.fieldNameBase }}[value][]" class="discount-deals-field discount-deals-rule-value-field" type="text" placeholder="<?php esc_attr_e( 'value', 'discount-deals' ); ?>">
+                    <# } else if ( data.rule.object.type === 'bool' )  { #>
+                        <select name="{{ data.fieldNameBase }}[value]" class="discount-deals-field discount-deals-rule-value-field">
+                            <# _.each( data.rule.object.select_choices, function( option, key ) { #>
+                            <option value="{{ key }}">{{{ option }}}</option>
+                            <# }); #>
+                        </select>
+                    <# } else if ( data.rule.object.type === 'date' ) { #>
+                        <# if ( data.rule.object.uses_datepicker === true ) { #>
+                            <input type="text" name="{{ data.fieldNameBase }}[value][date]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-date discount-deals-date-picker date-picker discount-deals-hidden" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" data-discount-deals-compare="is_after is_before is_on is_not_on" autocomplete="off"/>
+                        <# } #>
+                        <# if ( data.rule.object.has_is_between_dates === true ) { #>
+                            <div class="field-cols discount-deals-hidden" data-discount-deals-compare="is_between">
+                                <div class="col-1">
+                                    <input type="text" name="{{ data.fieldNameBase }}[value][from]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-from date-picker discount-deals-date-picker" placeholder="start" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" autocomplete="off"/>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" name="{{ data.fieldNameBase }}[value][to]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-to date-picker discount-deals-date-picker" placeholder="end" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" autocomplete="off"/>
+                                </div>
+                            </div>
+                        <# } #>
+                        <# if ( data.rule.object.has_days_of_the_week === true ) { #>
+                            <div class="discount-deals-hidden" data-discount-deals-compare="days_of_the_week">
+                                <select name="{{ data.fieldNameBase }}[value][dow][]" multiple required class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-dow wc-enhanced-select">
+                                    <?php for ( $day = 1; $day <= 7; $day++ ) : ?>
+                                        <option value="<?php echo esc_attr( $day ); ?>"><?php echo esc_attr( discount_deals_get_weekday( $day ) ); ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                        <# } #>
+                        <# if( data.rule.object.has_is_future_comparison === true || data.rule.object.has_is_past_comparison === true ) { #>
+                            <div class="field-cols discount-deals-hidden" data-discount-deals-compare="is_in_the_next is_not_in_the_next is_in_the_last is_not_in_the_last">
+                                <div class="col-1">
+                                    <input type="number" step="1" min="1" name="{{ data.fieldNameBase }}[value][timeframe]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-timeframe" required/>
+                                </div>
+                                <div class="col-2">
+                                    <select name="{{ data.fieldNameBase }}[value][measure]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-measure" required>
+                                        <# _.each( data.rule.object.select_choices, function( option, key ) { #>
+                                        <option value="{{ key }}">{{{ option }}}</option>
+                                        <# }); #>
+                                    </select>
+                                </div>
+                            </div>
+                        <# } #>
                     <# } else { #>
+                        <input class="discount-deals-field" type="text" disabled>
                     <# } #>
 
                 <# } #>
@@ -72,7 +140,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php esc_html_e( 'and', 'discount-deals' ); ?>
             </button>
             <button type="button" class="discount-deals-remove-rule discount-deals-rule__remove">
-				<?php esc_html_e( 'Remove', 'discount-deals' ); ?>
+                <span class="dashicons dashicons-trash"></span>
             </button>
         </div>
     </div>

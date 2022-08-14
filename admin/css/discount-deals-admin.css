@@ -60,3 +60,254 @@
 .discount-deals-table .discount-deals-table__row:first-child .discount-deals-table__col {
 	border-top: none;
 }
+
+.discount-deals-hidden {
+	display: none !important
+}
+
+.discount-deals-rule-group__or {
+	margin: 26px -20px 23px;
+	border-bottom: 1px solid #e1e1e1;
+	text-align: center;
+	position: relative;
+}
+
+.discount-deals-rule-group__or span {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	color: #a9a9a9;
+	display: inline-block;
+	background: #fff;
+	padding: 0 13px;
+	top: -9px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	font-size: 13px;
+}
+
+.discount-deals-rule-group:last-child {
+	margin-bottom: 10px;
+}
+
+.discount-deals-rule-group:last-child .discount-deals-rule-group__or {
+	display: none;
+}
+
+.discount-deals-rule {
+	width: 100%;
+	box-sizing: border-box;
+	position: relative;
+	padding: 7px 0;
+}
+
+@media (min-width: 1200px) {
+	.discount-deals-rule {
+		padding-right: 79px;
+	}
+}
+
+.discount-deals-rule__buttons {
+	position: absolute;
+	bottom: 4px;
+	right: -1px;
+}
+
+@media (min-width: 783px) {
+	.discount-deals-rule__buttons {
+		bottom: 8px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.discount-deals-rule__buttons {
+		top: 8px;
+		bottom: auto;
+	}
+}
+
+.discount-deals-rule--type-select .discount-deals-rule__buttons {
+	min-height: 46px;
+}
+
+@media (min-width: 783px) {
+	.discount-deals-rule--type-select .discount-deals-rule__buttons {
+		min-height: 34px;
+	}
+}
+
+.discount-deals-rule__add {
+	float: left;
+	padding: 0 8px 1px;
+}
+
+.discount-deals-rule__remove {
+	display: block;
+	float: left;
+	position: relative;
+	top: 9px;
+	width: 23px;
+	height: 23px;
+	margin-left: 6px;
+	border: 1px solid #c5c5c5;
+	border-radius: 50%;
+	background: transparent;
+	cursor: pointer;
+}
+
+.discount-deals-rule__remove:after {
+	display: block;
+	width: 11px;
+	height: 1px;
+	position: absolute;
+	top: 10px;
+	left: 5px;
+	background: #c5c5c5;
+}
+
+.discount-deals-rule__remove:hover {
+	border-color: #dc3232;
+	background: #f55e4f;
+}
+
+.discount-deals-rule__remove:hover:after {
+	background: #fff;
+}
+
+@media (min-width: 783px) {
+	.discount-deals-rule__remove {
+		top: 4px;
+	}
+}
+
+.discount-deals-rule__fields {
+	width: 100%;
+}
+
+.discount-deals-rule__fields .discount-deals-rule-select-container {
+	width: 50%;
+	padding-left: 0;
+}
+
+.discount-deals-rule__fields .discount-deals-rule-select-container select {
+	width: 100%;
+}
+
+.discount-deals-rule__fields .discount-deals-rule-field-compare {
+	width: 50%;
+}
+
+.discount-deals-rule__fields .discount-deals-rule-field-value {
+	position: relative;
+	width: 100%;
+	padding-left: 0;
+	padding-top: 8px;
+	padding-right: 94px;
+}
+
+.discount-deals-rule__fields .discount-deals-rule-field-value .discount-deals-loader {
+	position: absolute;
+	top: 14px;
+	left: 20px;
+}
+
+.discount-deals-rule__fields .discount-deals-rule-field-value select, .discount-deals-rule__fields .discount-deals-rule-field-value .select2-container {
+	width: 100% !important;
+}
+
+.discount-deals-rule__fields .discount-deals-rule-field-value select .select2-search__field, .discount-deals-rule__fields .discount-deals-rule-field-value .select2-container .select2-search__field {
+	max-width: 50px;
+}
+
+@media (min-width: 783px) {
+	.discount-deals-rule__fields .discount-deals-rule-field-value {
+		padding-right: 85px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.discount-deals-rule__fields .discount-deals-rule-select-container {
+		width: 35%;
+	}
+
+	.discount-deals-rule__fields .discount-deals-rule-field-compare {
+		width: 20%;
+	}
+
+	.discount-deals-rule__fields .discount-deals-rule-field-value {
+		padding: 0 6px;
+		width: 45%;
+	}
+}
+
+@media (min-width: 1500px) {
+	.discount-deals-rule__fields .discount-deals-rule-select-container {
+		width: 30%;
+	}
+
+	.discount-deals-rule__fields .discount-deals-rule-field-compare {
+		width: 18%;
+	}
+
+	.discount-deals-rule__fields .discount-deals-rule-field-value {
+		width: 52%;
+	}
+}
+
+@media (min-width: 1760px) {
+	.discount-deals-rule__fields .discount-deals-rule-select-container {
+		width: 26%;
+	}
+
+	.discount-deals-rule__fields .discount-deals-rule-field-compare {
+		width: 16%;
+	}
+
+	.discount-deals-rule__fields .discount-deals-rule-field-value {
+		width: 58%;
+	}
+}
+
+.discount-deals-rule__field-container {
+	float: left;
+	width: 100px;
+	box-sizing: border-box;
+	padding: 0 6px;
+}
+
+.discount-deals-rule--type-meta .js-rule-value-field {
+	width: 48%;
+	float: left;
+}
+
+@media (min-width: 1500px) {
+	.discount-deals-rule--type-meta .js-rule-value-field {
+		width: 48.7%;
+	}
+}
+
+.discount-deals-rule--type-meta .js-rule-value-field:last-child {
+	float: right;
+}
+
+.discount-deals-rule--type-meta.discount-deals-rule--compare-blank .js-rule-value-field, .discount-deals-rule--type-meta.discount-deals-rule--compare-not_blank .js-rule-value-field {
+	width: 100%;
+}
+
+.discount-deals-rule--type-meta.discount-deals-rule--compare-blank .js-rule-value-field:last-child, .discount-deals-rule--type-meta.discount-deals-rule--compare-not_blank .js-rule-value-field:last-child {
+	display: none;
+}
+
+.discount-deals-rule input.discount-deals-field {
+	height: 28px;
+}
+
+.discount-deals-missing-rule {
+	padding: 8px 9px;
+	margin: 7px 0;
+	border: 1px solid #dc3232;
+	border-radius: 4px;
+	color: #dc3232;
+	font-weight: 500;
+	line-height: 1.3;
+}
