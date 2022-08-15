@@ -132,13 +132,13 @@ class Discount_Deals_Workflows {
 		$workflows    = $workflows_db->get_by_conditions( 'dd_status = 1', 'object' );
 		if ( ! empty( $workflows ) ) {
 			foreach ( $workflows as $workflow ) {
-                $active_workflows = new Discount_Deals_Workflow( $workflow );
-                self::$_active_workflows['all_active'][] = $active_workflows;
-                if( !empty( $workflow->dd_exclusive ) && 'yes' === $workflow->dd_exclusive ){
-                    self::$_active_workflows['exclusive'][] = $active_workflows;
-                }else{
-                    self::$_active_workflows['non_exclusive'][] = $active_workflows;
-                }
+				$active_workflows = new Discount_Deals_Workflow( $workflow );
+				self::$_active_workflows['all_active'][] = $active_workflows;
+				if ( ! empty( $workflow->dd_exclusive ) && 'yes' === $workflow->dd_exclusive ) {
+					self::$_active_workflows['exclusive'][] = $active_workflows;
+				} else {
+					self::$_active_workflows['non_exclusive'][] = $active_workflows;
+				}
 			}
 		}
 		return self::$_active_workflows;
@@ -220,56 +220,60 @@ class Discount_Deals_Workflows {
 	public static function calculate_product_discount( $product ) {
 
 		$active_workflows = self::get_active_workflows();
-        $discounts = array();
+		$discounts = array();
 
-        //Get from settings
-        $apply_as = 'all_matched';
-        $cart_items = ( is_object( WC()->cart ) && is_callable( array( WC()->cart, 'get_cart' ) ) ) ? WC()->cart->get_cart() : array();
+		// Get from settings
+		$apply_as = 'all_matched';
+		$cart_items = ( is_object( WC()->cart ) && is_callable( array( WC()->cart, 'get_cart' ) ) ) ? WC()->cart->get_cart() : array();
 
-        //$active_workflows
-        if ( empty( $active_workflows ) ) {
-            return 0;
-        }
+		// $active_workflows
+		if ( empty( $active_workflows ) ) {
+			return 0;
+		}
 
-        //echo "<pre>"; print_r(); echo "</pre>";
+		// echo "<pre>"; print_r(); echo "</pre>";
 
-       /* && apply_filters('is_product_eligible_for_dd_exclusive_workflows', true, array(
-                'product'  => $product,
-                'active_workflows' => $active_workflows,
-                'cart_items' => $cart_items
-            )
-        )*/
-        if( ! empty( $active_workflows['exclusive'] ) ){
-            $exclusive_apply_as = apply_filters('apply_dd_exclusive_rules_as', 'first_matched', array(
-                'product'  => $product,
-                'active_workflows' => $active_workflows,
-                'cart_items' => $cart_items,
-                'workflows_apply_as' => array(
-                    'first_matched',
-                    'last_matched',
-                    'highest_discount',
-                    'smallest_discount'
-                )
+		/*
+		&& apply_filters('is_product_eligible_for_dd_exclusive_workflows', true, array(
+				'product'  => $product,
+				'active_workflows' => $active_workflows,
+				'cart_items' => $cart_items
+			)
+		)*/
+		if ( ! empty( $active_workflows['exclusive'] ) ) {
+			$exclusive_apply_as = apply_filters(
+				'apply_dd_exclusive_rules_as',
+				'first_matched',
+				array(
+					'product'  => $product,
+					'active_workflows' => $active_workflows,
+					'cart_items' => $cart_items,
+					'workflows_apply_as' => array(
+						'first_matched',
+						'last_matched',
+						'highest_discount',
+						'smallest_discount',
+					),
 
-            ) );
-            $exclusive_workflows = $active_workflows['exclusive'];
+				)
+			);
+			$exclusive_workflows = $active_workflows['exclusive'];
 
-        }else{
-            $non_exclusive_workflows = $active_workflows['non_exclusive'];
-        }
+		} else {
+			$non_exclusive_workflows = $active_workflows['non_exclusive'];
+		}
 
-        $discounts[] = 0;
-        if( !empty( $exclusive_workflows ) ){
-            foreach ( $exclusive_workflows as $workflow ) {
-                $discounts[] = $workflow->may_have_product_discount( $product, array_sum( $discounts ) );
-            }
-        }
-        if( 0 == array_sum($discounts) || empty( $discounts )){
-            foreach ( $non_exclusive_workflows as $workflow ) {
-                $discounts[] = $workflow->may_have_product_discount( $product, array_sum( $discounts ) );
-            }
-        }
-
+		$discounts[] = 0;
+		if ( ! empty( $exclusive_workflows ) ) {
+			foreach ( $exclusive_workflows as $workflow ) {
+				$discounts[] = $workflow->may_have_product_discount( $product, array_sum( $discounts ) );
+			}
+		}
+		if ( 0 == array_sum( $discounts ) || empty( $discounts ) ) {
+			foreach ( $non_exclusive_workflows as $workflow ) {
+				$discounts[] = $workflow->may_have_product_discount( $product, array_sum( $discounts ) );
+			}
+		}
 
 	}//end calculate_product_discount()
 

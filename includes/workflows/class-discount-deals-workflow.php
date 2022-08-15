@@ -594,7 +594,7 @@ class Discount_Deals_Workflow {
 	 * May have product discount.
 	 *
 	 * @param object $product Product.
-     * @param float $price Price used for when enable subsequent.
+	 * @param float  $price Price used for when enable subsequent.
 	 * @return integer|void
 	 */
 	public function may_have_product_discount( $product, $price ) {
