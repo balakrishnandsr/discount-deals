@@ -13,7 +13,7 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Product_Select_Abstract' ) ) 
 	/**
 	 * Product select rule
 	 */
-	abstract class Discount_Deals_Workflow_Rule_Product_Select_Abstract extends Discount_Deals_Workflow_Rule_Searchable_Select_Abstract_Abstract {
+	abstract class Discount_Deals_Workflow_Rule_Product_Select_Abstract extends Discount_Deals_Workflow_Rule_Searchable_Select_Abstract {
 		/**
 		 * The CSS class to use on the search field.
 		 *
