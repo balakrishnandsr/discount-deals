@@ -21,16 +21,15 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Simple Discount', 'discount-deals' ) );
-	}//end __construct()
-
+		$this->set_description( __( 'Give flat or percentage discount for products you are selling.', 'discount-deals' ) );
+	}
 
 	/**
 	 * Set valid data items type of the discount
 	 */
 	public function set_supplied_data_items() {
-		$this->supplied_data_items = array();
-	}//end set_supplied_data_items()
-
+		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
+	}
 
 	/**
 	 * Calculate discount for the product

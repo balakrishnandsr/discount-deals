@@ -22,6 +22,13 @@ class Discount_Deals_Workflows {
 	protected static $_discounts = array();
 
 	/**
+	 * Holds all rules
+	 *
+	 * @var array $_rules workflow rules.
+	 */
+	protected static $_rules = array();
+
+	/**
 	 * Holds all active workflows
 	 *
 	 * @var array $_active_workflows workflows.
@@ -33,8 +40,8 @@ class Discount_Deals_Workflows {
 	 */
 	public function __construct() {
 		$this->load_discounts();
-	}//end __construct()
-
+		$this->load_rules();
+	}
 
 	/**
 	 * Function to handle uninstall process
@@ -49,9 +56,45 @@ class Discount_Deals_Workflows {
 
 
 	/**
+	 * Function to handle load rules
+	 *
+	 * @return void
+	 */
+	public function load_rules() {
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-string-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-select-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-searchable-select-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-preloaded-select-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-product-select-abstract.php';
+
+		// Actual rules.
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-shop-date-time.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-account-created-date.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-city.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-company.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-is-guest.php';
+	}
+
+	/**
+	 * Get discount class by discount name
+	 *
+	 * @param string $discount_type Discount type name.
+	 *
+	 * @return Discount_Deals_Workflow_Discount
+	 */
+	public static function get_discount_type( $discount_type ) {
+		$all_discounts = self::get_all_discounts();
+
+		return $all_discounts[ $discount_type ];
+	}
+
+	/**
 	 * Get all discounts
 	 *
-	 * @return array
+	 * @return Discount_Deals_Workflow_Discount[]
 	 */
 	public static function get_all_discounts() {
 		$valid_discounts = array(
@@ -103,13 +146,70 @@ class Discount_Deals_Workflows {
 
 
 	/**
-	 * Function to handle uninstall process
+	 * Get discount class by discount name
 	 *
-	 * @return void
+	 * @param string $rule_type Discount type name.
+	 *
+	 * @return Discount_Deals_Workflow_Rule_Abstract
 	 */
-	public function load_rules() {
-		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule.php';
-	}//end load_rules()
+	public static function get_rule_type( $rule_type ) {
+		$all_discounts = self::get_all_rules();
+
+		return $all_discounts[ $rule_type ];
+	}
+
+	/**
+	 * Get all rules
+	 *
+	 * @return Discount_Deals_Workflow_Rule_Abstract[]
+	 */
+	public static function get_all_rules() {
+		$valid_rules = array(
+			// Customer.
+			'customer_is_guest'             => 'Discount_Deals_Workflow_Rule_Customer_Is_Guest',
+			'customer_account_created_date' => 'Discount_Deals_Workflow_Rule_Customer_Account_Created_Date',
+			'customer_city'                 => 'Discount_Deals_Workflow_Rule_Customer_City',
+			'customer_company'              => 'Discount_Deals_Workflow_Rule_Customer_Company',
+
+			// Shop.
+			'shop_date_time'                => 'Discount_Deals_Workflow_Rule_Shop_Date_Time',
+		);
+		if ( count( self::$_rules ) < count( $valid_rules ) ) {
+			foreach ( $valid_rules as $rule_name => $class_name ) {
+				$rule_class = new $class_name();
+				/**
+				 * Workflow discount
+				 * @var Discount_Deals_Workflow_Rule_Abstract $rule_class Rule.
+				 */
+				$rule_class->set_name( $rule_name );
+				self::$_rules[ $rule_name ] = $rule_class;
+			}
+		}
+
+		return self::$_rules;
+	}
+
+	/**
+	 * Get data for discount
+	 *
+	 * @param Discount_Deals_Workflow_Discount $discount Discount class.
+	 *
+	 * @return array|false
+	 */
+	public static function get_discount_data( $discount ) {
+		$data = array();
+
+		if ( ! $discount ) {
+			return false;
+		}
+
+		$data['title']               = $discount->get_title();
+		$data['name']                = $discount->get_name();
+		$data['description']         = $discount->get_description();
+		$data['supplied_data_items'] = array_values( $discount->get_supplied_data_items() );
+
+		return $data;
+	}
 
 	/**
 	 * Calculate product discount.

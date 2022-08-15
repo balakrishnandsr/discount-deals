@@ -15,13 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 
 	/**
-	 * ES_DB_Workflows constructor.
+	 * Discount_Deals_Workflow_DB constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
 
 		$this->set_table_name( 'dd_workflows' );
-		$this->set_primary_key( 'id' );
+		$this->set_primary_key( 'dd_id' );
 	}//end __construct()
 
 
@@ -33,14 +33,14 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	public function get_columns() {
 		return array(
 			'dd_id'         => '%d',
+			'dd_status'     => '%d',
+			'dd_user_id'    => '%d',
+			'dd_exclusive'  => '%d',
 			'dd_title'      => '%s',
 			'dd_rules'      => '%s',
 			'dd_discounts'  => '%s',
 			'dd_meta'       => '%s',
-			'dd_status'     => '%d',
-			'dd_user_id'    => '%d',
-			'dd_type'       => '%d',
-			'dd_exclusive'  => '%s',
+			'dd_type'       => '%s',
 			'dd_language'   => '%s',
 			'dd_created_at' => '%s',
 			'dd_updated_at' => '%s',
@@ -57,14 +57,14 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		return array(
 			'dd_name'       => null,
 			'dd_title'      => null,
+			'dd_language'   => null,
+			'dd_status'     => 1,
 			'dd_user_id'    => 0,
 			'dd_rules'      => '',
-			'dd_language'   => '',
 			'dd_discounts'  => '',
 			'dd_meta'       => '',
-			'dd_status'     => 1,
-			'dd_type'       => 'product',
-			'dd_exclusive'  => 'no',
+			'dd_type'       => 'simple_discount',
+			'dd_exclusive'  => 0,
 			'dd_created_at' => gmdate( 'Y-m-d H:i:s' ),
 			'dd_updated_at' => gmdate( 'Y-m-d H:i:s' ),
 		);
@@ -92,6 +92,51 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		return null;
 	}//end get_workflow_by_id()
 
+
+	/**
+	 * Add workflow into database
+	 *
+	 * @param array $workflow_data Workflow data.
+	 *
+	 * @return int
+	 */
+	public function insert_workflow( $workflow_data = array() ) {
+		if ( empty( $workflow_data ) || ! is_array( $workflow_data ) ) {
+			return 0;
+		}
+		// Set dd_created_at if not set.
+		if ( empty( $workflow_data['dd_created_at'] ) ) {
+			$workflow_data['dd_created_at'] = current_time( 'mysql', true );
+		}
+
+		// Set dd_updated_at if not set.
+		if ( empty( $workflow_data['dd_updated_at'] ) ) {
+			$workflow_data['dd_updated_at'] = current_time( 'mysql', true );
+		}
+
+		return $this->insert( $workflow_data );
+	}
+
+	/**
+	 * Update Workflow
+	 *
+	 * @param int   $workflow_id Workflow ID.
+	 * @param array $workflow_data Workflow data.
+	 *
+	 * @return bool|void
+	 */
+	public function update_workflow( $workflow_id = 0, $workflow_data = array() ) {
+
+		if ( empty( $workflow_id ) || empty( $workflow_data ) || ! is_array( $workflow_data ) ) {
+			return;
+		}
+		// Set updated_at if not set.
+		if ( empty( $workflow_data['dd_updated_at'] ) ) {
+			$workflow_data['dd_updated_at'] = current_time( 'mysql', true );
+		}
+
+		return $this->update( $workflow_id, $workflow_data );
+	}
 
 }//end class
 

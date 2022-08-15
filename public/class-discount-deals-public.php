@@ -54,7 +54,7 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function init_public_hooks() {
-		//add_filter( 'woocommerce_product_get_price', array( $this, 'get_product_price' ), 99, 2 );
+		add_filter( 'woocommerce_product_get_price', array( $this, 'get_product_price' ), 99, 2 );
 	}//end init_public_hooks()
 
 

@@ -21,8 +21,8 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Bulk Discount', 'discount-deals' ) );
-	}//end __construct()
-
+		$this->set_description( __( 'Give flat or percentage discount for products with high quantity.', 'discount-deals' ) );
+	}
 
 	/**
 	 * Set valid data items type of the discount
@@ -30,9 +30,8 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	 * @return void
 	 */
 	public function set_supplied_data_items() {
-		$this->supplied_data_items = array();
-	}//end set_supplied_data_items()
-
+		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
+	}
 
 	/**
 	 * Calculate discount for the product
@@ -43,7 +42,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	 * @return integer
 	 */
 	public function calculate_discount( $data_item , $subsequent_price) {
-		//return 10;
+		return 10;
 	}//end calculate_discount()
 
 }//end class

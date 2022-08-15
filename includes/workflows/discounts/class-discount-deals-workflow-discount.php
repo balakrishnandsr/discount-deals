@@ -28,6 +28,13 @@ abstract class Discount_Deals_Workflow_Discount {
 	public $title = '';
 
 	/**
+	 * Description for the discount type
+	 *
+	 * @var string $title discount description
+	 */
+	public $description = '';
+
+	/**
 	 * Name for the discount type
 	 *
 	 * @var string $name discount type slug
@@ -62,6 +69,24 @@ abstract class Discount_Deals_Workflow_Discount {
 		return $this->title;
 	}//end get_title()
 
+
+	/**
+	 * Get description of the discount
+	 *
+	 * @return string
+	 */
+	public function get_description() {
+		return $this->description;
+	}
+
+	/**
+	 * Discount description
+	 *
+	 * @param string $description Description of the discount.
+	 */
+	public function set_description( $description ) {
+		$this->description = $description;
+	}
 
 	/**
 	 * Get the name of the discount
