@@ -38,11 +38,12 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param mixed $data_item Calculate discount for which data item.
+	 * @param float $subsequent_price Calculate discount subsequently.
 	 *
 	 * @return integer
 	 */
-	public function calculate_discount( $data_item ) {
-		return 10;
+	public function calculate_discount( $data_item , $subsequent_price) {
+		//return 10;
 	}//end calculate_discount()
 
 }//end class
