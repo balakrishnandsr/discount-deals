@@ -52,10 +52,92 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 			add_action( 'admin_head', array( $this, 'add_remove_submenu' ) );
 			// Filter to add Settings link on Plugins page.
-			add_filter( 'plugin_action_links_' . plugin_basename( DISCOUNT_DEALS_PLUGIN_FILE ), array( $this, 'plugin_action_links' ) );
+			add_filter(
+				'plugin_action_links_' . plugin_basename( DISCOUNT_DEALS_PLUGIN_FILE ),
+				array(
+					$this,
+					'plugin_action_links',
+				)
+			);
 			add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
+			add_action( 'admin_init', array( $this, 'maybe_save_workflow' ) );
+
+			$this->include_required_files();
+			Discount_Deals_Admin_Ajax::init();
 
 		}//end __construct()
+
+		/**
+		 * Save the Workflow into DB
+		 *
+		 * @return array|false|int|string
+		 */
+		public function maybe_save_workflow() {
+			if ( current_user_can( 'manage_woocommerce' ) ) {
+				$save_workflow = discount_deals_get_request_data( 'save_discount_deals_workflow' );
+				if ( ! $save_workflow ) {
+					return false;
+				}
+				$workflow_nonce = discount_deals_get_request_data( 'discount-deals-workflow-nonce' );
+				if ( ! wp_verify_nonce( $workflow_nonce, 'discount-deals-workflow' ) ) {
+					return false;
+				}
+				$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array(), false );
+				$rules       = isset( $posted_data['rule_options'] ) ? wc_clean( $posted_data['rule_options'] ) : array();
+				$id          = isset( $posted_data['dd_id'] ) ? wc_clean( $posted_data['dd_id'] ) : 0;
+				$type        = isset( $posted_data['dd_type'] ) ? wc_clean( $posted_data['dd_type'] ) : '';
+				$title       = isset( $posted_data['dd_title'] ) ? wc_clean( $posted_data['dd_title'] ) : '';
+				if ( ! empty( $type ) ) {
+					$workflow_data = array(
+						'dd_title'     => $title,
+						'dd_type'      => $type,
+						'dd_rules'     => maybe_serialize( $rules ),
+						'dd_meta'      => maybe_serialize( array() ),
+						'dd_discounts' => maybe_serialize( array() ),
+						'dd_status'    => 1,
+						'dd_exclusive' => 1,
+						'dd_user_id'   => get_current_user_id(),
+					);
+					$workflow_db   = new Discount_Deals_Workflow_DB();
+					if ( empty( $id ) ) {
+						$id = $workflow_db->insert_workflow( $workflow_data );
+					} else {
+						$workflow = Discount_Deals_Workflow::get_instance( $id );
+						if ( $workflow ) {
+							$workflow_updated = $workflow_db->update_workflow( $id, $workflow_data );
+							if ( ! $workflow_updated ) {
+								// Return false if update failed.
+								return false;
+							}
+						}
+					}
+					$redirect_url = menu_page_url( 'discount-deals', false );
+					$redirect_url = add_query_arg(
+						array(
+							'workflow' => $id,
+							'action'   => 'edit',
+						),
+						$redirect_url
+					);
+					wp_safe_redirect( $redirect_url );
+
+					return $id;
+				}
+
+				return false;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Include required files of the admin
+		 *
+		 * @return void
+		 */
+		public function include_required_files() {
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin-ajax.php';
+		}
 
 
 		/**
@@ -66,7 +148,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		public function enqueue_styles() {
 
 			wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/discount-deals-admin.css', array(), $this->version, 'all' );
-
+			wp_enqueue_style( 'jquery-ui-style' );
 		}//end enqueue_styles()
 
 
@@ -76,10 +158,132 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function enqueue_scripts() {
+			$action = discount_deals_get_data( 'action', 'list' );
 
-			wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin.js', array( 'jquery' ), $this->version, false );
+			if ( 'new' != $action && 'edit' != $action ) {
+				// Don't load meta boxes if it is not an add/edit workflow screen.
+				return;
+			}
+			$workflow_id = intval( discount_deals_get_data( 'workflow', 0 ) );
+			if ( 'edit' === $action && 0 < $workflow_id ) {
+				$this->_workflow = Discount_Deals_Workflow::get_instance( $workflow_id );
+			}
+			wp_enqueue_script( 'wc-enhanced-select' );
+			wp_enqueue_script( 'jquery-tiptip' );
+			wp_enqueue_script( 'jquery-ui-datepicker' );
+			wp_enqueue_script( 'jquery-ui-sortable' );
+			wp_enqueue_script( 'jquery-ui-autocomplete' );
+
+			wp_enqueue_script(
+				$this->plugin_slug,
+				plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin.js',
+				array(
+					'jquery',
+					'wp-util',
+					'backbone',
+					'underscore',
+				),
+				$this->version
+			);
+			wp_localize_script( $this->plugin_slug, 'discount_deals_workflow_localize_script', $this->get_js_data() );
 
 		}//end enqueue_scripts()
+
+		/**
+		 * Get workflow
+		 *
+		 * @return Discount_Deals_Workflow
+		 */
+		public function get_workflow() {
+			return $this->_workflow;
+		}
+
+		/**
+		 * Data to localize
+		 *
+		 * @return array
+		 */
+		public function get_js_data() {
+			$rule_options     = array();
+			$discount_options = false;
+			$workflow         = $this->get_workflow();
+			if ( $workflow ) {
+				$rule_options     = $workflow->get_rules();
+				$discount_options = self::get_discount_data( $workflow->get_discount() );
+				foreach ( $rule_options as &$rule_group ) {
+					foreach ( $rule_group as &$rule ) {
+						if ( ! isset( $rule['name'] ) ) {
+							continue;
+						}
+						$rule_object = Discount_Deals_Workflows::get_rule_type( $rule['name'] );
+
+						if ( ! $rule_object ) {
+							continue;
+						}
+
+						if ( 'object' == $rule_object->type ) {
+							$a = 1;
+						} else {
+							// Format the rule value.
+							$rule['value'] = $rule_object->format_value( $rule['value'] );
+						}
+
+						if ( 'select' == $rule_object->type ) {
+							$a = 1;
+						}
+					}
+				}
+			}
+
+			return array(
+				'id'            => 1,
+				'is_new'        => ( ! $workflow ),
+				'discount_type' => $discount_options,
+				'rule_options'  => $rule_options,
+				'all_rules'     => self::get_rules_data(),
+			);
+		}
+
+		/**
+		 * Get discount data
+		 *
+		 * @param Discount_Deals_Workflow_Discount $discount discount of the workflow.
+		 *
+		 * @return array|false
+		 */
+		public static function get_discount_data( $discount ) {
+			$data = array();
+
+			if ( ! $discount ) {
+				return false;
+			}
+
+			$data['title']               = $discount->get_title();
+			$data['name']                = $discount->get_name();
+			$data['description']         = $discount->get_description();
+			$data['supplied_data_items'] = array_values( $discount->get_supplied_data_items() );
+
+			return $data;
+		}
+
+		/**
+		 * Get all the rule's data for admin
+		 *
+		 * @return array
+		 */
+		public static function get_rules_data() {
+			$data = array();
+
+			foreach ( Discount_Deals_Workflows::get_all_rules() as $rule ) {
+				$rule_data = (array) $rule;
+				if ( is_callable( array( $rule, 'get_search_ajax_action' ) ) ) {
+					$rule_data['ajax_action'] = $rule->get_search_ajax_action();
+				}
+				$data[ $rule->get_name() ] = $rule_data;
+			}
+
+			return $data;
+		}
 
 		/**
 		 * Admin menus
@@ -118,8 +322,22 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 
 			add_action( "load-$admin_page_hook", array( $this, 'register_meta_boxes' ) );
 			add_action( "admin_footer-$admin_page_hook", array( $this, 'print_script_in_footer' ) );
+			add_filter( 'woocommerce_screen_ids', array( $this, 'set_wc_screen_ids' ) );
 
 		}//end add_admin_menu()
+
+		/**
+		 * Add our screen id to woocommerce screens
+		 *
+		 * @param array $screen WooCommerce Screens.
+		 *
+		 * @return array
+		 */
+		public function set_wc_screen_ids( $screen ) {
+			$screen[] = 'admin_page_discount-deals';
+
+			return $screen;
+		}
 
 		/**
 		 * Print admin meta box init scripts
@@ -155,6 +373,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				return;
 			}
 
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/discount-deals-meta-box-functions.php';
+
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 			add_filter( 'screen_options_show_screen', array( $this, 'remove_screen_options' ) );
 
@@ -181,37 +401,37 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 */
 		public function add_meta_boxes() {
 			add_meta_box(
-				'discount_deals_workflow_discounts',
+				'discount_deals_workflow_discounts_box',
 				__( 'Discounts', 'discount-deals' ),
 				array(
 					$this,
 					'discounts_meta_box',
 				),
-				'page_discount-deals',
+				'admin_page_discount-deals',
 				'normal',
 				'high'
 			);
 
 			add_meta_box(
-				'discount_deals_workflow_rules',
+				'discount_deals_workflow_rules_box',
 				__( 'Rules (Optional)', 'discount-deals' ),
 				array(
 					$this,
 					'rules_meta_box',
 				),
-				'page_discount-deals',
+				'admin_page_discount-deals',
 				'normal',
 				'core'
 			);
 
 			add_meta_box(
-				'discount_deals_workflow_save',
+				'discount_deals_workflow_save_box',
 				__( 'Save', 'discount-deals' ),
 				array(
 					$this,
 					'save_meta_box',
 				),
-				'page_discount-deals',
+				'admin_page_discount-deals',
 				'side'
 			);
 		}
@@ -222,7 +442,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function discounts_meta_box() {
-			echo 'discounts';
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-discounts.php';
 		}
 
 		/**
@@ -231,7 +451,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function rules_meta_box() {
-			echo 'rules̵';
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-rules.php';
 		}
 
 		/**
@@ -260,7 +480,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function add_remove_submenu() {
-			remove_submenu_page( 'woocommerce', 'discount-deals-welcome-doc' );
+			remove_submenu_page( 'discount-deals', 'discount-deals-welcome-doc' );
 		}//end add_remove_submenu()
 
 
@@ -268,6 +488,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * Function to add more action on plugins page
 		 *
 		 * @param array $links Existing links.
+		 *
 		 * @return array $links
 		 */
 		public function plugin_action_links( $links ) {
@@ -300,12 +521,8 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function discount_deals_main_page() {
-			$action      = discount_deals_get_data( 'action', 'list' );
-			$workflow_id = intval( discount_deals_get_data( 'workflow', 0 ) );
-			if ( 'new' === $action ) {
-				require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/discount-deals-admin-workflow-add-or-edit.php';
-			} elseif ( 'edit' === $action && 0 < $workflow_id ) {
-				$this->_workflow = Discount_Deals_Workflow::get_instance( $workflow_id );
+			$action = discount_deals_get_data( 'action', 'list' );
+			if ( 'new' == $action || 'edit' == $action ) {
 				require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/discount-deals-admin-workflow-add-or-edit.php';
 			} else {
 				require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/discount-deals-admin-workflows-list-table.php';
@@ -336,7 +553,6 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				exit;
 			}
 		}//end plugin_activation_redirect()
-
 
 
 	}//end class

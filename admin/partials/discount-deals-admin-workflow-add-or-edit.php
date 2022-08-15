@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
-$workflow           = $this->_workflow;
+$workflow           = $this->get_workflow();
 $workflow_id        = discount_deals_get_data( 'workflow', 0 );
 $workflows_page_url = menu_page_url( 'discount-deals', false );
 
@@ -30,7 +30,7 @@ if ( 'new' === $workflow_action ) {
 			<?php echo esc_html( $workflow_title ); ?>
 		</h1>
 		<form class="mt-5" method="post" action="#">
-			<input type="hidden" id="workflow_id" name="workflow_id"
+			<input type="hidden" id="discount_deals_workflow_dd_id" name="discount_deals_workflow[dd_id]"
 				   value="<?php echo ! empty( $workflow_id ) ? esc_attr( $workflow_id ) : ''; ?>">
 			<?php
 			// Workflow nonce.
@@ -41,12 +41,12 @@ if ( 'new' === $workflow_action ) {
 			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 			?>
 			<div id="poststuff">
-				<div id="post-body" class="metabox-holder columns-2">
+				<div id="post-body" class="meta-box-holder columns-2">
 					<div id="post-body-content">
 						<div id="titlediv">
 							<div id="titlewrap">
 								<label for="title">
-									<input type="text" name="ig_es_workflow_data[dd_title]" size="30"
+									<input type="text" name="discount_deals_workflow[dd_title]" size="30"
 										   value="<?php echo esc_attr( $workflow ? $workflow->get_title() : '' ); ?>"
 										   id="title"
 										   spellcheck="true"
@@ -59,13 +59,13 @@ if ( 'new' === $workflow_action ) {
 					</div>
 					<div id="postbox-container-1" class="postbox-container">
 						<?php
-						do_meta_boxes( 'page_discount-deals', 'side', null );
+						do_meta_boxes( 'admin_page_discount-deals', 'side', null );
 						?>
 					</div>
 					<div id="postbox-container-2" class="postbox-container">
 						<?php
-						do_meta_boxes( 'page_discount-deals', 'normal', null );
-						do_meta_boxes( 'page_discount-deals', 'advanced', null );
+						do_meta_boxes( 'admin_page_discount-deals', 'normal', null );
+						do_meta_boxes( 'admin_page_discount-deals', 'advanced', null );
 						?>
 					</div>
 				</div>

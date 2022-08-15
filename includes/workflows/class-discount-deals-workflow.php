@@ -79,9 +79,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * Workflow discounts
 	 *
-	 * @var Discount_Deals_Workflow_Discount[]
+	 * @var Discount_Deals_Workflow_Discount
 	 */
-	private $discounts;
+	private $discount = false;
 
 	/**
 	 * Workflow data abstract class object
@@ -106,7 +106,7 @@ class Discount_Deals_Workflow {
 			$this->set_title( $workflow->dd_title );
 			$this->set_type( $workflow->dd_type );
 			$this->set_rules( maybe_unserialize( (string) $workflow->dd_rules ) );
-			$this->set_discounts( maybe_unserialize( (string) $workflow->dd_discounts ) );
+			$this->set_discount( maybe_unserialize( (string) $workflow->dd_discounts ) );
 			$this->set_meta( maybe_unserialize( (string) $workflow->dd_meta ) );
 			$this->set_status( $workflow->dd_status );
 			$this->set_exclusive( $workflow->dd_exclusive );
@@ -303,44 +303,29 @@ class Discount_Deals_Workflow {
 
 
 	/**
-	 * Returns the saved actions with their data
-	 *
-	 * @param float $number Number.
-	 *
-	 * @return Discount_Deals_Workflow_Discount|false
-	 */
-	public function get_discount( $number = 0 ) {
-
-		$discounts = $this->get_discounts();
-
-		if ( ! isset( $discounts[ $number ] ) ) {
-			return false;
-		}
-
-		return $discounts[ $number ];
-	}//end get_discount()
-
-
-	/**
 	 * Get all actions in current workflow.
 	 *
-	 * @return Discount_Deals_Workflow_Discount[]
+	 * @return Discount_Deals_Workflow_Discount | false
 	 */
-	public function get_discounts() {
-		return array();
-	}//end get_discounts()
+	public function get_discount() {
+		return $this->discount;
+	}//end get_discount()
 
 
 	/**
 	 * Set discounts
 	 *
-	 * @param Discount_Deals_Workflow_Discount[] $discounts Discounts.
+	 * @param array $discount Discounts.
 	 *
 	 * @return void
 	 */
-	public function set_discounts( $discounts = array() ) {
-		$this->discounts = $discounts;
-	}//end set_discounts()
+	public function set_discount( $discount = array() ) {
+		$all_discounts = Discount_Deals_Workflows::get_all_discounts();
+		$discount_type = $this->get_type();
+		if ( array_key_exists( $discount_type, $all_discounts ) ) {
+			$this->discount = $all_discounts[ $discount_type ];
+		}
+	}//end set_discount()
 
 
 	/**
@@ -549,7 +534,7 @@ class Discount_Deals_Workflow {
 	 */
 	public function has_discount( $discount_name = '' ) {
 		$has_action = false;
-		$discounts  = $this->get_discounts();
+		$discounts  = $this->get_discount();
 
 		if ( ! empty( $discounts ) ) {
 			foreach ( $discounts as $discount ) {

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
-$workflow = $this->_workflow;
+$workflow = $this->get_workflow();
 ?>
 <div class="submitbox" id="submitpost">
 	<div class="wide">
@@ -30,7 +30,11 @@ $workflow = $this->_workflow;
 			<?php
 		}
 		?>
-		<button type="submit" id="publish" name="save_workflow" value="save"
-				class="button button-primary"><?php echo esc_html__( 'Save', 'discount-deals' ); ?></button>
+		<div class="discount-deals-meta-box-footer">
+			<button type="submit" id="publish" name="save_discount_deals_workflow" value="save"
+					class="button button-primary">
+				<?php echo esc_html__( 'Save', 'discount-deals' ); ?>
+			</button>
+		</div>
 	</div>
 </div>

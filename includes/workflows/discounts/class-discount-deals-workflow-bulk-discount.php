@@ -21,13 +21,14 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Bulk Discount', 'discount-deals' ) );
+		$this->set_description( __( 'Give flat or percentage discount for products with high quantity.', 'discount-deals' ) );
 	}
 
 	/**
 	 * Set valid data items type of the discount
 	 */
 	public function set_supplied_data_items() {
-		$this->supplied_data_items = array();
+		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
 	}
 
 	/**
