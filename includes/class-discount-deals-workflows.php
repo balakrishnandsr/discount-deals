@@ -54,12 +54,20 @@ class Discount_Deals_Workflows {
 	 */
 	public function load_rules() {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-string-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-select-abstract.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-searchable-select-abstract.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-preloaded-select-abstract.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-product-select-abstract.php';
+
+		// Actual rules.
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-shop-date-time.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-account-created-date.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-city.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-company.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-is-guest.php';
 	}
 
 	/**
@@ -120,7 +128,14 @@ class Discount_Deals_Workflows {
 	 */
 	public static function get_all_rules() {
 		$valid_rules = array(
-			'shop_date_time' => 'Discount_Deals_Workflow_Rule_Shop_Date_Time',
+			// Customer.
+			'customer_is_guest'             => 'Discount_Deals_Workflow_Rule_Customer_Is_Guest',
+			'customer_account_created_date' => 'Discount_Deals_Workflow_Rule_Customer_Account_Created_Date',
+			'customer_city'                 => 'Discount_Deals_Workflow_Rule_Customer_City',
+			'customer_company'              => 'Discount_Deals_Workflow_Rule_Customer_Company',
+
+			// Shop.
+			'shop_date_time'                => 'Discount_Deals_Workflow_Rule_Shop_Date_Time',
 		);
 		if ( count( self::$_rules ) < count( $valid_rules ) ) {
 			foreach ( $valid_rules as $rule_name => $class_name ) {

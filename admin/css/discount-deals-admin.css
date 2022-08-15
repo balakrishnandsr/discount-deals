@@ -163,3 +163,9 @@
 .discount-deals-rule__fields,.discount-deals-rule__buttons {
 	margin: 1em 0;
 }
+
+.discount-deals-rule__remove{
+	background-color: red;
+	color: white;
+	border-color: red;
+}

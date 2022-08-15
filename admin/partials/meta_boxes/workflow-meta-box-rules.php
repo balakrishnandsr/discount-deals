@@ -124,11 +124,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</div>
 						<# } #>
 						<# if( data.rule.object.has_is_future_comparison === true || data.rule.object.has_is_past_comparison === true ) { #>
-							<div class="field-cols discount-deals-hidden" data-discount-deals-compare="is_in_the_next is_not_in_the_next is_in_the_last is_not_in_the_last">
-								<div class="col-1">
+							<div class="discount-deals-grid discount-deals-hidden" data-discount-deals-compare="is_in_the_next is_not_in_the_next is_in_the_last is_not_in_the_last">
+								<div class="discount-deals-col-6">
 									<input type="number" step="1" min="1" name="{{ data.field_name_base }}[value][timeframe]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-timeframe" required/>
 								</div>
-								<div class="col-2">
+								<div class="discount-deals-col-6">
 									<select name="{{ data.field_name_base }}[value][measure]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-measure" required>
 										<# _.each( data.rule.object.select_choices, function( option, key ) { #>
 										<option value="{{ key }}">{{{ option }}}</option>
@@ -148,7 +148,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<button type="button" class="discount-deals-add-rule discount-deals-rule__add button">
 				<?php esc_html_e( 'and', 'discount-deals' ); ?>
 			</button>
-			<button type="button" class="discount-deals-remove-rule discount-deals-rule__remove button">
+			<button type="button" class="discount-deals-remove-rule button discount-deals-rule__remove">
 				X
 			</button>
 		</div>
