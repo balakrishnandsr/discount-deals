@@ -219,7 +219,6 @@ function discount_deals_select( $field ) {
 	}
 
 	$tooltip     = ! empty( $field['description'] ) && false !== $field['desc_tip'] ? $field['description'] : '';
-	$description = ! empty( $field['description'] ) && false === $field['desc_tip'] ? $field['description'] : '';
 	?>
 	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); // WPCS: XSS ok. ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">

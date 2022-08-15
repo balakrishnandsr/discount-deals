@@ -48,6 +48,34 @@ class Discount_Deals_Workflows {
 	}
 
 	/**
+	 * Function to handle load rules
+	 *
+	 * @return void
+	 */
+	public function load_rules() {
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-select-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-searchable-select-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-preloaded-select-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-product-select-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-shop-date-time.php';
+	}
+
+	/**
+	 * Get discount class by discount name
+	 *
+	 * @param string $discount_type Discount type name.
+	 *
+	 * @return Discount_Deals_Workflow_Discount
+	 */
+	public static function get_discount_type( $discount_type ) {
+		$all_discounts = self::get_all_discounts();
+
+		return $all_discounts[ $discount_type ];
+	}
+
+	/**
 	 * Get all discounts
 	 *
 	 * @return Discount_Deals_Workflow_Discount[]
@@ -55,7 +83,7 @@ class Discount_Deals_Workflows {
 	public static function get_all_discounts() {
 		$valid_discounts = array(
 			'simple_discount' => 'Discount_Deals_Workflow_Simple_Discount',
-			'bulk_discount' => 'Discount_Deals_Workflow_Bulk_Discount',
+			'bulk_discount'   => 'Discount_Deals_Workflow_Bulk_Discount',
 		);
 		if ( count( self::$_discounts ) < count( $valid_discounts ) ) {
 			foreach ( $valid_discounts as $discount_name => $class_name ) {
@@ -70,6 +98,19 @@ class Discount_Deals_Workflows {
 		}
 
 		return self::$_discounts;
+	}
+
+	/**
+	 * Get discount class by discount name
+	 *
+	 * @param string $rule_type Discount type name.
+	 *
+	 * @return Discount_Deals_Workflow_Rule_Abstract
+	 */
+	public static function get_rule_type( $rule_type ) {
+		$all_discounts = self::get_all_rules();
+
+		return $all_discounts[ $rule_type ];
 	}
 
 	/**
@@ -97,19 +138,6 @@ class Discount_Deals_Workflows {
 	}
 
 	/**
-	 * Get discount class by discount name
-	 *
-	 * @param string $discount_type Discount type name.
-	 *
-	 * @return Discount_Deals_Workflow_Discount
-	 */
-	public static function get_discount_type( $discount_type ) {
-		$all_discounts = self::get_all_discounts();
-
-		return $all_discounts[ $discount_type ];
-	}
-
-	/**
 	 * Get data for discount
 	 *
 	 * @param Discount_Deals_Workflow_Discount $discount Discount class.
@@ -129,21 +157,6 @@ class Discount_Deals_Workflows {
 		$data['supplied_data_items'] = array_values( $discount->get_supplied_data_items() );
 
 		return $data;
-	}
-
-	/**
-	 * Function to handle load rules
-	 *
-	 * @return void
-	 */
-	public function load_rules() {
-		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php';
-		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-select-abstract.php';
-		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-searchable-select-abstract.php';
-		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php';
-		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-preloaded-select-abstract.php';
-		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-product-select-abstract.php';
-		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-shop-date-time.php';
 	}
 
 }//end class

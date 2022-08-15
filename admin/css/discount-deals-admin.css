@@ -2,7 +2,7 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
-#post-body #discount_deals_workflow_save_box.postbox .inside, #discount_deals_workflow_discounts_box.postbox .inside {
+#post-body #discount_deals_workflow_save_box.postbox .inside, #discount_deals_workflow_discounts_box.postbox .inside, #discount_deals_workflow_rules_box.postbox .inside {
 	padding: 0;
 	margin: 0;
 }
@@ -65,6 +65,13 @@
 	display: none !important
 }
 
+.discount-deals-meta-box-footer {
+	padding: 9px 15px;
+	background: #f5f5f5;
+	border-top: 1px solid #e1e1e1;
+	text-align: right;
+}
+
 .discount-deals-rule-group__or {
 	margin: 26px -20px 23px;
 	border-bottom: 1px solid #e1e1e1;
@@ -97,217 +104,62 @@
 .discount-deals-rule {
 	width: 100%;
 	box-sizing: border-box;
-	position: relative;
-	padding: 7px 0;
 }
 
-@media (min-width: 1200px) {
-	.discount-deals-rule {
-		padding-right: 79px;
-	}
+.discount-deals-rule-groups {
+	padding: 10px;
 }
 
-.discount-deals-rule__buttons {
-	position: absolute;
-	bottom: 4px;
-	right: -1px;
+.discount-deals-grid {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-gap: 5px;
 }
 
-@media (min-width: 783px) {
-	.discount-deals-rule__buttons {
-		bottom: 8px;
-	}
+.discount-deals-grid div {
+	text-align: center;
 }
 
-@media (min-width: 1200px) {
-	.discount-deals-rule__buttons {
-		top: 8px;
-		bottom: auto;
-	}
+.discount-deals-col-1 {
+	grid-column: auto/span 1;
 }
 
-.discount-deals-rule--type-select .discount-deals-rule__buttons {
-	min-height: 46px;
+.discount-deals-col-2 {
+	grid-column: auto/span 2;
 }
 
-@media (min-width: 783px) {
-	.discount-deals-rule--type-select .discount-deals-rule__buttons {
-		min-height: 34px;
-	}
+.discount-deals-col-3 {
+	grid-column: auto/span 3;
 }
 
-.discount-deals-rule__add {
-	float: left;
-	padding: 0 8px 1px;
+.discount-deals-col-6 {
+	grid-column: auto/span 6;
 }
 
-.discount-deals-rule__remove {
-	display: block;
-	float: left;
-	position: relative;
-	top: 9px;
-	width: 23px;
-	height: 23px;
-	margin-left: 6px;
-	border: 1px solid #c5c5c5;
-	border-radius: 50%;
-	background: transparent;
-	cursor: pointer;
+.discount-deals-col-7 {
+	grid-column: auto/span 7;
 }
 
-.discount-deals-rule__remove:after {
-	display: block;
-	width: 11px;
-	height: 1px;
-	position: absolute;
-	top: 10px;
-	left: 5px;
-	background: #c5c5c5;
+.discount-deals-col-8 {
+	grid-column: auto/span 8;
 }
 
-.discount-deals-rule__remove:hover {
-	border-color: #dc3232;
-	background: #f55e4f;
+.discount-deals-col-10 {
+	grid-column: auto/span 10;
 }
 
-.discount-deals-rule__remove:hover:after {
-	background: #fff;
+.discount-deals-col-11 {
+	grid-column: auto/span 11;
 }
 
-@media (min-width: 783px) {
-	.discount-deals-rule__remove {
-		top: 4px;
-	}
+.discount-deals-row-2 {
+	grid-row: auto/span 2;
 }
 
-.discount-deals-rule__fields {
+.discount-deals-field {
 	width: 100%;
 }
 
-.discount-deals-rule__fields .discount-deals-rule-select-container {
-	width: 50%;
-	padding-left: 0;
-}
-
-.discount-deals-rule__fields .discount-deals-rule-select-container select {
-	width: 100%;
-}
-
-.discount-deals-rule__fields .discount-deals-rule-field-compare {
-	width: 50%;
-}
-
-.discount-deals-rule__fields .discount-deals-rule-field-value {
-	position: relative;
-	width: 100%;
-	padding-left: 0;
-	padding-top: 8px;
-	padding-right: 94px;
-}
-
-.discount-deals-rule__fields .discount-deals-rule-field-value .discount-deals-loader {
-	position: absolute;
-	top: 14px;
-	left: 20px;
-}
-
-.discount-deals-rule__fields .discount-deals-rule-field-value select, .discount-deals-rule__fields .discount-deals-rule-field-value .select2-container {
-	width: 100% !important;
-}
-
-.discount-deals-rule__fields .discount-deals-rule-field-value select .select2-search__field, .discount-deals-rule__fields .discount-deals-rule-field-value .select2-container .select2-search__field {
-	max-width: 50px;
-}
-
-@media (min-width: 783px) {
-	.discount-deals-rule__fields .discount-deals-rule-field-value {
-		padding-right: 85px;
-	}
-}
-
-@media (min-width: 1200px) {
-	.discount-deals-rule__fields .discount-deals-rule-select-container {
-		width: 35%;
-	}
-
-	.discount-deals-rule__fields .discount-deals-rule-field-compare {
-		width: 20%;
-	}
-
-	.discount-deals-rule__fields .discount-deals-rule-field-value {
-		padding: 0 6px;
-		width: 45%;
-	}
-}
-
-@media (min-width: 1500px) {
-	.discount-deals-rule__fields .discount-deals-rule-select-container {
-		width: 30%;
-	}
-
-	.discount-deals-rule__fields .discount-deals-rule-field-compare {
-		width: 18%;
-	}
-
-	.discount-deals-rule__fields .discount-deals-rule-field-value {
-		width: 52%;
-	}
-}
-
-@media (min-width: 1760px) {
-	.discount-deals-rule__fields .discount-deals-rule-select-container {
-		width: 26%;
-	}
-
-	.discount-deals-rule__fields .discount-deals-rule-field-compare {
-		width: 16%;
-	}
-
-	.discount-deals-rule__fields .discount-deals-rule-field-value {
-		width: 58%;
-	}
-}
-
-.discount-deals-rule__field-container {
-	float: left;
-	width: 100px;
-	box-sizing: border-box;
-	padding: 0 6px;
-}
-
-.discount-deals-rule--type-meta .js-rule-value-field {
-	width: 48%;
-	float: left;
-}
-
-@media (min-width: 1500px) {
-	.discount-deals-rule--type-meta .js-rule-value-field {
-		width: 48.7%;
-	}
-}
-
-.discount-deals-rule--type-meta .js-rule-value-field:last-child {
-	float: right;
-}
-
-.discount-deals-rule--type-meta.discount-deals-rule--compare-blank .js-rule-value-field, .discount-deals-rule--type-meta.discount-deals-rule--compare-not_blank .js-rule-value-field {
-	width: 100%;
-}
-
-.discount-deals-rule--type-meta.discount-deals-rule--compare-blank .js-rule-value-field:last-child, .discount-deals-rule--type-meta.discount-deals-rule--compare-not_blank .js-rule-value-field:last-child {
-	display: none;
-}
-
-.discount-deals-rule input.discount-deals-field {
-	height: 28px;
-}
-
-.discount-deals-missing-rule {
-	padding: 8px 9px;
-	margin: 7px 0;
-	border: 1px solid #dc3232;
-	border-radius: 4px;
-	color: #dc3232;
-	font-weight: 500;
-	line-height: 1.3;
+.discount-deals-rule__fields,.discount-deals-rule__buttons {
+	margin: 1em 0;
 }

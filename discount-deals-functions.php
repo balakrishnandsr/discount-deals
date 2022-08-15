@@ -18,9 +18,14 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_data( $key, $default ) {
+	function discount_deals_get_data( $key, $default = null, $clean = true ) {
 		if ( isset( $_GET[ $key ] ) ) {
-			return sanitize_text_field( wp_unslash( $_GET[ $key ] ) );
+			$data = wp_unslash( $_GET[ $key ] );
+			if ( $clean ) {
+				return sanitize_text_field( $data );
+			}
+
+			return $data;
 		}
 
 		return $default;
@@ -37,9 +42,14 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_request_data( $key, $default ) {
+	function discount_deals_get_request_data( $key, $default = null, $clean = true ) {
 		if ( isset( $_REQUEST[ $key ] ) ) {
-			return sanitize_text_field( wp_unslash( $_REQUEST[ $key ] ) );
+			$data = wp_unslash( $_REQUEST[ $key ] );
+			if ( $clean ) {
+				return sanitize_text_field( $data );
+			}
+
+			return $data;
 		}
 
 		return $default;
@@ -55,10 +65,14 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_post_data( $key, $default ) {
-
+	function discount_deals_get_post_data( $key, $default = null, $clean = true ) {
 		if ( isset( $_REQUEST[ $key ] ) ) {
-			return sanitize_text_field( wp_unslash( $_REQUEST[ $key ] ) );
+			$data = wp_unslash( $_REQUEST[ $key ] );
+			if ( $clean ) {
+				return sanitize_text_field( $data );
+			}
+
+			return $data;
 		}
 
 		return $default;

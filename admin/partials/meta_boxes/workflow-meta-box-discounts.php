@@ -8,9 +8,15 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+/**
+ * Variable declaration
+ *
+ * @var Discount_Deals_Admin $this Class variable.
+ */
+$workflow = $this->get_workflow();
 ?>
 <table class="discount-deals-table">
-	<tbody>
+    <tbody>
 	<?php
 	$all_discount_types       = Discount_Deals_Workflows::get_all_discounts();
 	$all_valid_discount_types = array(
@@ -23,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		array(
 			'id'                => 'discount_deals_workflow_type',
 			'name'              => 'discount_deals_workflow[dd_type]',
-			'value'             => '',
+			'value'             => ( $workflow ) ? $workflow->get_discount()->get_name() : '',
 			'label'             => __( 'Discount type', 'discount-deals' ),
 			'options'           => $all_valid_discount_types,
 			'desc_tip'          => true,
@@ -33,5 +39,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 		)
 	)
 	?>
-	</tbody>
+    </tbody>
 </table>
