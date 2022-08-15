@@ -615,12 +615,13 @@ class Discount_Deals_Workflow {
 	 * May have product discount.
 	 *
 	 * @param object $product Product.
+     * @param float $price Price used for when enable subsequent.
 	 * @return integer|void
 	 */
-	public function may_have_product_discount( $product ) {
+	public function may_have_product_discount( $product, $price ) {
 		$discounts = $this->get_discounts();
 		if ( is_a( $discounts, 'Discount_Deals_Workflow_Discount' ) ) {
-			return $discounts->calculate_discount( $product );
+			return $discounts->calculate_discount( $product, $price );
 		}
 		return 0;
 	}//end may_have_product_discount()

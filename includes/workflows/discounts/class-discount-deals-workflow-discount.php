@@ -110,7 +110,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 *
 	 * @return void
 	 */
-	abstract public function calculate_discount( $data_item );
+	abstract public function calculate_discount( $data_item, $subsequent_price );
 
 }//end class
 
