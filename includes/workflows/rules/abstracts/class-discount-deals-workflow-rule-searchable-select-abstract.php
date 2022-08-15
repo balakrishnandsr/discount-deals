@@ -10,7 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Searchable_Select_Abstract' ) ) {
-	abstract class Discount_Deals_Workflow_Rule_Searchable_Select_Abstract extends Discount_Deals_Workflow_Rule_Select {
+	/**
+	 * Searchable select rule
+	 */
+	abstract class Discount_Deals_Workflow_Rule_Searchable_Select_Abstract extends Discount_Deals_Workflow_Rule_Select_Abstract {
 		/**
 		 * The rule type.
 		 *
@@ -55,7 +58,7 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Searchable_Select_Abstract' )
 		/**
 		 * Override this method to alter how saved values are displayed.
 		 *
-		 * @param string $value
+		 * @param string $value Value.
 		 *
 		 * @return string
 		 */

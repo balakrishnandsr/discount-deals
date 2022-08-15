@@ -174,12 +174,17 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 			wp_enqueue_script( 'jquery-ui-sortable' );
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
-			wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin.js', array(
-				'jquery',
-				'wp-util',
-				'backbone',
-				'underscore'
-			), $this->version );
+			wp_enqueue_script(
+				$this->plugin_slug,
+				plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin.js',
+				array(
+					'jquery',
+					'wp-util',
+					'backbone',
+					'underscore',
+				),
+				$this->version
+			);
 			wp_localize_script( $this->plugin_slug, 'discount_deals_workflow_localize_script', $this->get_js_data() );
 
 		}//end enqueue_scripts()
@@ -194,10 +199,12 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		}
 
 		/**
+		 * Data to localize
+		 *
 		 * @return array
 		 */
-		function get_js_data() {
-			$rule_options     = [];
+		public function get_js_data() {
+			$rule_options     = array();
 			$discount_options = false;
 			$workflow         = $this->get_workflow();
 			if ( $workflow ) {
@@ -210,30 +217,31 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 						}
 						$rule_object = Discount_Deals_Workflows::get_rule_type( $rule['name'] );
 
-
 						if ( ! $rule_object ) {
 							continue;
 						}
 
-						if ( $rule_object->type === 'object' ) {
+						if ( 'object' == $rule_object->type ) {
+							$a = 1;
 						} else {
-							// Format the rule value
+							// Format the rule value.
 							$rule['value'] = $rule_object->format_value( $rule['value'] );
 						}
 
-						if ( $rule_object->type === 'select' ) {
+						if ( 'select' == $rule_object->type ) {
+							$a = 1;
 						}
 					}
 				}
 			}
 
-			return [
+			return array(
 				'id'            => 1,
 				'is_new'        => ( ! $workflow ),
 				'discount_type' => $discount_options,
 				'rule_options'  => $rule_options,
 				'all_rules'     => self::get_rules_data(),
-			];
+			);
 		}
 
 		/**
@@ -244,7 +252,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return array|false
 		 */
 		public static function get_discount_data( $discount ) {
-			$data = [];
+			$data = array();
 
 			if ( ! $discount ) {
 				return false;
@@ -264,11 +272,11 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return array
 		 */
 		public static function get_rules_data() {
-			$data = [];
+			$data = array();
 
 			foreach ( Discount_Deals_Workflows::get_all_rules() as $rule ) {
 				$rule_data = (array) $rule;
-				if ( is_callable( [ $rule, 'get_search_ajax_action' ] ) ) {
+				if ( is_callable( array( $rule, 'get_search_ajax_action' ) ) ) {
 					$rule_data['ajax_action'] = $rule->get_search_ajax_action();
 				}
 				$data[ $rule->get_name() ] = $rule_data;
@@ -344,11 +352,11 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				return;
 			}
 			?>
-            <script>
-                jQuery(document).ready(function () {
-                    postboxes.add_postbox_toggles(pagenow);
-                });
-            </script>
+			<script>
+				jQuery(document).ready(function () {
+					postboxes.add_postbox_toggles(pagenow);
+				});
+			</script>
 			<?php
 		}
 

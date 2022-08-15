@@ -10,7 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Product_Select_Abstract' ) ) {
-	abstract class Discount_Deals_Workflow_Rule_Product_Select_Abstract extends Discount_Deals_Workflow_Rule_Searchable_Select_Abstract {
+	/**
+	 * Product select rule
+	 */
+	abstract class Discount_Deals_Workflow_Rule_Product_Select_Abstract extends Discount_Deals_Workflow_Rule_Searchable_Select_Abstract_Abstract {
 		/**
 		 * The CSS class to use on the search field.
 		 *
@@ -30,7 +33,7 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Product_Select_Abstract' ) ) 
 		/**
 		 * Display product name on frontend.
 		 *
-		 * @param int $value
+		 * @param int $value Product ID.
 		 *
 		 * @return string|int
 		 */

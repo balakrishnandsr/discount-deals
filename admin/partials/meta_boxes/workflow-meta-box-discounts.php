@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $workflow = $this->get_workflow();
 ?>
 <table class="discount-deals-table">
-    <tbody>
+	<tbody>
 	<?php
 	$all_discount_types       = Discount_Deals_Workflows::get_all_discounts();
 	$all_valid_discount_types = array(
@@ -39,5 +39,5 @@ $workflow = $this->get_workflow();
 		)
 	)
 	?>
-    </tbody>
+	</tbody>
 </table>

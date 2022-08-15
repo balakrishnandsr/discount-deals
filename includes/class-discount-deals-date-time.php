@@ -17,8 +17,8 @@ class Discount_Deals_Date_Time extends DateTime {
 	/**
 	 * Same as parent but forces UTC timezone if no timezone is supplied instead of using the PHP default.
 	 *
-	 * @param string $time
-	 * @param DateTimeZone|string $timezone
+	 * @param string              $time Time.
+	 * @param DateTimeZone|string $timezone Time zone.
 	 *
 	 * @throws Exception Emits Exception in case of an error.
 	 */
@@ -56,7 +56,7 @@ class Discount_Deals_Date_Time extends DateTime {
 	 * Note this doesn't actually set the timezone property, it directly modifies the date.
 	 *
 	 * @return $this
-	 * @throws Exception
+	 * @throws Exception Throws exception.
 	 */
 	public function convert_to_utc_time() {
 		$this->convert_to_gmt( $this );
@@ -69,7 +69,7 @@ class Discount_Deals_Date_Time extends DateTime {
 	 *
 	 * @param Discount_Deals_Date_Time $datetime Discount deals date time.
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws exception.
 	 */
 	public function convert_to_gmt( $datetime ) {
 		$datetime->modify( '-' . $this->get_timezone_offset() * HOUR_IN_SECONDS . ' seconds' );
@@ -78,10 +78,11 @@ class Discount_Deals_Date_Time extends DateTime {
 	/**
 	 * Get site timezone offset
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws exception.
 	 */
 	public function get_timezone_offset() {
-		if ( $timezone = get_option( 'timezone_string' ) ) {
+		$timezone = get_option( 'timezone_string' );
+		if ( $timezone ) {
 			$timezone_object = new DateTimeZone( $timezone );
 
 			return $timezone_object->getOffset( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) ) / HOUR_IN_SECONDS;
@@ -96,7 +97,7 @@ class Discount_Deals_Date_Time extends DateTime {
 	 * Note this doesn't actually set the timezone property, it directly modifies the date.
 	 *
 	 * @return $this
-	 * @throws Exception
+	 * @throws Exception Throws exception.
 	 */
 	public function convert_to_site_time() {
 		$this->convert_from_gmt( $this );
@@ -109,7 +110,7 @@ class Discount_Deals_Date_Time extends DateTime {
 	 *
 	 * @param Discount_Deals_Date_Time $datetime Discount deals date time.
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws exception.
 	 */
 	public function convert_from_gmt( $datetime ) {
 		$datetime->modify( '-' . $this->get_timezone_offset() * HOUR_IN_SECONDS . ' seconds' );
@@ -140,7 +141,7 @@ class Discount_Deals_Date_Time extends DateTime {
 	/**
 	 * Naturally add months without skipping into the next month.
 	 *
-	 * @param integer $months_to_add
+	 * @param integer $months_to_add How many months need to add in the given time.
 	 *
 	 * @throws Exception When months isn't a valid number.
 	 */

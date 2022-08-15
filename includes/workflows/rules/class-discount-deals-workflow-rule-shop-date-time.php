@@ -2,15 +2,18 @@
 /**
  * Shop date time rule
  *
- * @package     Email Subscribers
+ * @package     Discount_Deals
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Es_Rule_Order_Items' ) ) {
-	class Discount_Deals_Rule_Shop_Date_Time extends Discount_Deals_Workflow_Rule_Date {
+if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Shop_Date_Time' ) ) {
+	/**
+	 * Shop date time based rule
+	 */
+	class Discount_Deals_Workflow_Rule_Shop_Date_Time extends Discount_Deals_Workflow_Rule_Date_Abstract {
 		/**
 		 * Data Item
 		 *
@@ -42,9 +45,9 @@ if ( ! class_exists( 'Es_Rule_Order_Items' ) ) {
 		/**
 		 * Validate rule against order items
 		 *
-		 * @param WC_Order $data_item
-		 * @param string $compare_type
-		 * @param array $value
+		 * @param WC_Order $data_item WC Order.
+		 * @param string   $compare_type Compare type.
+		 * @param array    $value Rule value.
 		 *
 		 * @return bool
 		 */

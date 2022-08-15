@@ -10,7 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract' ) ) {
-	abstract class Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract extends Discount_Deals_Workflow_Rule_Select {
+
+	/**
+	 * Preloaded select rule
+	 */
+	abstract class Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract extends Discount_Deals_Workflow_Rule_Select_Abstract {
 		/**
 		 * Cached select options. Leave public for JSON.
 		 *
@@ -24,7 +28,7 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract' ) 
 		 * @return array
 		 */
 		public function load_select_choices() {
-			return [];
+			return array();
 		}
 
 		/**

@@ -9,8 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Select' ) ) {
-	abstract class Discount_Deals_Workflow_Rule_Select extends Discount_Deals_Workflow_Rule_Abstract {
+if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Select_Abstract' ) ) {
+	/**
+	 * Select rule
+	 */
+	abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Deals_Workflow_Rule_Abstract {
 		/**
 		 * The rule type.
 		 *
@@ -40,8 +43,8 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Select' ) ) {
 		 * Validate a select rule.
 		 *
 		 * @param string|array $actual Will be an array when is_multi prop is true.
-		 * @param string $compare_type
-		 * @param array|string $expected
+		 * @param string       $compare_type Compare type.
+		 * @param array|string $expected Expected type.
 		 *
 		 * @return bool
 		 */
@@ -49,12 +52,12 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Select' ) ) {
 
 			if ( $this->is_multi ) {
 
-				// actual can be empty
+				// actual can be empty.
 				if ( ! $actual ) {
-					$actual = [];
+					$actual = array();
 				}
 
-				// expected must have a value
+				// expected must have a value.
 				if ( ! $expected ) {
 					return false;
 				}
@@ -74,12 +77,12 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Select' ) ) {
 				}
 			} else {
 
-				// actual must be scalar, but expected could be multiple values
+				// actual must be scalar, but expected could be multiple values.
 				if ( ! is_scalar( $actual ) ) {
 					return false;
 				}
 
-				// TODO review above exclusions
+				// TODO review above exclusions.
 				// phpcs:disable WordPress.PHP.StrictComparisons.LooseComparison
 				// phpcs:disable WordPress.PHP.StrictInArray.MissingTrueStrict
 
@@ -108,11 +111,10 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Select' ) ) {
 		 * Validate select rule, but case insensitive.
 		 *
 		 * @param array|string $actual Will be an array when is_multi prop is true.
-		 * @param string $compare_type
-		 * @param array|string $expected
+		 * @param string       $compare_type Compare type.
+		 * @param array|string $expected Expected value.
 		 *
 		 * @return bool
-		 * @since 4.4.0
 		 *
 		 */
 		public function validate_select_case_insensitive( $actual, $compare_type, $expected ) {
