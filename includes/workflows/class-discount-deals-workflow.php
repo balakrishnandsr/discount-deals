@@ -79,7 +79,7 @@ class Discount_Deals_Workflow {
 	/**
 	 * Workflow discounts
 	 *
-	 * @var Discount_Deals_Workflow_Discount
+	 * @var Discount_Deals_Workflow_Discount | false
 	 */
 	private $discount = false;
 
@@ -589,6 +589,22 @@ class Discount_Deals_Workflow {
 	public function set_id( $id = 0 ) {
 		$this->id = $id;
 	}//end set_id()
+
+	/**
+	 * May have product discount.
+	 *
+	 * @param object $product Product.
+     * @param float $price Price used for when enable subsequent.
+	 * @return integer|void
+	 */
+	public function may_have_product_discount( $product, $price ) {
+		$discounts = $this->get_discount();
+		if ( is_a( $discounts, 'Discount_Deals_Workflow_Discount' ) ) {
+			return $discounts->calculate_discount( $product, $price );
+		}
+		return 0;
+	}//end may_have_product_discount()
+
 
 
 }//end class

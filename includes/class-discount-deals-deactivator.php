@@ -20,6 +20,8 @@ if ( ! class_exists( 'Discount_Deals_Deactivator' ) ) {
 
 		/**
 		 * Function to handle uninstall process
+		 *
+		 * @return void
 		 */
 		public static function deactivate() {
 

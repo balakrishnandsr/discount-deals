@@ -9,11 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
+/*
  * Variable declaration
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
+
 require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin-workflows-list-table.php';
 $workflow_listing_table = new Discount_Deals_Admin_Workflows_List_Table();
 $workflow_listing_table->prepare_items();
