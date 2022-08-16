@@ -132,8 +132,9 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
+	 * @param mixed $subsequent_price Price.
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	abstract public function calculate_discount( $data_item, $subsequent_price );
 

@@ -85,7 +85,7 @@ class Discount_Deals_Public {
 	/**
 	 * Set woocommerce product price as per simple discount.
 	 *
-	 * @param float  $price   Product price.
+	 * @param float      $price   Product price.
 	 * @param WC_Product $product Product object.
 	 * @return float
 	 */
