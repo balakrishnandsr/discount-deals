@@ -220,10 +220,14 @@ class Discount_Deals_Workflows {
 	public static function calculate_product_discount( $product ) {
 
 		$active_workflows = self::get_active_workflows();
+
         $discounts = array();
+        $calculate_discount_from = Discount_Deals_Settings::get_settings('calculate_discount_from', 'sale_price');
+        $apply_as = Discount_Deals_Settings::get_settings('apply_product_discount_to', 'biggest_discount');
+
 
         //Get from settings
-        $apply_as = 'all_matched';
+         'all_matched';
         $cart_items = ( is_object( WC()->cart ) && is_callable( array( WC()->cart, 'get_cart' ) ) ) ? WC()->cart->get_cart() : array();
 
         //$active_workflows
