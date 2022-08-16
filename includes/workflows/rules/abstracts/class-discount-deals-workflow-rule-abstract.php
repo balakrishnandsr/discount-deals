@@ -110,9 +110,9 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	 * Validates that a given workflow data item passed the rule validation
 	 * based on the supplied $compare_type and $value.
 	 *
-	 * @param mixed  $data_item A valid workflow data item e.g. an instance of `\WC_Order` for an order based rule.
-	 * @param string $compare_type The user selected compare type for the rule.
-	 * @param mixed  $value The user entered value for the rule. This value is validated by the validate_value() method beforehand.
+	 * @param WC_Customer| WC_Cart | Discount_Deals_Workflow_Data_Item_Shop $data_item A valid workflow data item e.g. an instance of `\WC_Order` for an order based rule.
+	 * @param string                                                        $compare_type The user selected compare type for the rule.
+	 * @param mixed                                                         $value The user entered value for the rule. This value is validated by the validate_value() method beforehand.
 	 *
 	 * @return bool
 	 */

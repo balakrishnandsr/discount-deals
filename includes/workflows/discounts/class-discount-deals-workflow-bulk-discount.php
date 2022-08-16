@@ -41,7 +41,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	 *
 	 * @return integer
 	 */
-	public function calculate_discount( $data_item , $subsequent_price) {
+	public function calculate_discount( $data_item, $subsequent_price ) {
 		return 10;
 	}//end calculate_discount()
 
