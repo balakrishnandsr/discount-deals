@@ -49,6 +49,13 @@ class Discount_Deals_Workflow {
 	public $rules;
 
 	/**
+	 * Workflow rules with objects
+	 *
+	 * @var array
+	 */
+	public $rules_object;
+
+	/**
 	 * Workflow meta data
 	 *
 	 * @var array
@@ -112,6 +119,7 @@ class Discount_Deals_Workflow {
 			$this->set_exclusive( $workflow->dd_exclusive );
 			$this->set_created_at( $workflow->dd_created_at );
 			$this->set_updated_at( $workflow->dd_updated_at );
+			$this->set_data_layer();
 		}
 	}//end __construct()
 
@@ -130,7 +138,7 @@ class Discount_Deals_Workflow {
 			return false;
 		}
 		$workflow_db = new Discount_Deals_Workflow_DB();
-		$workflow = $workflow_db->get_workflow_by_id( $workflow_id, 'object' );
+		$workflow    = $workflow_db->get_workflow_by_id( $workflow_id, 'object' );
 
 		if ( ! $workflow ) {
 			return false;
@@ -186,6 +194,7 @@ class Discount_Deals_Workflow {
 	 * Set workflow updated date
 	 *
 	 * @param string $updated_at Updated at.
+	 *
 	 * @return void
 	 */
 	public function set_updated_at( $updated_at = '' ) {
@@ -206,8 +215,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set workflow data layer.
 	 *
-	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer          Data layer.
+	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer Data layer.
 	 * @param boolean                                  $reset_workflow_data Reset workflow data.
+	 *
 	 * @return void
 	 */
 	public function set_data_layer( $data_layer = null, $reset_workflow_data = false ) {
@@ -245,7 +255,6 @@ class Discount_Deals_Workflow {
 		return $this->rules;
 	}//end get_rules()
 
-
 	/**
 	 * Set workflow rules
 	 *
@@ -254,9 +263,27 @@ class Discount_Deals_Workflow {
 	 * @return void
 	 */
 	public function set_rules( $rules = array() ) {
-		$this->rules = $rules;
+		$rule_options = array();
+		if ( is_array( $rules ) ) {
+			foreach ( $rules as $group_key => $rule_group ) {
+				foreach ( $rule_group as $rule ) {
+					$rule_object                  = Discount_Deals_Workflows::get_rule_type( $rule['name'] );
+					$rule_options[ $group_key ][] = $rule_object;
+				}
+			}
+			$this->rules_object = $rule_options;
+			$this->rules        = $rules;
+		}
 	}//end set_rules()
 
+	/**
+	 * Get workflow rules
+	 *
+	 * @return array
+	 */
+	public function get_rules_object() {
+		return $this->rules_object;
+	}//end get_rules_object()
 
 	/**
 	 * Get workflow priority
@@ -301,6 +328,236 @@ class Discount_Deals_Workflow {
 		$this->created_at = $created_at;
 	}//end set_created_at()
 
+	/**
+	 * Validate workflow based on received data from the workflow trigger object.
+	 *
+	 * @return boolean
+	 */
+	public function validate_workflow() {
+		return true;
+	}//end validate_workflow()
+
+	/**
+	 * Is workflow active.
+	 *
+	 * @return boolean
+	 */
+	public function is_active() {
+		return $this->get_status() === 1;
+	}//end is_active()
+
+	/**
+	 * Get workflow status.
+	 *
+	 * Possible statuses are active|inactive|trash
+	 *
+	 * @return integer
+	 */
+	public function get_status() {
+		return $this->status;
+	}//end get_status()
+
+	/**
+	 * Set the status of the workflow
+	 *
+	 * @param integer $status Status.
+	 *
+	 * @return void
+	 */
+	public function set_status( $status = 0 ) {
+		$this->status = $status;
+	}//end set_status()
+
+	/**
+	 * Get the name of the workflow's trigger.
+	 *
+	 * @return string
+	 */
+	public function get_type() {
+		return sanitize_text_field( $this->type );
+	}//end get_type()
+
+	/**
+	 * Set the workflow type
+	 *
+	 * @param string $type Type.
+	 *
+	 * @return void
+	 */
+	public function set_type( $type = '' ) {
+		$this->type = $type;
+	}//end set_type()
+
+	/**
+	 * Validate rules against user input
+	 *
+	 * @return boolean
+	 */
+	public function validate_rules() {
+		$rules = self::get_rule_data();
+		if ( empty( $rules ) ) {
+			return true;
+		}
+		foreach ( $rules as $rule_group ) {
+			$is_group_valid = true;
+			foreach ( $rule_group as $rule ) {
+				// Rules have AND relationship so all must return true.
+				if ( ! $this->validate_rule( $rule ) ) {
+					$is_group_valid = false;
+					break;
+				}
+			}
+			// Groups have an OR relationship so if one is valid we can break the loop and return true.
+			if ( $is_group_valid ) {
+				return true;
+			}
+		}
+
+		// No groups were valid.
+		return false;
+	}//end validate_rules()
+
+	/**
+	 * Get rule data
+	 *
+	 * @return array
+	 */
+	public function get_rule_data() {
+		return is_array( $this->rules ) ? $this->rules : array();
+	}//end get_rule_data()
+
+	/**
+	 * Returns true if rule is missing data so that the rule is skipped
+	 *
+	 * @param array $rule Rule.
+	 *
+	 * @return boolean
+	 */
+	public function validate_rule( $rule = array() ) {
+		if ( ! is_array( $rule ) ) {
+			return true;
+		}
+		$rule_name    = isset( $rule['name'] ) ? $rule['name'] : false;
+		$rule_compare = isset( $rule['compare'] ) ? $rule['compare'] : false;
+		$rule_value   = isset( $rule['value'] ) ? $rule['value'] : false;
+		if ( ! $rule_name ) {
+			return true;
+		}
+		$rule_object = Discount_Deals_Workflows::get_rule_type( $rule_name );
+		if ( ! $rule_object ) {
+			return false;
+		}
+		$data_item = $this->data_layer()->get_item( $rule_object->data_item );
+		if ( ! $data_item ) {
+			return false;
+		}
+		$rule_object->set_workflow( $this );
+		try {
+			$rule_object->validate_value( $rule_value );
+		} catch ( Exception $e ) {
+			// Always return false if the rule value is invalid.
+			return false;
+		}
+
+		return $rule_object->validate( $data_item, $rule_compare, $rule_value );
+	}//end validate_rule()
+
+	/**
+	 * Get workflow data layer object.
+	 *
+	 * @return Discount_Deals_Workflow_Data_Layer
+	 */
+	public function data_layer() {
+		return $this->data_layer;
+	}//end data_layer()
+
+	/**
+	 * Retrieve and validate a data item
+	 *
+	 * @param string $name Name.
+	 *
+	 * @return bool
+	 */
+	public function get_data_item( $name = '' ) {
+		return $this->data_layer()->get_item( $name );
+	}//end get_data_item()
+
+	/**
+	 * Get workflow meta data from meta key.
+	 *
+	 * @param string $key Key.
+	 *
+	 * @return mixed
+	 */
+	public function get_meta( $key ) {
+		return isset( $this->meta[ $key ] ) ? $this->meta[ $key ] : '';
+	}//end get_meta()
+
+	/**
+	 * Set workflow meta
+	 *
+	 * @param array $meta Meta.
+	 *
+	 * @return void
+	 */
+	public function set_meta( $meta = array() ) {
+		$this->meta = $meta;
+	}//end set_meta()
+
+	/**
+	 * Method to get edit url of a workflow
+	 *
+	 * @return string  $edit_url Workflow edit URL
+	 */
+	public function get_edit_url() {
+		$id       = $this->get_id();
+		$edit_url = admin_url( 'admin.php?page=discount-deals-workflows' );
+
+		return add_query_arg(
+			array(
+				'id'     => $id,
+				'action' => 'edit',
+			),
+			$edit_url
+		);
+	}//end get_edit_url()
+
+	/**
+	 * Get workflow id
+	 *
+	 * @return integer
+	 */
+	public function get_id() {
+		return $this->id;
+	}//end get_id()
+
+	/**
+	 * Set If of the workflow
+	 *
+	 * @param integer $id Int.
+	 *
+	 * @return void
+	 */
+	public function set_id( $id = 0 ) {
+		$this->id = $id;
+	}//end set_id()
+
+	/**
+	 * May have product discount.
+	 *
+	 * @param object $product Product.
+	 * @param float  $price Price used for when enable subsequent.
+	 *
+	 * @return integer|void
+	 */
+	public function may_have_product_discount( $product, $price ) {
+		$discounts = $this->get_discount();
+		if ( is_a( $discounts, 'Discount_Deals_Workflow_Discount' ) ) {
+			return $discounts->calculate_discount( $product, $price );
+		}
+
+		return 0;
+	}//end may_have_product_discount()
 
 	/**
 	 * Get all actions in current workflow.
@@ -310,7 +567,6 @@ class Discount_Deals_Workflow {
 	public function get_discount() {
 		return $this->discount;
 	}//end get_discount()
-
 
 	/**
 	 * Set discounts
@@ -326,285 +582,6 @@ class Discount_Deals_Workflow {
 			$this->discount = $all_discounts[ $discount_type ];
 		}
 	}//end set_discount()
-
-
-	/**
-	 * Validate workflow based on received data from the workflow trigger object.
-	 *
-	 * @return boolean
-	 */
-	public function validate_workflow() {
-		return true;
-	}//end validate_workflow()
-
-
-	/**
-	 * Is workflow active.
-	 *
-	 * @return boolean
-	 */
-	public function is_active() {
-		return $this->get_status() === 1;
-	}//end is_active()
-
-
-	/**
-	 * Get workflow status.
-	 *
-	 * Possible statuses are active|inactive|trash
-	 *
-	 * @return integer
-	 */
-	public function get_status() {
-		return $this->status;
-	}//end get_status()
-
-
-	/**
-	 * Set the status of the workflow
-	 *
-	 * @param integer $status Status.
-	 *
-	 * @return void
-	 */
-	public function set_status( $status = 0 ) {
-		$this->status = $status;
-	}//end set_status()
-
-
-	/**
-	 * Get the name of the workflow's trigger.
-	 *
-	 * @return string
-	 */
-	public function get_type() {
-		return sanitize_text_field( $this->type );
-	}//end get_type()
-
-
-	/**
-	 * Set the workflow type
-	 *
-	 * @param string $type Type.
-	 *
-	 * @return void
-	 */
-	public function set_type( $type = '' ) {
-		$this->type = $type;
-	}//end set_type()
-
-
-	/**
-	 * Validate rules against user input
-	 *
-	 * @return boolean
-	 */
-	public function validate_rules() {
-		$rules = self::get_rule_data();
-
-		// No rules found.
-		if ( empty( $rules ) ) {
-			return true;
-		}
-
-		foreach ( $rules as $rule_group ) {
-			$is_group_valid = true;
-			foreach ( $rule_group as $rule ) {
-				// Rules have AND relationship so all must return true.
-				if ( ! $this->validate_rule( $rule ) ) {
-					$is_group_valid = false;
-					break;
-				}
-			}
-
-			// Groups have an OR relationship so if one is valid we can break the loop and return true.
-			if ( $is_group_valid ) {
-				return true;
-			}
-		}
-
-		// No groups were valid.
-		return false;
-	}//end validate_rules()
-
-
-	/**
-	 * Get rule data
-	 *
-	 * @return array
-	 */
-	public function get_rule_data() {
-		return is_array( $this->rules ) ? $this->rules : array();
-	}//end get_rule_data()
-
-
-	/**
-	 * Returns true if rule is missing data so that the rule is skipped
-	 *
-	 * @param array $rule Rule.
-	 *
-	 * @return boolean
-	 */
-	public function validate_rule( $rule = array() ) {
-		if ( ! is_array( $rule ) ) {
-			return true;
-		}
-
-		$rule_name    = isset( $rule['name'] ) ? $rule['name'] : false;
-		$rule_compare = isset( $rule['compare'] ) ? $rule['compare'] : false;
-		$rule_value   = isset( $rule['value'] ) ? $rule['value'] : false;
-
-		// It's ok for compare to be false for boolean type rules.
-		if ( ! $rule_name ) {
-			return true;
-		}
-
-		return false;
-	}//end validate_rule()
-
-
-	/**
-	 * Retrieve and validate a data item
-	 *
-	 * @param string $name Name.
-	 *
-	 * @return mixed
-	 */
-	public function get_data_item( $name = '' ) {
-		return $this->data_layer()->get_item( $name );
-	}//end get_data_item()
-
-
-	/**
-	 * Get workflow data layer object.
-	 *
-	 * @return Discount_Deals_Workflow_Data_Layer
-	 */
-	public function data_layer() {
-		if ( ! isset( $this->data_layer ) ) {
-			$this->data_layer = new Discount_Deals_Workflow_Data_Layer();
-		}
-
-		return $this->data_layer;
-	}//end data_layer()
-
-
-	/**
-	 * Set data item in workflow data layer.
-	 *
-	 * @param string $name Name.
-	 * @param array  $item Item.
-	 * @return void
-	 */
-	public function set_data_item( $name = '', $item = array() ) {
-		$this->data_layer()->set_item( $name, $item );
-	}//end set_data_item()
-
-
-	/**
-	 * Get workflow meta data from meta key.
-	 *
-	 * @param array $key Key.
-	 *
-	 * @return mixed
-	 */
-	public function get_meta( $key = array() ) {
-		return isset( $this->meta[ $key ] ) ? $this->meta[ $key ] : '';
-	}//end get_meta()
-
-
-	/**
-	 * Set workflow meta
-	 *
-	 * @param array $meta Meta.
-	 *
-	 * @return void
-	 */
-	public function set_meta( $meta = array() ) {
-		$this->meta = $meta;
-	}//end set_meta()
-
-
-	/**
-	 * Check if workflow has given action or not.
-	 *
-	 * @param string $discount_name Action name.
-	 *
-	 * @return boolean Whether workflow has given action or not.
-	 */
-	public function has_discount( $discount_name = '' ) {
-		$has_action = false;
-		$discounts  = $this->get_discount();
-
-		if ( ! empty( $discounts ) ) {
-			foreach ( $discounts as $discount ) {
-				$current_action_name = $discount->get_name();
-				if ( $current_action_name === $discount_name ) {
-					$has_action = true;
-					break;
-				}
-			}
-		}
-
-		return $has_action;
-	}//end has_discount()
-
-
-	/**
-	 * Method to get edit url of a workflow
-	 *
-	 * @return string  $edit_url Workflow edit URL
-	 */
-	public function get_edit_url() {
-
-		$id       = $this->get_id();
-		$edit_url = admin_url( 'admin.php?page=discount-deals-workflows' );
-
-		return add_query_arg(
-			array(
-				'id'     => $id,
-				'action' => 'edit',
-			),
-			$edit_url
-		);
-	}//end get_edit_url()
-
-
-	/**
-	 * Get workflow id
-	 *
-	 * @return integer
-	 */
-	public function get_id() {
-		return $this->id;
-	}//end get_id()
-
-
-	/**
-	 * Set If of the workflow
-	 *
-	 * @param integer $id Int.
-	 * @return void
-	 */
-	public function set_id( $id = 0 ) {
-		$this->id = $id;
-	}//end set_id()
-
-	/**
-	 * May have product discount.
-	 *
-	 * @param object $product Product.
-	 * @param float  $price Price used for when enable subsequent.
-	 * @return integer|void
-	 */
-	public function may_have_product_discount( $product, $price ) {
-		$discounts = $this->get_discount();
-		if ( is_a( $discounts, 'Discount_Deals_Workflow_Discount' ) ) {
-			return $discounts->calculate_discount( $product, $price );
-		}
-		return 0;
-	}//end may_have_product_discount()
-
 
 
 }//end class

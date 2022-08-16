@@ -45,14 +45,18 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Shop_Date_Time' ) ) {
 		/**
 		 * Validate rule against order items
 		 *
-		 * @param WC_Order $data_item WC Order.
-		 * @param string   $compare_type Compare type.
-		 * @param array    $value Rule value.
+		 * @param Discount_Deals_Workflow_Data_Item_Shop $data_item WC Order.
+		 * @param string                                 $compare_type Compare type.
+		 * @param array                                  $value Rule value.
 		 *
 		 * @return bool
 		 */
 		public function validate( $data_item, $compare_type, $value ) {
-			return true;
+			try {
+				return $this->validate_date( $compare_type, $value, $data_item->get_current_datetime() );
+			} catch ( Exception $e ) {
+				return false;
+			}
 		}
 	}
 }

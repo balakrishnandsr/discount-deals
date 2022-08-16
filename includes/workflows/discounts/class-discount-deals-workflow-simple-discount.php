@@ -49,12 +49,12 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		);
 		$calculate_subsequent_price = 'no';
 		$calculate_discount_from = 'regular_price';
-		if ( 'regular_price' === $calculate_discount_from ) {
+		if ( 'regular_price' == $calculate_discount_from ) {
 			$price = ( is_object( $data_item ) && is_callable( array( $data_item, 'get_regular_price' ) ) ) ? $data_item->get_regular_price() : 0;
 		} else {
 			$price = ( is_object( $data_item ) && is_callable( array( $data_item, 'get_price' ) ) ) ? $data_item->get_price() : 0;
 		}
-		if ( $calculate_subsequent_price === 'yes' ) {
+		if ( 'yes' == $calculate_subsequent_price ) {
 			$price = $price - $subsequent_price;
 		}
 		$type = 'fixed_price';

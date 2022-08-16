@@ -212,9 +212,6 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				$discount_options = self::get_discount_data( $workflow->get_discount() );
 				foreach ( $rule_options as &$rule_group ) {
 					foreach ( $rule_group as &$rule ) {
-						if ( ! isset( $rule['name'] ) ) {
-							continue;
-						}
 						$rule_object = Discount_Deals_Workflows::get_rule_type( $rule['name'] );
 
 						if ( ! $rule_object ) {
