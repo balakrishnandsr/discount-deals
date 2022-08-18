@@ -45,14 +45,10 @@ if ( ! class_exists( 'Discount_Deals_Admin_Ajax' ) ) {
 				die;
 			}
 
-			ob_start();
-
-			$fields = ob_get_clean();
-
 			wp_send_json_success(
 				array(
-					'fields'  => $fields,
-					'trigger' => Discount_Deals_Workflows::get_discount_data( $discount ),
+					'fields'           => $discount->load_fields(),
+					'discount_details' => Discount_Deals_Workflows::get_discount_data( $discount ),
 				)
 			);
 		}

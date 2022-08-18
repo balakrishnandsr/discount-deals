@@ -31,6 +31,47 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
 	}
 
+	public function load_fields() {
+		$discount_details = $this->get_discount_details();
+		ob_start();
+		discount_deals_radio( array(
+			'wrapper_class' => 'discount-options-field-container',
+			'id'            => 'discount_deals_workflow_discount_type',
+			'name'          => 'discount_deals_workflow[dd_discounts][type]',
+			'value'         => discount_deals_get_value_from_array( $discount_details, 'type', 'flat' ),
+			'label'         => __( 'What type of discount do you want to give?', 'discount-deals' ),
+			'options'       => array(
+				'flat'    => __( 'Flat', 'discount-deals' ),
+				'percent' => __( 'Percentage', 'discount-deals' ),
+			),
+			'required'      => true,
+		) );
+		discount_deals_text_input( array(
+			'wrapper_class' => 'discount-options-field-container',
+			'id'            => 'discount_deals_workflow_type_discount_value',
+			'name'          => 'discount_deals_workflow[dd_discounts][value]',
+			'value'         => discount_deals_get_value_from_array( $discount_details, 'value', '' ),
+			'label'         => __( 'How much discount do you want to give?', 'discount-deals' ),
+			'type'          => 'number',
+			'placeholder'   => __( 'Enter the discount value here...', 'discount-deals' ),
+			'required'      => true,
+			'description'   => __( 'NOTE: If your discount type is percentage, then please enter the value less then or equal to 100.', 'discount-deals' )
+		) );
+		discount_deals_text_input( array(
+			'wrapper_class' => 'discount-options-field-container',
+			'id'            => 'discount_deals_workflow_type_discount_max_value',
+			'name'          => 'discount_deals_workflow[dd_discounts][max_discount]',
+			'value'         => discount_deals_get_value_from_array( $discount_details, 'max_discount', '' ),
+			'label'         => __( 'Maximum discount value for this workflow?', 'discount-deals' ),
+			'type'          => 'number',
+			'placeholder'   => __( 'Enter the max discount value here...', 'discount-deals' ),
+			'data_type'     => 'price',
+			'description'   => __( 'If the calculated discount value exceeds the limit then, the max value will be given as a discount. NOTE: Please leave empty if you don\'t want to limit the discount.', 'discount-deals' )
+		) );
+
+		return ob_get_clean();
+	}
+
 	/**
 	 * Calculate discount for the product
 	 *
@@ -42,23 +83,29 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 	public function calculate_discount( $data_item, $subsequent_price ) {
 
 		// Subsequent discount.
-		$discount_array = array(
+		$discount_array             = array(
 			'type'         => 'percentage',
 			'value'        => 10,
 			'max_discount' => 10,
 		);
 		$calculate_subsequent_price = 'no';
-		$calculate_discount_from = 'regular_price';
+		$calculate_discount_from    = 'regular_price';
 		if ( 'regular_price' == $calculate_discount_from ) {
-			$price = ( is_object( $data_item ) && is_callable( array( $data_item, 'get_regular_price' ) ) ) ? $data_item->get_regular_price() : 0;
+			$price = ( is_object( $data_item ) && is_callable( array(
+					$data_item,
+					'get_regular_price'
+				) ) ) ? $data_item->get_regular_price() : 0;
 		} else {
-			$price = ( is_object( $data_item ) && is_callable( array( $data_item, 'get_price' ) ) ) ? $data_item->get_price() : 0;
+			$price = ( is_object( $data_item ) && is_callable( array(
+					$data_item,
+					'get_price'
+				) ) ) ? $data_item->get_price() : 0;
 		}
 		if ( 'yes' == $calculate_subsequent_price ) {
 			$price = $price - $subsequent_price;
 		}
-		$type = 'fixed_price';
-		$max_discount = 10;
+		$type           = 'fixed_price';
+		$max_discount   = 10;
 		$discount_value = 10;
 		switch ( $type ) {
 			case 'fixed_price':
@@ -66,7 +113,7 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 				break;
 			case 'percentage':
 				$discount_value = $price * ( $discount_value / 100 );
-				$discount = $price - $discount_value;
+				$discount       = $price - $discount_value;
 				break;
 			default:
 			case 'flat':
@@ -76,6 +123,7 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		if ( ! empty( $max_discount ) ) {
 			$discount = min( $max_discount, $discount );
 		}
+
 		return $discount;
 	}//end calculate_discount()
 

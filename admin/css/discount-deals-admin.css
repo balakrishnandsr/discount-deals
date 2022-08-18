@@ -160,6 +160,10 @@
 	width: 100%;
 }
 
+input[type="radio"] {
+	width: unset !important;
+}
+
 .discount-deals-rule__fields,.discount-deals-rule__buttons {
 	margin: 1em 0;
 }

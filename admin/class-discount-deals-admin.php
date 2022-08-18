@@ -83,17 +83,18 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 					return false;
 				}
 				$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array(), false );
-				$rules       = isset( $posted_data['rule_options'] ) ? wc_clean( $posted_data['rule_options'] ) : array();
-				$id          = isset( $posted_data['dd_id'] ) ? wc_clean( $posted_data['dd_id'] ) : 0;
-				$type        = isset( $posted_data['dd_type'] ) ? wc_clean( $posted_data['dd_type'] ) : '';
-				$title       = isset( $posted_data['dd_title'] ) ? wc_clean( $posted_data['dd_title'] ) : '';
+				$rules       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'rule_options', array() ) );
+				$discounts   = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_discounts', array() ) );
+				$id          = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_id', 0 ) );
+				$type        = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_type', '' ) );
+				$title       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_title', '' ) );
 				if ( ! empty( $type ) ) {
 					$workflow_data = array(
 						'dd_title'     => $title,
 						'dd_type'      => $type,
 						'dd_rules'     => maybe_serialize( $rules ),
 						'dd_meta'      => maybe_serialize( array() ),
-						'dd_discounts' => maybe_serialize( array() ),
+						'dd_discounts' => maybe_serialize( $discounts ),
 						'dd_status'    => 1,
 						'dd_exclusive' => 1,
 						'dd_user_id'   => get_current_user_id(),
@@ -136,6 +137,7 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 		 * @return void
 		 */
 		public function include_required_files() {
+			require_once DISCOUNT_DEALS_ABSPATH . 'admin/discount-deals-meta-box-functions.php';
 			require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin-ajax.php';
 		}
 
@@ -349,11 +351,11 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				return;
 			}
 			?>
-			<script>
-				jQuery(document).ready(function () {
-					postboxes.add_postbox_toggles(pagenow);
-				});
-			</script>
+            <script>
+                jQuery(document).ready(function () {
+                    postboxes.add_postbox_toggles(pagenow);
+                });
+            </script>
 			<?php
 		}
 
@@ -369,8 +371,6 @@ if ( ! class_exists( 'Discount_Deals_Admin' ) ) {
 				// Don't load meta boxes if it is not an add/edit workflow screen.
 				return;
 			}
-
-			require_once DISCOUNT_DEALS_ABSPATH . 'admin/discount-deals-meta-box-functions.php';
 
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 			add_filter( 'screen_options_show_screen', array( $this, 'remove_screen_options' ) );

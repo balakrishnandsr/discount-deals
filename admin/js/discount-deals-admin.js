@@ -7,26 +7,29 @@
 (function ($, data) {
 	'use strict';
 	let discount_deals = {}
-	console.log( data )
 
 	function init_discounts() {
+		var discount_meta_box = $("#discount_deals_workflow_discounts_box");
 		$( document ).on(
 			"change",
 			"#discount_deals_workflow_type",
 			function () {
 				let discount_type = $( this ).val();
+				discount_meta_box.find('tr.discount-options-field-container').remove();
 				if (discount_type) {
 					fetch_discount_details( discount_type ).done(
 						function (response) {
 							if ( ! response.success) {
 								return;
 							}
-							console.log( response )
-							discount_deals.workflow.set( 'discount_type', response.data.trigger );
+                            discount_meta_box.find('tbody').append( response.data.fields );
+							discount_deals.workflow.set( 'discount_type', response.data.discount_details );
+                            discount_deals.rules.clear_incompatible_rules();
 						}
-					)
+					);
 				} else {
 					discount_deals.workflow.set( 'discount_type', false );
+                    discount_deals.rules.clear_incompatible_rules();
 				}
 			}
 		);
@@ -176,7 +179,27 @@
 					groups.splice( index, 1 );
 					this.set( 'rule_options', groups );
 					this.trigger( 'rule_group_change' );
-				}
+				},
+				is_rule_available: function( rule_name ) {
+					var available_rules = discount_deals.rules.get('available_rules');
+					var names = _.pluck( available_rules, 'name' );
+					return _.indexOf( names, rule_name ) !== -1;
+				},
+				clear_incompatible_rules: function() {
+					var rules_to_remove = [];
+					_.each( discount_deals.rules.get( 'rule_options' ), function( rule_group ) {
+						_.each( rule_group.get( 'rules' ), function( rule ) {
+							if ( rule && ! discount_deals.rules.is_rule_available( rule.get('name') ) ) {
+								rules_to_remove.push( rule );
+							}
+						});
+					});
+
+					// clear out of initial loop to avoid index changing issues, when rules are cleared
+					_.each( rules_to_remove, function( rule ) {
+						rule.clear();
+					});
+				},
 			}
 		);
 		var rule = Backbone.Model.extend(
@@ -296,7 +319,6 @@
 					var available_groups = self.model.get( 'rule_options' );
 
 					if (available_groups && available_groups.length > 0) {
-						console.log( "add groups" );
 						_.each(
 							available_groups,
 							function (group) {
@@ -589,8 +611,6 @@
 				raw_rule_options: data.rule_options
 			}
 		);
-		console.log( data.rule_options )
-
 		discount_deals.rules_view = new rules_view(
 			{
 				model: discount_deals.rules
