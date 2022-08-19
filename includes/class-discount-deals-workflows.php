@@ -311,7 +311,7 @@ class Discount_Deals_Workflows {
      */
     public static function get_discount( $workflows, $product, $price){
         if ( ! empty( $workflows ) ) {
-            $apply_as  = Discount_Deals_Settings::get_settings('apply_discount_to', 'biggest_discount');
+            $apply_as  = Discount_Deals_Settings::get_settings('apply_discount_to', 'lowest_matched');
             $valid_discounts = array();
             $applied_discount = array();
             foreach ( $workflows as $workflow ) {
