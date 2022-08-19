@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $workflow = $this->get_workflow();
 ?>
 <table class="discount-deals-table">
-	<tbody>
+    <tbody>
 	<?php
 	$all_discount_types       = Discount_Deals_Workflows::get_all_discounts();
 	$all_valid_discount_types = array(
@@ -27,17 +27,21 @@ $workflow = $this->get_workflow();
 	}
 	discount_deals_select(
 		array(
-			'id'                => 'discount_deals_workflow_type',
-			'name'              => 'discount_deals_workflow[dd_type]',
-			'value'             => ( $workflow ) ? $workflow->get_discount()->get_name() : '',
-			'label'             => __( 'Discount type', 'discount-deals' ),
-			'options'           => $all_valid_discount_types,
-			'desc_tip'          => true,
-			'required'          => true,
-			'value_description' => true,
-			'description'       => __( 'What type of discount that you are planning to create for your customers.', 'discount-deals' ),
+			'id'                    => 'discount_deals_workflow_type',
+			'name'                  => 'discount_deals_workflow[dd_type]',
+			'value'                 => ( $workflow ) ? $workflow->get_discount()->get_name() : '',
+			'label'                 => __( 'Workflow type', 'discount-deals' ),
+			'options'               => $all_valid_discount_types,
+			'desc_tip'              => true,
+			'required'              => true,
+			'has_value_description' => true,
+			'value_description'     => ( $workflow ) ? $workflow->get_discount()->get_description() : '',
+			'description'           => __( 'What type of discount that you are planning to create for your customers.', 'discount-deals' ),
 		)
-	)
+	);
+	if ( $workflow ) {
+		echo $workflow->get_discount()->load_fields();
+	}
 	?>
-	</tbody>
+    </tbody>
 </table>

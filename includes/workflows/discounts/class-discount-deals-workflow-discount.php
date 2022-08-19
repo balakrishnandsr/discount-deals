@@ -14,6 +14,24 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 abstract class Discount_Deals_Workflow_Discount {
 	/**
+	 * Title for the discount type
+	 *
+	 * @var string $title discount title
+	 */
+	public $title = '';
+	/**
+	 * Description for the discount type
+	 *
+	 * @var string $title discount description
+	 */
+	public $description = '';
+	/**
+	 * Name for the discount type
+	 *
+	 * @var string $name discount type slug
+	 */
+	public $name = '';
+	/**
 	 * Data items of the discount
 	 *
 	 * @var array $supplied_data_items valid data items
@@ -21,25 +39,11 @@ abstract class Discount_Deals_Workflow_Discount {
 	protected $supplied_data_items = array();
 
 	/**
-	 * Title for the discount type
+	 * Discount details
 	 *
-	 * @var string $title discount title
+	 * @var array $discount_details Discount details
 	 */
-	public $title = '';
-
-	/**
-	 * Description for the discount type
-	 *
-	 * @var string $title discount description
-	 */
-	public $description = '';
-
-	/**
-	 * Name for the discount type
-	 *
-	 * @var string $name discount type slug
-	 */
-	public $name = '';
+	protected $discount_details = array();
 
 	/**
 	 * Class constructor
@@ -47,6 +51,32 @@ abstract class Discount_Deals_Workflow_Discount {
 	public function __construct() {
 	}//end __construct()
 
+	/**
+	 * Get discount details
+	 *
+	 * @return array
+	 */
+	public function get_discount_details() {
+		return $this->discount_details;
+	}
+
+	/**
+	 * Set discount details to the class
+	 *
+	 * @param array $discount_details Discount details.
+	 */
+	public function set_discount_details( $discount_details ) {
+		$this->discount_details = $discount_details;
+	}
+
+	/**
+	 * Get tile of the discount
+	 *
+	 * @return string
+	 */
+	public function get_title() {
+		return $this->title;
+	}//end set_title()
 
 	/**
 	 * Set title for the discount
@@ -57,18 +87,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_title( $title ) {
 		$this->title = $title;
-	}//end set_title()
-
-
-	/**
-	 * Get tile of the discount
-	 *
-	 * @return string
-	 */
-	public function get_title() {
-		return $this->title;
 	}//end get_title()
-
 
 	/**
 	 * Get description of the discount
@@ -119,7 +138,6 @@ abstract class Discount_Deals_Workflow_Discount {
 		return $this->supplied_data_items;
 	}//end get_supplied_data_items()
 
-
 	/**
 	 * Set supplied data items for discount
 	 *
@@ -127,6 +145,12 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	abstract public function set_supplied_data_items();
 
+	/**
+	 * Admin discount fields
+	 * @return mixed|void
+	 */
+	public function load_fields() {
+	}
 
 	/**
 	 * Calculate discount for given data item
