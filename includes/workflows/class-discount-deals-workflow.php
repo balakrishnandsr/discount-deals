@@ -302,8 +302,8 @@ class Discount_Deals_Workflow {
 	 *
 	 * @return void
 	 */
-	public function set_exclusive( $exclusive = 'no' ) {
-		$this->exclusive = ( 'yes' == $exclusive );
+	public function set_exclusive( $exclusive = 0 ) {
+		$this->exclusive = ( 1 == $exclusive );
 	}//end set_exclusive()
 
 
@@ -546,14 +546,15 @@ class Discount_Deals_Workflow {
 	 * May have product discount.
 	 *
 	 * @param object $product Product.
-	 * @param float  $price Price used for when enable subsequent.
+	 * @param float $price Price used for when enable subsequent.
+	 * @param float $discount Price used for when enable subsequent.
 	 *
 	 * @return integer|void
 	 */
-	public function may_have_product_discount( $product, $price ) {
-		$discounts = $this->get_discount();
-		if ( is_a( $discounts, 'Discount_Deals_Workflow_Discount' ) ) {
-			return $discounts->calculate_discount( $product, $price );
+	public function may_have_product_discount($product, $price ) {
+		$discount = $this->get_discount();
+		if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
+			return $discount->calculate_discount( $product, $price );
 		}
 
 		return 0;

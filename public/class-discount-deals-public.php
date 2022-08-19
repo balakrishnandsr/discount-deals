@@ -90,8 +90,7 @@ class Discount_Deals_Public {
 	 * @return float
 	 */
 	public function get_product_price( $price, $product ) {
-		discount_deals_get_product_discount( $product );
-		return 10;
+		return discount_deals_get_product_discount( $price, $product );
 	}//end get_product_price()
 
 

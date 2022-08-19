@@ -164,9 +164,8 @@ if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_product_discount( $product ) {
-		Discount_Deals_Workflows::calculate_product_discount( $product );
-		return 10;
+	function discount_deals_get_product_discount( $price, $product ) {
+        return Discount_Deals_Workflows::calculate_product_discount( $price, $product );
 	}//end discount_deals_get_product_discount()
 }
 

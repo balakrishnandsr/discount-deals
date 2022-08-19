@@ -32,16 +32,14 @@ if ( ! defined( 'ABSPATH' ) ) {
              * todo:General
              */
             'calculate_discount_from' => 'sale_price',//sale_price,regular_price
-            'apply_product_discount_to' => 'biggest_discount',//first,biggest_discount,lowest_discount,all
-            'apply_cart_discount_to' => 'biggest_discount',//biggest_discount,lowest_discount,first,all
-            'apply_discount_subsequently' => 0, //0,1
+            'apply_discount_to' => 'biggest_matched',//first_matched, biggest_matched, last_matched, lowest_matched, all_matched
+            'apply_discount_subsequently' => 'no', //no, yes
             'apply_cart_discount_subsequently' => 0,//1,0
 
             /**
              * todo:Product
              */
             'show_on_sale_badge' => 'disabled',//when_condition_matches,at_least_has_any_product_simple_rules,disabled
-            'show_strikeout_price' => 'no', //| when rule matched | After matched | Dynamic Update
             //if yes above option show below
             'modify_price_at_product_page' => 1,//0,1
             'modify_price_at_category_page' => 1,//0,1
