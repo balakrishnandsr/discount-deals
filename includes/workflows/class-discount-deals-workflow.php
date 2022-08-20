@@ -551,11 +551,8 @@ class Discount_Deals_Workflow {
 	 *
 	 * @return integer|void
 	 */
-	public function may_have_product_discount($product, $price ) {
+	public function may_have_product_discount( $product, $price ) {
 		$discount = $this->get_discount();
-        echo "<pre>";
-        print_r($discount);
-        echo "</pre>";
 		if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
 			return $discount->calculate_discount( $product, $price );
 		}
@@ -575,19 +572,16 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set discounts
 	 *
-	 * @param array $discount Discounts.
+	 * @param array $discounts Discounts.
 	 *
 	 * @return void
 	 */
-    public function set_discount( $discounts = array() ) {
-        $all_discounts = Discount_Deals_Workflows::get_all_discounts();
-        $discount_type = $this->get_type();
-        if ( array_key_exists( $discount_type, $all_discounts ) ) {
-            $discount_object = $all_discounts[ $discount_type ];
-            $discount_object->set_discount_details( $discounts );
-            $this->discount = $discount_object;
-        }
-    }
+	public function set_discount( $discounts = array() ) {
+		$discount_type   = $this->get_type();
+		$discount_object = Discount_Deals_Workflows::get_discount_type( $discount_type );
+		$discount_object->set_discount_details( $discounts );
+		$this->discount = $discount_object;
+	}
 
 
 }//end class
