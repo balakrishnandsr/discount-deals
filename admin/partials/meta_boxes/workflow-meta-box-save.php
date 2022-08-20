@@ -24,7 +24,7 @@ $workflow = $this->get_workflow();
 			?>
 			<div id="delete-action">
 				<?php
-				echo sprintf( '<a class="submitdelete deletion" href="?page=%s&action=%s&id=%s&_wpnonce=%s" onclick="return checkDelete()">%s</a>', esc_attr( discount_deals_get_data( 'page', '' ) ), 'delete', esc_attr( $workflow_id ), esc_attr( $nonce ), esc_html__( 'Delete', 'discount-deals' ) );
+				echo sprintf( '<a class="submitdelete deletion" href="?page=%s&action=%s&workflow=%s&_wpnonce=%s" onclick="return checkDelete()">%s</a>', esc_attr( discount_deals_get_data( 'page', '' ) ), 'delete', esc_attr( $workflow_id ), esc_attr( $nonce ), esc_html__( 'Delete', 'discount-deals' ) );
 				?>
 			</div>
 			<?php

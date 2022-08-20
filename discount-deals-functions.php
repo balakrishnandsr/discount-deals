@@ -23,7 +23,7 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 		if ( isset( $_GET[ $key ] ) ) {
 			$data = wp_unslash( $_GET[ $key ] );
 			if ( $clean ) {
-				return sanitize_text_field( $data );
+				return wc_clean( $data );
 			}
 
 			return $data;
@@ -48,7 +48,7 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 		if ( isset( $_REQUEST[ $key ] ) ) {
 			$data = wp_unslash( $_REQUEST[ $key ] );
 			if ( $clean ) {
-				return sanitize_text_field( $data );
+				return wc_clean( $data );
 			}
 
 			return $data;
@@ -72,7 +72,7 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 		if ( isset( $_REQUEST[ $key ] ) ) {
 			$data = wp_unslash( $_REQUEST[ $key ] );
 			if ( $clean ) {
-				return sanitize_text_field( $data );
+				return wc_clean( $data );
 			}
 
 			return $data;

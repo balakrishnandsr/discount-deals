@@ -67,7 +67,7 @@ class Discount_Deals_Admin_Settings {
 				'options' => array(
 					'lowest_matched'  => __( 'Lowest Discount', 'discount-deals' ),
 					'biggest_matched' => __( 'Biggest Discount', 'discount-deals' ),
-					'first_matched'   => __( 'First matched Workflow\'s Discount', 'discount-deals' ),
+					//'first_matched'   => __( 'First matched Workflow\'s Discount', 'discount-deals' ),
 					'all_matched'     => __( 'All matched Workflow\'s Discount', 'discount-deals' ),
 				),
 				'value'   => Discount_Deals_Settings::get_settings( 'apply_product_discount_to' ),

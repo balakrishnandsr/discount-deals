@@ -67,6 +67,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		$hidden   = get_hidden_columns( $this->screen );
 		$sortable = $this->get_sortable_columns();
 
+		$this->process_bulk_action();
+
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$workflows_db          = new Discount_Deals_Workflow_DB();
 
@@ -141,10 +143,66 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Do bulk option
+	 *
+	 * @return void
+	 */
+	public function process_bulk_action() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return;
+		}
+		$current_action = $this->current_action();
+		if ( in_array( $current_action, array_keys( $this->get_bulk_actions() ) ) ) {
+			$workflow_ids = discount_deals_get_post_data( 'workflow', array(), false );
+			if ( ! is_array( $workflow_ids ) ) {
+				$workflow_ids = array( $workflow_ids );
+			}
+			if ( ! empty( $workflow_ids ) ) {
+				$workflow_db = new Discount_Deals_Workflow_DB();
+				foreach ( $workflow_ids as $workflow_id ) {
+					switch ( $current_action ) {
+						case "delete":
+							die( 'hai' );
+							//$workflow_db->delete($workflow_id);
+							break;
+						case "enable":
+							$workflow_db->update( $workflow_id, array( 'dd_status' => 1 ) );
+							break;
+						case "disable":
+							$workflow_db->update( $workflow_id, array( 'dd_status' => 0 ) );
+							break;
+						case "exclusive":
+							$workflow_db->update( $workflow_id, array( 'dd_exclusive' => 1 ) );
+							break;
+						case "not_exclusive":
+							$workflow_db->update( $workflow_id, array( 'dd_exclusive' => 0 ) );
+							break;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Bulk actions of the workflows
+	 *
+	 * @return array
+	 */
+	public function get_bulk_actions() {
+		return array(
+			'delete'        => __( 'Delete', 'discount-deals' ),
+			'enable'        => __( 'Enable', 'discount-deals' ),
+			'disable'       => __( 'Disable', 'discount-deals' ),
+			'exclusive'     => __( 'Mark as Exclusive', 'discount-deals' ),
+			'not_exclusive' => __( 'Mark as Not-Exclusive', 'discount-deals' ),
+		);
+	}
+
+	/**
 	 * Return default value for the workflow
 	 *
 	 * @param array|object $item Workflow details.
-	 * @param string       $column_name column name.
+	 * @param string $column_name column name.
 	 *
 	 * @return bool|mixed|string|void
 	 */
@@ -193,23 +251,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="book[]" value="%s" />',
+			'<input type="checkbox" name="workflow[]" value="%s" />',
 			$item['dd_id']
-		);
-	}
-
-	/**
-	 * Bulk actions of the workflows
-	 *
-	 * @return array
-	 */
-	public function get_bulk_actions() {
-		return array(
-			'delete'        => __( 'Delete', 'discount-deals' ),
-			'enable'        => __( 'Enable', 'discount-deals' ),
-			'disable'       => __( 'Disable', 'discount-deals' ),
-			'exclusive'     => __( 'Mark as Exclusive', 'discount-deals' ),
-			'not_exclusive' => __( 'Mark as Not-Exclusive', 'discount-deals' ),
 		);
 	}
 }
