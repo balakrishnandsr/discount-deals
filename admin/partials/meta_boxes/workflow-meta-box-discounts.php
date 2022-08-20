@@ -23,7 +23,8 @@ $workflow = $this->get_workflow();
 		'' => __( '[ Select ]', 'discount-deals' ),
 	);
 	foreach ( $all_discount_types as $name => $discount_type ) {
-		$all_valid_discount_types[ $name ] = $discount_type->get_title();
+        $discount_obj = new $discount_type();
+		$all_valid_discount_types[ $name ] = $discount_obj->get_title();
 	}
 	discount_deals_select(
 		array(

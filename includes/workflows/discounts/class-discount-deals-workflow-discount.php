@@ -43,7 +43,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 *
 	 * @var array $discount_details Discount details
 	 */
-	protected $discount_details = array();
+	public $discount_details = array();
 
 	/**
 	 * Class constructor

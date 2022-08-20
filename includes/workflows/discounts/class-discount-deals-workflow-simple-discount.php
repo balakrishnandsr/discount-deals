@@ -80,44 +80,28 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 	 *
 	 * @return integer
 	 */
-	public function calculate_discount( $data_item, $subsequent_price ) {
-
-		// Subsequent discount.
-		$discount_array             = array(
-			'type'         => 'percentage',
-			'value'        => 10,
-			'max_discount' => 10,
-		);
-		$calculate_subsequent_price = 'no';
-		$calculate_discount_from    = 'regular_price';
-		if ( 'regular_price' == $calculate_discount_from ) {
-			$price = ( is_object( $data_item ) && is_callable( array(
-					$data_item,
-					'get_regular_price'
-				) ) ) ? $data_item->get_regular_price() : 0;
-		} else {
-			$price = ( is_object( $data_item ) && is_callable( array(
-					$data_item,
-					'get_price'
-				) ) ) ? $data_item->get_price() : 0;
-		}
-		if ( 'yes' == $calculate_subsequent_price ) {
-			$price = $price - $subsequent_price;
-		}
-		$type           = 'fixed_price';
-		$max_discount   = 10;
-		$discount_value = 10;
+	public function calculate_discount( $data_item, $price ) {
+        $discount_details = $this->get_discount_details();
+		$type = discount_deals_get_value_from_array($discount_details, 'type', 'percentage');
+        $max_discount =  floatval( discount_deals_get_value_from_array($discount_details, 'max_discount', 0 ) );
+        $discount_value = floatval( discount_deals_get_value_from_array($discount_details, 'value', 0 ) );
+        if( 0 >= $discount_value){
+            return 0;
+        }
 		switch ( $type ) {
 			case 'fixed_price':
 				$discount = min( $price, $discount_value );
 				break;
 			case 'percentage':
-				$discount_value = $price * ( $discount_value / 100 );
-				$discount       = $price - $discount_value;
+                if( 100 > $discount_value){
+                    return 0;
+                }
+                $discount = $price * ( $discount_value / 100 );
 				break;
 			default:
 			case 'flat':
-				$discount = $price - $discount_value;
+				//$discount = $price - $discount_value;
+				$discount =  $discount_value;
 				break;
 		}
 		if ( ! empty( $max_discount ) ) {

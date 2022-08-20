@@ -108,6 +108,7 @@ class Discount_Deals_Workflow {
 			$workflow = self::get_instance( $workflow );
 		}
 
+
 		if ( is_object( $workflow ) ) {
 			$this->set_id( $workflow->dd_id );
 			$this->set_title( $workflow->dd_title );
@@ -302,8 +303,8 @@ class Discount_Deals_Workflow {
 	 *
 	 * @return void
 	 */
-	public function set_exclusive( $exclusive = 'no' ) {
-		$this->exclusive = ( 'yes' == $exclusive );
+	public function set_exclusive( $exclusive = 0 ) {
+		$this->exclusive = ( 1 == $exclusive );
 	}//end set_exclusive()
 
 
@@ -551,9 +552,9 @@ class Discount_Deals_Workflow {
 	 * @return integer|void
 	 */
 	public function may_have_product_discount( $product, $price ) {
-		$discounts = $this->get_discount();
-		if ( is_a( $discounts, 'Discount_Deals_Workflow_Discount' ) ) {
-			return $discounts->calculate_discount( $product, $price );
+		$discount = $this->get_discount();
+		if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
+			return $discount->calculate_discount( $product, $price );
 		}
 
 		return 0;
@@ -576,14 +577,11 @@ class Discount_Deals_Workflow {
 	 * @return void
 	 */
 	public function set_discount( $discounts = array() ) {
-		$all_discounts = Discount_Deals_Workflows::get_all_discounts();
-		$discount_type = $this->get_type();
-		if ( array_key_exists( $discount_type, $all_discounts ) ) {
-			$discount_object = $all_discounts[ $discount_type ];
-			$discount_object->set_discount_details( $discounts );
-			$this->discount = $discount_object;
-		}
-	}//end set_discount()
+		$discount_type   = $this->get_type();
+		$discount_object = Discount_Deals_Workflows::get_discount_type( $discount_type );
+		$discount_object->set_discount_details( $discounts );
+		$this->discount = $discount_object;
+	}
 
 
 }//end class
