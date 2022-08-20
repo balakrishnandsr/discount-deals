@@ -107,8 +107,8 @@ class Discount_Deals_Admin {
 					'dd_rules'     => maybe_serialize( $rules ),
 					'dd_meta'      => maybe_serialize( array() ),
 					'dd_discounts' => maybe_serialize( $discounts ),
-					'dd_status'    => 1,
-					'dd_exclusive' => 1,
+					'dd_status'    => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_status', '1' ) ),
+					'dd_exclusive' => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_exclusive', '0' ) ),
 					'dd_user_id'   => get_current_user_id(),
 				);
 				$workflow_db   = new Discount_Deals_Workflow_DB();
@@ -125,13 +125,15 @@ class Discount_Deals_Admin {
 					}
 				}
 				$redirect_url = menu_page_url( 'discount-deals', false );
-				$redirect_url = add_query_arg(
-					array(
-						'workflow' => $id,
-						'action'   => 'edit',
-					),
-					$redirect_url
-				);
+				if ( "save" == $save_workflow ) {
+					$redirect_url = add_query_arg(
+						array(
+							'workflow' => $id,
+							'action'   => 'edit',
+						),
+						$redirect_url
+					);
+				}
 				wp_safe_redirect( $redirect_url );
 
 				return $id;
@@ -143,7 +145,7 @@ class Discount_Deals_Admin {
 		return false;
 	}
 
-/**
+	/**
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @return void
