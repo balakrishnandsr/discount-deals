@@ -108,6 +108,7 @@ class Discount_Deals_Workflow {
 			$workflow = self::get_instance( $workflow );
 		}
 
+
 		if ( is_object( $workflow ) ) {
 			$this->set_id( $workflow->dd_id );
 			$this->set_title( $workflow->dd_title );
@@ -216,7 +217,7 @@ class Discount_Deals_Workflow {
 	 * Set workflow data layer.
 	 *
 	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer Data layer.
-	 * @param boolean                                  $reset_workflow_data Reset workflow data.
+	 * @param boolean $reset_workflow_data Reset workflow data.
 	 *
 	 * @return void
 	 */
@@ -437,9 +438,9 @@ class Discount_Deals_Workflow {
 		if ( ! is_array( $rule ) ) {
 			return true;
 		}
-		$rule_name    = isset( $rule['name'] ) ? $rule['name'] : false;
-		$rule_compare = isset( $rule['compare'] ) ? $rule['compare'] : false;
-		$rule_value   = isset( $rule['value'] ) ? $rule['value'] : false;
+		$rule_name    = discount_deals_get_value_from_array( $rule, 'name', false );
+		$rule_compare = discount_deals_get_value_from_array( $rule, 'compare', false );
+		$rule_value   = discount_deals_get_value_from_array( $rule, 'value', false );
 		if ( ! $rule_name ) {
 			return true;
 		}
@@ -547,12 +548,14 @@ class Discount_Deals_Workflow {
 	 *
 	 * @param object $product Product.
 	 * @param float $price Price used for when enable subsequent.
-	 * @param float $discount Price used for when enable subsequent.
 	 *
 	 * @return integer|void
 	 */
 	public function may_have_product_discount($product, $price ) {
 		$discount = $this->get_discount();
+        echo "<pre>";
+        print_r($discount);
+        echo "</pre>";
 		if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
 			return $discount->calculate_discount( $product, $price );
 		}
@@ -576,13 +579,15 @@ class Discount_Deals_Workflow {
 	 *
 	 * @return void
 	 */
-	public function set_discount( $discount = array() ) {
-		$all_discounts = Discount_Deals_Workflows::get_all_discounts();
-		$discount_type = $this->get_type();
-		if ( array_key_exists( $discount_type, $all_discounts ) ) {
-			$this->discount = $all_discounts[ $discount_type ];
-		}
-	}//end set_discount()
+    public function set_discount( $discounts = array() ) {
+        $all_discounts = Discount_Deals_Workflows::get_all_discounts();
+        $discount_type = $this->get_type();
+        if ( array_key_exists( $discount_type, $all_discounts ) ) {
+            $discount_object = $all_discounts[ $discount_type ];
+            $discount_object->set_discount_details( $discounts );
+            $this->discount = $discount_object;
+        }
+    }
 
 
 }//end class

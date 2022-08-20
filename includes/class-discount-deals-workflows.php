@@ -286,9 +286,11 @@ class Discount_Deals_Workflows {
 				'customer' => WC()->customer,
 				'cart'     => WC()->cart,
 			);
+
 			foreach ( $workflows as $workflow ) {
 				$workflow_object = new Discount_Deals_Workflow( $workflow );
-				$workflow_object->set_data_layer( $data_items );
+                $workflow_object->set_data_layer( $data_items );
+                self::$_active_workflows[] = $workflow_object;
 				self::$_active_workflows['all_active'][] = $workflow_object;
 				if ( $workflow_object->get_exclusive() ) {
 					self::$_active_workflows['exclusive'][] = $workflow_object;
@@ -345,6 +347,7 @@ class Discount_Deals_Workflows {
                         break;
                     case 'lowest_matched':
                         $applied_discount = array_keys ( $valid_discounts, min( $valid_discounts ) );
+
                         $valid_discounts  = $valid_discounts[$applied_discount[0]];
                         break;
                     default:
