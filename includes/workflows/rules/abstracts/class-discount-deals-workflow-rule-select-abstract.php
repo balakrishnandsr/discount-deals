@@ -46,7 +46,6 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 	 * @param array|string $expected Expected value.
 	 *
 	 * @return bool
-	 *
 	 */
 	public function validate_select_case_insensitive( $actual, $compare_type, $expected ) {
 		if ( is_array( $actual ) ) {

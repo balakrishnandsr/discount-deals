@@ -76,7 +76,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_title() {
 		return $this->title;
-	}//end set_title()
+	}//end get_title()
 
 	/**
 	 * Set title for the discount
@@ -87,7 +87,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_title( $title ) {
 		$this->title = $title;
-	}//end get_title()
+	}//end set_title()
 
 	/**
 	 * Get description of the discount
@@ -147,6 +147,7 @@ abstract class Discount_Deals_Workflow_Discount {
 
 	/**
 	 * Admin discount fields
+	 *
 	 * @return mixed|void
 	 */
 	public function load_fields() {
@@ -156,11 +157,11 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
-	 * @param mixed $subsequent_price Price.
+	 * @param mixed $price Price.
 	 *
 	 * @return mixed
 	 */
-	abstract public function calculate_discount( $data_item, $subsequent_price );
+	abstract public function calculate_discount( $data_item, $price );
 
 }//end class
 

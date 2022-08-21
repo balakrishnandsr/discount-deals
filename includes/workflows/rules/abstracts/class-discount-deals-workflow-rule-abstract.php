@@ -29,6 +29,7 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 
 	/**
 	 * Group that rules belongs to
+	 *
 	 * @var string
 	 */
 	public $group;
@@ -61,6 +62,7 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	public $has_multiple_value_fields = false;
 	/**
 	 * Some triggers excluded for particular rule
+	 *
 	 * @var array
 	 */
 	public $excluded_triggers = array();
@@ -394,7 +396,6 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 
 	/**
 	 * Validates string regex rule.
-	 *
 	 *
 	 * @param string $string Input.
 	 * @param string $regex Regular expression to check.

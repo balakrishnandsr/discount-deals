@@ -29,7 +29,12 @@ abstract class Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract extends Di
 	 */
 	public function get_select_choices() {
 		if ( ! isset( $this->select_choices ) ) {
-			$this->select_choices = apply_filters( 'ig_es_rules_preloaded_select_choices', $this->load_select_choices(), $this );
+			/**
+			 * discount_deals_rules_preloaded_select_choices
+			 *
+			 * @since 1.0.0
+			 */
+			$this->select_choices = apply_filters( 'discount_deals_rules_preloaded_select_choices', $this->load_select_choices(), $this );
 		}
 
 		return $this->select_choices;

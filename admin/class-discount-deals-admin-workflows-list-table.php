@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 /**
@@ -161,20 +161,20 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 				$workflow_db = new Discount_Deals_Workflow_DB();
 				foreach ( $workflow_ids as $workflow_id ) {
 					switch ( $current_action ) {
-						case "delete":
+						case 'delete':
 							die( 'hai' );
-							//$workflow_db->delete($workflow_id);
+							// $workflow_db->delete($workflow_id);
 							break;
-						case "enable":
+						case 'enable':
 							$workflow_db->update( $workflow_id, array( 'dd_status' => 1 ) );
 							break;
-						case "disable":
+						case 'disable':
 							$workflow_db->update( $workflow_id, array( 'dd_status' => 0 ) );
 							break;
-						case "exclusive":
+						case 'exclusive':
 							$workflow_db->update( $workflow_id, array( 'dd_exclusive' => 1 ) );
 							break;
-						case "not_exclusive":
+						case 'not_exclusive':
 							$workflow_db->update( $workflow_id, array( 'dd_exclusive' => 0 ) );
 							break;
 					}
@@ -202,7 +202,7 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 * Return default value for the workflow
 	 *
 	 * @param array|object $item Workflow details.
-	 * @param string $column_name column name.
+	 * @param string       $column_name column name.
 	 *
 	 * @return bool|mixed|string|void
 	 */
