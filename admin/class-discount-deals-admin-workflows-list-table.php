@@ -30,22 +30,6 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 				'ajax'     => false,
 			)
 		);
-
-		add_action( 'admin_head', array( &$this, 'admin_header' ) );
-	}
-
-	/**
-	 * Set some style for the tables
-	 *
-	 * @return void
-	 */
-	public function admin_header() {
-		$page = discount_deals_get_data( 'page', '' );
-		if ( 'discount-deals' != $page ) {
-			return;
-		}
-		echo '<style type="text/css">';
-		echo '</style>';
 	}
 
 	/**
@@ -162,8 +146,7 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 				foreach ( $workflow_ids as $workflow_id ) {
 					switch ( $current_action ) {
 						case 'delete':
-							die( 'hai' );
-							// $workflow_db->delete($workflow_id);
+							$workflow_db->delete( $workflow_id );
 							break;
 						case 'enable':
 							$workflow_db->update( $workflow_id, array( 'dd_status' => 1 ) );
@@ -240,6 +223,42 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		);
 
 		return sprintf( '%1$s %2$s', $item['dd_title'], $this->row_actions( $actions ) );
+	}
+
+	/**
+	 * Exclusive column details
+	 *
+	 * @param array $item Workflow details.
+	 *
+	 * @return void
+	 */
+	public function column_dd_exclusive( $item ) {
+		?>
+        <label class="discount-deals-switch">
+            <input type="checkbox" data-workflow="<?php echo esc_attr( $item['dd_id'] ) ?>"
+                   class="discount-deals-workflow-switch"
+                   data-column="exclusive" <?php echo $item['dd_exclusive'] == 1 ? 'checked' : '' ?> />
+            <span class="slider round"></span>
+        </label>
+		<?php
+	}
+
+	/**
+	 * Status column details
+	 *
+	 * @param array $item Workflow details.
+	 *
+	 * @return void
+	 */
+	public function column_dd_status( $item ) {
+		?>
+        <label class="discount-deals-switch">
+            <input type="checkbox" data-workflow="<?php echo esc_attr( $item['dd_id'] ) ?>"
+                   class="discount-deals-workflow-switch"
+                   data-column="status" <?php echo $item['dd_status'] == 1 ? 'checked' : '' ?> />
+            <span class="slider round"></span>
+        </label>
+		<?php
 	}
 
 	/**

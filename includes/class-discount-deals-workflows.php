@@ -95,10 +95,12 @@ class Discount_Deals_Workflows {
 	 * @return Discount_Deals_Workflow_Discount
 	 */
 	public static function get_discount_type( $discount_type ) {
-		$all_discounts  = self::get_all_discounts();
-		$discount_class = $all_discounts[ $discount_type ];
+		$all_discounts   = self::get_all_discounts();
+		$discount_class  = $all_discounts[ $discount_type ];
+		$discount_object = new $discount_class();
+		$discount_object->set_name( $discount_type );
 
-		return new $discount_class();
+		return $discount_object;
 	}
 
 	/**

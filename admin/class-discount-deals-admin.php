@@ -107,8 +107,8 @@ class Discount_Deals_Admin {
 					'dd_rules'     => maybe_serialize( $rules ),
 					'dd_meta'      => maybe_serialize( array() ),
 					'dd_discounts' => maybe_serialize( $discounts ),
-					'dd_status'    => 1,
-					'dd_exclusive' => 1,
+					'dd_status'    => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_status', '1' ) ),
+					'dd_exclusive' => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_exclusive', '0' ) ),
 					'dd_user_id'   => get_current_user_id(),
 				);
 				$workflow_db   = new Discount_Deals_Workflow_DB();
@@ -125,13 +125,15 @@ class Discount_Deals_Admin {
 					}
 				}
 				$redirect_url = menu_page_url( 'discount-deals', false );
-				$redirect_url = add_query_arg(
-					array(
-						'workflow' => $id,
-						'action'   => 'edit',
-					),
-					$redirect_url
-				);
+				if ( "save" == $save_workflow ) {
+					$redirect_url = add_query_arg(
+						array(
+							'workflow' => $id,
+							'action'   => 'edit',
+						),
+						$redirect_url
+					);
+				}
 				wp_safe_redirect( $redirect_url );
 
 				return $id;
@@ -162,8 +164,14 @@ class Discount_Deals_Admin {
 	 */
 	public function enqueue_scripts() {
 		$action = discount_deals_get_data( 'action', 'list' );
-
 		if ( 'new' != $action && 'edit' != $action ) {
+			wp_enqueue_script( $this->plugin_slug . '-workflows', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-workflows.js', array( 'jquery' ), $this->version );
+			wp_localize_script( $this->plugin_slug . '-workflows', 'discount_deals_workflows_localize_script', array(
+				'nonce' => array(
+					'change_column_status' => wp_create_nonce( 'discount_deals_change_workflow_column_status' )
+				)
+			) );
+
 			// Don't load meta boxes if it is not an add/edit workflow screen.
 			return;
 		}
@@ -178,8 +186,8 @@ class Discount_Deals_Admin {
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
 
 		wp_enqueue_script(
-			$this->plugin_slug,
-			plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin.js',
+			$this->plugin_slug . '-workflow',
+			plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-workflow.js',
 			array(
 				'jquery',
 				'wp-util',
@@ -188,7 +196,7 @@ class Discount_Deals_Admin {
 			),
 			$this->version
 		);
-		wp_localize_script( $this->plugin_slug, 'discount_deals_workflow_localize_script', $this->get_js_data() );
+		wp_localize_script( $this->plugin_slug . '-workflow', 'discount_deals_workflow_localize_script', $this->get_js_data() );
 
 	}//end enqueue_scripts()
 
@@ -207,18 +215,15 @@ class Discount_Deals_Admin {
 			foreach ( $rule_options as &$rule_group ) {
 				foreach ( $rule_group as &$rule ) {
 					$rule_object = Discount_Deals_Workflows::get_rule_type( $rule['name'] );
-
 					if ( ! $rule_object ) {
 						continue;
 					}
-
 					if ( 'object' == $rule_object->type ) {
 						$a = 1;
 					} else {
 						// Format the rule value.
 						$rule['value'] = $rule_object->format_value( $rule['value'] );
 					}
-
 					if ( 'select' == $rule_object->type ) {
 						$a = 1;
 					}
