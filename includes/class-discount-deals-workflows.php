@@ -197,7 +197,7 @@ class Discount_Deals_Workflows {
 		$calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
 
 		if ( empty( $active_workflows ) ) {
-			return 0;
+			return $price;
 		}
 
 		/**
@@ -241,7 +241,7 @@ class Discount_Deals_Workflows {
 			$discounted_price = self::get_discount( $non_exclusive_workflows, $product, $price, $apply_as );
 		}
 
-		if ( empty( $discounted_price ) || 0 == $discounted_price ) {
+		if ( false === $discounted_price ) {
 			return $price;
 		}
 
