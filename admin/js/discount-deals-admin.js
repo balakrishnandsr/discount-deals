@@ -9,27 +9,27 @@
 	let discount_deals = {}
 
 	function init_discounts() {
-		var discount_meta_box = $("#discount_deals_workflow_discounts_box");
+		var discount_meta_box = $( "#discount_deals_workflow_discounts_box" );
 		$( document ).on(
 			"change",
 			"#discount_deals_workflow_type",
 			function () {
 				let discount_type = $( this ).val();
-				discount_meta_box.find('tr.discount-options-field-container').remove();
+				discount_meta_box.find( 'tr.discount-options-field-container' ).remove();
 				if (discount_type) {
 					fetch_discount_details( discount_type ).done(
 						function (response) {
 							if ( ! response.success) {
 								return;
 							}
-                            discount_meta_box.find('tbody').append( response.data.fields );
+							discount_meta_box.find( 'tbody' ).append( response.data.fields );
 							discount_deals.workflow.set( 'discount_type', response.data.discount_details );
-                            discount_deals.rules.clear_incompatible_rules();
+							discount_deals.rules.clear_incompatible_rules();
 						}
 					);
 				} else {
 					discount_deals.workflow.set( 'discount_type', false );
-                    discount_deals.rules.clear_incompatible_rules();
+					discount_deals.rules.clear_incompatible_rules();
 				}
 			}
 		);
@@ -49,7 +49,7 @@
 	}
 
 	function init_rules() {
-		var workflow = Backbone.Model.extend( {} );
+		var workflow   = Backbone.Model.extend( {} );
 		var rule_group = Backbone.Model.extend(
 			{
 				initialize: function (app) {
@@ -58,7 +58,7 @@
 					this.set( 'rules', [] );
 				},
 				create_rule: function () {
-					var rules = this.get( 'rules' );
+					var rules    = this.get( 'rules' );
 					var rule_obj = new rule( this );
 					rules.push( rule_obj );
 					this.set( 'rules', rules );
@@ -91,10 +91,10 @@
 				}
 			}
 		);
-		var rules = Backbone.Model.extend(
+		var rules      = Backbone.Model.extend(
 			{
 				initialize: function () {
-					var app = this;
+					var app          = this;
 					var rule_options = [];
 					if (this.get( 'raw_rule_options' )) {
 						_.each(
@@ -158,7 +158,7 @@
 					this.set( 'grouped_rules', grouped_rules );
 				},
 				create_group: function () {
-					var rule_groups = this.get( 'rule_options' );
+					var rule_groups      = this.get( 'rule_options' );
 					var rule_group_model = new rule_group( this );
 					rule_group_model.create_rule();
 					rule_groups.push( rule_group_model );
@@ -181,28 +181,37 @@
 					this.trigger( 'rule_group_change' );
 				},
 				is_rule_available: function( rule_name ) {
-					var available_rules = discount_deals.rules.get('available_rules');
-					var names = _.pluck( available_rules, 'name' );
+					var available_rules = discount_deals.rules.get( 'available_rules' );
+					var names           = _.pluck( available_rules, 'name' );
 					return _.indexOf( names, rule_name ) !== -1;
 				},
 				clear_incompatible_rules: function() {
 					var rules_to_remove = [];
-					_.each( discount_deals.rules.get( 'rule_options' ), function( rule_group ) {
-						_.each( rule_group.get( 'rules' ), function( rule ) {
-							if ( rule && ! discount_deals.rules.is_rule_available( rule.get('name') ) ) {
-								rules_to_remove.push( rule );
-							}
-						});
-					});
+					_.each(
+						discount_deals.rules.get( 'rule_options' ),
+						function( rule_group ) {
+							_.each(
+								rule_group.get( 'rules' ),
+								function( rule ) {
+									if ( rule && ! discount_deals.rules.is_rule_available( rule.get( 'name' ) ) ) {
+										rules_to_remove.push( rule );
+									}
+								}
+							);
+						}
+					);
 
 					// clear out of initial loop to avoid index changing issues, when rules are cleared
-					_.each( rules_to_remove, function( rule ) {
-						rule.clear();
-					});
+					_.each(
+						rules_to_remove,
+						function( rule ) {
+							rule.clear();
+						}
+					);
 				},
 			}
 		);
-		var rule = Backbone.Model.extend(
+		var rule       = Backbone.Model.extend(
 			{
 				initialize: function (group) {
 					this.set( 'id', _.uniqueId( 'rule_' ) );
@@ -213,7 +222,7 @@
 					return data.all_rules[this.get( 'name' )];
 				},
 				reset_options: function () {
-					var name = this.get( 'name' );
+					var name       = this.get( 'name' );
 					var ruleObject = this.get_rule_object();
 					if (name) {
 						this.set( 'object', ruleObject );
@@ -226,7 +235,7 @@
 					return this;
 				},
 				load_select_options: function () {
-					var self = this;
+					var self        = this;
 					var rule_object = this.get_rule_object();
 					if ( ! rule_object || rule_object.type !== 'select' || rule_object.select_choices) {
 						return this;
@@ -270,7 +279,7 @@
 				},
 				add_rule_group: function () {
 					var model = this.model.create_group();
-					var view = new rule_group_view( {model: model} );
+					var view  = new rule_group_view( {model: model} );
 					this.$el.find( '.discount-deals-rule-groups' ).append( view.render().el );
 
 					$( document.body ).trigger( 'wc-enhanced-select-init' );
@@ -315,7 +324,7 @@
 							}
 						)
 					);
-					var rule_groups = self.$el.find( '.discount-deals-rule-groups' );
+					var rule_groups      = self.$el.find( '.discount-deals-rule-groups' );
 					var available_groups = self.model.get( 'rule_options' );
 
 					if (available_groups && available_groups.length > 0) {
@@ -348,7 +357,7 @@
 				},
 				update_minimum_from_value_date: function () {
 					var $from = this.$el.find( '.discount-deals-rule-value-from' );
-					var $to = this.$el.find( '.discount-deals-rule-value-to' );
+					var $to   = this.$el.find( '.discount-deals-rule-value-to' );
 
 					if ($from.length && $to.length) {
 						$to.datepicker( 'option', 'minDate', $from.val() );
@@ -390,7 +399,7 @@
 					this.listenTo( this.model, 'destroy', this.remove );
 				},
 				get_field_name_base: function () {
-					var id = this.model.get( 'id' );
+					var id    = this.model.get( 'id' );
 					var group = this.model.get( 'group' );
 					return 'discount_deals_workflow[rule_options][' + group.id + '][' + id + ']';
 				},
@@ -415,7 +424,7 @@
 				},
 				set_value: function () {
 					var selected_title = this.model.get( 'selected' );
-					var selected_id = this.model.get( 'value' );
+					var selected_id    = this.model.get( 'value' );
 					var value_field;
 					if (selected_title) {
 						value_field = this.$el.find( '.discount-deals-rule-value-field' );
@@ -453,7 +462,7 @@
 
 					if (selected_id) {
 						var $fields = this.$el.find( '.discount-deals-rule-value-field' );
-						var self = this;
+						var self    = this;
 						if (this.has_multiple_value_fields()) {
 							if (_.isArray( selected_id )) {
 								$fields.each(
@@ -475,7 +484,7 @@
 					}
 				},
 				maybe_toggle_value_display: function () {
-					var compare = this.model.get( 'compare' );
+					var compare     = this.model.get( 'compare' );
 					var value_field = this.$el.find( '[data-discount-deals-compare]' );
 					if (value_field.length) {
 						// Hide value fields.
@@ -498,7 +507,7 @@
 				},
 				set_compare: function () {
 					var compare_field = this.$el.find( '.discount-deals-rule-compare-field' );
-					var compare = this.model.get( 'compare' );
+					var compare       = this.model.get( 'compare' );
 
 					// Default selected value to first option.
 					if (compare_field.filter( 'select' ).length && ! compare) {
@@ -539,7 +548,7 @@
 				},
 				add_rule: function () {
 					var model = this.model.create_rule();
-					var view = new rule_view( {model: model} );
+					var view  = new rule_view( {model: model} );
 					this.$el.find( '.rules' ).append( view.render().el );
 					$( document.body ).trigger( 'wc-enhanced-select-init' );
 					return this;
@@ -568,7 +577,7 @@
 			}
 		);
 
-		var workflow_view = Backbone.View.extend(
+		var workflow_view       = Backbone.View.extend(
 			{
 				el: $( 'form#post' ),
 				trigger_select: $( '#discount_deals_workflow_type' ),
@@ -605,13 +614,13 @@
 				model: discount_deals.workflow
 			}
 		);
-		discount_deals.rules = new rules(
+		discount_deals.rules         = new rules(
 			{
 				all_rules: data.all_rules,
 				raw_rule_options: data.rule_options
 			}
 		);
-		discount_deals.rules_view = new rules_view(
+		discount_deals.rules_view    = new rules_view(
 			{
 				model: discount_deals.rules
 			}

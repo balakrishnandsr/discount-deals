@@ -218,7 +218,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		}
 
 		// Verify that the date is set.
-		if ( 'is_set' == $compare ) {
+		if ( 'is_set' === $compare ) {
 			return false !== $date;
 		}
 

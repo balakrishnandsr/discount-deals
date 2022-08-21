@@ -55,6 +55,7 @@ class Discount_Deals_Public {
 	 */
 	public function init_public_hooks() {
 		add_filter( 'woocommerce_product_get_price', array( $this, 'get_product_price' ), 99, 2 );
+		add_filter( 'woocommerce_product_variation_get_price', array( $this, 'get_product_price' ), 99, 2 );
 	}//end init_public_hooks()
 
 
@@ -90,6 +91,9 @@ class Discount_Deals_Public {
 	 * @return float
 	 */
 	public function get_product_price( $price, $product ) {
+		if ( 'variable' === $product->get_type() ) {
+			return $price;
+		}
 		return discount_deals_get_product_discount( $price, $product );
 	}//end get_product_price()
 
