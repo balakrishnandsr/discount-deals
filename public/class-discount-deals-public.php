@@ -40,11 +40,13 @@ class Discount_Deals_Public {
 
 		$this->plugin_slug = $plugin_name;
 		$this->version     = $version;
+        if( ! is_admin()){
+            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+            add_action( 'woocommerce_init', array( $this, 'init_public_hooks' ) );
+        }
 
-		add_action( 'woocommerce_init', array( $this, 'init_public_hooks' ) );
 
 	}//end __construct()
 
@@ -55,6 +57,10 @@ class Discount_Deals_Public {
 	 */
 	public function init_public_hooks() {
 		add_filter( 'woocommerce_product_get_price', array( $this, 'get_product_price' ), 99, 2 );
+		add_filter( 'woocommerce_product_variation_get_price', array( $this, 'get_product_price' ), 99, 2 );
+		add_filter( 'woocommerce_product_get_sale_price', array( $this, 'get_sale_price' ), 99, 2 );
+		add_filter( 'woocommerce_product_variation_get_sale_price', array( $this, 'get_sale_price' ), 99, 2 );
+        add_filter( 'woocommerce_variation_prices', array( $this, 'get_variation_prices'), 99, 3 );
 	}//end init_public_hooks()
 
 
@@ -92,6 +98,41 @@ class Discount_Deals_Public {
 	public function get_product_price( $price, $product ) {
 		return discount_deals_get_product_discount( $price, $product );
 	}//end get_product_price()
+
+    /**
+     * Set woocommerce product sale price.
+     *
+     * @param $price
+     * @param $product
+     * @return mixed|string
+     */
+    public function get_sale_price( $price, $product ){
+        $sale_price = ( is_a( $product, 'WC_Product' ) ) ? $product->get_price() : '';
+        if( 0 == $sale_price || empty($sale_price) ){
+            return $price;
+        }
+       return $sale_price;
+    }
+
+    /**
+     * Get variation prices.
+     *
+     * @param array $transient_cached_prices_array Cached prices array
+     * @param WC_Product $product Product.
+     * @param boolean $for_display true | false
+     * @return array
+     */
+    public function get_variation_prices( $transient_cached_prices_array, $product, $for_display ){
+        if(!empty($transient_cached_prices_array['price']) && !empty($transient_cached_prices_array['regular_price']) && !empty($transient_cached_prices_array['sale_price'])  ){
+            foreach ($transient_cached_prices_array['price'] as $variation_id => $variation_price){
+                $product = wc_get_product($variation_id);
+                $sale_price = ( is_a( $product, 'WC_Product' ) ) ? $product->get_price() : $variation_price;
+                $transient_cached_prices_array['price'][$variation_id] = $sale_price;
+                $transient_cached_prices_array['sale_price'][$variation_id] = $sale_price;
+            }
+        }
+        return $transient_cached_prices_array;
+    }
 
 
 

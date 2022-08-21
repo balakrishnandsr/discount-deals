@@ -357,11 +357,11 @@ class Discount_Deals_Admin {
 			return;
 		}
 		?>
-        <script>
-            jQuery(document).ready(function () {
-                postboxes.add_postbox_toggles(pagenow);
-            });
-        </script>
+		<script>
+			jQuery(document).ready(function () {
+				postboxes.add_postbox_toggles(pagenow);
+			});
+		</script>
 		<?php
 	}
 
@@ -381,7 +381,11 @@ class Discount_Deals_Admin {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_filter( 'screen_options_show_screen', array( $this, 'remove_screen_options' ) );
 
-		// Trigger the add_meta_boxes hooks to allow meta boxes to be added.
+		/**
+		 * Trigger the add_meta_boxes hooks to allow meta boxes to be added.
+		 *
+		 * @since 1.0.0
+		 */
 		do_action( 'add_meta_boxes', 'discount_deals_workflows', null );
 
 		// Enqueue WordPress' script for handling the meta boxes.

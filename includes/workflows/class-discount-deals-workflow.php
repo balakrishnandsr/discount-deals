@@ -108,7 +108,6 @@ class Discount_Deals_Workflow {
 			$workflow = self::get_instance( $workflow );
 		}
 
-
 		if ( is_object( $workflow ) ) {
 			$this->set_id( $workflow->dd_id );
 			$this->set_title( $workflow->dd_title );
@@ -217,7 +216,7 @@ class Discount_Deals_Workflow {
 	 * Set workflow data layer.
 	 *
 	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer Data layer.
-	 * @param boolean $reset_workflow_data Reset workflow data.
+	 * @param boolean                                  $reset_workflow_data Reset workflow data.
 	 *
 	 * @return void
 	 */
@@ -547,7 +546,7 @@ class Discount_Deals_Workflow {
 	 * May have product discount.
 	 *
 	 * @param object $product Product.
-	 * @param float $price Price used for when enable subsequent.
+	 * @param float  $price Price used for when enable subsequent.
 	 *
 	 * @return integer|void
 	 */

@@ -149,6 +149,7 @@ class Discount_Deals_Workflows {
 				$rule_class = new $class_name();
 				/**
 				 * Workflow discount
+				 *
 				 * @var Discount_Deals_Workflow_Rule_Abstract $rule_class Rule.
 				 */
 				$rule_class->set_name( $rule_name );
@@ -184,80 +185,69 @@ class Discount_Deals_Workflows {
 	/**
 	 * Calculate product discount.
 	 *
-	 * @param float $price Product price.
+	 * @param float      $price Product price.
 	 * @param WC_Product $product Product.
 	 *
 	 * @return integer|void
 	 */
 	public static function calculate_product_discount( $price, $product ) {
 
-		$active_workflows = self::get_active_workflows();
-
-		$discounts = $exclusive_workflows = $non_exclusive_workflows = array();
+		$active_workflows    = self::get_active_workflows();
+		$discounted_price    = 0;
+		$exclusive_workflows = $non_exclusive_workflows = array();
 
 		$calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
 
-
-		$cart_items = ( is_object( WC()->cart ) && is_callable(
-				array(
-					WC()->cart,
-					'get_cart',
-				)
-			) ) ? WC()->cart->get_cart() : array();
-
 		if ( empty( $active_workflows ) ) {
-			return 0;
+			return $price;
 		}
 
-		// echo "<pre>"; print_r(); echo "</pre>";.
+		/**
+		 * Hook to apply the exclusive
+		 *
+		 * @since 1.0.0
+		 */
+		$apply_as = apply_filters(
+			'discount_deals_apply_exclusive_rules_as',
+			'lowest_matched',
+			array(
+				'product'            => $product,
+				'active_workflows'   => $active_workflows,
+				'workflows_apply_as' => array(
+					'all_matched',
+					'biggest_matched',
+					'lowest_matched',
+				),
 
-		/*
-		&& apply_filters('is_product_eligible_for_dd_exclusive_workflows', true, array(
-				'product'  => $product,
-				'active_workflows' => $active_workflows,
-				'cart_items' => $cart_items
 			)
-		)
-		*/
+		);
 
 		if ( ! empty( $active_workflows['exclusive'] ) ) {
-			$exclusive_apply_as  = apply_filters(
-				'apply_dd_exclusive_rules_as',
-				'first_matched',
-				array(
-					'product'            => $product,
-					'active_workflows'   => $active_workflows,
-					'cart_items'         => $cart_items,
-					'workflows_apply_as' => array(
-						'first_matched',
-						'last_matched',
-						'highest_discount',
-						'smallest_discount',
-					),
-
-				)
-			);
 			$exclusive_workflows = $active_workflows['exclusive'];
-
 		} else {
 			$non_exclusive_workflows = $active_workflows['non_exclusive'];
 		}
 
 		if ( 'regular_price' === $calculate_discount_from ) {
-			$price = ( is_object( $product ) && is_callable( array(
+			$price = ( is_object( $product ) && is_callable(
+				array(
 					$product,
-					'get_regular_price'
-				) ) ) ? $product->get_regular_price() : 0;
+					'get_regular_price',
+				)
+			) ) ? $product->get_regular_price() : 0;
 		}
 
-		$discounts = 0;
-
-		$discounts = self::get_discount( $exclusive_workflows, $product, $price );
-		if ( empty( $discounts ) || 0 == $discounts ) {
-			$discounts = self::get_discount( $exclusive_workflows, $product, $price );
+		$discounted_price = self::get_discount( $exclusive_workflows, $product, $price, $apply_as );
+		if ( false === $discounted_price ) {
+			$apply_as         = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
+			$discounted_price = self::get_discount( $non_exclusive_workflows, $product, $price, $apply_as );
 		}
 
-		return $discounts;
+		if ( false === $discounted_price ) {
+			return $price;
+		}
+
+		return $discounted_price;
 
 	}
 
@@ -297,69 +287,74 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get discount details by workflows.
 	 *
-	 * @param array $workflows Array of objects.
+	 * @param array      $workflows Array of objects.
 	 * @param WC_Product $product Product object.
-	 * @param float $price Product price.
+	 * @param float      $price Product price.
+	 * @param string     $apply_as Apply Discount as.
 	 *
 	 * @return array|mixed
 	 */
-	public static function get_discount( $workflows, $product, $price ) {
-		if ( ! empty( $workflows ) ) {
-			$apply_as         = Discount_Deals_Settings::get_settings( 'apply_discount_to', 'lowest_matched' );
-			$valid_discounts  = array();
-			$applied_discount = array();
-			foreach ( $workflows as $workflow ) {
-				$workflow_id = $workflow->get_id();
-				/**
-				 * Workflow.
-				 * @var Discount_Deals_Workflow $workflow
-				 */
-
-				$apply_subsequently = Discount_Deals_Settings::get_settings( 'apply_discount_subsequently', 'no' );
-				if ( 'yes' == $apply_subsequently ) {
-					$discounts = array_sum( $valid_discounts );
-					$price     = $price - $discounts;
-				}
-
-				if ( $workflow->validate_rules() ) {
-					$valid_discounts[ $workflow_id ] = $workflow->may_have_product_discount( $product, $price );
-					if ( 'first_matched' === $apply_as ) {
-						$applied_discount = $valid_discounts;
-
-						return $valid_discounts[ $workflow_id ];
-					}
-				}
-
-			}
-
-			if ( ! empty( $valid_discounts ) ) {
-				switch ( $apply_as ) {
-					case 'biggest_matched':
-						$applied_discount = array_keys( $valid_discounts, max( $valid_discounts ) );
-						$valid_discounts  = $valid_discounts[ $applied_discount[0] ];
-						break;
-					case 'lowest_matched':
-						$applied_discount = array_keys( $valid_discounts, min( $valid_discounts ) );
-
-						$valid_discounts = $valid_discounts[ $applied_discount[0] ];
-						break;
-					default:
-					case 'all_matched':
-						$applied_discount = $valid_discounts;
-						$valid_discounts  = array_sum( $valid_discounts );
-						break;
-				}
-			}
-			$discount = $price - $valid_discounts;
-
-			if ( $discount <= 0 ) {
-				$discount = 0;
-			}
-
-			return $discount;
+	public static function get_discount( $workflows, $product, $price, $apply_as ) {
+		if ( empty( $workflows ) ) {
+			return false;
 		}
+		$valid_discounts  = array();
+		$applied_discount = array();
+		$subsequent_price = $price;
+		foreach ( $workflows as $workflow ) {
+			$workflow_id = $workflow->get_id();
+			/**
+			 * Workflow.
+			 *
+			 * @var Discount_Deals_Workflow $workflow
+			 */
+			$apply_subsequently = Discount_Deals_Settings::get_settings( 'apply_discount_subsequently', 'no' );
 
-		return $price;
+			if ( 'yes' == $apply_subsequently && 'all_matched' === $apply_as ) {
+				$discounts        = array_sum( $valid_discounts );
+				$subsequent_price = $subsequent_price - $discounts;
+			}
+
+			if ( $workflow->validate_rules() ) {
+				$valid_discounts[ $workflow_id ] = $workflow->may_have_product_discount( $product, $subsequent_price );
+			}
+		}
+		$discounted_price = self::get_matched_discount( $valid_discounts );
+		if ( 0 >= $discounted_price ) {
+			return false;
+		}
+		return $price - $discounted_price;
+
+	}
+
+	/**
+	 * Get matched Discount
+	 *
+	 * @param $valid_discounts
+	 * @return float|int|mixed
+	 */
+	public static function get_matched_discount( $valid_discounts ) {
+		$apply_as             = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
+		$applied_discount     = array();
+		$calculated_discounts = 0;
+		if ( ! empty( $valid_discounts ) ) {
+			switch ( $apply_as ) {
+				case 'biggest_matched':
+					$applied_discount     = array_keys( $valid_discounts, max( $valid_discounts ) );
+					$calculated_discounts = $valid_discounts[ $applied_discount[0] ];
+					break;
+				case 'lowest_matched':
+					$applied_discount     = array_keys( $valid_discounts, min( $valid_discounts ) );
+					$calculated_discounts = $valid_discounts[ $applied_discount[0] ];
+					break;
+				default:
+				case 'all_matched':
+					$applied_discount     = $valid_discounts;
+					$calculated_discounts = array_sum( $valid_discounts );
+					break;
+			}
+		}
+		return $calculated_discounts;
 	}
 
 
