@@ -21,11 +21,44 @@ class Discount_Deals_Admin_Ajax {
 		$ajax_events = array(
 			'fill_discount_fields',
 			'update_workflow_column_value',
+			'json_search_coupons',
+			'get_rule_select_choices'
 		);
 
 		foreach ( $ajax_events as $ajax_event ) {
 			add_action( 'wp_ajax_discount_deals_' . $ajax_event, array( __CLASS__, $ajax_event ) );
 		}
+	}
+
+	public static function get_rule_select_choices() {
+
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			die;
+		}
+
+		if ( ! $rule_name = discount_deals_get_request_data( 'rule_name' ) ) {
+			die;
+		}
+
+		$rule_object = Discount_Deals_Workflows::get_rule_type( $rule_name );
+
+		if ( $rule_object->type == 'select' ) {
+			wp_send_json_success( [
+				'select_choices' => $rule_object->get_select_choices()
+			] );
+		}
+
+		die;
+	}
+
+	public static function json_search_coupons() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			die;
+		}
+		$term    = discount_deals_get_request_data( 'term' );
+		$results = discount_deals_search_coupons( $term, true );
+
+		wp_send_json( $results );
 	}
 
 	public static function update_workflow_column_value() {

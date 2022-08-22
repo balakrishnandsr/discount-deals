@@ -14,8 +14,8 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	 * Get data from the GET request
 	 *
 	 * @param string $key Key of the array.
-	 * @param mixed  $default If there is no data then return default value.
-	 * @param bool   $clean Need to clean the output.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param bool $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -39,8 +39,8 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	 * Get data from the REQUEST
 	 *
 	 * @param string $key Key of the array.
-	 * @param mixed  $default If there is no data then return default value.
-	 * @param bool   $clean Need to clean the output.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param bool $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -63,8 +63,8 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	 * Get data from the POST request
 	 *
 	 * @param string $key Key of the array.
-	 * @param mixed  $default If there is no data then return default value.
-	 * @param bool   $clean Need to clean the output.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param bool $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -173,9 +173,9 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	/**
 	 * Get value from array
 	 *
-	 * @param Array  $array Array.
+	 * @param Array $array Array.
 	 * @param string $key Array key.
-	 * @param mixed  $default_value What value should return when the key is not found.
+	 * @param mixed $default_value What value should return when the key is not found.
 	 *
 	 * @return mixed
 	 */
@@ -186,5 +186,83 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 
 		return $default_value;
 	}//end discount_deals_get_value_from_array()
+}
+
+if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {
+	/**
+	 * Get all categories of the shop
+	 *
+	 * @return array
+	 */
+	function discount_deals_get_all_categories( ) {
+		$list = [];
+
+		$categories = get_terms( 'product_cat', [
+			'orderby'    => 'name',
+			'hide_empty' => false
+		] );
+
+		foreach ( $categories as $category ) {
+			$list[ $category->term_id ] = $category->name;
+		}
+
+		return $list;
+	}
+}
+
+if ( ! function_exists( 'discount_deals_get_all_tags' ) ) {
+	/**
+	 * Get all tags of the shop
+	 *
+	 * @return array
+	 */
+	function discount_deals_get_all_tags( ) {
+		$list = [];
+
+		$terms = get_terms( 'product_tag', [
+			'orderby' => 'name',
+			'hide_empty' => false
+		]);
+
+		foreach ( $terms as $term ) {
+			$list[ $term->term_id ] = $term->name;
+		}
+
+		return $list;
+	}
+}
+
+if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
+	/**
+	 * Search coupons
+	 *
+	 * @return array
+	 */
+	function discount_deals_search_coupons( $term, $exclude_personalized) {
+		$args = [
+			'post_type'      => 'shop_coupon',
+			'posts_per_page' => 50,
+			'no_found_rows'  => true,
+			'meta_query'     => [],
+			's'              => $term,
+		];
+
+		if ( $exclude_personalized ) {
+			$args['meta_query'][] = [
+				'key'     => '_is_aw_coupon',
+				'compare' => 'NOT EXISTS',
+			];
+		}
+
+		$query   = new \WP_Query( $args );
+		$results = [];
+
+		foreach ( $query->posts as $coupon ) {
+			$code             = wc_format_coupon_code( $coupon->post_title );
+			$results[ $code ] = $code;
+		}
+
+		return $results;
+	}
 }
 

@@ -244,7 +244,7 @@
 					$.getJSON(
 						ajaxurl,
 						{
-							action: 'aw_get_rule_select_choices',
+							action: 'discount_deals_get_rule_select_choices',
 							rule_name: rule_object.name
 						},
 						function (response) {

@@ -249,3 +249,8 @@ input[type="radio"] {
 .column-dd_title {
     width: 35%;
 }
+
+.discount-deals-table .wc-radios li{
+    display: inline-block;
+    margin-right: 20px;
+}

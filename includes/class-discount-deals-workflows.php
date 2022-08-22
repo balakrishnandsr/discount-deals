@@ -69,6 +69,7 @@ class Discount_Deals_Workflows {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-preloaded-select-abstract.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-product-select-abstract.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-number-abstract.php';
 
 		// Actual rules.
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-shop-date-time.php';
@@ -76,6 +77,16 @@ class Discount_Deals_Workflows {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-city.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-company.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-customer-is-guest.php';
+
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-cart-coupons.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-cart-created-date.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-categories.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-count.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-tags.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-cart-items.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-cart-total.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-product.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-product-categories.php';
 	}//end load_rules()
 
 	/**
@@ -141,6 +152,19 @@ class Discount_Deals_Workflows {
 			'customer_city'                 => 'Discount_Deals_Workflow_Rule_Customer_City',
 			'customer_company'              => 'Discount_Deals_Workflow_Rule_Customer_Company',
 
+			// Product.
+			'product'                       => 'Discount_Deals_Workflow_Rule_Product',
+			'product_categories'            => 'Discount_Deals_Workflow_Rule_Product_Categories',
+
+			// Cart.
+			'cart_coupons'                  => 'Discount_Deals_Workflow_Rule_Cart_Coupons',
+			'cart_created_date'             => 'Discount_Deals_Workflow_Rule_Cart_Created_Date',
+			'cart_item_categories'          => 'Discount_Deals_Workflow_Rule_Cart_Item_Categories',
+			'cart_item_count'               => 'Discount_Deals_Workflow_Rule_Cart_Item_Count',
+			'cart_item_tags'                => 'Discount_Deals_Workflow_Rule_Cart_Item_Tags',
+			'cart_items'                    => 'Discount_Deals_Workflow_Rule_Cart_Items',
+			'cart_total'                    => 'Discount_Deals_Workflow_Rule_Cart_Total',
+
 			// Shop.
 			'shop_date_time'                => 'Discount_Deals_Workflow_Rule_Shop_Date_Time',
 		);
@@ -185,7 +209,7 @@ class Discount_Deals_Workflows {
 	/**
 	 * Calculate product discount.
 	 *
-	 * @param float      $price Product price.
+	 * @param float $price Product price.
 	 * @param WC_Product $product Product.
 	 *
 	 * @return integer|void
@@ -230,11 +254,11 @@ class Discount_Deals_Workflows {
 
 		if ( 'regular_price' === $calculate_discount_from ) {
 			$price = ( is_object( $product ) && is_callable(
-				array(
-					$product,
-					'get_regular_price',
-				)
-			) ) ? $product->get_regular_price() : 0;
+					array(
+						$product,
+						'get_regular_price',
+					)
+				) ) ? $product->get_regular_price() : 0;
 		}
 
 		$discounted_price = self::get_discount( $exclusive_workflows, $product, $price, $apply_as );
@@ -287,10 +311,10 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get discount details by workflows.
 	 *
-	 * @param array      $workflows Array of objects.
+	 * @param array $workflows Array of objects.
 	 * @param WC_Product $product Product object.
-	 * @param float      $price Product price.
-	 * @param string     $apply_as Apply Discount as.
+	 * @param float $price Product price.
+	 * @param string $apply_as Apply Discount as.
 	 *
 	 * @return array|mixed
 	 */
@@ -323,6 +347,7 @@ class Discount_Deals_Workflows {
 		if ( 0 >= $discounted_price ) {
 			return false;
 		}
+
 		return $price - $discounted_price;
 
 	}
@@ -331,6 +356,7 @@ class Discount_Deals_Workflows {
 	 * Get matched Discount
 	 *
 	 * @param $valid_discounts
+	 *
 	 * @return float|int|mixed
 	 */
 	public static function get_matched_discount( $valid_discounts ) {
@@ -354,6 +380,7 @@ class Discount_Deals_Workflows {
 					break;
 			}
 		}
+
 		return $calculated_discounts;
 	}
 
