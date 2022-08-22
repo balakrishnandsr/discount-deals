@@ -180,6 +180,7 @@ class Discount_Deals_Admin {
 			$this->_workflow = Discount_Deals_Workflow::get_instance( $workflow_id );
 		}
 		wp_enqueue_script( $this->plugin_slug . '-datetime-picker', plugin_dir_url( __FILE__ ) . 'js/jquery.datetimepicker.js', array( 'jquery' ), $this->version );
+		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'wc-enhanced-select' );
 		wp_enqueue_script( 'jquery-tiptip' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
