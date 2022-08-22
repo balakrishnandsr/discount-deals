@@ -113,7 +113,9 @@ class Discount_Deals_Date_Time extends DateTime {
 	 * @throws Exception Throws exception.
 	 */
 	public function convert_from_gmt( $datetime ) {
-		$datetime->modify( '-' . $this->get_timezone_offset() * HOUR_IN_SECONDS . ' seconds' );
+		$offset = $this->get_timezone_offset();
+		$symbol = $offset > 0 ? '+' : '-';
+		$datetime->modify( $symbol . abs( $offset ) * HOUR_IN_SECONDS . ' seconds' );
 	}
 
 	/**

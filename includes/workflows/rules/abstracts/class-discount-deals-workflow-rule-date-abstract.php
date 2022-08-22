@@ -243,7 +243,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 			if ( 'is_after' === $compare ) {
 				$comparative = 'after';
 				// exclude the current day from after comparisons.
-				$rule_date->set_time_to_day_end();
+				//$rule_date->set_time_to_day_end();
 			}
 
 			// Because this date value is set in the admin it is logically in site's timezone
@@ -288,7 +288,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 			$from = new Discount_Deals_Date_Time( $rule_from );
 			$to   = new Discount_Deals_Date_Time( $rule_to );
 			// include the full 'to' day in the date range.
-			$to->set_time_to_day_end();
+			//$to->set_time_to_day_end();
 
 			if ( $from > $to ) {
 				return false;
