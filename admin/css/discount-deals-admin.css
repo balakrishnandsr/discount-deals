@@ -186,18 +186,16 @@ input[type="radio"] {
 .discount-deals-switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 48px;
+    height: 27px;
 }
 
-/* Hide default HTML checkbox */
 .discount-deals-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-/* The slider */
 .discount-deals-switch .slider {
     position: absolute;
     cursor: pointer;
@@ -213,8 +211,8 @@ input[type="radio"] {
 .discount-deals-switch .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 20px;
+    width: 20px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -231,9 +229,9 @@ input[type="radio"] {
 }
 
 .discount-deals-switch input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
 }
 
 .discount-deals-switch .slider.round {

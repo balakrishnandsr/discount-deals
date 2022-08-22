@@ -102,15 +102,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</select>
 					<# } else if ( data.rule.object.type === 'date' ) { #>
 						<# if ( data.rule.object.uses_datepicker === true ) { #>
-							<input type="text" name="{{ data.field_name_base }}[value][date]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-date discount-deals-date-picker date-picker discount-deals-hidden" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" data-discount-deals-compare="is_after is_before is_on is_not_on" autocomplete="off"/>
+							<input type="text" name="{{ data.field_name_base }}[value][date]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-date discount-deals-date-picker date-picker discount-deals-hidden" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" data-discount-deals-compare="is_after is_before is_on is_not_on" autocomplete="off"/>
 						<# } #>
 						<# if ( data.rule.object.has_is_between_dates === true ) { #>
 							<div class="discount-deals-grid discount-deals-hidden" data-discount-deals-compare="is_between">
 								<div class="discount-deals-col-6">
-									<input type="text" name="{{ data.field_name_base }}[value][from]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-from date-picker discount-deals-date-picker" placeholder="start" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" autocomplete="off"/>
+									<input type="text" name="{{ data.field_name_base }}[value][from]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-from date-picker discount-deals-date-picker" placeholder="start" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" autocomplete="off"/>
 								</div>
 								<div class="discount-deals-col-6">
-									<input type="text" name="{{ data.field_name_base }}[value][to]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-to date-picker discount-deals-date-picker" placeholder="end" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" autocomplete="off"/>
+									<input type="text" name="{{ data.field_name_base }}[value][to]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-to date-picker discount-deals-date-picker" placeholder="end" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" autocomplete="off"/>
 								</div>
 							</div>
 						<# } #>

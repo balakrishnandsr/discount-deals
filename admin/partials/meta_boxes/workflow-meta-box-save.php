@@ -17,7 +17,7 @@ $workflow = $this->get_workflow();
 ?>
 <div class="submitbox" id="submitpost">
     <div class="wide">
-        <table class="discount-deals-table-save">
+        <table class="discount-deals-table">
             <tbody>
 			<?php
 			discount_deals_select(
@@ -27,7 +27,7 @@ $workflow = $this->get_workflow();
 					'value'                 => ( $workflow ) ? $workflow->get_status() : '1',
 					'label'                 => __( 'Status', 'discount-deals' ),
 					'options'               => array(
-						'1' => __( 'Active', 'discount_deals' ),
+						'1' => __( 'Publish', 'discount_deals' ),
 						'0' => __( 'Draft', 'discount_deals' ),
 					),
 					'desc_tip'              => false,

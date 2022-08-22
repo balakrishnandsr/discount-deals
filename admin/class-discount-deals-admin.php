@@ -151,8 +151,8 @@ class Discount_Deals_Admin {
 	 * @return void
 	 */
 	public function enqueue_styles() {
-
-		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/discount-deals-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_slug . '-datetime-picker', plugin_dir_url( __FILE__ ) . 'css/jquery.datetimepicker.css', array(), $this->version );
+		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/discount-deals-admin.css', array(), $this->version );
 		wp_enqueue_style( 'jquery-ui-style' );
 	}//end enqueue_styles()
 
@@ -179,9 +179,9 @@ class Discount_Deals_Admin {
 		if ( 'edit' === $action && 0 < $workflow_id ) {
 			$this->_workflow = Discount_Deals_Workflow::get_instance( $workflow_id );
 		}
+		wp_enqueue_script( $this->plugin_slug . '-datetime-picker', plugin_dir_url( __FILE__ ) . 'js/jquery.datetimepicker.js', array( 'jquery' ), $this->version );
 		wp_enqueue_script( 'wc-enhanced-select' );
 		wp_enqueue_script( 'jquery-tiptip' );
-		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
 
@@ -357,11 +357,11 @@ class Discount_Deals_Admin {
 			return;
 		}
 		?>
-		<script>
-			jQuery(document).ready(function () {
-				postboxes.add_postbox_toggles(pagenow);
-			});
-		</script>
+        <script>
+            jQuery(document).ready(function () {
+                postboxes.add_postbox_toggles(pagenow);
+            });
+        </script>
 		<?php
 	}
 

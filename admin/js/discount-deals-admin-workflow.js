@@ -360,7 +360,13 @@
 					var $to   = this.$el.find( '.discount-deals-rule-value-to' );
 
 					if ($from.length && $to.length) {
-						$to.datepicker( 'option', 'minDate', $from.val() );
+						// $to.datepicker( 'option', 'minDate', $from.val() );
+						$to.datetimepicker(
+                            {
+								format: 'Y-m-d H:i',
+                                minDate: $from.val()
+                            }
+                        );
 					}
 				},
 				updated_rule_value: function (e) {
@@ -495,10 +501,9 @@
 					}
 				},
 				init_date_picker: function () {
-					this.$el.find( '.discount-deals-date-picker' ).datepicker(
+					this.$el.find( '.discount-deals-date-picker' ).datetimepicker(
 						{
-							dateFormat: 'yy-mm-dd',
-							showButtonPanel: true,
+							format: 'Y-m-d H:i',
 						}
 					);
 				},
