@@ -212,7 +212,6 @@ class Discount_Deals_Workflows {
 				'product'            => $product,
 				'active_workflows'   => $active_workflows,
 				'workflows_apply_as' => array(
-					'all_matched',
 					'biggest_matched',
 					'lowest_matched',
 				),

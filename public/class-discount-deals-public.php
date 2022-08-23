@@ -125,10 +125,12 @@ class Discount_Deals_Public {
     public function get_variation_prices( $transient_cached_prices_array, $product, $for_display ){
         if(!empty($transient_cached_prices_array['price']) && !empty($transient_cached_prices_array['regular_price']) && !empty($transient_cached_prices_array['sale_price'])  ){
             foreach ($transient_cached_prices_array['price'] as $variation_id => $variation_price){
-                $product = wc_get_product($variation_id);
-                $sale_price = ( is_a( $product, 'WC_Product' ) ) ? $product->get_price() : $variation_price;
-                $transient_cached_prices_array['price'][$variation_id] = $sale_price;
-                $transient_cached_prices_array['sale_price'][$variation_id] = $sale_price;
+                if(!empty($variation_id)) {
+                    $product = wc_get_product($variation_id);
+                    $sale_price = (is_a($product, 'WC_Product_Variation')) ? $product->get_price() : $variation_price;
+                    $transient_cached_prices_array['price'][$variation_id] = $sale_price;
+                    $transient_cached_prices_array['sale_price'][$variation_id] = $sale_price;
+                }
             }
         }
         return $transient_cached_prices_array;
