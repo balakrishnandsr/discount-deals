@@ -220,13 +220,27 @@ class Discount_Deals_Admin {
 						continue;
 					}
 					if ( 'object' == $rule_object->type ) {
-						$a = 1;
+						/**
+						 * Preload the selected values
+						 * @var Discount_Deals_Workflow_Rule_Searchable_Select_Abstract $rule_object searchable select.
+						 */
+						if ( $rule_object->is_multi ) {
+							foreach ( (array) $rule['value'] as $item ) {
+								$rule['selected'][] = $rule_object->get_object_display_value( $item );
+							}
+						} else {
+							$rule['selected'] = $rule_object->get_object_display_value( $rule['value'] );
+						}
 					} else {
 						// Format the rule value.
 						$rule['value'] = $rule_object->format_value( $rule['value'] );
 					}
 					if ( 'select' == $rule_object->type ) {
-						$a = 1;
+						/**
+						 * Preload the selected values
+						 * @var Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract $rule_object searchable select.
+						 */
+						$rule_object->get_select_choices();
 					}
 				}
 			}

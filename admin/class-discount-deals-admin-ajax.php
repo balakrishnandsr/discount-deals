@@ -42,7 +42,7 @@ class Discount_Deals_Admin_Ajax {
 
 		$rule_object = Discount_Deals_Workflows::get_rule_type( $rule_name );
 
-		if ( $rule_object->type == 'select' ) {
+		if ( 'select' === $rule_object->type ) {
 			wp_send_json_success( [
 				'select_choices' => $rule_object->get_select_choices()
 			] );
