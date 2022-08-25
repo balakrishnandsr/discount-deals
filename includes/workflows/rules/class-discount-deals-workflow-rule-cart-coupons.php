@@ -49,13 +49,13 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	/**
 	 * Validate the rule for a given order.
 	 *
-	 * @param \WC_Order $order
-	 * @param string $compare
-	 * @param array $expected_coupons
+	 * @param WC_Cart $data_item Cart object.
+	 * @param string $compare_type Compare operation.
+	 * @param array $value Expected output.
 	 *
 	 * @return bool
 	 */
-	public function validate( $order, $compare, $expected_coupons ) {
-		return $this->validate_select_case_insensitive( $order->get_coupon_codes(), $compare, $expected_coupons );
+	public function validate( $data_item, $compare_type, $value ) {
+		return $this->validate_select_case_insensitive( $data_item->get_coupon_codes(), $compare_type, $value );
 	}
 }

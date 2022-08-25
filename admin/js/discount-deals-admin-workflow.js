@@ -501,11 +501,21 @@
 					}
 				},
 				init_date_picker: function () {
-					this.$el.find( '.discount-deals-date-picker' ).datetimepicker(
-						{
-							format: 'Y-m-d H:i',
-						}
-					);
+					var compare = this.$el.find('.discount-deals-rule-compare-field').val();
+					if(['is_not_on','is_on'].includes(compare)) {
+                        this.$el.find('.discount-deals-date-picker').datepicker(
+                            {
+                                dateFormat: 'yy-mm-dd',
+                                showButtonPanel: true,
+                            }
+                        );
+                    }else {
+                        this.$el.find('.discount-deals-date-picker').datetimepicker(
+                            {
+                                format: 'Y-m-d H:i',
+                            }
+                        );
+                    }
 				},
 				set_name: function () {
 					this.$el.find( '.discount-deals-rule-select' ).val( this.model.get( 'name' ) );

@@ -25,7 +25,7 @@ abstract class Discount_Deals_Workflow_Rule_Searchable_Select_Abstract extends D
 	 *
 	 * @var string
 	 */
-	public $class = 'ig-es-json-search';
+	public $class = 'wc-json-search';
 
 	/**
 	 * The field placeholder.

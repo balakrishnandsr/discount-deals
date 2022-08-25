@@ -167,6 +167,22 @@ class Discount_Deals_Workflows {
 	 */
 	public static function get_all_rules() {
 		$valid_rules = array(
+			// Product.
+			'product'                       => 'Discount_Deals_Workflow_Rule_Product',
+			'product_categories'            => 'Discount_Deals_Workflow_Rule_Product_Categories',
+
+			// Cart.
+			'cart_coupons'                  => 'Discount_Deals_Workflow_Rule_Cart_Coupons',
+			'cart_created_date'             => 'Discount_Deals_Workflow_Rule_Cart_Created_Date',
+			'cart_item_categories'          => 'Discount_Deals_Workflow_Rule_Cart_Item_Categories',
+			'cart_item_count'               => 'Discount_Deals_Workflow_Rule_Cart_Item_Count',
+			'cart_item_tags'                => 'Discount_Deals_Workflow_Rule_Cart_Item_Tags',
+			'cart_items'                    => 'Discount_Deals_Workflow_Rule_Cart_Items',
+			'cart_total'                    => 'Discount_Deals_Workflow_Rule_Cart_Total',
+
+			// Shop.
+			'shop_date_time'                => 'Discount_Deals_Workflow_Rule_Shop_Date_Time',
+
 			// Customer.
 			'customer_is_guest'             => 'Discount_Deals_Workflow_Rule_Customer_Is_Guest',
 			'customer_account_created_date' => 'Discount_Deals_Workflow_Rule_Customer_Account_Created_Date',
@@ -190,22 +206,6 @@ class Discount_Deals_Workflows {
 			'customer_state_text_match'     => 'Discount_Deals_Workflow_Rule_Customer_State_Text_Match',
 			'customer_tags'                 => 'Discount_Deals_Workflow_Rule_Customer_Tags',
 			'customer_total_spent'          => 'Discount_Deals_Workflow_Rule_Customer_Total_Spent',
-
-			// Product.
-			'product'                       => 'Discount_Deals_Workflow_Rule_Product',
-			'product_categories'            => 'Discount_Deals_Workflow_Rule_Product_Categories',
-
-			// Cart.
-			'cart_coupons'                  => 'Discount_Deals_Workflow_Rule_Cart_Coupons',
-			'cart_created_date'             => 'Discount_Deals_Workflow_Rule_Cart_Created_Date',
-			'cart_item_categories'          => 'Discount_Deals_Workflow_Rule_Cart_Item_Categories',
-			'cart_item_count'               => 'Discount_Deals_Workflow_Rule_Cart_Item_Count',
-			'cart_item_tags'                => 'Discount_Deals_Workflow_Rule_Cart_Item_Tags',
-			'cart_items'                    => 'Discount_Deals_Workflow_Rule_Cart_Items',
-			'cart_total'                    => 'Discount_Deals_Workflow_Rule_Cart_Total',
-
-			// Shop.
-			'shop_date_time'                => 'Discount_Deals_Workflow_Rule_Shop_Date_Time',
 		);
 		if ( count( self::$_rules ) < count( $valid_rules ) ) {
 			foreach ( $valid_rules as $rule_name => $class_name ) {

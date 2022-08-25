@@ -26,6 +26,7 @@ abstract class Discount_Deals_Workflow_Rule_Product_Select_Abstract extends Disc
 	public function init() {
 		parent::init();
 		$this->is_multi    = true;
+		$this->compare_types = $this->get_multi_select_compare_types();
 		$this->placeholder = __( 'Search products...', 'discount-deals' );
 	}
 

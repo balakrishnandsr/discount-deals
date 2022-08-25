@@ -112,6 +112,13 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	public $uses_datepicker = false;
 
 	/**
+	 * Our rule uses date time picker?
+	 *
+	 * @var bool
+	 */
+	public $uses_date_time_picker = false;
+
+	/**
 	 * Rule select options.
 	 *
 	 * @var array
@@ -133,12 +140,12 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		}
 
 		if ( $this->has_is_after ) {
-			$this->uses_datepicker           = true;
+			$this->uses_date_time_picker     = true;
 			$this->compare_types['is_after'] = __( 'Is after', 'discount-deals' );
 		}
 
 		if ( $this->has_is_before ) {
-			$this->uses_datepicker            = true;
+			$this->uses_date_time_picker      = true;
 			$this->compare_types['is_before'] = __( 'Is before', 'discount-deals' );
 		}
 
@@ -179,8 +186,8 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	/**
 	 * Validates that we're passing a correct number of days, and we're checking more than 0 days.
 	 *
-	 * @param string                         $compare What variables we're using to compare.
-	 * @param array|int                      $value The value to compare.
+	 * @param string $compare What variables we're using to compare.
+	 * @param array|int $value The value to compare.
 	 * @param Discount_Deals_Date_Time|false $date The date used for the comparison. Must be UTC.
 	 *
 	 * @return bool
@@ -362,9 +369,9 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	 * Validates a timeframe between dates and that the timeframe is the expected.
 	 *
 	 * @param Discount_Deals_Date_Time $date The date to validate.
-	 * @param string                   $compare Date compare type: is_in_the_next, is_not_in_the_next, is_in_the_last, is_not_in_the_last.
-	 * @param int                      $timeframe The timeframe we want to validate.
-	 * @param string                   $measure Days or Hours.
+	 * @param string $compare Date compare type: is_in_the_next, is_not_in_the_next, is_in_the_last, is_not_in_the_last.
+	 * @param int $timeframe The timeframe we want to validate.
+	 * @param string $measure Days or Hours.
 	 *
 	 * @return bool
 	 */
@@ -452,7 +459,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	 *
 	 * @param Discount_Deals_Date_Time $date1 Is date1 before/after.
 	 * @param Discount_Deals_Date_Time $date2 Date2?.
-	 * @param string                   $comparison after/before.
+	 * @param string $comparison after/before.
 	 *
 	 * @return bool
 	 */
@@ -511,7 +518,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	 * Validates that our day is of the days in the array.
 	 *
 	 * @param Discount_Deals_Date_Time $date Must be UTC.
-	 * @param array                    $days_of_week Which days of the week we want to search against.
+	 * @param array $days_of_week Which days of the week we want to search against.
 	 *
 	 * @return bool
 	 * @throws Exception Throws exception.
