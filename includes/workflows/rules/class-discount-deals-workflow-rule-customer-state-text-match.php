@@ -20,7 +20,8 @@ class Discount_Deals_Workflow_Rule_Customer_State_Text_Match extends Discount_De
 
 	function init() {
 		$this->title = __( 'Customer - State - Text Match', 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
@@ -28,13 +29,15 @@ class Discount_Deals_Workflow_Rule_Customer_State_Text_Match extends Discount_De
 	 * @param $compare_type
 	 * @param $value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		$state   = $this->data_layer()->get_customer_state();
 		$country = $this->data_layer()->get_customer_country();
 
 		return $this->validate_string( aw_get_state_name( $country, $state ), $compare_type, $value );
-	}
+	}//end validate()
 
-}
+
+}//end class
+

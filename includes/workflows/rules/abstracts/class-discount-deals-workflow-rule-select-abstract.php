@@ -23,7 +23,7 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 	/**
 	 * Allow multiple selections?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $is_multi = false;
 
@@ -36,16 +36,17 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 		} else {
 			$this->compare_types = $this->get_is_or_not_compare_types();
 		}
-	}
+	}//end init()
+
 
 	/**
 	 * Validate select rule, but case insensitive.
 	 *
-	 * @param array|string $actual Will be an array when is_multi prop is true.
+	 * @param array|string $actual       Will be an array when is_multi prop is true.
 	 * @param string       $compare_type Compare type.
-	 * @param array|string $expected Expected value.
+	 * @param array|string $expected     Expected value.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validate_select_case_insensitive( $actual, $compare_type, $expected ) {
 		if ( is_array( $actual ) ) {
@@ -56,16 +57,17 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 		$expected = array_map( 'wc_strtolower', (array) $expected );
 
 		return $this->validate_select( $actual, $compare_type, $expected );
-	}
+	}//end validate_select_case_insensitive()
+
 
 	/**
 	 * Validate a select rule.
 	 *
-	 * @param string|array $actual Will be an array when is_multi prop is true.
+	 * @param string|array $actual       Will be an array when is_multi prop is true.
 	 * @param string       $compare_type Compare type.
-	 * @param array|string $expected Expected type.
+	 * @param array|string $expected     Expected type.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validate_select( $actual, $compare_type, $expected ) {
 		if ( $this->is_multi ) {
@@ -107,5 +109,7 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 		}
 
 		return false;
-	}
-}
+	}//end validate_select()
+
+}//end class
+

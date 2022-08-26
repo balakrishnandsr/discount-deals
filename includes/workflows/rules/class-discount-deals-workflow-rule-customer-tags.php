@@ -24,7 +24,8 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 		parent::init();
 
 		$this->title = __( 'Customer - User Tags', 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
@@ -32,7 +33,8 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 	 */
 	function load_select_choices() {
 		return Fields_Helper::get_user_tags_list();
-	}
+	}//end load_select_choices()
+
 
 
 	/**
@@ -40,7 +42,7 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 	 * @param $compare_type
 	 * @param $value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 
@@ -54,6 +56,8 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 		}
 
 		return $this->validate_select( $tags, $compare_type, $value );
-	}
+	}//end validate()
 
-}
+
+}//end class
+

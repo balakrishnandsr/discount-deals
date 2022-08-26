@@ -30,16 +30,17 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 	public function init() {
 		$this->title = __( 'Customer - Purchased Products - All Time', 'discount-deals' );
 		parent::init();
-	}
+	}//end init()
+
 
 	/**
 	 * Validate the rule for a given customer.
 	 *
 	 * @param \AutomateWoo\Customer $data_item
 	 * @param string                $compare_type
-	 * @param string|int            $expected_value
+	 * @param string|integer        $expected_value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validate( $data_item, $compare_type, $expected_value ) {
 		$product_id = absint( $expected_value );
@@ -60,5 +61,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 			case 'not_includes':
 				return ! $includes;
 		}
-	}
-}
+	}//end validate()
+
+}//end class
+

@@ -215,7 +215,7 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set workflow data layer.
 	 *
-	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer Data layer.
+	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer          Data layer.
 	 * @param boolean                                  $reset_workflow_data Reset workflow data.
 	 *
 	 * @return void
@@ -476,7 +476,7 @@ class Discount_Deals_Workflow {
 	 *
 	 * @param string $name Name.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function get_data_item( $name = '' ) {
 		return $this->data_layer()->get_item( $name );
@@ -546,7 +546,7 @@ class Discount_Deals_Workflow {
 	 * May have product discount.
 	 *
 	 * @param object $product Product.
-	 * @param float  $price Price used for when enable subsequent.
+	 * @param float  $price   Price used for when enable subsequent.
 	 *
 	 * @return integer|void
 	 */
@@ -580,7 +580,8 @@ class Discount_Deals_Workflow {
 		$discount_object = Discount_Deals_Workflows::get_discount_type( $discount_type );
 		$discount_object->set_discount_details( $discounts );
 		$this->discount = $discount_object;
-	}
+	}//end set_discount()
+
 
 
 }//end class

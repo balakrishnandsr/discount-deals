@@ -28,21 +28,23 @@ abstract class Discount_Deals_Workflow_Rule_Product_Select_Abstract extends Disc
 		$this->is_multi    = true;
 		$this->compare_types = $this->get_multi_select_compare_types();
 		$this->placeholder = __( 'Search products...', 'discount-deals' );
-	}
+	}//end init()
+
 
 	/**
 	 * Display product name on frontend.
 	 *
-	 * @param int $value Product ID.
+	 * @param integer $value Product ID.
 	 *
-	 * @return string|int
+	 * @return string|integer
 	 */
 	public function get_object_display_value( $value ) {
 		$value   = absint( $value );
 		$product = wc_get_product( $value );
 
 		return $product ? $product->get_formatted_name() : $value;
-	}
+	}//end get_object_display_value()
+
 
 	/**
 	 * Get the ajax action to use for the AJAX search.
@@ -51,5 +53,7 @@ abstract class Discount_Deals_Workflow_Rule_Product_Select_Abstract extends Disc
 	 */
 	public function get_search_ajax_action() {
 		return 'woocommerce_json_search_products_and_variations';
-	}
-}
+	}//end get_search_ajax_action()
+
+}//end class
+

@@ -52,7 +52,8 @@ abstract class Discount_Deals_Workflow_Rule_Searchable_Select_Abstract extends D
 		if ( ! $this->is_multi ) {
 			$this->compare_types = $this->get_includes_or_not_compare_types();
 		}
-	}
+	}//end init()
+
 
 	/**
 	 * Override this method to alter how saved values are displayed.
@@ -63,5 +64,7 @@ abstract class Discount_Deals_Workflow_Rule_Searchable_Select_Abstract extends D
 	 */
 	public function get_object_display_value( $value ) {
 		return $value;
-	}
-}
+	}//end get_object_display_value()
+
+}//end class
+

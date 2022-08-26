@@ -23,98 +23,98 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	/**
 	 * We use multiple values to assimilate time frame and time measure.
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_multiple_value_fields = true;
 
 	/**
 	 * Is it future?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_is_future_comparison = false;
 
 	/**
 	 * Is it past?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_is_past_comparison = false;
 
 	/**
 	 * Is after specific date?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_is_after = true;
 
 	/**
 	 * Is before specific date?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_is_before = true;
 
 	/**
 	 * Is it on a specific date?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_is_on = true;
 
 	/**
 	 * Isn't on a specific date?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_is_not_on = true;
 
 	/**
 	 * Only one date per rule.
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $is_multi = false;
 
 	/**
 	 * Is day of the week.
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_days_of_the_week = true;
 
 	/**
 	 * Is between dates.
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_is_between_dates = true;
 
 	/**
 	 * Is not set?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_is_not_set = true;
 
 	/**
 	 * Is set?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $has_is_set = true;
 
 	/**
 	 * Our rule uses datepicker?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $uses_datepicker = false;
 
 	/**
 	 * Our rule uses date time picker?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $uses_date_time_picker = false;
 
@@ -181,16 +181,17 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		);
 
 		parent::__construct();
-	}
+	}//end __construct()
+
 
 	/**
 	 * Validates that we're passing a correct number of days, and we're checking more than 0 days.
 	 *
-	 * @param string $compare What variables we're using to compare.
-	 * @param array|int $value The value to compare.
-	 * @param Discount_Deals_Date_Time|false $date The date used for the comparison. Must be UTC.
+	 * @param string                         $compare What variables we're using to compare.
+	 * @param array|integer                  $value   The value to compare.
+	 * @param Discount_Deals_Date_Time|false $date    The date used for the comparison. Must be UTC.
 	 *
-	 * @return bool
+	 * @return boolean
 	 * @throws Exception Throws exception.
 	 */
 	public function validate_date( $compare, $value, $date ) {
@@ -250,7 +251,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 			if ( 'is_after' === $compare ) {
 				$comparative = 'after';
 				// exclude the current day from after comparisons.
-				//$rule_date->set_time_to_day_end();
+				// $rule_date->set_time_to_day_end();
 			}
 
 			// Because this date value is set in the admin it is logically in site's timezone
@@ -295,8 +296,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 			$from = new Discount_Deals_Date_Time( $rule_from );
 			$to   = new Discount_Deals_Date_Time( $rule_to );
 			// include the full 'to' day in the date range.
-			//$to->set_time_to_day_end();
-
+			// $to->set_time_to_day_end();
 			if ( $from > $to ) {
 				return false;
 			}
@@ -309,7 +309,8 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		}
 
 		return false;
-	}
+	}//end validate_date()
+
 
 	/**
 	 * Attempts to do a more logical validation for empty dates.
@@ -332,7 +333,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	 *
 	 * @param string $comparative The type of comparison.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validate_logical_empty_date( $comparative ) {
 		$valid_comparatives = array(
@@ -343,14 +344,15 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		);
 
 		return in_array( $comparative, $valid_comparatives, true );
-	}
+	}//end validate_logical_empty_date()
+
 
 	/**
 	 * Are we running a in/not in the next/last validation?
 	 *
 	 * @param string $compare Compare we want to run.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	private function is_past_future_validation( $compare ) {
 		return in_array(
@@ -363,17 +365,18 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 			),
 			true
 		);
-	}
+	}//end is_past_future_validation()
+
 
 	/**
 	 * Validates a timeframe between dates and that the timeframe is the expected.
 	 *
-	 * @param Discount_Deals_Date_Time $date The date to validate.
-	 * @param string $compare Date compare type: is_in_the_next, is_not_in_the_next, is_in_the_last, is_not_in_the_last.
-	 * @param int $timeframe The timeframe we want to validate.
-	 * @param string $measure Days or Hours.
+	 * @param Discount_Deals_Date_Time $date      The date to validate.
+	 * @param string                   $compare   Date compare type: is_in_the_next, is_not_in_the_next, is_in_the_last, is_not_in_the_last.
+	 * @param integer                  $timeframe The timeframe we want to validate.
+	 * @param string                   $measure   Days or Hours.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	protected function validate_date_diff( $date, $compare, $timeframe, $measure ) {
 		if ( 'days' === $measure ) {
@@ -411,7 +414,8 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		}
 
 		return false;
-	}
+	}//end validate_date_diff()
+
 
 	/**
 	 * Validates that a date is between two other dates.
@@ -420,9 +424,9 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	 *
 	 * @param Discount_Deals_Date_Time $date Date that we are checking is between $from and $to.
 	 * @param Discount_Deals_Date_Time $from Date we are checking from.
-	 * @param Discount_Deals_Date_Time $to Date we are checking up to.
+	 * @param Discount_Deals_Date_Time $to   Date we are checking up to.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	private function validate_is_between_dates( $date, $from, $to ) {
 		if ( $date < $from ) {
@@ -434,14 +438,15 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		}
 
 		return true;
-	}
+	}//end validate_is_between_dates()
+
 
 	/**
 	 * Are we running a before/after validation?
 	 *
 	 * @param string $compare Compare we want to run.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	private function is_before_after_validation( $compare ) {
 		return in_array(
@@ -452,16 +457,17 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 			),
 			true
 		);
-	}
+	}//end is_before_after_validation()
+
 
 	/**
 	 * Validates if a date is after/before a second date.
 	 *
-	 * @param Discount_Deals_Date_Time $date1 Is date1 before/after.
-	 * @param Discount_Deals_Date_Time $date2 Date2?.
-	 * @param string $comparison after/before.
+	 * @param Discount_Deals_Date_Time $date1      Is date1 before/after.
+	 * @param Discount_Deals_Date_Time $date2      Date2?.
+	 * @param string                   $comparison after/before.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	private function validate_before_after_date( $date1, $date2, $comparison ) {
 		if ( 'after' === $comparison ) {
@@ -469,14 +475,15 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		}
 
 		return ( $date1 < $date2 );
-	}
+	}//end validate_before_after_date()
+
 
 	/**
 	 * Are we running a same/not same date validation?
 	 *
 	 * @param string $compare Compare we want to run.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	private function is_same_date_validation( $compare ) {
 		return in_array(
@@ -487,7 +494,8 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 			),
 			true
 		);
-	}
+	}//end is_same_date_validation()
+
 
 	/**
 	 * Validates if a date is the same, based on Y-m-d format.
@@ -495,32 +503,34 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	 * @param Discount_Deals_Date_Time $date1 First date.
 	 * @param Discount_Deals_Date_Time $date2 Second date for comparison.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	private function validate_same_date( $date1, $date2 ) {
 		$format = 'Y-m-d';
 
 		return ( $date1->format( $format ) === $date2->format( $format ) );
-	}
+	}//end validate_same_date()
+
 
 	/**
 	 * Are we running a day_of_week validation?
 	 *
 	 * @param string $compare Compare we want to run.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	private function is_days_of_week_validation( $compare ) {
 		return ( 'days_of_the_week' === $compare );
-	}
+	}//end is_days_of_week_validation()
+
 
 	/**
 	 * Validates that our day is of the days in the array.
 	 *
-	 * @param Discount_Deals_Date_Time $date Must be UTC.
-	 * @param array $days_of_week Which days of the week we want to search against.
+	 * @param Discount_Deals_Date_Time $date         Must be UTC.
+	 * @param array                    $days_of_week Which days of the week we want to search against.
 	 *
-	 * @return bool
+	 * @return boolean
 	 * @throws Exception Throws exception.
 	 */
 	private function validate_is_day_of_week( $date, $days_of_week ) {
@@ -530,17 +540,19 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		$days_of_week = array_map( 'absint', $days_of_week );
 
 		return in_array( absint( $date->format( 'N' ) ), $days_of_week, true );
-	}
+	}//end validate_is_day_of_week()
+
 
 	/**
 	 * Are we running a between_dates validation?
 	 *
 	 * @param string $compare Compare we want to run.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	private function is_between_dates_validation( $compare ) {
 		return ( 'is_between' === $compare );
-	}
+	}//end is_between_dates_validation()
+
 
 }//end class

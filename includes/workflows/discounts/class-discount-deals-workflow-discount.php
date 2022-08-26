@@ -58,7 +58,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_discount_details() {
 		return $this->discount_details;
-	}
+	}//end get_discount_details()
+
 
 	/**
 	 * Set discount details to the class
@@ -67,7 +68,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_discount_details( $discount_details ) {
 		$this->discount_details = $discount_details;
-	}
+	}//end set_discount_details()
+
 
 	/**
 	 * Get tile of the discount
@@ -96,7 +98,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_description() {
 		return $this->description;
-	}
+	}//end get_description()
+
 
 	/**
 	 * Discount description
@@ -105,7 +108,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_description( $description ) {
 		$this->description = $description;
-	}
+	}//end set_description()
+
 
 	/**
 	 * Get the name of the discount
@@ -151,13 +155,14 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * @return mixed|void
 	 */
 	public function load_fields() {
-	}
+	}//end load_fields()
+
 
 	/**
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
-	 * @param mixed $price Price.
+	 * @param mixed $price     Price.
 	 *
 	 * @return mixed
 	 */

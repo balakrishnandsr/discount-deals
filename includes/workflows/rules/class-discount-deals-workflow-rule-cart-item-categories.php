@@ -23,7 +23,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 	/**
 	 * Has multi select option?
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $is_multi = true;
 
@@ -34,7 +34,8 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 		parent::init();
 
 		$this->title = __( 'Cart - Item Categories', 'discount-deals' );
-	}
+	}//end init()
+
 
 	/**
 	 * Load choices for admin to choose from
@@ -43,16 +44,17 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 	 */
 	function load_select_choices() {
 		return discount_deals_get_all_categories();
-	}
+	}//end load_select_choices()
+
 
 	/**
 	 * Validate the cart item has given categories
 	 *
-	 * @param WC_Cart $data_item data item.
-	 * @param string $compare_type compare operator.
-	 * @param array $value list of values.
+	 * @param WC_Cart $data_item    data item.
+	 * @param string  $compare_type compare operator.
+	 * @param array   $value        list of values.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		if ( empty( $value ) || ! is_array( $value ) ) {
@@ -70,5 +72,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 		$category_ids = array_filter( $category_ids );
 
 		return $this->validate_select( $category_ids, $compare_type, $value );
-	}
-}
+	}//end validate()
+
+}//end class
+

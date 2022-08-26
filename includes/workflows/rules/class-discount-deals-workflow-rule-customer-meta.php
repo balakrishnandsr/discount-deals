@@ -23,17 +23,18 @@ class Discount_Deals_Workflow_Rule_Customer_Meta extends Discount_Deals_Workflow
 	 */
 	public function init() {
 		$this->title = __( 'Customer - Custom Field', 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
 	 * Validate the rule based on options set by a workflow
 	 *
 	 * @param \AutomateWoo\Customer $data_item
-	 * @param string $compare_type
-	 * @param array $value_data
+	 * @param string                $compare_type
+	 * @param array                 $value_data
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validate( $data_item, $compare_type, $value_data ) {
 
@@ -45,6 +46,8 @@ class Discount_Deals_Workflow_Rule_Customer_Meta extends Discount_Deals_Workflow
 
 		return $this->validate_meta( $data_item->get_legacy_meta( $value_data['key'] ), $compare_type, $value_data['value'] );
 
-	}
+	}//end validate()
 
-}
+
+}//end class
+

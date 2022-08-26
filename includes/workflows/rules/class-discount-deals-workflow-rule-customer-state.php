@@ -26,7 +26,8 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 		parent::init();
 
 		$this->title = __( 'Customer - State', 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
@@ -42,7 +43,8 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 		}
 
 		return $return;
-	}
+	}//end load_select_choices()
+
 
 
 	/**
@@ -50,12 +52,14 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 	 * @param $compare_type
 	 * @param $value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		$state   = $this->data_layer()->get_customer_state();
 		$country = $this->data_layer()->get_customer_country();
 
 		return $this->validate_select( "$country|$state", $compare_type, $value );
-	}
-}
+	}//end validate()
+
+}//end class
+

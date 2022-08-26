@@ -98,7 +98,7 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	 *
 	 * @param array $workflow_data Workflow data.
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function insert_workflow( $workflow_data = array() ) {
 		if ( empty( $workflow_data ) || ! is_array( $workflow_data ) ) {
@@ -115,15 +115,16 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		}
 
 		return $this->insert( $workflow_data );
-	}
+	}//end insert_workflow()
+
 
 	/**
 	 * Update Workflow
 	 *
-	 * @param int   $workflow_id Workflow ID.
-	 * @param array $workflow_data Workflow data.
+	 * @param integer $workflow_id   Workflow ID.
+	 * @param array   $workflow_data Workflow data.
 	 *
-	 * @return bool|void
+	 * @return boolean|void
 	 */
 	public function update_workflow( $workflow_id = 0, $workflow_data = array() ) {
 
@@ -136,7 +137,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		}
 
 		return $this->update( $workflow_id, $workflow_data );
-	}
+	}//end update_workflow()
+
 
 }//end class
 

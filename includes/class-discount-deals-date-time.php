@@ -17,7 +17,7 @@ class Discount_Deals_Date_Time extends DateTime {
 	/**
 	 * Same as parent but forces UTC timezone if no timezone is supplied instead of using the PHP default.
 	 *
-	 * @param string              $time Time.
+	 * @param string              $time     Time.
 	 * @param DateTimeZone|string $timezone Time zone.
 	 *
 	 * @throws Exception Emits Exception in case of an error.
@@ -28,7 +28,8 @@ class Discount_Deals_Date_Time extends DateTime {
 		}
 
 		parent::__construct( $time, $timezone instanceof DateTimeZone ? $timezone : null );
-	}
+	}//end __construct()
+
 
 	/**
 	 * Format date to mySql format
@@ -37,7 +38,8 @@ class Discount_Deals_Date_Time extends DateTime {
 	 */
 	public function to_mysql_string() {
 		return $this->format( 'Y-m-d H:i:s' );
-	}
+	}//end to_mysql_string()
+
 
 	/**
 	 * Set time to the day end in the current timezone.
@@ -48,7 +50,8 @@ class Discount_Deals_Date_Time extends DateTime {
 		$this->setTime( 0, 0, 0 );
 
 		return $this;
-	}
+	}//end set_time_to_day_start()
+
 
 	/**
 	 * Convert DateTime from site timezone to UTC.
@@ -62,7 +65,8 @@ class Discount_Deals_Date_Time extends DateTime {
 		$this->convert_to_gmt( $this );
 
 		return $this;
-	}
+	}//end convert_to_utc_time()
+
 
 	/**
 	 * Convert to UTC time
@@ -73,7 +77,8 @@ class Discount_Deals_Date_Time extends DateTime {
 	 */
 	public function convert_to_gmt( $datetime ) {
 		$datetime->modify( '-' . $this->get_timezone_offset() * HOUR_IN_SECONDS . ' seconds' );
-	}
+	}//end convert_to_gmt()
+
 
 	/**
 	 * Get site timezone offset
@@ -89,7 +94,8 @@ class Discount_Deals_Date_Time extends DateTime {
 		} else {
 			return floatval( get_option( 'gmt_offset', 0 ) );
 		}
-	}
+	}//end get_timezone_offset()
+
 
 	/**
 	 * Convert DateTime from UTC to the site timezone.
@@ -103,7 +109,8 @@ class Discount_Deals_Date_Time extends DateTime {
 		$this->convert_from_gmt( $this );
 
 		return $this;
-	}
+	}//end convert_to_site_time()
+
 
 	/**
 	 * Convert from UTC time
@@ -116,7 +123,8 @@ class Discount_Deals_Date_Time extends DateTime {
 		$offset = $this->get_timezone_offset();
 		$symbol = $offset > 0 ? '+' : '-';
 		$datetime->modify( $symbol . abs( $offset ) * HOUR_IN_SECONDS . ' seconds' );
-	}
+	}//end convert_from_gmt()
+
 
 	/**
 	 * Set time to the day start in the current timezone.
@@ -127,7 +135,8 @@ class Discount_Deals_Date_Time extends DateTime {
 		$this->setTime( 23, 59, 59 );
 
 		return $this;
-	}
+	}//end set_time_to_day_end()
+
 
 	/**
 	 * Return a formatted localised date. Wrapper for date_i18n function.
@@ -138,7 +147,8 @@ class Discount_Deals_Date_Time extends DateTime {
 	 */
 	public function format_i18n( $format = 'Y-m-d' ) {
 		return date_i18n( $format, $this->getTimestamp() );
-	}
+	}//end format_i18n()
+
 
 	/**
 	 * Naturally add months without skipping into the next month.
@@ -157,6 +167,7 @@ class Discount_Deals_Date_Time extends DateTime {
 			// Subtract days to go back to the last day of previous month.
 			$this->sub( new DateInterval( 'P' . intval( $new_day ) . 'D' ) );
 		}
-	}
+	}//end add_natural_months()
+
 
 }//end class

@@ -22,7 +22,8 @@ class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workf
 		parent::init();
 
 		$this->title = __( 'Customer - Country', 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
@@ -30,7 +31,8 @@ class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workf
 	 */
 	function load_select_choices() {
 		return WC()->countries->get_allowed_countries();
-	}
+	}//end load_select_choices()
+
 
 
 	/**
@@ -38,9 +40,11 @@ class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workf
 	 * @param $compare_type
 	 * @param $value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_select( $this->data_layer()->get_customer_country(), $compare_type, $value );
-	}
-}
+	}//end validate()
+
+}//end class
+

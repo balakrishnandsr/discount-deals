@@ -27,23 +27,25 @@ class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Work
 	public function __construct() {
 		$this->has_is_past_comparison = true;
 		parent::__construct();
-	}
+	}//end __construct()
+
 
 	/**
 	 * Init the rule.
 	 */
 	public function init() {
 		$this->title = __( 'Cart - Created Date', 'discount-deals' );
-	}
+	}//end init()
+
 
 	/**
 	 * Validate cart created rule
 	 *
-	 * @param WC_Cart $data_item data item.
-	 * @param string $compare_type compare operator.
-	 * @param array $value list of values.
+	 * @param WC_Cart $data_item    data item.
+	 * @param string  $compare_type compare operator.
+	 * @param array   $value        list of values.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validate( $data_item, $compare_type, $value = null ) {
 		$created_time = WC()->session->get( 'discount_deals_cart_created_time', false );
@@ -60,5 +62,7 @@ class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Work
 		}
 
 		return false;
-	}
-}
+	}//end validate()
+
+}//end class
+

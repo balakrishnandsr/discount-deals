@@ -28,17 +28,18 @@ class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_
 
 		$this->title         = __( 'Product - Product', 'discount-deals' );
 		$this->compare_types = $this->get_includes_or_not_compare_types();
-	}
+	}//end init()
+
 
 
 	/**
 	 * Validate the product rule
 	 *
-	 * @param WC_Product|WC_Product_Variation $data_item data item.
-	 * @param string $compare_type compare operator.
-	 * @param array $value list of values.
+	 * @param WC_Product|WC_Product_Variation $data_item    data item.
+	 * @param string                          $compare_type compare operator.
+	 * @param array                           $value        list of values.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		if ( ! is_array( $value ) ) {
@@ -57,6 +58,8 @@ class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_
 			case 'not_includes':
 				return ! $includes;
 		}
-	}
+	}//end validate()
 
-}
+
+}//end class
+

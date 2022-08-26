@@ -23,7 +23,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Count extends Discount_Deals_Workfl
 
 	/**
 	 * Supports float value or not?
-	 * @var bool
+	 * @var boolean
 	 */
 	public $support_floats = false;
 
@@ -32,19 +32,22 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Count extends Discount_Deals_Workfl
 	 */
 	function init() {
 		$this->title = __( 'Cart - Item Count', 'discount-deals' );
-	}
+	}//end init()
+
 
 	/**
 	 * Validate the Cart items count with given value
 	 *
-	 * @param WC_Cart $data_item data item.
-	 * @param string $compare_type compare operator.
+	 * @param WC_Cart                  $data_item    data item.
+	 * @param string                   $compare_type compare operator.
 	 * @param array int list of values.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_number( count( $data_item->get_cart_contents() ), $compare_type, $value );
-	}
+	}//end validate()
 
-}
+
+}//end class
+

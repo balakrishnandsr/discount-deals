@@ -39,7 +39,7 @@ class Discount_Deals_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of this plugin.
-	 * @param string $version The version of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -77,12 +77,13 @@ class Discount_Deals_Admin {
 		require_once DISCOUNT_DEALS_ABSPATH . 'admin/discount-deals-meta-box-functions.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin-ajax.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'admin/class-discount-deals-admin-settings.php';
-	}
+	}//end include_required_files()
+
 
 	/**
 	 * Save the Workflow into DB
 	 *
-	 * @return array|false|int|string
+	 * @return array|false|integer|string
 	 */
 	public function maybe_save_workflow() {
 		if ( current_user_can( 'manage_woocommerce' ) ) {
@@ -143,7 +144,8 @@ class Discount_Deals_Admin {
 		}
 
 		return false;
-	}
+	}//end maybe_save_workflow()
+
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -220,7 +222,7 @@ class Discount_Deals_Admin {
 						continue;
 					}
 					if ( 'object' == $rule_object->type ) {
-						/**
+						/*
 						 * Preload the selected values
 						 * @var Discount_Deals_Workflow_Rule_Searchable_Select_Abstract $rule_object searchable select.
 						 */
@@ -236,7 +238,7 @@ class Discount_Deals_Admin {
 						$rule['value'] = $rule_object->format_value( $rule['value'] );
 					}
 					if ( 'select' == $rule_object->type ) {
-						/**
+						/*
 						 * Preload the selected values
 						 * @var Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract $rule_object searchable select.
 						 */
@@ -253,7 +255,8 @@ class Discount_Deals_Admin {
 			'rule_options'  => $rule_options,
 			'all_rules'     => self::get_rules_data(),
 		);
-	}
+	}//end get_js_data()
+
 
 	/**
 	 * Get workflow
@@ -262,7 +265,8 @@ class Discount_Deals_Admin {
 	 */
 	public function get_workflow() {
 		return $this->_workflow;
-	}
+	}//end get_workflow()
+
 
 	/**
 	 * Get discount data
@@ -284,7 +288,8 @@ class Discount_Deals_Admin {
 		$data['supplied_data_items'] = array_values( $discount->get_supplied_data_items() );
 
 		return $data;
-	}
+	}//end get_discount_data()
+
 
 	/**
 	 * Get all the rule's data for admin
@@ -303,7 +308,8 @@ class Discount_Deals_Admin {
 		}
 
 		return $data;
-	}
+	}//end get_rules_data()
+
 
 	/**
 	 * Admin menus
@@ -357,7 +363,8 @@ class Discount_Deals_Admin {
 		$screen[] = 'admin_page_discount-deals';
 
 		return $screen;
-	}
+	}//end set_wc_screen_ids()
+
 
 	/**
 	 * Print admin meta box init scripts
@@ -378,7 +385,8 @@ class Discount_Deals_Admin {
             });
         </script>
 		<?php
-	}
+	}//end print_script_in_footer()
+
 
 	/**
 	 * Add screen options for workflow listing page
@@ -396,7 +404,7 @@ class Discount_Deals_Admin {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_filter( 'screen_options_show_screen', array( $this, 'remove_screen_options' ) );
 
-		/**
+		/*
 		 * Trigger the add_meta_boxes hooks to allow meta boxes to be added.
 		 *
 		 * @since 1.0.0
@@ -414,7 +422,8 @@ class Discount_Deals_Admin {
 				'default' => 2,
 			)
 		);
-	}
+	}//end register_meta_boxes()
+
 
 	/**
 	 * Add meta boxes to workflow
@@ -456,7 +465,8 @@ class Discount_Deals_Admin {
 			'admin_page_discount-deals',
 			'side'
 		);
-	}
+	}//end add_meta_boxes()
+
 
 	/**
 	 * Add discount meta box to add/edit workflow page
@@ -465,7 +475,8 @@ class Discount_Deals_Admin {
 	 */
 	public function discounts_meta_box() {
 		require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-discounts.php';
-	}
+	}//end discounts_meta_box()
+
 
 	/**
 	 * Add rules meta box to add/edit workflow page
@@ -474,7 +485,8 @@ class Discount_Deals_Admin {
 	 */
 	public function rules_meta_box() {
 		require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-rules.php';
-	}
+	}//end rules_meta_box()
+
 
 	/**
 	 * Add save workflow meta box to add/edit workflow page
@@ -483,18 +495,20 @@ class Discount_Deals_Admin {
 	 */
 	public function save_meta_box() {
 		require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-save.php';
-	}
+	}//end save_meta_box()
+
 
 	/**
 	 * Method to remove screen options tab on workflow add/edit page.
 	 *
-	 * @param bool $show_screen_options Show/Hide Screen options.
+	 * @param boolean $show_screen_options Show/Hide Screen options.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function remove_screen_options( $show_screen_options ) {
 		return false;
-	}
+	}//end remove_screen_options()
+
 
 	/**
 	 * Remove Affiliate For WooCommerce's unnecessary submenus.

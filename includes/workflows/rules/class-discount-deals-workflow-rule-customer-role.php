@@ -22,7 +22,8 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 		parent::init();
 
 		$this->title = __( 'Customer - User Role', 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
@@ -39,7 +40,8 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 		$choices['guest'] = __( 'Guest', 'discount-deals' );
 
 		return $choices;
-	}
+	}//end load_select_choices()
+
 
 
 	/**
@@ -47,10 +49,12 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 	 * @param $compare_type
 	 * @param $value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_select( $data_item->get_role(), $compare_type, $value );
-	}
+	}//end validate()
 
-}
+
+}//end class
+

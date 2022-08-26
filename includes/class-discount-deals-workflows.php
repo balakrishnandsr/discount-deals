@@ -42,7 +42,8 @@ class Discount_Deals_Workflows {
 		$this->load_discounts();
 		$this->load_rules();
 		$this->load_data_items();
-	}
+	}//end __construct()
+
 
 	/**
 	 * Function to load discounts
@@ -53,7 +54,8 @@ class Discount_Deals_Workflows {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-discount.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php';
-	}
+	}//end load_discounts()
+
 
 	/**
 	 * Function to handle load rules
@@ -117,7 +119,8 @@ class Discount_Deals_Workflows {
 	 */
 	public function load_data_items() {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/data_items/class-discount-deals-workflow-data-item-shop.php';
-	}
+	}//end load_data_items()
+
 
 	/**
 	 * Get discount class by discount name
@@ -133,7 +136,8 @@ class Discount_Deals_Workflows {
 		$discount_object->set_name( $discount_type );
 
 		return $discount_object;
-	}
+	}//end get_discount_type()
+
 
 	/**
 	 * Get all discounts
@@ -210,7 +214,7 @@ class Discount_Deals_Workflows {
 		if ( count( self::$_rules ) < count( $valid_rules ) ) {
 			foreach ( $valid_rules as $rule_name => $class_name ) {
 				$rule_class = new $class_name();
-				/**
+				/*
 				 * Workflow discount
 				 *
 				 * @var Discount_Deals_Workflow_Rule_Abstract $rule_class Rule.
@@ -221,7 +225,8 @@ class Discount_Deals_Workflows {
 		}
 
 		return self::$_rules;
-	}
+	}//end get_all_rules()
+
 
 	/**
 	 * Get data for discount
@@ -243,12 +248,13 @@ class Discount_Deals_Workflows {
 		$data['supplied_data_items'] = array_values( $discount->get_supplied_data_items() );
 
 		return $data;
-	}
+	}//end get_discount_data()
+
 
 	/**
 	 * Calculate product discount.
 	 *
-	 * @param float $price Product price.
+	 * @param float      $price   Product price.
 	 * @param WC_Product $product Product.
 	 *
 	 * @return integer|void
@@ -265,7 +271,7 @@ class Discount_Deals_Workflows {
 			return $price;
 		}
 
-		/**
+		/*
 		 * Hook to apply the exclusive
 		 *
 		 * @since 1.0.0
@@ -312,7 +318,8 @@ class Discount_Deals_Workflows {
 
 		return $discounted_price;
 
-	}
+	}//end calculate_product_discount()
+
 
 	/**
 	 * Get_active_workflows.
@@ -350,10 +357,10 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get discount details by workflows.
 	 *
-	 * @param array $workflows Array of objects.
-	 * @param WC_Product $product Product object.
-	 * @param float $price Product price.
-	 * @param string $apply_as Apply Discount as.
+	 * @param array      $workflows Array of objects.
+	 * @param WC_Product $product   Product object.
+	 * @param float      $price     Product price.
+	 * @param string     $apply_as  Apply Discount as.
 	 *
 	 * @return array|mixed
 	 */
@@ -366,7 +373,7 @@ class Discount_Deals_Workflows {
 		$subsequent_price = $price;
 		foreach ( $workflows as $workflow ) {
 			$workflow_id = $workflow->get_id();
-			/**
+			/*
 			 * Workflow.
 			 *
 			 * @var Discount_Deals_Workflow $workflow
@@ -390,14 +397,15 @@ class Discount_Deals_Workflows {
 
 		return $price - $discounted_price;
 
-	}
+	}//end get_discount()
+
 
 	/**
 	 * Get matched Discount
 	 *
 	 * @param $valid_discounts
 	 *
-	 * @return float|int|mixed
+	 * @return float|integer|mixed
 	 */
 	public static function get_matched_discount( $valid_discounts ) {
 		$apply_as             = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
@@ -422,7 +430,8 @@ class Discount_Deals_Workflows {
 		}
 
 		return $calculated_discounts;
-	}
+	}//end get_matched_discount()
+
 
 
 }//end class

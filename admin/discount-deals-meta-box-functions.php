@@ -77,7 +77,8 @@ function discount_deals_select( $field ) {
 		</td>
 	</tr>
 	<?php
-}
+}//end discount_deals_select()
+
 
 /**
  * Output a radio input box.
@@ -146,7 +147,8 @@ function discount_deals_radio( $field ) {
 		</td>
 	</tr>
 	<?php
-}
+}//end discount_deals_radio()
+
 
 /**
  * Output a radio input box.
@@ -224,4 +226,5 @@ function discount_deals_text_input( $field ) {
 		</td>
 	</tr>
 	<?php
-}
+}//end discount_deals_text_input()
+

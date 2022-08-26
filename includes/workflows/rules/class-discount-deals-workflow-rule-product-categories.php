@@ -22,7 +22,7 @@ class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Wor
 
 	/**
 	 * Has multi select option?
-	 * @var bool
+	 * @var boolean
 	 */
 	public $is_multi = true;
 
@@ -33,7 +33,8 @@ class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Wor
 		parent::init();
 
 		$this->title = __( 'Product - Categories', 'discount-deals' );
-	}
+	}//end init()
+
 
 	/**
 	 * Load choices for admin to choose from
@@ -42,16 +43,17 @@ class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Wor
 	 */
 	function load_select_choices() {
 		return discount_deals_get_all_categories();
-	}
+	}//end load_select_choices()
+
 
 	/**
 	 * Validate the product has given categories
 	 *
-	 * @param WC_Product|WC_Product_Variation $data_item data item.
-	 * @param string $compare_type compare operator.
-	 * @param array $value list of values.
+	 * @param WC_Product|WC_Product_Variation $data_item    data item.
+	 * @param string                          $compare_type compare operator.
+	 * @param array                           $value        list of values.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		if ( empty( $value ) || ! is_array( $value ) ) {
@@ -62,5 +64,7 @@ class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Wor
 		$categories = wp_get_object_terms( $product_id, 'product_cat', [ 'fields' => 'ids' ] );
 
 		return $this->validate_select( $categories, $compare_type, $value );
-	}
-}
+	}//end validate()
+
+}//end class
+

@@ -18,7 +18,7 @@ abstract class Discount_Deals_Workflow_Rule_Number_Abstract extends Discount_Dea
 	/**
 	 * Set whether the rule supports floats or only integers.
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $support_floats = true;
 
@@ -33,7 +33,8 @@ abstract class Discount_Deals_Workflow_Rule_Number_Abstract extends Discount_Dea
 		}
 
 		parent::__construct();
-	}
+	}//end __construct()
+
 
 	/**
 	 * Sanitizes the field value.
@@ -50,14 +51,15 @@ abstract class Discount_Deals_Workflow_Rule_Number_Abstract extends Discount_Dea
 		return $value;
 		// Localize price even if decimal/float values are not supported so thousand separators are removed
 		return Clean::localized_price( (string) $value, $this->support_floats ? null : 0 );
-	}
+	}//end sanitize_value()
+
 
 	/**
 	 * Formats a rule's value for display in the rules UI.
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param string|int $value
+	 * @param string|integer $value
 	 *
 	 * @return string
 	 */
@@ -67,5 +69,7 @@ abstract class Discount_Deals_Workflow_Rule_Number_Abstract extends Discount_Dea
 		} else {
 			return strval( (int) $value );
 		}
-	}
-}
+	}//end format_value()
+
+}//end class
+

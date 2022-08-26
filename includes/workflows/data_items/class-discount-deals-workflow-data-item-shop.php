@@ -25,5 +25,7 @@ class Discount_Deals_Workflow_Data_Item_Shop {
 		$datetime->setTimestamp( current_time( 'timestamp', true ) );
 
 		return $datetime;
-	}
-}
+	}//end get_current_datetime()
+
+}//end class
+

@@ -23,7 +23,7 @@ class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Ru
 
 	/**
 	 * Supports float values or not?
-	 * @var bool
+	 * @var boolean
 	 */
 	public $support_floats = true;
 
@@ -32,20 +32,23 @@ class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Ru
 	 */
 	function init() {
 		$this->title = __( 'Cart - Sub total', 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
 	 * Validate the cart subtotal with the given value
 	 *
-	 * @param WC_Cart $data_item data item.
-	 * @param string $compare_type compare operator.
-	 * @param int|float $value list of values.
+	 * @param WC_Cart       $data_item    data item.
+	 * @param string        $compare_type compare operator.
+	 * @param integer|float $value        list of values.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_number( $data_item->get_subtotal(), $compare_type, $value );
-	}
+	}//end validate()
 
-}
+
+}//end class
+

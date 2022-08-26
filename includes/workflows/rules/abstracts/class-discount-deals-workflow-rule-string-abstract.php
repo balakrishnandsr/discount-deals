@@ -26,5 +26,7 @@ abstract class Discount_Deals_Workflow_Rule_String_Abstract extends Discount_Dea
 	public function __construct() {
 		$this->compare_types = $this->get_string_compare_types();
 		parent::__construct();
-	}
-}
+	}//end __construct()
+
+}//end class
+

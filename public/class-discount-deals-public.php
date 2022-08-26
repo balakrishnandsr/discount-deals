@@ -34,7 +34,7 @@ class Discount_Deals_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of the plugin.
-	 * @param string $version The version of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -65,13 +65,14 @@ class Discount_Deals_Public {
 	}//end init_public_hooks()
 
 	public function item_added_to_cart( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
-		//TODO: remove session value after order placement
+		// TODO: remove session value after order placement
 		$created_time = WC()->session->get( 'discount_deals_cart_created_time', false );
 		if ( ! $created_time ) {
 			WC()->session->set( 'discount_deals_cart_created_time', current_time( 'U', true ) );
 		}
 		WC()->session->set( 'discount_deals_cart_updated_time', current_time( 'U', true ) );
-	}
+	}//end item_added_to_cart()
+
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
@@ -99,7 +100,7 @@ class Discount_Deals_Public {
 	/**
 	 * Set woocommerce product price as per simple discount.
 	 *
-	 * @param float $price Product price.
+	 * @param float      $price   Product price.
 	 * @param WC_Product $product Product object.
 	 *
 	 * @return float
@@ -123,14 +124,15 @@ class Discount_Deals_Public {
 		}
 
 		return $sale_price;
-	}
+	}//end get_sale_price()
+
 
 	/**
 	 * Get variation prices.
 	 *
-	 * @param array $transient_cached_prices_array Cached prices array
-	 * @param WC_Product $product Product.
-	 * @param boolean $for_display true | false
+	 * @param array      $transient_cached_prices_array Cached prices array
+	 * @param WC_Product $product                       Product.
+	 * @param boolean    $for_display                   true | false
 	 *
 	 * @return array
 	 */
@@ -145,7 +147,8 @@ class Discount_Deals_Public {
 		}
 
 		return $transient_cached_prices_array;
-	}
+	}//end get_variation_prices()
+
 
 
 }//end class

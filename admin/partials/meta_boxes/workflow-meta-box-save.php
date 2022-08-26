@@ -8,7 +8,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-/**
+/*
  * Variable declaration
  *
  * @var Discount_Deals_Admin $this Class variable.

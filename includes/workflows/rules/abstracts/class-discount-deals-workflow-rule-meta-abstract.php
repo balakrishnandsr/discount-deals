@@ -17,7 +17,7 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	/** @var string */
 	public $type = 'meta';
 
-	/** @var bool */
+	/** @var boolean */
 	public $has_multiple_value_fields = true;
 
 	/**
@@ -26,7 +26,8 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	public function __construct() {
 		$this->compare_types = $this->get_string_compare_types() + $this->get_integer_compare_types();
 		parent::__construct();
-	}
+	}//end __construct()
+
 
 
 	/**
@@ -35,7 +36,7 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	 * @param mixed  $actual_value
 	 * @param string $compare_type
 	 * @param mixed  $expected_value
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validate_meta( $actual_value, $compare_type, $expected_value ) {
 
@@ -46,7 +47,8 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 		} else {
 			return $this->validate_string( $actual_value, $compare_type, $expected_value );
 		}
-	}
+	}//end validate_meta()
+
 
 	/**
 	 * Determine whether the meta field can reasonably be evaluated as a number, specifically for
@@ -59,14 +61,15 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	 * @param string $compare_type
 	 * @param mixed  $value
 	 *
-	 * @return bool True if the meta field is determined to be numeric.
+	 * @return boolean True if the meta field is determined to be numeric.
 	 */
 	protected function is_numeric_meta_field( $compare_type, $value ) {
 		$is_numeric_compare_type = ( $this->is_integer_compare_type( $compare_type ) && ! $this->is_is_or_is_not_compare_type( $compare_type ) );
 		$is_numeric_is_is_not    = ( is_numeric( $value ) && $this->is_is_or_is_not_compare_type( $compare_type ) );
 
 		return $is_numeric_compare_type || $is_numeric_is_is_not;
-	}
+	}//end is_numeric_meta_field()
+
 
 
 	/**
@@ -84,5 +87,7 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 			'key'   => trim( $value[0] ),
 			'value' => isset( $value[1] ) ? $value[1] : false,
 		];
-	}
-}
+	}//end prepare_value_data()
+
+}//end class
+

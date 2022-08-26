@@ -22,7 +22,8 @@ class Discount_Deals_Workflow_Rule_Customer_Review_Count extends Discount_Deals_
 
 	function init() {
 		$this->title = __( 'Customer - Review Count', 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
@@ -30,10 +31,12 @@ class Discount_Deals_Workflow_Rule_Customer_Review_Count extends Discount_Deals_
 	 * @param $compare_type
 	 * @param $value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_number( $data_item->get_review_count(), $compare_type, $value );
-	}
+	}//end validate()
 
-}
+
+}//end class
+

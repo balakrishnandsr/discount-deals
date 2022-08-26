@@ -17,13 +17,15 @@ class Discount_Deals_Admin_Settings {
 		add_filter( 'woocommerce_settings_tabs_array', array( __CLASS__, 'add_settings_tab' ), 50 );
 		add_action( 'woocommerce_settings_tabs_discount_deals_settings', array( __CLASS__, 'add_settings' ) );
 		add_action( 'woocommerce_update_options_discount_deals_settings', array( __CLASS__, 'save_settings' ) );
-	}
+	}//end init()
+
 
 	public static function add_settings_tab( $settings_tabs ) {
 		$settings_tabs['discount_deals_settings'] = __( 'Discount Deals', 'discount-deals' );
 
 		return $settings_tabs;
-	}
+	}//end add_settings_tab()
+
 
 	public static function save_settings() {
 		if ( discount_deals_get_value_from_array( $_POST, 'save', false ) ) {
@@ -37,11 +39,13 @@ class Discount_Deals_Admin_Settings {
 			}
 			Discount_Deals_Settings::save_settings( $actual_Settings );
 		}
-	}
+	}//end save_settings()
+
 
 	public static function add_settings() {
 		woocommerce_admin_fields( self::get_settings_fields() );
-	}
+	}//end add_settings()
+
 
 	public static function get_settings_fields() {
 		return array(
@@ -88,5 +92,6 @@ class Discount_Deals_Admin_Settings {
 				'id'   => 'wc_settings_tab_discount_deals_general_settings_end',
 			),
 		);
-	}
+	}//end get_settings_fields()
+
 }//end class

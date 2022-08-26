@@ -24,7 +24,8 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 		parent::init();
 
 		$this->title = __( "Customer - Purchased Categories - All Time", 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
@@ -32,7 +33,8 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 	 */
 	function load_select_choices() {
 		return discount_deals_get_all_categories();
-	}
+	}//end load_select_choices()
+
 
 
 	/**
@@ -40,7 +42,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 	 * @param $compare_type
 	 * @param $value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		if ( empty( $value ) ) {
@@ -57,5 +59,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 		$category_ids = array_filter( $category_ids );
 
 		return $this->validate_select( $category_ids, $compare_type, $value );
-	}
-}
+	}//end validate()
+
+}//end class
+

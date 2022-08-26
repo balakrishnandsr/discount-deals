@@ -25,7 +25,8 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 
 		$this->title = __( "Customer - Current Order Statuses", 'discount-deals' );
 		unset( $this->compare_types[ 'matches_all' ] );
-	}
+	}//end init()
+
 
 
 	/**
@@ -33,7 +34,8 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 	 */
 	function load_select_choices() {
 		return wc_get_order_statuses();
-	}
+	}//end load_select_choices()
+
 
 
 	/**
@@ -41,7 +43,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 	 * @param $compare_type
 	 * @param $value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 
@@ -53,11 +55,13 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 
 		$statuses = [];
 		foreach ( $orders as $order ) {
-			/** @var $order \WC_Order */
+			// @var $order \WC_Order
 			$statuses[] = 'wc-' . $order->get_status();
 		}
 
 		return $this->validate_select( $statuses, $compare_type, $value );
-	}
+	}//end validate()
 
-}
+
+}//end class
+

@@ -19,7 +19,8 @@ class Discount_Deals_Workflow_Rule_Customer_Postcode extends Discount_Deals_Work
 
 	function init() {
 		$this->title = __( 'Customer - Postcode', 'discount-deals' );
-	}
+	}//end init()
+
 
 
 	/**
@@ -27,9 +28,11 @@ class Discount_Deals_Workflow_Rule_Customer_Postcode extends Discount_Deals_Work
 	 * @param $compare_type
 	 * @param $value
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_string( $this->data_layer()->get_customer_postcode(), $compare_type, $value );
-	}
-}
+	}//end validate()
+
+}//end class
+
