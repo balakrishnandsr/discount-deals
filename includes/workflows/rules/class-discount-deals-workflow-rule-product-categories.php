@@ -14,35 +14,46 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
 
+	/**
+	 * What data item should pass in to validate the rule?
+	 * @var string
+	 */
 	public $data_item = 'product';
 
+	/**
+	 * Has multi select option?
+	 * @var bool
+	 */
 	public $is_multi = true;
 
-
+	/**
+	 * Init the rule
+	 */
 	function init() {
 		parent::init();
 
 		$this->title = __( 'Product - Categories', 'discount-deals' );
 	}
 
-
 	/**
+	 * Load choices for admin to choose from
 	 * @return array
 	 */
 	function load_select_choices() {
 		return discount_deals_get_all_categories();
 	}
 
-
 	/**
-	 * @param $data_item \WC_Product|\WC_Product_Variation
-	 * @param $compare_type
-	 * @param $value
+	 * Validate the product has given categories
+	 *
+	 * @param WC_Product|WC_Product_Variation $data_item data item.
+	 * @param string $compare_type compare operator.
+	 * @param array $value list of values.
 	 *
 	 * @return bool
 	 */
 	function validate( $data_item, $compare_type, $value ) {
-		if ( empty( $value ) ) {
+		if ( empty( $value ) || ! is_array( $value ) ) {
 			return false;
 		}
 

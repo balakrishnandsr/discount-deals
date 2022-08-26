@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_Product_Select_Abstract {
 
 	/**
-	 * Data item for rule.
+	 * What data item should pass in to validate the rule?
 	 * @var string
 	 */
 	public $data_item = 'product';
