@@ -190,7 +190,7 @@ class Discount_Deals_Workflows {
 	 */
 	public static function calculate_product_discount( $price, $product ) {
 
-		$active_workflows    = self::get_active_workflows();
+		$active_workflows    = self::get_active_workflows('dd_status = 1');
 		$discounted_price    = 0;
 		$exclusive_workflows = $non_exclusive_workflows = array();
 
@@ -251,14 +251,17 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get_active_workflows.
 	 *
+     * @param string $where where query.
+     *
 	 * @return Discount_Deals_Workflow[]
 	 */
-	public static function get_active_workflows() {
-		if ( ! empty( self::$_active_workflows ) ) {
+	public static function get_active_workflows( $where = '') {
+		/*if ( ! empty( self::$_active_workflows ) ) {
 			return self::$_active_workflows;
-		}
+		}*/
+        self::$_active_workflows = array();
 		$workflows_db = new Discount_Deals_Workflow_DB();
-		$workflows    = $workflows_db->get_by_conditions( 'dd_status = 1', 'object' );
+		$workflows    = $workflows_db->get_by_conditions(  $where, 'object' );
 		if ( ! empty( $workflows ) ) {
 			$data_items = array(
 				'customer' => WC()->customer,
@@ -353,6 +356,99 @@ class Discount_Deals_Workflows {
 		}
 		return $calculated_discounts;
 	}
+
+    public static function calculate_cart_discount(){
+        $active_workflows    = self::get_active_workflows('dd_status = 1 AND dd_type = cart_discount');
+
+        $exclusive_workflows = $non_exclusive_workflows = array();
+
+       /* if ( empty( $active_workflows ) ) {
+            return 0;
+        }*/
+
+        $cart_contents = is_a(WC()->cart, 'WC_Cart') ? WC()->cart->get_cart() : array();
+foreach ($cart_contents as $cart_content){
+    echo "<pre>";
+    print_r($cart_content);
+    echo "</pre>";
+}
+
+
+        /**
+         * Hook to apply the exclusive
+         *
+         * @since 1.0.0
+         */
+        $apply_as = apply_filters(
+            'discount_deals_apply_exclusive_rules_as',
+            'lowest_matched',
+            array(
+                'product'            => $cart_contents,
+                'active_workflows'   => $active_workflows,
+                'workflows_apply_as' => array(
+                    'biggest_matched',
+                    'lowest_matched',
+                ),
+
+            )
+        );
+
+        if ( ! empty( $active_workflows['exclusive'] ) ) {
+            $exclusive_workflows = $active_workflows['exclusive'];
+        } else {
+            $non_exclusive_workflows = $active_workflows['non_exclusive'];
+        }
+
+
+        $discounted_price = self::get_cart_discount( $exclusive_workflows, $cart_contents, $apply_as );
+      /*  if ( false === $discounted_price ) {
+            $apply_as         = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
+            $discounted_price = self::get_cart_discount( $non_exclusive_workflows, $cart_contents, $apply_as );
+        }*/
+
+    }
+
+    /**
+     * @param $exclusive_workflows
+     * @param $cart_contents
+     * @param $apply_as
+     * @return int
+     */
+    public static function get_cart_discount( $workflows, $cart_contents, $apply_as ){
+       /* if ( empty( $workflows ) ) {
+            return false;
+        }*/
+
+        $valid_discounts  = array();
+        $applied_discount = array();
+
+        foreach ( $workflows as $workflow ) {
+            $workflow_id = $workflow->get_id();
+            /**
+             * Workflow.
+             *
+             * @var Discount_Deals_Workflow $workflow
+             */
+            $apply_subsequently = Discount_Deals_Settings::get_settings( 'apply_discount_subsequently', 'no' );
+
+            /*if ( 'yes' == $apply_subsequently && 'all_matched' === $apply_as ) {
+                $discounts        = array_sum( $valid_discounts );
+                $subsequent_price = $subsequent_price - $discounts;
+            }*/
+
+           /// if ( $workflow->validate_rules() ) {
+                $valid_discounts[ $workflow_id ] = $workflow->may_have_cart_discount( $cart_contents, '' );
+           // }
+        }
+        $discounted_price = self::get_matched_discount( $valid_discounts );
+        if ( 0 >= $discounted_price ) {
+          //  return false;
+        }
+        //return $price - $discounted_price;
+
+
+       return 0;
+    }
 
 
 }//end class

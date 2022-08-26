@@ -163,5 +163,36 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	abstract public function calculate_discount( $data_item, $price );
 
+    /**
+     * Calculate discount amount.
+     *
+     * @param string $type Discount type.
+     * @param float $price Price.
+     * @param float $discount_value discount value.
+     * @return float|int|mixed
+     */
+    public function calculate_discount_amount( $type = '', $price = 0, $discount_value = 0){
+        $discount = 0;
+        if( empty($type) ){
+            return $discount;
+        }
+        switch ( $type ) {
+            case 'fixed_price':
+                $discount = min( $price, $discount_value );
+                break;
+            case 'percent':
+                if ( 100 < $discount_value ) {
+                    return 0;
+                }
+                $discount = $price * ( $discount_value / 100 );
+                break;
+            default:
+            case 'flat':
+                $discount = $discount_value;
+                break;
+        }
+        return $discount;
+    }
+
 }//end class
 

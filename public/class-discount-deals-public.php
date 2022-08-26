@@ -61,6 +61,8 @@ class Discount_Deals_Public {
 		add_filter( 'woocommerce_product_get_sale_price', array( $this, 'get_sale_price' ), 99, 2 );
 		add_filter( 'woocommerce_product_variation_get_sale_price', array( $this, 'get_sale_price' ), 99, 2 );
         add_filter( 'woocommerce_variation_prices', array( $this, 'get_variation_prices'), 99, 3 );
+        //Cart Discount.
+        add_filter( 'woocommerce_before_cart', array( $this, 'apply_before_cart'), 99, 3 );
 	}//end init_public_hooks()
 
 
@@ -124,7 +126,7 @@ class Discount_Deals_Public {
      */
     public function get_variation_prices( $transient_cached_prices_array, $product, $for_display ){
         if(!empty($transient_cached_prices_array['price']) && !empty($transient_cached_prices_array['regular_price']) && !empty($transient_cached_prices_array['sale_price'])  ){
-            foreach ($transient_cached_prices_array['price'] as $variation_id => $variation_price){
+            foreach ( $transient_cached_prices_array['price'] as $variation_id => $variation_price ){
                 if(!empty($variation_id)) {
                     $product = wc_get_product($variation_id);
                     $sale_price = (is_a($product, 'WC_Product_Variation')) ? $product->get_price() : $variation_price;
@@ -134,6 +136,14 @@ class Discount_Deals_Public {
             }
         }
         return $transient_cached_prices_array;
+    }
+
+    /**
+     *
+     * @return int|void
+     */
+    public function apply_before_cart(){
+        return discount_deals_apply_cart_discount();
     }
 
 

@@ -81,41 +81,42 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Calculate discount for the product
 	 *
-	 * @param mixed $data_item Calculate discount for which data item.
-	 * @param float $subsequent_price Subsequent price.
+	 * @param mixed $cart_items Calculate discount for which data item.
 	 *
 	 * @return integer
 	 */
-	public function calculate_discount( $data_item, $price ) {
+	public function calculate_discount( $cart_items , $price = 0) {
 
-		$discount_details = $this->get_discount_details();
-		$type             = discount_deals_get_value_from_array( $discount_details, 'type', 'percentage' );
-		$max_discount     = floatval( discount_deals_get_value_from_array( $discount_details, 'max_discount', 0 ) );
-		$discount_value   = floatval( discount_deals_get_value_from_array( $discount_details, 'value', 0 ) );
+        $discount_details = $this->get_discount_details();
+        $discount_by      = discount_deals_get_value_from_array( $discount_details, 'discount_by', 'amount' );
+        $apply_as         = discount_deals_get_value_from_array( $discount_details, 'apply_as', 'coupon' );
+        $type             = discount_deals_get_value_from_array( $discount_details, 'type', 'percentage' );
+        $max_discount     = floatval( discount_deals_get_value_from_array( $discount_details, 'max_discount', 0 ) );
+        $discount_value   = floatval( discount_deals_get_value_from_array( $discount_details, 'value', 0 ) );
 
-		if ( 0 >= $discount_value ) {
-			return 0;
-		}
-		switch ( $type ) {
-			case 'fixed_price':
-				$discount = min( $price, $discount_value );
-				break;
-			case 'percent':
-				if ( 100 < $discount_value ) {
-					return 0;
-				}
-				$discount = $price * ( $discount_value / 100 );
-				break;
-			default:
-			case 'flat':
-				$discount = $discount_value;
-				break;
-		}
-		if ( ! empty( $max_discount ) ) {
-			$discount = min( $max_discount, $discount );
-		}
+        if ( empty($discount_by) || empty($apply_as) ) {
+            return 0;
+        }
 
-		return $discount;
+        if('amount' === $discount_by){
+            foreach ($cart_items as $cart_item){
+                $product = !empty( $cart_item['data'] ) ? $cart_item['data'] : null;
+                $product = !empty( $cart_item['data'] ) ? $cart_item['data'] : null;
+                echo "<pre>";
+                print_r($cart_item);
+                echo "</pre>";
+            }
+            //$discount = $this->calculate_discount_amount($type, $price, $discount_value);
+            if ( ! empty( $max_discount ) ) {
+                //$discount = min( $max_discount, $discount );
+            }
+        }
+
+
+
+        return ;
 	}//end calculate_discount()
+
+
 
 }//end class

@@ -188,3 +188,9 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	}//end discount_deals_get_value_from_array()
 }
 
+if( ! function_exists( 'discount_deals_apply_cart_discount')){
+    function discount_deals_apply_cart_discount(){
+        return Discount_Deals_Workflows::calculate_cart_discount();
+    }
+}
+

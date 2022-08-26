@@ -559,6 +559,19 @@ class Discount_Deals_Workflow {
 		return 0;
 	}//end may_have_product_discount()
 
+    /**
+     * @param $cart_contents
+     * @return void
+     */
+    public function may_have_cart_discount( $cart_contents ){
+        $discount = $this->get_discount();
+        if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
+            return $discount->calculate_discount( $cart_contents );
+        }
+
+        return 0;
+    }
+
 	/**
 	 * Get all actions in current workflow.
 	 *
