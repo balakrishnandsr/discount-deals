@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_Rule_Searchable_Select_Abstract {
 
 	/**
-	 * The rule's primary data item.
+	 * What data item should pass in to validate the rule?
 	 *
 	 * @var string
 	 */
@@ -29,12 +29,12 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	public $class = 'wc-product-search';
 
 	/**
-	 * Init.
+	 * Init the rule.
 	 */
 	public function init() {
-		parent::init();
 		$this->is_multi = true;
-		$this->title    = __( 'Cart - Coupons', 'discount-deals' );
+		parent::init();
+		$this->title = __( 'Cart - Coupons', 'discount-deals' );
 	}
 
 	/**
@@ -47,7 +47,7 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	}
 
 	/**
-	 * Validate the rule for a given order.
+	 * Validate the cart coupons rule.
 	 *
 	 * @param WC_Cart $data_item Cart object.
 	 * @param string $compare_type Compare operation.
@@ -56,6 +56,6 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	 * @return bool
 	 */
 	public function validate( $data_item, $compare_type, $value ) {
-		return $this->validate_select_case_insensitive( $data_item->get_coupon_codes(), $compare_type, $value );
+		return $this->validate_select_case_insensitive( $data_item->get_applied_coupons(), $compare_type, $value );
 	}
 }

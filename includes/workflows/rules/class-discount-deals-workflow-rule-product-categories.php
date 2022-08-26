@@ -37,6 +37,7 @@ class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Wor
 
 	/**
 	 * Load choices for admin to choose from
+	 *
 	 * @return array
 	 */
 	function load_select_choices() {

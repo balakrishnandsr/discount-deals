@@ -516,6 +516,11 @@
                                 format: 'Y-m-d H:i',
                             }
                         );
+						this.$el.find('.discount-deals-date-time-picker').datetimepicker(
+                            {
+                                format: 'Y-m-d H:i',
+                            }
+                        );
                     }
 				},
 				set_name: function () {

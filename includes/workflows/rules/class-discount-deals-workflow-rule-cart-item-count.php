@@ -14,25 +14,37 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Discount_Deals_Workflow_Rule_Cart_Item_Count extends Discount_Deals_Workflow_Rule_Number_Abstract {
 
+	/**
+	 * What data item should pass in to validate the rule?
+	 *
+	 * @var string
+	 */
 	public $data_item = "cart";
 
+	/**
+	 * Supports float value or not?
+	 * @var bool
+	 */
 	public $support_floats = false;
 
-
+	/**
+	 * Init the rule
+	 */
 	function init() {
 		$this->title = __( 'Cart - Item Count', 'discount-deals' );
 	}
 
-
 	/**
-	 * @param Cart $data_item
-	 * @param $compare_type
-	 * @param $value
+	 * Validate the Cart items count with given value
+	 *
+	 * @param WC_Cart $data_item data item.
+	 * @param string $compare_type compare operator.
+	 * @param array int list of values.
 	 *
 	 * @return bool
 	 */
 	function validate( $data_item, $compare_type, $value ) {
-		return $this->validate_number( count( $data_item->get_items() ), $compare_type, $value );
+		return $this->validate_number( count( $data_item->get_cart_contents() ), $compare_type, $value );
 	}
 
 }

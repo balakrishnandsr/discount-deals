@@ -14,9 +14,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Discount_Deals_Workflow_Rule_Cart_Items extends Discount_Deals_Workflow_Rule_Product_Select_Abstract {
 
+	/**
+	 * What data item should pass in to validate the rule?
+	 *
+	 * @var string
+	 */
 	public $data_item = "cart";
 
-
+	/**
+	 * Init the rule
+	 */
 	function init() {
 		$this->title = __( 'Cart - Items', 'discount-deals' );
 		parent::init();
@@ -24,37 +31,28 @@ class Discount_Deals_Workflow_Rule_Cart_Items extends Discount_Deals_Workflow_Ru
 
 
 	/**
-	 * @param \AutomateWoo\Cart $data_item
-	 * @param $compare_type
-	 * @param $value
+	 * Validate the cart item has given products
+	 *
+	 * @param WC_Cart $data_item data item.
+	 * @param string $compare_type compare operator.
+	 * @param array $value list of values.
 	 *
 	 * @return bool
 	 */
 	function validate( $data_item, $compare_type, $value ) {
-		$product = wc_get_product( absint( $value ) );
-
-		if ( ! $product ) {
+		if ( empty( $value ) || ! is_array( $value ) ) {
 			return false;
 		}
-
-		$target_product_id = $product->get_id();
-		$is_variation = $product->is_type( 'variation' );
-
-		$includes = false;
-
-		foreach ( $data_item->get_items() as $item ) {
-			$id = $is_variation ? $item->get_variation_id() : $item->get_product_id();
-			if ( $id == $target_product_id ) {
-				$includes = true;
-				break;
-			}
+		$cart_items = $data_item->get_cart_contents();
+		if ( empty( $cart_items ) ) {
+			return false;
 		}
-
-		switch ( $compare_type ) {
-			case 'includes':
-				return $includes;
-			case 'not_includes':
-				return ! $includes;
+		$all_ids = [];
+		foreach ( $cart_items as $item ) {
+			array_push( $all_ids, $item['variation_id'], $item['product_id'] );
 		}
+		$all_ids = array_filter( $all_ids );
+
+		return $this->validate_select( $all_ids, $compare_type, $value );
 	}
 }
