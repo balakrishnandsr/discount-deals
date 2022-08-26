@@ -28,7 +28,7 @@ class Discount_Deals_Workflow_Rule_Customer_Last_Order_Date extends Discount_Dea
 	 * Discount_Deals_Workflow_Rule_Customer_Last_Order_Date constructor.
 	 */
 	public function __construct() {
-		$this->has_is_past_comparision = true;
+		$this->has_is_past_comparison = true;
 
 		parent::__construct();
 	}

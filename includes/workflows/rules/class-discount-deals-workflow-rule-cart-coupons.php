@@ -33,8 +33,8 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	 */
 	public function init() {
 		parent::init();
-
-		$this->title = __( 'Cart - Coupons', 'discount-deals' );
+		$this->is_multi = true;
+		$this->title    = __( 'Cart - Coupons', 'discount-deals' );
 	}
 
 	/**

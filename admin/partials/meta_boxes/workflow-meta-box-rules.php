@@ -134,7 +134,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="discount-deals-col-6">
 									<select name="{{ data.field_name_base }}[value][measure]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-measure" required>
 										<# _.each( data.rule.object.select_choices, function( option, key ) { #>
-										<option value="{{ key }}">{{{ option }}}</option>
+										    <option value="{{ key }}">{{{ option }}}</option>
 										<# }); #>
 									</select>
 								</div>

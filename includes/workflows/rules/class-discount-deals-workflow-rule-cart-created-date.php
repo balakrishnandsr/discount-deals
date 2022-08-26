@@ -25,8 +25,7 @@ class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Work
 	 * Cart_Created_Date constructor.
 	 */
 	public function __construct() {
-		$this->has_is_past_comparision = true;
-
+		$this->has_is_past_comparison = true;
 		parent::__construct();
 	}
 

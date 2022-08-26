@@ -212,8 +212,8 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	 */
 	public function get_includes_or_not_compare_types() {
 		return array(
-			'includes'     => __( 'includes', 'discount-deals' ),
-			'not_includes' => __( 'does not include', 'discount-deals' ),
+			'includes'     => __( 'includes in list', 'discount-deals' ),
+			'not_includes' => __( 'does not include in list', 'discount-deals' ),
 		);
 	}
 

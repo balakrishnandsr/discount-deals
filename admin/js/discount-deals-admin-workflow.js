@@ -432,7 +432,8 @@
 					var selected_title = this.model.get( 'selected' );
 					var selected_id    = this.model.get( 'value' );
 					var value_field;
-					if (selected_title) {
+                    //TODO: check && selected_id is causing any issue
+					if (selected_title && selected_id) {
 						value_field = this.$el.find( '.discount-deals-rule-value-field' );
 						if (value_field.is( 'select' )) {
 							if (_.isArray( selected_id )) {

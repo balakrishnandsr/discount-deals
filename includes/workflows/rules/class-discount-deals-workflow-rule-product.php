@@ -21,7 +21,7 @@ class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_
 		parent::init();
 
 		$this->title         = __( 'Product - Product', 'discount-deals' );
-//		$this->compare_types = $this->get_is_or_not_compare_types();
+		$this->compare_types = $this->get_includes_or_not_compare_types();
 	}
 
 
