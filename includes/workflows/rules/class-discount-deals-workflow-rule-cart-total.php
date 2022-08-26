@@ -26,14 +26,14 @@ class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Ru
 
 
 	/**
-	 * @param Cart $cart
-	 * @param $compare
+	 * @param Cart $data_item
+	 * @param $compare_type
 	 * @param $value
 	 *
 	 * @return bool
 	 */
-	function validate( $cart, $compare, $value ) {
-		return $this->validate_number( $cart->get_total(), $compare, $value );
+	function validate( $data_item, $compare_type, $value ) {
+		return $this->validate_number( $data_item->get_total(), $compare_type, $value );
 	}
 
 }

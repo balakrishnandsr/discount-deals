@@ -24,12 +24,13 @@ class Discount_Deals_Workflow_Rule_Cart_Items extends Discount_Deals_Workflow_Ru
 
 
 	/**
-	 * @param \AutomateWoo\Cart $cart
-	 * @param $compare
+	 * @param \AutomateWoo\Cart $data_item
+	 * @param $compare_type
 	 * @param $value
+	 *
 	 * @return bool
 	 */
-	function validate( $cart, $compare, $value ) {
+	function validate( $data_item, $compare_type, $value ) {
 		$product = wc_get_product( absint( $value ) );
 
 		if ( ! $product ) {
@@ -41,7 +42,7 @@ class Discount_Deals_Workflow_Rule_Cart_Items extends Discount_Deals_Workflow_Ru
 
 		$includes = false;
 
-		foreach ( $cart->get_items() as $item ) {
+		foreach ( $data_item->get_items() as $item ) {
 			$id = $is_variation ? $item->get_variation_id() : $item->get_product_id();
 			if ( $id == $target_product_id ) {
 				$includes = true;
@@ -49,7 +50,7 @@ class Discount_Deals_Workflow_Rule_Cart_Items extends Discount_Deals_Workflow_Ru
 			}
 		}
 
-		switch ( $compare ) {
+		switch ( $compare_type ) {
 			case 'includes':
 				return $includes;
 			case 'not_includes':

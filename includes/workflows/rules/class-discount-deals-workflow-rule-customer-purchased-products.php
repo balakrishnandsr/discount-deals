@@ -35,13 +35,13 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 	/**
 	 * Validate the rule for a given customer.
 	 *
-	 * @param \AutomateWoo\Customer $customer
-	 * @param string                $compare
+	 * @param \AutomateWoo\Customer $data_item
+	 * @param string                $compare_type
 	 * @param string|int            $expected_value
 	 *
 	 * @return bool
 	 */
-	public function validate( $customer, $compare, $expected_value ) {
+	public function validate( $data_item, $compare_type, $expected_value ) {
 		$product_id = absint( $expected_value );
 		$product    = wc_get_product( $product_id );
 
@@ -51,10 +51,10 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 
 		// phpcs:disable WordPress.PHP.StrictInArray.MissingTrueStrict
 		// Using strict here cause tests to incorrectly fail
-		$includes = in_array( $product_id, $customer->get_purchased_products() );
+		$includes = in_array( $product_id, $data_item->get_purchased_products() );
 		// phpcs:enable
 
-		switch ( $compare ) {
+		switch ( $compare_type ) {
 			case 'includes':
 				return $includes;
 			case 'not_includes':

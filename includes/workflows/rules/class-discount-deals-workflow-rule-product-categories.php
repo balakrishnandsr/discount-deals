@@ -35,20 +35,20 @@ class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Wor
 
 
 	/**
-	 * @param $product \WC_Product|\WC_Product_Variation
-	 * @param $compare
-	 * @param $expected
+	 * @param $data_item \WC_Product|\WC_Product_Variation
+	 * @param $compare_type
+	 * @param $value
 	 *
 	 * @return bool
 	 */
-	function validate( $product, $compare, $expected ) {
-		if ( empty( $expected ) ) {
+	function validate( $data_item, $compare_type, $value ) {
+		if ( empty( $value ) ) {
 			return false;
 		}
 
-		$product_id = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
+		$product_id = $data_item->is_type( 'variation' ) ? $data_item->get_parent_id() : $data_item->get_id();
 		$categories = wp_get_object_terms( $product_id, 'product_cat', [ 'fields' => 'ids' ] );
 
-		return $this->validate_select( $categories, $compare, $expected );
+		return $this->validate_select( $categories, $compare_type, $value );
 	}
 }

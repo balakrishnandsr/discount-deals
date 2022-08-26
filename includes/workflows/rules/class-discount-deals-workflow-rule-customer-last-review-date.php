@@ -43,13 +43,13 @@ class Discount_Deals_Workflow_Rule_Customer_Last_Review_Date extends Discount_De
 	/**
 	 * Validates rule.
 	 *
-	 * @param \AutomateWoo\Customer $customer The customer.
-	 * @param string $compare What variables we're using to compare.
+	 * @param \AutomateWoo\Customer $data_item The customer.
+	 * @param string $compare_type What variables we're using to compare.
 	 * @param array|null $value The values we have to compare. Null is only allowed when $compare is is_not_set.
 	 *
 	 * @return bool
 	 */
-	public function validate( $customer, $compare, $value = null ) {
-		return $this->validate_date( $compare, $value, $customer->get_last_review_date() );
+	public function validate( $data_item, $compare_type, $value = null ) {
+		return $this->validate_date( $compare_type, $value, $data_item->get_last_review_date() );
 	}
 }

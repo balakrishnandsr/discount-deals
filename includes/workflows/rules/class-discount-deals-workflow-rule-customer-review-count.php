@@ -26,14 +26,14 @@ class Discount_Deals_Workflow_Rule_Customer_Review_Count extends Discount_Deals_
 
 
 	/**
-	 * @param $customer \AutomateWoo\Customer
-	 * @param $compare
+	 * @param $data_item \AutomateWoo\Customer
+	 * @param $compare_type
 	 * @param $value
 	 *
 	 * @return bool
 	 */
-	function validate( $customer, $compare, $value ) {
-		return $this->validate_number( $customer->get_review_count(), $compare, $value );
+	function validate( $data_item, $compare_type, $value ) {
+		return $this->validate_number( $data_item->get_review_count(), $compare_type, $value );
 	}
 
 }

@@ -14,9 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_Product_Select_Abstract {
 
+	/**
+	 * Data item for rule.
+	 * @var string
+	 */
 	public $data_item = 'product';
 
-
+	/**
+	 * Init the rule
+	 */
 	function init() {
 		parent::init();
 
@@ -26,26 +32,30 @@ class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_
 
 
 	/**
-	 * @param \WC_Product|\WC_Product_Variation $product
-	 * @param $compare
-	 * @param $expected
+	 * Validate the product rule
+	 *
+	 * @param WC_Product|WC_Product_Variation $data_item data item.
+	 * @param string $compare_type compare operator.
+	 * @param array $value list of values.
 	 *
 	 * @return bool
 	 */
-	function validate( $product, $compare, $expected ) {
-		$expected_product = wc_get_product( absint( $expected ) );
-
-		if ( ! $expected_product ) {
+	function validate( $data_item, $compare_type, $value ) {
+		if ( ! is_array( $value ) ) {
 			return false;
 		}
-
-		$match = false;
-
-		switch ( $compare ) {
-			case 'is':
-				return $match;
-			case 'is_not':
-				return ! $match;
+		$is_variation = $data_item->is_type( 'variation' );
+		if ( $is_variation ) {
+			$includes = ( in_array( $data_item->get_id(), $value ) || in_array( $data_item->get_parent_id(), $value ) );
+		} else {
+			$includes = in_array( $data_item->get_id(), $value );
+		}
+		switch ( $compare_type ) {
+			default:
+			case 'includes':
+				return $includes;
+			case 'not_includes':
+				return ! $includes;
 		}
 	}
 

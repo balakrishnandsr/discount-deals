@@ -26,14 +26,14 @@ class Discount_Deals_Workflow_Rule_Customer_Total_Spent extends Discount_Deals_W
 
 
 	/**
-	 * @param $customer \AutomateWoo\Customer
-	 * @param $compare
+	 * @param $data_item \AutomateWoo\Customer
+	 * @param $compare_type
 	 * @param $value
 	 *
 	 * @return bool
 	 */
-	function validate( $customer, $compare, $value ) {
-		return $this->validate_number( $customer->get_total_spent(), $compare, $value );
+	function validate( $data_item, $compare_type, $value ) {
+		return $this->validate_number( $data_item->get_total_spent(), $compare_type, $value );
 	}
 
 }

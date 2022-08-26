@@ -46,16 +46,16 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 
 
 	/**
-	 * @param $customer \AutomateWoo\Customer
-	 * @param $compare
+	 * @param $data_item \AutomateWoo\Customer
+	 * @param $compare_type
 	 * @param $value
 	 *
 	 * @return bool
 	 */
-	function validate( $customer, $compare, $value ) {
+	function validate( $data_item, $compare_type, $value ) {
 		$state   = $this->data_layer()->get_customer_state();
 		$country = $this->data_layer()->get_customer_country();
 
-		return $this->validate_select( "$country|$state", $compare, $value );
+		return $this->validate_select( "$country|$state", $compare_type, $value );
 	}
 }

@@ -40,14 +40,14 @@ class Discount_Deals_Workflow_Rule_Customer_Account_Created_Date extends Discoun
 	/**
 	 * Validates rule.
 	 *
-	 * @param WC_Customer $customer The customer.
-	 * @param string      $compare What variables we're using to compare.
+	 * @param WC_Customer $data_item The customer.
+	 * @param string      $compare_type What variables we're using to compare.
 	 * @param array|null  $value The values we have to compare. Null is only allowed when $compare is is_not_set.
 	 *
 	 * @return bool
 	 * @throws Exception Throws Exception.
 	 */
-	public function validate( $customer, $compare, $value = null ) {
-		return $this->validate_date( $compare, $value, discount_deals_normalize_date( $customer->get_date_created() ) );
+	public function validate( $data_item, $compare_type, $value = null ) {
+		return $this->validate_date( $compare_type, $value, discount_deals_normalize_date( $data_item->get_date_created() ) );
 	}
 }

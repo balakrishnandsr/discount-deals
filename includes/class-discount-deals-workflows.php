@@ -371,6 +371,7 @@ class Discount_Deals_Workflows {
 			 *
 			 * @var Discount_Deals_Workflow $workflow
 			 */
+			$workflow->data_layer()->set_item( 'product', $product );
 			$apply_subsequently = Discount_Deals_Settings::get_settings( 'apply_discount_subsequently', 'no' );
 
 			if ( 'yes' == $apply_subsequently && 'all_matched' === $apply_as ) {

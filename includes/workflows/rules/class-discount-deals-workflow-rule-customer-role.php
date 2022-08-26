@@ -43,14 +43,14 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 
 
 	/**
-	 * @param \AutomateWoo\Customer $customer
-	 * @param $compare
+	 * @param \AutomateWoo\Customer $data_item
+	 * @param $compare_type
 	 * @param $value
 	 *
 	 * @return bool
 	 */
-	function validate( $customer, $compare, $value ) {
-		return $this->validate_select( $customer->get_role(), $compare, $value );
+	function validate( $data_item, $compare_type, $value ) {
+		return $this->validate_select( $data_item->get_role(), $compare_type, $value );
 	}
 
 }

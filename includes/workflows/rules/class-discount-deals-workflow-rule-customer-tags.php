@@ -36,15 +36,16 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 
 
 	/**
-	 * @param $customer \AutomateWoo\Customer
-	 * @param $compare
+	 * @param $data_item \AutomateWoo\Customer
+	 * @param $compare_type
 	 * @param $value
+	 *
 	 * @return bool
 	 */
-	function validate( $customer, $compare, $value ) {
+	function validate( $data_item, $compare_type, $value ) {
 
-		if ( $customer->is_registered() ) {
-			$tags = wp_get_object_terms( $customer->get_user_id(), 'user_tag', [
+		if ( $data_item->is_registered() ) {
+			$tags = wp_get_object_terms( $data_item->get_user_id(), 'user_tag', [
 				'fields' => 'ids'
 			]);
 		}
@@ -52,7 +53,7 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 			$tags = [];
 		}
 
-		return $this->validate_select( $tags, $compare, $value );
+		return $this->validate_select( $tags, $compare_type, $value );
 	}
 
 }

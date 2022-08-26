@@ -35,26 +35,26 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Tags extends Discount_Deals_Workflo
 
 
 	/**
-	 * @param $cart \AutomateWoo\Cart
-	 * @param $compare
-	 * @param $expected
+	 * @param $data_item \AutomateWoo\Cart
+	 * @param $compare_type
+	 * @param $value
 	 *
 	 * @return bool
 	 */
-	function validate( $cart, $compare, $expected ) {
-		if ( empty( $expected ) ) {
+	function validate( $data_item, $compare_type, $value ) {
+		if ( empty( $value ) ) {
 			return false;
 		}
 
 		$tag_ids = [];
 
-		foreach ( $cart->get_items() as $item ) {
+		foreach ( $data_item->get_items() as $item ) {
 			$terms   = wp_get_object_terms( $item->get_product_id(), 'product_tag', [ 'fields' => 'ids' ] );
 			$tag_ids = array_merge( $tag_ids, $terms );
 		}
 
 		$tag_ids = array_filter( $tag_ids );
 
-		return $this->validate_select( $tag_ids, $compare, $expected );
+		return $this->validate_select( $tag_ids, $compare_type, $value );
 	}
 }

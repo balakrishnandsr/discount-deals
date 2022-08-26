@@ -37,16 +37,17 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 
 
 	/**
-	 * @param $customer \AutomateWoo\Customer
-	 * @param $compare
+	 * @param $data_item \AutomateWoo\Customer
+	 * @param $compare_type
 	 * @param $value
+	 *
 	 * @return bool
 	 */
-	function validate( $customer, $compare, $value ) {
+	function validate( $data_item, $compare_type, $value ) {
 
 		$orders = wc_get_orders([
 			'type' => 'shop_order',
-			'customer' => $customer->is_registered() ? $customer->get_user_id() : $customer->get_email(),
+			'customer' => $data_item->is_registered() ? $data_item->get_user_id() : $data_item->get_email(),
 			'limit' => -1
 		]);
 
@@ -56,7 +57,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 			$statuses[] = 'wc-' . $order->get_status();
 		}
 
-		return $this->validate_select( $statuses, $compare, $value );
+		return $this->validate_select( $statuses, $compare_type, $value );
 	}
 
 }

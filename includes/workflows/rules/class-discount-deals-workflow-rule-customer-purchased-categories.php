@@ -36,26 +36,26 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 
 
 	/**
-	 * @param $customer \AutomateWoo\Customer
-	 * @param $compare
-	 * @param $expected
+	 * @param $data_item \AutomateWoo\Customer
+	 * @param $compare_type
+	 * @param $value
 	 *
 	 * @return bool
 	 */
-	function validate( $customer, $compare, $expected ) {
-		if ( empty( $expected ) ) {
+	function validate( $data_item, $compare_type, $value ) {
+		if ( empty( $value ) ) {
 			return false;
 		}
 
 		$category_ids = [];
 
-		foreach ( $customer->get_purchased_products() as $id ) {
+		foreach ( $data_item->get_purchased_products() as $id ) {
 			$terms        = wp_get_object_terms( $id, 'product_cat', [ 'fields' => 'ids' ] );
 			$category_ids = array_merge( $category_ids, $terms );
 		}
 
 		$category_ids = array_filter( $category_ids );
 
-		return $this->validate_select( $category_ids, $compare, $expected );
+		return $this->validate_select( $category_ids, $compare_type, $value );
 	}
 }
