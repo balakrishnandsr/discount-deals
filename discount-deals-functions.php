@@ -195,7 +195,7 @@ if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {
 	 *
 	 * @return array
 	 */
-	function discount_deals_get_all_categories( ) {
+	function discount_deals_get_all_categories() {
 		$list = [];
 
 		$categories = get_terms( 'product_cat', [
@@ -218,13 +218,13 @@ if ( ! function_exists( 'discount_deals_get_all_tags' ) ) {
 	 *
 	 * @return array
 	 */
-	function discount_deals_get_all_tags( ) {
+	function discount_deals_get_all_tags() {
 		$list = [];
 
 		$terms = get_terms( 'product_tag', [
-			'orderby' => 'name',
+			'orderby'    => 'name',
 			'hide_empty' => false
-		]);
+		] );
 
 		foreach ( $terms as $term ) {
 			$list[ $term->term_id ] = $term->name;
@@ -241,7 +241,7 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	 *
 	 * @return array
 	 */
-	function discount_deals_search_coupons( $term, $exclude_personalized) {
+	function discount_deals_search_coupons( $term, $exclude_personalized ) {
 		$args = [
 			'post_type'      => 'shop_coupon',
 			'posts_per_page' => 50,
@@ -270,3 +270,83 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 
 }
 
+if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
+	/**
+	 * Get product and variation ids of all the customers purchased products
+	 *
+	 * @param WC_Customer $customer Customer object.
+	 *
+	 * @return array
+	 */
+	function discount_deals_get_customer_purchased_products( $customer ) {
+		global $wpdb;
+
+		if ( ! is_a( $customer, 'WC_Customer' ) ) {
+			return array();
+		}
+		// TODO: remove transient after order place
+		$transient_name = 'discount_deals_cpp_' . $customer->get_id();
+		$products       = get_transient( $transient_name );
+		if ( $products === false ) {
+			$customer_data = [ $customer->get_email(), $customer->get_id() ];
+			$customer_data = array_map( 'esc_sql', array_filter( $customer_data ) );
+			$statuses      = array_map( 'esc_sql', aw_get_counted_order_statuses( true ) );
+
+			$result   = $wpdb->get_col( "
+				SELECT im.meta_value FROM {$wpdb->posts} AS p
+				INNER JOIN {$wpdb->postmeta} AS pm ON p.ID = pm.post_id
+				INNER JOIN {$wpdb->prefix}woocommerce_order_items AS i ON p.ID = i.order_id
+				INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS im ON i.order_item_id = im.order_item_id
+				WHERE p.post_status IN ( '" . implode( "','", $statuses ) . "' )
+				AND pm.meta_key IN ( '_billing_email', '_customer_user' )
+				AND im.meta_key IN ( '_product_id', '_variation_id' )
+				AND im.meta_value != 0
+				AND pm.meta_value IN ( '" . implode( "','", $customer_data ) . "' )
+			" );
+			$products = array_unique( array_map( 'absint', $result ) );
+
+			set_transient( $transient_name, $result, DAY_IN_SECONDS * 7 );
+		}
+
+		return $products;
+	}//end discount_deals_get_customer_purchased_products()
+
+}
+if ( ! function_exists( 'discount_deals_get_state_name' ) ) {
+	/**
+	 * Get the state name for the text
+	 *
+	 * @param string $country_code Country code.
+	 * @param string $state_code   State code.
+	 *
+	 * @return false|mixed
+	 */
+	function discount_deals_get_state_name( $country_code, $state_code ) {
+		$states = WC()->countries->get_states( $country_code );
+
+		return isset( $states[ $state_code ] ) ? $states[ $state_code ] : false;
+	}//end discount_deals_get_state_name()
+
+}
+if ( ! function_exists( 'discount_deals_get_user_tags' ) ) {
+	/**
+	 * Get the user tags
+	 *
+	 * @return array
+	 */
+	function discount_deals_get_user_tags() {
+		$list = [];
+
+		$tags = get_terms( [
+			'taxonomy'   => 'user_tag',
+			'hide_empty' => false
+		] );
+
+		foreach ( $tags as $tag ) {
+			$list[ $tag->term_id ] = $tag->name;
+		}
+
+		return $list;
+	}//end discount_deals_get_user_tags()
+
+}

@@ -11,22 +11,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * @class Customer_Role
+ * Customer role rule
+ *
+ * @class Discount_Deals_Workflow_Rule_Customer_Role
  */
 class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
-
+	/**
+	 * What data item should pass in to validate the rule?
+	 *
+	 * @var string
+	 */
 	public $data_item = 'customer';
 
-
+	/**
+	 * Init the rule.
+	 */
 	function init() {
 		parent::init();
 
 		$this->title = __( 'Customer - User Role', 'discount-deals' );
 	}//end init()
 
-
-
 	/**
+	 * Load choices for admin to choose from
+	 *
 	 * @return array
 	 */
 	function load_select_choices() {
@@ -42,12 +50,12 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 		return $choices;
 	}//end load_select_choices()
 
-
-
 	/**
-	 * @param \AutomateWoo\Customer $data_item
-	 * @param $compare_type
-	 * @param $value
+	 * Validates rule.
+	 *
+	 * @param WC_Customer $data_item    The customer.
+	 * @param string      $compare_type What variables we're using to compare.
+	 * @param array       $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
 	 *
 	 * @return boolean
 	 */

@@ -39,7 +39,6 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	 * @return boolean
 	 */
 	public function validate_meta( $actual_value, $compare_type, $expected_value ) {
-
 		// Meta compares are a mix of string and number comparisons.
 		// Validate as a number for numeric comparisons (greater/less/multiples) and for is/is not ONLY with numeric values
 		if ( $this->is_numeric_meta_field( $compare_type, $expected_value ) ) {

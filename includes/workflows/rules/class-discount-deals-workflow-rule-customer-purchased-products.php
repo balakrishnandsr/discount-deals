@@ -11,14 +11,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * Class Customer_Purchased_Products
+ * Customer purchased products - all time
  *
- * @package AutomateWoo\Rules
+ * @class  Discount_Deals_Workflow_Rule_Customer_Purchased_Products
  */
 class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_Deals_Workflow_Rule_Product_Select_Abstract {
-
 	/**
-	 * The rule's primary data item.
+	 * What data item should pass in to validate the rule?
 	 *
 	 * @var string
 	 */
@@ -34,33 +33,22 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 
 
 	/**
-	 * Validate the rule for a given customer.
+	 * Validates rule.
 	 *
-	 * @param \AutomateWoo\Customer $data_item
-	 * @param string                $compare_type
-	 * @param string|integer        $expected_value
+	 * @param WC_Customer $data_item    The customer.
+	 * @param string      $compare_type What variables we're using to compare.
+	 * @param array       $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $expected_value ) {
-		$product_id = absint( $expected_value );
-		$product    = wc_get_product( $product_id );
-
-		if ( ! $product ) {
+	public function validate( $data_item, $compare_type, $value ) {
+		if ( empty( $value ) || ! is_array( $value ) ) {
 			return false;
 		}
+		$all_ids = discount_deals_get_customer_purchased_products( $data_item );
 
-		// phpcs:disable WordPress.PHP.StrictInArray.MissingTrueStrict
-		// Using strict here cause tests to incorrectly fail
-		$includes = in_array( $product_id, $data_item->get_purchased_products() );
-		// phpcs:enable
 
-		switch ( $compare_type ) {
-			case 'includes':
-				return $includes;
-			case 'not_includes':
-				return ! $includes;
-		}
+		return $this->validate_select( $all_ids, $compare_type, $value );
 	}//end validate()
 
 }//end class

@@ -11,25 +11,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * @class Customer_Order_Count
+ * Customer order count
+ *
+ * @class Discount_Deals_Workflow_Rule_Customer_Order_Count
  */
 class Discount_Deals_Workflow_Rule_Customer_Order_Count extends Discount_Deals_Workflow_Rule_Number_Abstract {
-
+	/**
+	 * What data item should pass in to validate the rule?
+	 *
+	 * @var string
+	 */
 	public $data_item = 'customer';
 
+	/**
+	 * Supports float values or not?
+	 * @var boolean
+	 */
 	public $support_floats = false;
 
-
+	/**
+	 * Init the rule.
+	 */
 	function init() {
 		$this->title = __( 'Customer - Order Count', 'discount-deals' );
 	}//end init()
 
-
-
 	/**
-	 * @param $data_item \AutomateWoo\Customer
-	 * @param $compare_type
-	 * @param $value
+	 * Validates rule.
+	 *
+	 * @param WC_Customer $data_item    The customer.
+	 * @param string      $compare_type What variables we're using to compare.
+	 * @param integer     $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
 	 *
 	 * @return boolean
 	 */
