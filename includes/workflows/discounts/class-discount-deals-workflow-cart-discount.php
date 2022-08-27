@@ -93,28 +93,39 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
         $type             = discount_deals_get_value_from_array( $discount_details, 'type', 'percentage' );
         $max_discount     = floatval( discount_deals_get_value_from_array( $discount_details, 'max_discount', 0 ) );
         $discount_value   = floatval( discount_deals_get_value_from_array( $discount_details, 'value', 0 ) );
-
+        $discount = array();
         if ( empty($discount_by) || empty($apply_as) ) {
             return 0;
         }
 
-        if('amount' === $discount_by){
+        if( 'amount' === $discount_by ){
             foreach ($cart_items as $cart_item){
                 $product = !empty( $cart_item['data'] ) ? $cart_item['data'] : null;
-                $product = !empty( $cart_item['data'] ) ? $cart_item['data'] : null;
-                echo "<pre>";
-                print_r($cart_item);
-                echo "</pre>";
+                $calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
+                if ( 'regular_price' === $calculate_discount_from ) {
+                    $price = ( is_object( $product ) && is_callable(
+                            array(
+                                $product,
+                                'get_regular_price',
+                            )
+                        ) ) ? $product->get_regular_price() : 0;
+                }else{
+                    $price = ( is_object( $product ) && is_callable(
+                            array(
+                                $product,
+                                'get_price',
+                            )
+                        ) ) ? $product->get_price() : 0;
+                }
+                $discount[] = $this->calculate_discount_amount($type, $price, $discount_value);
             }
-            //$discount = $this->calculate_discount_amount($type, $price, $discount_value);
+
             if ( ! empty( $max_discount ) ) {
-                //$discount = min( $max_discount, $discount );
+                $discount = min( $max_discount, array_sum( $discount ) );
             }
         }
 
-
-
-        return ;
+        return array_sum( $discount );
 	}//end calculate_discount()
 
 

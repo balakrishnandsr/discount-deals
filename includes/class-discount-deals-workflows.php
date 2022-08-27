@@ -442,7 +442,7 @@ foreach ($cart_contents as $cart_content){
         }
         $discounted_price = self::get_matched_discount( $valid_discounts );
         if ( 0 >= $discounted_price ) {
-          //  return false;
+            return false;
         }
         //return $price - $discounted_price;
 
