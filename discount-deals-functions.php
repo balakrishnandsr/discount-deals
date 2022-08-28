@@ -13,9 +13,9 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	/**
 	 * Get data from the GET request
 	 *
-	 * @param string  $key     Key of the array.
-	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
+	 * @param string $key Key of the array.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param boolean $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -38,9 +38,9 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	/**
 	 * Get data from the REQUEST
 	 *
-	 * @param string  $key     Key of the array.
-	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
+	 * @param string $key Key of the array.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param boolean $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -62,9 +62,9 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	/**
 	 * Get data from the POST request
 	 *
-	 * @param string  $key     Key of the array.
-	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
+	 * @param string $key Key of the array.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param boolean $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -112,7 +112,7 @@ if ( ! function_exists( 'discount_deals_get_weekday' ) ) {
 }
 if ( ! function_exists( 'discount_deals_normalize_date' ) ) {
 	/**
-	 * Convert a date object to an instance of AutomateWoo\DateTime.
+	 * Convert a date object to an instance of Discount_deals_DateTime.
 	 *
 	 * WC_Datetime objects are converted to UTC timezone.
 	 *
@@ -174,9 +174,9 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	/**
 	 * Get value from array
 	 *
-	 * @param array  $array         Array.
-	 * @param string $key           Array key.
-	 * @param mixed  $default_value What value should return when the key is not found.
+	 * @param array $array Array.
+	 * @param string $key Array key.
+	 * @param mixed $default_value What value should return when the key is not found.
 	 *
 	 * @return mixed
 	 */
@@ -252,7 +252,7 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 
 		if ( $exclude_personalized ) {
 			$args['meta_query'][] = [
-				'key'     => '_is_aw_coupon',
+				'key'     => '_is_discount_deals_coupon',
 				'compare' => 'NOT EXISTS',
 			];
 		}
@@ -269,7 +269,56 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	}//end discount_deals_search_coupons()
 
 }
+if ( ! function_exists( "discount_deals_get_counted_order_statuses" ) ) {
+	/**
+	 * Get counted order statuses
+	 *
+	 * @param bool $include_prefix Include prefix in status.
+	 *
+	 * @return array|mixed|string[]|void
+	 */
+	function discount_deals_get_counted_order_statuses( $include_prefix = true ) {
+		$default_statuses = array_merge( wc_get_is_paid_statuses(), [ 'on-hold' ] );
+		$statuses         = array_filter( apply_filters( 'discount_deals_counted_order_statuses', $default_statuses ) );
 
+		if ( ! $statuses ) {
+			$statuses = $default_statuses;
+		}
+
+		if ( $include_prefix ) {
+			$statuses = array_map( 'discount_deals_add_order_status_prefix', $statuses );
+		}
+
+		return $statuses;
+	}
+}
+if ( ! function_exists( "discount_deals_add_order_status_prefix" ) ) {
+	/**
+	 * Add prifix to order status
+	 *
+	 * @param string $status Order status.
+	 *
+	 * @return string
+	 */
+	function discount_deals_add_order_status_prefix( $status ) {
+		return 'wc-' . $status;
+	}
+}
+
+if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
+	/**
+	 * Get the country name for country code
+	 *
+	 * @param string $country_code country code.
+	 *
+	 * @return false|mixed
+	 */
+	function discount_deals_get_country_name( $country_code ) {
+		$countries = WC()->countries->get_countries();
+
+		return isset( $countries[ $country_code ] ) ? $countries[ $country_code ] : false;
+	}
+}
 if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	/**
 	 * Get product and variation ids of all the customers purchased products
@@ -290,7 +339,7 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 		if ( $products === false ) {
 			$customer_data = [ $customer->get_email(), $customer->get_id() ];
 			$customer_data = array_map( 'esc_sql', array_filter( $customer_data ) );
-			$statuses      = array_map( 'esc_sql', aw_get_counted_order_statuses( true ) );
+			$statuses      = array_map( 'esc_sql', discount_deals_get_counted_order_statuses( true ) );
 
 			$result   = $wpdb->get_col( "
 				SELECT im.meta_value FROM {$wpdb->posts} AS p
@@ -317,7 +366,7 @@ if ( ! function_exists( 'discount_deals_get_state_name' ) ) {
 	 * Get the state name for the text
 	 *
 	 * @param string $country_code Country code.
-	 * @param string $state_code   State code.
+	 * @param string $state_code State code.
 	 *
 	 * @return false|mixed
 	 */

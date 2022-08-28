@@ -41,7 +41,7 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 
 		foreach ( WC()->countries->get_states() as $country_code => $states ) {
 			foreach ( $states as $state_code => $state_name ) {
-				$return["$country_code|$state_code"] = aw_get_country_name( $country_code ) . ' - ' . $state_name;
+				$return["$country_code|$state_code"] = discount_deals_get_country_name( $country_code ) . ' - ' . $state_name;
 			}
 		}
 
