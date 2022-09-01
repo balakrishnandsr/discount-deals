@@ -26,6 +26,9 @@ if ( 'new' === $workflow_action ) {
 }
 ?>
 	<div class="wrap">
+        <div class="discount-deals-fp-loader discount-deals-hidden">
+            <div class="discount-deals-lds-ripple"><div></div><div></div></div>
+        </div>
 		<h1 class="wp-heading-inline">
 			<?php echo esc_html( $workflow_title ); ?>
 		</h1>

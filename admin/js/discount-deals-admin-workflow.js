@@ -20,8 +20,10 @@
 				promotion_meta_box.find( 'table tbody tr' ).remove();
 				promotion_meta_box.find( 'table tfoot').removeClass('discount-deals-hidden');
 				if (discount_type) {
+					$(".discount-deals-fp-loader").removeClass('discount-deals-hidden');
 					fetch_discount_details( discount_type ).done(
 						function (response) {
+							$(".discount-deals-fp-loader").addClass('discount-deals-hidden');
 							if ( ! response.success) {
 								return;
 							}
