@@ -60,6 +60,8 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 								dd_rules text DEFAULT NULL,
 								dd_discounts text NOT NULL,
 								dd_meta text DEFAULT NULL,
+								dd_index text DEFAULT NULL,
+								dd_promotion text DEFAULT NULL,
 								dd_exclusive tinyint(1) NOT NULL DEFAULT '1',
 								dd_status tinyint(1) NOT NULL DEFAULT '1',
 								dd_user_id int(11) NOT NULL,

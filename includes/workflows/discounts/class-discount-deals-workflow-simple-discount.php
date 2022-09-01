@@ -32,7 +32,11 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
 	}//end set_supplied_data_items()
 
-
+	/**
+	 * Load fields for discount settings
+	 *
+	 * @return false|string
+	 */
 	public function load_fields() {
 		$discount_details = $this->get_discount_details();
 		ob_start();
@@ -84,8 +88,8 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 	/**
 	 * Calculate discount for the product
 	 *
-	 * @param mixed $data_item        Calculate discount for which data item.
-	 * @param float $subsequent_price Subsequent price.
+	 * @param mixed $data_item Calculate discount for which data item.
+	 * @param int|float $price Subsequent price.
 	 *
 	 * @return integer
 	 */

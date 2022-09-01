@@ -39,7 +39,7 @@ class Discount_Deals_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of this plugin.
-	 * @param string $version     The version of this plugin.
+	 * @param string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -98,6 +98,7 @@ class Discount_Deals_Admin {
 			$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array(), false );
 			$rules       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'rule_options', array() ) );
 			$discounts   = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_discounts', array() ) );
+			$promotions  = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array() ) );
 			$id          = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_id', 0 ) );
 			$type        = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_type', '' ) );
 			$title       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_title', '' ) );
@@ -108,6 +109,7 @@ class Discount_Deals_Admin {
 					'dd_rules'     => maybe_serialize( $rules ),
 					'dd_meta'      => maybe_serialize( array() ),
 					'dd_discounts' => maybe_serialize( $discounts ),
+					'dd_promotion' => maybe_serialize( $promotions ),
 					'dd_status'    => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_status', '1' ) ),
 					'dd_exclusive' => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_exclusive', '0' ) ),
 					'dd_user_id'   => get_current_user_id(),
@@ -454,6 +456,17 @@ class Discount_Deals_Admin {
 			'normal',
 			'core'
 		);
+		add_meta_box(
+			'discount_deals_workflow_promotions_box',
+			__( 'Promotion (Optional)', 'discount-deals' ),
+			array(
+				$this,
+				'promotion_meta_box',
+			),
+			'admin_page_discount-deals',
+			'normal',
+			'core'
+		);
 
 		add_meta_box(
 			'discount_deals_workflow_save_box',
@@ -486,6 +499,15 @@ class Discount_Deals_Admin {
 	public function rules_meta_box() {
 		require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-rules.php';
 	}//end rules_meta_box()
+
+	/**
+	 * Add promotion meta box to add/edit workflow page
+	 *
+	 * @return void
+	 */
+	public function promotion_meta_box() {
+		require_once DISCOUNT_DEALS_ABSPATH . 'admin/partials/meta_boxes/workflow-meta-box-promotions.php';
+	}//end promotion_meta_box()
 
 
 	/**

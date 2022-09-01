@@ -107,8 +107,9 @@ class Discount_Deals_Admin_Ajax {
 
 		wp_send_json_success(
 			array(
-				'fields'           => $discount->load_fields(),
-				'discount_details' => Discount_Deals_Workflows::get_discount_data( $discount ),
+				'fields'             => $discount->load_fields(),
+				'promotional_fields' => $discount->load_promotion_fields(),
+				'discount_details'   => Discount_Deals_Workflows::get_discount_data( $discount ),
 			)
 		);
 	}//end fill_discount_fields()

@@ -2,7 +2,7 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
-#post-body #discount_deals_workflow_save_box.postbox .inside, #discount_deals_workflow_discounts_box.postbox .inside, #discount_deals_workflow_rules_box.postbox .inside {
+#post-body #discount_deals_workflow_save_box.postbox .inside, #discount_deals_workflow_discounts_box.postbox .inside, #discount_deals_workflow_rules_box.postbox .inside, #discount_deals_workflow_promotions_box.postbox .inside {
     padding: 0;
     margin: 0;
 }
@@ -257,4 +257,13 @@ input[type="radio"] {
 
 input.discount-deals-rule-value-field[placeholder="key"], input.discount-deals-rule-value-field[placeholder="value"] {
     width: 49%;
+}
+
+.discount-deals-center {
+    text-align: center;
+}
+
+.discount-deals-ph10 {
+    padding-left: 10px;
+    padding-right: 10px;
 }

@@ -39,6 +39,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 			'dd_title'      => '%s',
 			'dd_rules'      => '%s',
 			'dd_discounts'  => '%s',
+			'dd_index'      => '%s',
+			'dd_promotion'  => '%s',
 			'dd_meta'       => '%s',
 			'dd_type'       => '%s',
 			'dd_language'   => '%s',
@@ -62,6 +64,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 			'dd_user_id'    => 0,
 			'dd_rules'      => '',
 			'dd_discounts'  => '',
+			'dd_index'      => '*',
+			'dd_promotion'  => '',
 			'dd_meta'       => '',
 			'dd_type'       => 'simple_discount',
 			'dd_exclusive'  => 0,
@@ -73,8 +77,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Get workflows by id
 	 *
-	 * @param integer $id     Workflow.
-	 * @param string  $output Output format.
+	 * @param integer $id Workflow.
+	 * @param string $output Output format.
 	 *
 	 * @return array|object|null
 	 */
@@ -121,8 +125,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Update Workflow
 	 *
-	 * @param integer $workflow_id   Workflow ID.
-	 * @param array   $workflow_data Workflow data.
+	 * @param integer $workflow_id Workflow ID.
+	 * @param array $workflow_data Workflow data.
 	 *
 	 * @return boolean|void
 	 */
