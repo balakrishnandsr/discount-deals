@@ -20,15 +20,15 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	public function __construct() {
 		parent::__construct();
 		$this->set_supplied_data_items();
-		$this->set_title( __( 'Simple Discount', 'discount-deals' ) );
-		$this->set_description( __( 'Give flat or percentage discount for products you are selling.', 'discount-deals' ) );
+		$this->set_title( __( 'Cart Discount', 'discount-deals' ) );
+		$this->set_description( __( 'Give flat or percentage discount for Cart.', 'discount-deals' ) );
 	}
 
 	/**
 	 * Set valid data items type of the discount
 	 */
 	public function set_supplied_data_items() {
-		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
+		$this->supplied_data_items = array( 'customer', 'cart', 'shop' );
 	}
 
 	public function load_fields() {
@@ -81,51 +81,76 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Calculate discount for the product
 	 *
-	 * @param mixed $cart_items Calculate discount for which data item.
+	 * @param float $cart_subtotal Cart subtotal.
+	 * @param float $subsequent_subtotal Cart subtotal.
 	 *
-	 * @return integer
-	 */
-	public function calculate_discount( $cart_items , $price = 0) {
+	 * @return array|string
+     */
+	public function calculate_discount( $cart_subtotal, $subsequent_subtotal) {
 
         $discount_details = $this->get_discount_details();
-        $discount_by      = discount_deals_get_value_from_array( $discount_details, 'discount_by', 'amount' );
         $apply_as         = discount_deals_get_value_from_array( $discount_details, 'apply_as', 'coupon' );
-        $type             = discount_deals_get_value_from_array( $discount_details, 'type', 'percentage' );
+        $type             = discount_deals_get_value_from_array( $discount_details, 'type', 'percent' );
         $max_discount     = floatval( discount_deals_get_value_from_array( $discount_details, 'max_discount', 0 ) );
-        $discount_value   = floatval( discount_deals_get_value_from_array( $discount_details, 'value', 0 ) );
+        $value   = floatval( discount_deals_get_value_from_array( $discount_details, 'value', 0 ) );
+        $subtotal_based_discount_values   = floatval( discount_deals_get_value_from_array( $discount_details, 'value', array() ) );
+
+        $subtotal_based_discount_values = array(
+            0 => array(
+                'min_subtotal' => 10,
+                'max_subtotal' => 50,
+                'type'         => 'percent',
+                'value'        =>  10
+            ),
+            1 => array(
+                'min_subtotal' => 50,
+                'max_subtotal' => 100,
+                'type'         => 'flat',
+                'value'        =>  10
+            ),
+            2 => array(
+                'min_subtotal' => 100,
+                'max_subtotal' => 500,
+                'type'         => 'flat',
+                'value'        =>  15
+            ),
+        );
+
         $discount = array();
-        if ( empty($discount_by) || empty($apply_as) ) {
-            return 0;
+
+        if ( empty($apply_as) ) {
+            return array();
         }
 
-        if( 'amount' === $discount_by ){
-            foreach ($cart_items as $cart_item){
-                $product = !empty( $cart_item['data'] ) ? $cart_item['data'] : null;
-                $calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
-                if ( 'regular_price' === $calculate_discount_from ) {
-                    $price = ( is_object( $product ) && is_callable(
-                            array(
-                                $product,
-                                'get_regular_price',
-                            )
-                        ) ) ? $product->get_regular_price() : 0;
-                }else{
-                    $price = ( is_object( $product ) && is_callable(
-                            array(
-                                $product,
-                                'get_price',
-                            )
-                        ) ) ? $product->get_price() : 0;
+        //Static value
+        $discount_value = 10;
+        $max_discount = 100;
+
+        if('free_shipping' === $type){
+            return 'discount_deals_free_shipping';
+        }else{
+            if( empty($subtotal_based_discount_value) ){
+                $discount = $this->calculate_discount_amount( $type, $subsequent_subtotal, $discount_value );
+            }else{
+                foreach ($subtotal_based_discount_values as $subtotal_based_discount_value){
+                    $discount = 0;
+                    $min_subtotal = !empty( $subtotal_based_discount_value['min_subtotal'] ) ? $subtotal_based_discount_value['min_subtotal'] : 0;
+                    $max_subtotal = !empty( $subtotal_based_discount_value['max_subtotal'] ) ? $subtotal_based_discount_value['max_subtotal'] : 0;
+                    $type = !empty( $subtotal_based_discount_value['type'] ) ? $subtotal_based_discount_value['type'] : '';
+                    $value = !empty( $subtotal_based_discount_value['value'] ) ? $subtotal_based_discount_value['value'] : 0;
+                    if( !empty($type) && !empty($value) && $cart_subtotal >= $min_subtotal && $cart_subtotal <= $max_subtotal ){
+                        $discount = $this->calculate_discount_amount( $type, $subsequent_subtotal, $value );
+                    }
                 }
-                $discount[] = $this->calculate_discount_amount($type, $price, $discount_value);
-            }
-
-            if ( ! empty( $max_discount ) ) {
-                $discount = min( $max_discount, array_sum( $discount ) );
             }
         }
 
-        return array_sum( $discount );
+        if ( ! empty( $max_discount ) && is_numeric($discount) ) {
+            $discount = min( $max_discount,  $discount );
+        }
+
+        return $discount;
+
 	}//end calculate_discount()
 
 

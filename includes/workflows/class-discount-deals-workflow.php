@@ -563,10 +563,10 @@ class Discount_Deals_Workflow {
      * @param $cart_contents
      * @return void
      */
-    public function may_have_cart_discount( $cart_contents ){
+    public function may_have_cart_discount( $cart_subtotal, $subsequent_subtotal ){
         $discount = $this->get_discount();
         if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
-            return $discount->calculate_discount( $cart_contents );
+            return $discount->calculate_discount( $cart_subtotal, $subsequent_subtotal );
         }
 
         return 0;

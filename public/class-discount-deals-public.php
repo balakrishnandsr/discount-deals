@@ -30,6 +30,8 @@ class Discount_Deals_Public {
 	 */
 	private $version;
 
+    protected static $cart_discounts = 0;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -40,6 +42,7 @@ class Discount_Deals_Public {
 
 		$this->plugin_slug = $plugin_name;
 		$this->version     = $version;
+
         if( ! is_admin()){
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -63,6 +66,8 @@ class Discount_Deals_Public {
         add_filter( 'woocommerce_variation_prices', array( $this, 'get_variation_prices'), 99, 3 );
         //Cart Discount.
         add_filter( 'woocommerce_before_cart', array( $this, 'apply_before_cart'), 99, 3 );
+        add_filter('woocommerce_coupon_get_amount', array( $this, 'get_coupon_amount'), 99, 2);
+        add_action('wp_loaded', array($this, 'test_function'));
 	}//end init_public_hooks()
 
 
@@ -143,7 +148,60 @@ class Discount_Deals_Public {
      * @return int|void
      */
     public function apply_before_cart(){
-        return discount_deals_apply_cart_discount();
+        $discounted_details =  discount_deals_apply_cart_discount();
+
+        if( !empty($discounted_details[ 'free_shipping' ]) ){
+            $free_shipping = $discounted_details[ 'free_shipping' ];
+            unset( $discounted_details[ 'free_shipping' ] );
+        }
+
+        self::$cart_discounts = array_sum($discounted_details);
+        echo "<pre>";
+        print_r(self::$cart_discounts);
+        echo "</pre>";
+        $coupon   = Discount_Deals_Settings::get_settings( 'apply_coupon_title', 'TGV6BC4Y' );
+       // $coupon                = new WC_Coupon( 1345 );
+       // $coupon_id                = 1345;
+        //$coupon->set_amount(self::$cart_discounts);
+        /*echo "<pre>";
+        print_r(array_sum($discounted_details));
+        echo "</pre>";
+        update_post_meta( $coupon_id, 'coupon_amount', array_sum($discounted_details) );
+        if(empty($discounted_details) || empty(self::$cart_discounts) ){
+            //WC()->cart->remove_coupon($coupon);
+        }*/
+
+
+
+        if( !empty(self::$cart_discounts)){
+            WC()->cart->apply_coupon($coupon);
+        }
+        //WC()->cart->calculate_totals();
+    }
+
+    public function get_coupon_amount( $amount, $coupon){
+        /*$discounted_details =  discount_deals_apply_cart_discount();
+
+        if( !empty($discounted_details[ 'free_shipping' ]) ){
+            $free_shipping = $discounted_details[ 'free_shipping' ];
+            unset( $discounted_details[ 'free_shipping' ] );
+        }
+
+        self::$cart_discounts = array_sum($discounted_details);
+
+        $applying_coupon_code = $coupon->get_code();
+
+        $discount_deals_coupon_code   = Discount_Deals_Settings::get_settings( 'apply_coupon_title', 'TGV6BC4Y' );
+
+        if ( $discount_deals_coupon_code == $applying_coupon_code ) {
+            return self::$cart_discounts;
+        }*/
+
+        return self::$cart_discounts;
+    }
+
+    public function test_function(){
+        $cart = WC()->cart->get_cart();
     }
 
 
