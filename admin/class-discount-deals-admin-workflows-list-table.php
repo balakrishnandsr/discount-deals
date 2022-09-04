@@ -191,30 +191,44 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	/**
 	 * Return default value for the workflow
 	 *
-	 * @param array|object $item        Workflow details.
-	 * @param string       $column_name column name.
+	 * @param array|object $item Workflow details.
+	 * @param string $column_name column name.
 	 *
 	 * @return boolean|mixed|string|void
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
-			case 'dd_exclusive':
-				return ucfirst( $item[ $column_name ] );
 			case 'dd_type':
 				$discount_type  = $item[ $column_name ];
 				$discount_class = Discount_Deals_Workflows::get_discount_type( $discount_type );
 
 				return $discount_class->get_title();
-			case 'dd_status':
-				if ( 1 == $item[ $column_name ] ) {
-					return __( 'Yes', 'discount-deals' );
-				}
-
-				return __( 'No', 'discount-deals' );
 			default:
 				return $item[ $column_name ];
 		}
 	}//end column_default()
+
+	/**
+	 * Format created at time to site's time format
+	 *
+	 * @param array $item workflow details.
+	 *
+	 * @return string
+	 */
+	public function column_dd_created_at( $item ) {
+		return get_date_from_gmt( $item['dd_created_at'], get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
+	}
+
+	/**
+	 * Format updated at time to site's time format
+	 *
+	 * @param array $item workflow details.
+	 *
+	 * @return string
+	 */
+	public function column_dd_updated_at( $item ) {
+		return get_date_from_gmt( $item['dd_updated_at'], get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
+	}
 
 
 	/**
@@ -226,11 +240,11 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function column_dd_title( $item ) {
 		$actions = array(
-			'edit'   => sprintf( '<a href="?page=%s&action=%s&workflow=%s">Edit</a>', discount_deals_get_data( 'page', '' ), 'edit', $item['dd_id'] ),
-			'delete' => sprintf( '<a href="?page=%s&action=%s&workflow=%s">Delete</a>', discount_deals_get_data( 'page', '' ), 'delete', $item['dd_id'] ),
+			'edit'   => sprintf( '<a href="?page=%s&action=%s&workflow=%s">%s</a>', discount_deals_get_data( 'page', '' ), 'edit', $item['dd_id'], __( 'Edit', 'discount-deals' ) ),
+			'delete' => sprintf( '<a href="?page=%s&action=%s&workflow=%s">%s</a>', discount_deals_get_data( 'page', '' ), 'delete', $item['dd_id'], __( 'Delete', 'discount-deals' ) ),
 		);
 
-		return sprintf( '%1$s %2$s', $item['dd_title'], $this->row_actions( $actions ) );
+		return sprintf( '%1$s %2$s', sprintf( '<a href="?page=%s&action=%s&workflow=%s">%s</a>', discount_deals_get_data( 'page', '' ), 'edit', $item['dd_id'], $item['dd_title'] ), $this->row_actions( $actions ) );
 	}//end column_dd_title()
 
 
