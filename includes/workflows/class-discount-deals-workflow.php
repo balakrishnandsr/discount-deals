@@ -560,13 +560,15 @@ class Discount_Deals_Workflow {
 	}//end may_have_product_discount()
 
     /**
-     * @param $cart_contents
-     * @return void
+     * Check cart has discount.
+     * @param float $cart_subtotal Actual cart subtotal.
+     * @param float $calculated_subtotal Calculated cart subtotal.
+     * @return string | number
      */
-    public function may_have_cart_discount( $cart_subtotal, $subsequent_subtotal ){
+    public function may_have_cart_discount($cart_subtotal, $calculated_subtotal ){
         $discount = $this->get_discount();
         if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
-            return $discount->calculate_discount( $cart_subtotal, $subsequent_subtotal );
+            return $discount->calculate_discount( $cart_subtotal, $calculated_subtotal );
         }
 
         return 0;

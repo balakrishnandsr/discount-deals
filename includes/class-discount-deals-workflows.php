@@ -35,6 +35,13 @@ class Discount_Deals_Workflows {
 	 */
 	protected static $_active_workflows = array();
 
+    /**
+     * Holds all cart discounts
+     *
+     * @var array
+     */
+    protected static $_cart_discounts = array();
+
 	/**
 	 * Class constructor
 	 */
@@ -192,7 +199,7 @@ class Discount_Deals_Workflows {
 	 */
 	public static function calculate_product_discount( $price, $product ) {
 
-		$active_workflows    = self::get_active_workflows('dd_status = 1');
+		$active_workflows    = self::get_active_workflows();
 		$discounted_price    = 0;
 		$exclusive_workflows = $non_exclusive_workflows = array();
 
@@ -252,18 +259,16 @@ class Discount_Deals_Workflows {
 
 	/**
 	 * Get_active_workflows.
-	 *
-     * @param string $where where query.
      *
 	 * @return Discount_Deals_Workflow[]
 	 */
-	public static function get_active_workflows( $where = '') {
-		/*if ( ! empty( self::$_active_workflows ) ) {
+	public static function get_active_workflows( ) {
+		if ( ! empty( self::$_active_workflows ) ) {
 			return self::$_active_workflows;
-		}*/
+		}
         self::$_active_workflows = array();
 		$workflows_db = new Discount_Deals_Workflow_DB();
-		$workflows    = $workflows_db->get_by_conditions(  $where, 'object' );
+		$workflows    = $workflows_db->get_by_conditions(  'dd_status = 1', 'object' );
 		if ( ! empty( $workflows ) ) {
 			$data_items = array(
 				'customer' => WC()->customer,
@@ -386,7 +391,10 @@ class Discount_Deals_Workflows {
      * @return array
      */
     public static function calculate_cart_discount(){
-        $active_workflows    = self::get_active_workflows('dd_status = 1');
+        if( !empty( self::$_cart_discounts['is_discount_calculated'] ) ){
+            return self::$_cart_discounts['discount_details'];
+        }
+        $active_workflows    = self::get_active_workflows();
 
         $exclusive_workflows = $non_exclusive_workflows = array();
 
@@ -394,24 +402,7 @@ class Discount_Deals_Workflows {
             return array();
         }
 
-
-        /**
-         * Hook to apply the exclusive
-         *
-         * @since 1.0.0
-         */
-        $apply_as = apply_filters(
-            'discount_deals_apply_exclusive_rules_as',
-            'lowest_matched',
-            array(
-                'active_workflows'   => $active_workflows,
-                'workflows_apply_as' => array(
-                    'biggest_matched',
-                    'lowest_matched',
-                ),
-
-            )
-        );
+        $apply_as  = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
 
         if ( ! empty( $active_workflows['exclusive'] ) ) {
             $exclusive_workflows = $active_workflows['exclusive'];
@@ -422,9 +413,10 @@ class Discount_Deals_Workflows {
         $valid_workflow = self::get_cart_discount( $exclusive_workflows, $apply_as );
 
         if ( empty($valid_workflow) ) {
-            $apply_as         = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
             $valid_workflow = self::get_cart_discount( $non_exclusive_workflows, $apply_as );
         }
+        self::$_cart_discounts['is_discount_calculated'] = 'yes';
+        self::$_cart_discounts['discount_details'] = $valid_workflow;
 
         return $valid_workflow;
 
@@ -470,14 +462,15 @@ class Discount_Deals_Workflows {
                      if( 'discount_deals_free_shipping' == $processed_discount){
                          $free_shipping[ $workflow_id ] = $processed_discount;
                      }else{
-                         $valid_discounts[ $workflow_id ] = $processed_discount;
+                         $applied_discount[ $workflow_id ] = $processed_discount;
+
                      }
                 }
             }
 
         }
 
-        $valid_discounts = self::get_matched_discount( $valid_discounts );
+        $valid_discounts['discounts'] = self::get_matched_discount( $applied_discount );
 
         $valid_discounts[ 'free_shipping' ] = $free_shipping;
 
