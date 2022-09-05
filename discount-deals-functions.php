@@ -14,8 +14,8 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	 * Get data from the GET request
 	 *
 	 * @param string $key Key of the array.
-	 * @param mixed $default If there is no data then return default value.
-	 * @param boolean $clean Need to clean the output.
+	 * @param mixed  $default If there is no data then return default value.
+	 * @param bool   $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -39,8 +39,8 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	 * Get data from the REQUEST
 	 *
 	 * @param string $key Key of the array.
-	 * @param mixed $default If there is no data then return default value.
-	 * @param boolean $clean Need to clean the output.
+	 * @param mixed  $default If there is no data then return default value.
+	 * @param bool   $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -63,8 +63,8 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	 * Get data from the POST request
 	 *
 	 * @param string $key Key of the array.
-	 * @param mixed $default If there is no data then return default value.
-	 * @param boolean $clean Need to clean the output.
+	 * @param mixed  $default If there is no data then return default value.
+	 * @param bool   $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -112,7 +112,7 @@ if ( ! function_exists( 'discount_deals_get_weekday' ) ) {
 }
 if ( ! function_exists( 'discount_deals_normalize_date' ) ) {
 	/**
-	 * Convert a date object to an instance of Discount_deals_DateTime.
+	 * Convert a date object to an instance of AutomateWoo\DateTime.
 	 *
 	 * WC_Datetime objects are converted to UTC timezone.
 	 *
@@ -152,8 +152,7 @@ if ( ! function_exists( 'discount_deals_normalize_date' ) ) {
 		}
 
 		return false;
-	}//end discount_deals_normalize_date()
-
+	}
 }
 
 if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
@@ -174,9 +173,9 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	/**
 	 * Get value from array
 	 *
-	 * @param array $array Array.
+	 * @param Array  $array Array.
 	 * @param string $key Array key.
-	 * @param mixed $default_value What value should return when the key is not found.
+	 * @param mixed  $default_value What value should return when the key is not found.
 	 *
 	 * @return mixed
 	 */
@@ -187,6 +186,12 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 
 		return $default_value;
 	}//end discount_deals_get_value_from_array()
+}
+
+if( ! function_exists( 'discount_deals_apply_cart_discount')){
+    function discount_deals_apply_cart_discount(){
+        return Discount_Deals_Workflows::calculate_cart_discount();
+    }
 }
 
 if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {
@@ -359,8 +364,8 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 
 		return $products;
 	}//end discount_deals_get_customer_purchased_products()
-
 }
+
 if ( ! function_exists( 'discount_deals_get_state_name' ) ) {
 	/**
 	 * Get the state name for the text

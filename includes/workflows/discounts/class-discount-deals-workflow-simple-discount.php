@@ -103,21 +103,7 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		if ( 0 >= $discount_value ) {
 			return 0;
 		}
-		switch ( $type ) {
-			case 'fixed_price':
-				$discount = min( $price, $discount_value );
-				break;
-			case 'percent':
-				if ( 100 < $discount_value ) {
-					return 0;
-				}
-				$discount = $price * ( $discount_value / 100 );
-				break;
-			default:
-			case 'flat':
-				$discount = $discount_value;
-				break;
-		}
+        $discount = $this->calculate_discount_amount($type, $price, $discount_value);
 		if ( ! empty( $max_discount ) ) {
 			$discount = min( $max_discount, $discount );
 		}
