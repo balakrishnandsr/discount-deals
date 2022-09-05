@@ -30,7 +30,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 				'ajax'     => false,
 			)
 		);
-	}
+	}//end __construct()
+
 
 	/**
 	 * If there is no workflows then print the message to the user
@@ -39,7 +40,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function no_items() {
 		esc_html_e( 'No workflows found, Please create a new one by clicking here.' );
-	}
+	}//end no_items()
+
 
 	/**
 	 * Prepare items to display
@@ -92,7 +94,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		);
 
 		$this->items = $items;
-	}
+	}//end prepare_items()
+
 
 	/**
 	 * Get columns of the table
@@ -109,7 +112,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'dd_updated_at' => __( 'Updated At', 'discount-deals' ),
 			'dd_status'     => __( 'Status', 'discount-deals' ),
 		);
-	}
+	}//end get_columns()
+
 
 	/**
 	 * Columns that can be sortable
@@ -124,7 +128,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'dd_status'     => array( 'dd_status', false ),
 			'dd_exclusive'  => array( 'dd_exclusive', false ),
 		);
-	}
+	}//end get_sortable_columns()
+
 
 	/**
 	 * Do bulk option
@@ -164,7 +169,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 				}
 			}
 		}
-	}
+	}//end process_bulk_action()
+
 
 	/**
 	 * Bulk actions of the workflows
@@ -179,35 +185,51 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'exclusive'     => __( 'Mark as Exclusive', 'discount-deals' ),
 			'not_exclusive' => __( 'Mark as Not-Exclusive', 'discount-deals' ),
 		);
-	}
+	}//end get_bulk_actions()
+
 
 	/**
 	 * Return default value for the workflow
 	 *
 	 * @param array|object $item Workflow details.
-	 * @param string       $column_name column name.
+	 * @param string $column_name column name.
 	 *
-	 * @return bool|mixed|string|void
+	 * @return boolean|mixed|string|void
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
-			case 'dd_exclusive':
-				return ucfirst( $item[ $column_name ] );
 			case 'dd_type':
 				$discount_type  = $item[ $column_name ];
 				$discount_class = Discount_Deals_Workflows::get_discount_type( $discount_type );
 
 				return $discount_class->get_title();
-			case 'dd_status':
-				if ( 1 == $item[ $column_name ] ) {
-					return __( 'Yes', 'discount-deals' );
-				}
-
-				return __( 'No', 'discount-deals' );
 			default:
 				return $item[ $column_name ];
 		}
+	}//end column_default()
+
+	/**
+	 * Format created at time to site's time format
+	 *
+	 * @param array $item workflow details.
+	 *
+	 * @return string
+	 */
+	public function column_dd_created_at( $item ) {
+		return get_date_from_gmt( $item['dd_created_at'], get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 	}
+
+	/**
+	 * Format updated at time to site's time format
+	 *
+	 * @param array $item workflow details.
+	 *
+	 * @return string
+	 */
+	public function column_dd_updated_at( $item ) {
+		return get_date_from_gmt( $item['dd_updated_at'], get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
+	}
+
 
 	/**
 	 * Display Edit & Delete option for WorkFlow
@@ -218,12 +240,13 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function column_dd_title( $item ) {
 		$actions = array(
-			'edit'   => sprintf( '<a href="?page=%s&action=%s&workflow=%s">Edit</a>', discount_deals_get_data( 'page', '' ), 'edit', $item['dd_id'] ),
-			'delete' => sprintf( '<a href="?page=%s&action=%s&workflow=%s">Delete</a>', discount_deals_get_data( 'page', '' ), 'delete', $item['dd_id'] ),
+			'edit'   => sprintf( '<a href="?page=%s&action=%s&workflow=%s">%s</a>', discount_deals_get_data( 'page', '' ), 'edit', $item['dd_id'], __( 'Edit', 'discount-deals' ) ),
+			'delete' => sprintf( '<a href="?page=%s&action=%s&workflow=%s">%s</a>', discount_deals_get_data( 'page', '' ), 'delete', $item['dd_id'], __( 'Delete', 'discount-deals' ) ),
 		);
 
-		return sprintf( '%1$s %2$s', $item['dd_title'], $this->row_actions( $actions ) );
-	}
+		return sprintf( '%1$s %2$s', sprintf( '<a href="?page=%s&action=%s&workflow=%s">%s</a>', discount_deals_get_data( 'page', '' ), 'edit', $item['dd_id'], $item['dd_title'] ), $this->row_actions( $actions ) );
+	}//end column_dd_title()
+
 
 	/**
 	 * Exclusive column details
@@ -241,7 +264,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
             <span class="slider round"></span>
         </label>
 		<?php
-	}
+	}//end column_dd_exclusive()
+
 
 	/**
 	 * Status column details
@@ -259,7 +283,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
             <span class="slider round"></span>
         </label>
 		<?php
-	}
+	}//end column_dd_status()
+
 
 	/**
 	 * Multi select checkbox
@@ -273,5 +298,7 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'<input type="checkbox" name="workflow[]" value="%s" />',
 			$item['dd_id']
 		);
-	}
-}
+	}//end column_cb()
+
+}//end class
+

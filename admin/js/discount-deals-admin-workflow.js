@@ -10,21 +10,31 @@
 
 	function init_discounts() {
 		var discount_meta_box = $( "#discount_deals_workflow_discounts_box" );
+		var promotion_meta_box = $( "#discount_deals_workflow_promotions_box" );
 		$( document ).on(
 			"change",
 			"#discount_deals_workflow_type",
 			function () {
 				let discount_type = $( this ).val();
 				discount_meta_box.find( 'tr.discount-options-field-container' ).remove();
+				promotion_meta_box.find( 'table tbody tr' ).remove();
+				promotion_meta_box.find( 'table tfoot').removeClass('discount-deals-hidden');
 				if (discount_type) {
+					$(".discount-deals-fp-loader").removeClass('discount-deals-hidden');
 					fetch_discount_details( discount_type ).done(
 						function (response) {
+							$(".discount-deals-fp-loader").addClass('discount-deals-hidden');
 							if ( ! response.success) {
 								return;
 							}
+							promotion_meta_box.find( 'table tfoot').addClass('discount-deals-hidden');
 							discount_meta_box.find( 'tbody' ).append( response.data.fields );
+							promotion_meta_box.find( 'table tbody' ).append( response.data.promotional_fields );
 							discount_deals.workflow.set( 'discount_type', response.data.discount_details );
 							discount_deals.rules.clear_incompatible_rules();
+							quicktags({id : "editor_discount_deals_workflow_promotion_message"});
+							tinymce.init(tinyMCEPreInit.mceInit['editor_discount_deals_workflow_promotion_message']);
+							// tinyMCE.execCommand('mceAddEditor', false, "editor_discount_deals_workflow_promotion_message");
 						}
 					);
 				} else {
@@ -244,7 +254,7 @@
 					$.getJSON(
 						ajaxurl,
 						{
-							action: 'aw_get_rule_select_choices',
+							action: 'discount_deals_get_rule_select_choices',
 							rule_name: rule_object.name
 						},
 						function (response) {
@@ -360,7 +370,13 @@
 					var $to   = this.$el.find( '.discount-deals-rule-value-to' );
 
 					if ($from.length && $to.length) {
-						$to.datepicker( 'option', 'minDate', $from.val() );
+						// $to.datepicker( 'option', 'minDate', $from.val() );
+						$to.datetimepicker(
+                            {
+								format: 'Y-m-d H:i',
+                                minDate: $from.val()
+                            }
+                        );
 					}
 				},
 				updated_rule_value: function (e) {
@@ -426,7 +442,8 @@
 					var selected_title = this.model.get( 'selected' );
 					var selected_id    = this.model.get( 'value' );
 					var value_field;
-					if (selected_title) {
+                    // TODO: check && selected_id is causing any issue
+					if (selected_title && selected_id) {
 						value_field = this.$el.find( '.discount-deals-rule-value-field' );
 						if (value_field.is( 'select' )) {
 							if (_.isArray( selected_id )) {
@@ -495,12 +512,26 @@
 					}
 				},
 				init_date_picker: function () {
-					this.$el.find( '.discount-deals-date-picker' ).datepicker(
-						{
-							dateFormat: 'yy-mm-dd',
-							showButtonPanel: true,
-						}
-					);
+					var compare = this.$el.find('.discount-deals-rule-compare-field').val();
+					if(['is_not_on','is_on'].includes(compare)) {
+                        this.$el.find('.discount-deals-date-picker').datepicker(
+                            {
+                                dateFormat: 'yy-mm-dd',
+                                showButtonPanel: true,
+                            }
+                        );
+                    }else {
+                        this.$el.find('.discount-deals-date-picker').datetimepicker(
+                            {
+                                format: 'Y-m-d H:i',
+                            }
+                        );
+						this.$el.find('.discount-deals-date-time-picker').datetimepicker(
+                            {
+                                format: 'Y-m-d H:i',
+                            }
+                        );
+                    }
 				},
 				set_name: function () {
 					this.$el.find( '.discount-deals-rule-select' ).val( this.model.get( 'name' ) );
@@ -627,10 +658,28 @@
 		);
 	}
 
+    function init_promotions() {
+        const toggle_promotion_fields = function (status) {
+            if(status == "yes"){
+                $("#discount_deals_workflow_promotions_box tbody tr:gt(0)").show();
+            }else{
+                $("#discount_deals_workflow_promotions_box tbody tr:gt(0)").hide();
+            }
+        }
+
+        $(document).on('change', 'input[type=radio][name="discount_deals_workflow[dd_promotion][enable]"]', function () {
+            toggle_promotion_fields($(this).val());
+        })
+
+        var promotion_status = $('input[type=radio][name="discount_deals_workflow[dd_promotion][enable]"]:checked').val();
+        toggle_promotion_fields(promotion_status)
+    }
+
 	$(
 		function () {
 			init_discounts();
 			init_rules();
+			init_promotions();
 		}
 	);
 })( jQuery, discount_deals_workflow_localize_script );

@@ -2,7 +2,7 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
-#post-body #discount_deals_workflow_save_box.postbox .inside, #discount_deals_workflow_discounts_box.postbox .inside, #discount_deals_workflow_rules_box.postbox .inside {
+#post-body #discount_deals_workflow_save_box.postbox .inside, #discount_deals_workflow_discounts_box.postbox .inside, #discount_deals_workflow_rules_box.postbox .inside, #discount_deals_workflow_promotions_box.postbox .inside {
     padding: 0;
     margin: 0;
 }
@@ -186,18 +186,16 @@ input[type="radio"] {
 .discount-deals-switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 48px;
+    height: 27px;
 }
 
-/* Hide default HTML checkbox */
 .discount-deals-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-/* The slider */
 .discount-deals-switch .slider {
     position: absolute;
     cursor: pointer;
@@ -213,8 +211,8 @@ input[type="radio"] {
 .discount-deals-switch .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 20px;
+    width: 20px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -231,9 +229,9 @@ input[type="radio"] {
 }
 
 .discount-deals-switch input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
 }
 
 .discount-deals-switch .slider.round {
@@ -250,4 +248,86 @@ input[type="radio"] {
 
 .column-dd_title {
     width: 35%;
+}
+
+.discount-deals-table .wc-radios li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+input.discount-deals-rule-value-field[placeholder="key"], input.discount-deals-rule-value-field[placeholder="value"] {
+    width: 49%;
+}
+
+.discount-deals-center {
+    text-align: center;
+}
+
+.discount-deals-ph10 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.discount-deals-fp-loader {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    z-index: 9999;
+    background-color: #ffffff;
+    opacity: 0.8;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.discount-deals-lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.discount-deals-lds-ripple div {
+    position: absolute;
+    border: 4px solid #2271B1;
+    opacity: 1;
+    border-radius: 50%;
+    animation: discount-deals-lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.discount-deals-lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+
+@keyframes discount-deals-lds-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    4.9% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    5% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
 }

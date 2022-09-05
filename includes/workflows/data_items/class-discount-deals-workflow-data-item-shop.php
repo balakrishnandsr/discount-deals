@@ -22,8 +22,10 @@ class Discount_Deals_Workflow_Data_Item_Shop {
 	 */
 	public function get_current_datetime() {
 		$datetime = new Discount_Deals_Date_Time();
-		$datetime->setTimestamp( gmdate( 'U' ) );
+		$datetime->setTimestamp( current_time( 'timestamp', true ) );
 
 		return $datetime;
-	}
-}
+	}//end get_current_datetime()
+
+}//end class
+

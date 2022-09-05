@@ -26,7 +26,7 @@ class Discount_Deals_Settings {
 
 	private static $default_config = array(
 
-		/**
+		/*
 		 * todo:General
 		 */
 		'calculate_discount_from'            => 'regular_price',
@@ -36,8 +36,7 @@ class Discount_Deals_Settings {
 		// biggest_discount,lowest_discount,first,all
 		'apply_cart_discount_subsequently'   => 0,
 		// 1,0
-
-		/**
+		/*
 		 * todo:Product
 		 */
 		'show_on_sale_badge'                 => 'disabled',
@@ -52,8 +51,7 @@ class Discount_Deals_Settings {
 		// Bulk Table
 		'show_bulk_table'                    => 'no',
 		// | select  positions of product page | below add to cart etc..
-
-		/**
+		/*
 		 * todo:Cart/checkout
 		 */
 		'show_strikeout_on_cart'             => 1,
@@ -69,7 +67,6 @@ class Discount_Deals_Settings {
 		// 0,1
 		'hide_other_shipping_method'         => 0,
 		// 0,1
-
 	);
 
 	/**
@@ -77,11 +74,12 @@ class Discount_Deals_Settings {
 	 *
 	 * @param $data
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function save_settings( $data = array() ) {
 		return update_option( self::DISCOUNT_DEALS_OPTION_KEY, $data );
-	}
+	}//end save_settings()
+
 
 	/**
 	 * @param $key - what configuration need to get
@@ -95,7 +93,8 @@ class Discount_Deals_Settings {
 		}
 
 		return discount_deals_get_value_from_array( self::$config, $key, $default );
-	}
+	}//end get_settings()
+
 
 	/**
 	 * Set rule configuration to static variable
@@ -107,5 +106,7 @@ class Discount_Deals_Settings {
 		self::$config = wp_parse_args( $options, self::$default_config );
 
 		return self::$config;
-	}
-}
+	}//end saved_settings()
+
+}//end class
+

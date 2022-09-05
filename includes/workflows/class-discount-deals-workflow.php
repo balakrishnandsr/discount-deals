@@ -63,6 +63,20 @@ class Discount_Deals_Workflow {
 	public $meta;
 
 	/**
+	 * Promotion settings to shown in frontend
+	 *
+	 * @var array
+	 */
+	public $promotion;
+
+	/**
+	 * Index products that has discounts
+	 *
+	 * @var array
+	 */
+	public $index;
+
+	/**
 	 * Workflow priority
 	 *
 	 * @var integer
@@ -112,9 +126,11 @@ class Discount_Deals_Workflow {
 			$this->set_id( $workflow->dd_id );
 			$this->set_title( $workflow->dd_title );
 			$this->set_type( $workflow->dd_type );
+			$this->set_promotion( maybe_unserialize( (string) $workflow->dd_promotion ) );
 			$this->set_rules( maybe_unserialize( (string) $workflow->dd_rules ) );
 			$this->set_discount( maybe_unserialize( (string) $workflow->dd_discounts ) );
 			$this->set_meta( maybe_unserialize( (string) $workflow->dd_meta ) );
+			$this->set_index( maybe_unserialize( (string) $workflow->dd_index ) );
 			$this->set_status( $workflow->dd_status );
 			$this->set_exclusive( $workflow->dd_exclusive );
 			$this->set_created_at( $workflow->dd_created_at );
@@ -146,6 +162,42 @@ class Discount_Deals_Workflow {
 
 		return new Discount_Deals_Workflow( $workflow );
 	}//end get_instance()
+
+	/**
+	 * Get products having discount
+	 *
+	 * @return array
+	 */
+	public function get_index() {
+		return $this->index;
+	}
+
+	/**
+	 * Create index for products having discount
+	 *
+	 * @param array $index Index details
+	 */
+	public function set_index( $index ) {
+		$this->index = $index;
+	}
+
+	/**
+	 * Get promotion details
+	 *
+	 * @return array
+	 */
+	public function get_promotion() {
+		return $this->promotion;
+	}
+
+	/**
+	 * Set promotion details
+	 *
+	 * @param array $promotion Promotion details
+	 */
+	public function set_promotion( $promotion ) {
+		$this->promotion = $promotion;
+	}
 
 
 	/**
@@ -216,7 +268,7 @@ class Discount_Deals_Workflow {
 	 * Set workflow data layer.
 	 *
 	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer Data layer.
-	 * @param boolean                                  $reset_workflow_data Reset workflow data.
+	 * @param boolean $reset_workflow_data Reset workflow data.
 	 *
 	 * @return void
 	 */
@@ -476,7 +528,7 @@ class Discount_Deals_Workflow {
 	 *
 	 * @param string $name Name.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function get_data_item( $name = '' ) {
 		return $this->data_layer()->get_item( $name );
@@ -546,7 +598,7 @@ class Discount_Deals_Workflow {
 	 * May have product discount.
 	 *
 	 * @param object $product Product.
-	 * @param float  $price Price used for when enable subsequent.
+	 * @param float $price Price used for when enable subsequent.
 	 *
 	 * @return integer|void
 	 */
@@ -594,8 +646,9 @@ class Discount_Deals_Workflow {
 		$discount_type   = $this->get_type();
 		$discount_object = Discount_Deals_Workflows::get_discount_type( $discount_type );
 		$discount_object->set_discount_details( $discounts );
+		$discount_object->set_promotion_details( $this->get_promotion() );
 		$this->discount = $discount_object;
-	}
+	}//end set_discount()
 
 
 }//end class

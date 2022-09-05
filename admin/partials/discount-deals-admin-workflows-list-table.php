@@ -20,6 +20,9 @@ $workflow_listing_table = new Discount_Deals_Admin_Workflows_List_Table();
 $workflow_listing_table->prepare_items();
 ?>
 	<div class="wrap">
+        <div class="discount-deals-fp-loader discount-deals-hidden">
+            <div class="discount-deals-lds-ripple"><div></div><div></div></div>
+        </div>
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'Workflows', 'discount-deals' ); ?></h1>
 		<a href="?page=<?php echo esc_attr( discount_deals_get_data( 'page', '' ) ); ?>&action=new"
 		   class="page-title-action"><?php esc_html_e( 'Add Workflow', 'discount-deals' ); ?></a>

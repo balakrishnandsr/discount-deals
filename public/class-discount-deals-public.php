@@ -40,7 +40,6 @@ class Discount_Deals_Public {
 
 		$this->plugin_slug = $plugin_name;
 		$this->version     = $version;
-
         if( ! is_admin()){
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -61,6 +60,8 @@ class Discount_Deals_Public {
 		add_filter( 'woocommerce_product_variation_get_price', array( $this, 'get_product_price' ), 99, 2 );
 		add_filter( 'woocommerce_product_get_sale_price', array( $this, 'get_sale_price' ), 99, 2 );
 		add_filter( 'woocommerce_product_variation_get_sale_price', array( $this, 'get_sale_price' ), 99, 2 );
+		add_filter( 'woocommerce_variation_prices', array( $this, 'get_variation_prices' ), 99, 3 );
+		add_filter( 'woocommerce_add_to_cart', array( $this, 'item_added_to_cart' ), 99, 6 );
         add_filter( 'woocommerce_variation_prices', array( $this, 'get_variation_prices'), 99, 3 );
         //Cart Discount.
         $cart_discount_type   = Discount_Deals_Settings::get_settings( 'apply_cart_discount_as', 'coupon' );
@@ -74,6 +75,14 @@ class Discount_Deals_Public {
         }
     }//end init_public_hooks()
 
+	public function item_added_to_cart( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
+		// TODO: remove session value after order placement
+		$created_time = WC()->session->get( 'discount_deals_cart_created_time', false );
+		if ( ! $created_time ) {
+			WC()->session->set( 'discount_deals_cart_created_time', current_time( 'U', true ) );
+		}
+		WC()->session->set( 'discount_deals_cart_updated_time', current_time( 'U', true ) );
+	}//end item_added_to_cart()
 
 
 	/**
@@ -110,20 +119,23 @@ class Discount_Deals_Public {
 		return discount_deals_get_product_discount( $price, $product );
 	}//end get_product_price()
 
-    /**
-     * Set woocommerce product sale price.
-     *
-     * @param $price
-     * @param $product
-     * @return mixed|string
-     */
-    public function get_sale_price( $price, $product ){
-        $sale_price = ( is_a( $product, 'WC_Product' ) ) ? $product->get_price() : '';
-        if( 0 == $sale_price || empty($sale_price) ){
-            return $price;
-        }
-       return $sale_price;
-    }
+	/**
+	 * Set woocommerce product sale price.
+	 *
+	 * @param $price
+	 * @param $product
+	 *
+	 * @return mixed|string
+	 */
+	public function get_sale_price( $price, $product ) {
+		$sale_price = ( is_a( $product, 'WC_Product' ) ) ? $product->get_price() : '';
+		if ( 0 == $sale_price || empty( $sale_price ) ) {
+			return $price;
+		}
+
+		return $sale_price;
+	}//end get_sale_price()
+
 
     /**
      * Get variation prices.

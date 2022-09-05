@@ -32,7 +32,8 @@ class Discount_Deals_Workflow_Data_Layer {
 			$this->data['shop'] = new Discount_Deals_Workflow_Data_Item_Shop();
 		}
 
-	}
+	}//end __construct()
+
 
 	/**
 	 * Set item.

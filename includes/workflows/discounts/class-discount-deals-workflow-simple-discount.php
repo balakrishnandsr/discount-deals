@@ -22,15 +22,21 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Simple Discount', 'discount-deals' ) );
 		$this->set_description( __( 'Give flat or percentage discount for products you are selling.', 'discount-deals' ) );
-	}
+	}//end __construct()
+
 
 	/**
 	 * Set valid data items type of the discount
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
-	}
+	}//end set_supplied_data_items()
 
+	/**
+	 * Load fields for discount settings
+	 *
+	 * @return false|string
+	 */
 	public function load_fields() {
 		$discount_details = $this->get_discount_details();
 		ob_start();
@@ -76,13 +82,14 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		);
 
 		return ob_get_clean();
-	}
+	}//end load_fields()
+
 
 	/**
 	 * Calculate discount for the product
 	 *
 	 * @param mixed $data_item Calculate discount for which data item.
-	 * @param float $subsequent_price Subsequent price.
+	 * @param int|float $price Subsequent price.
 	 *
 	 * @return integer
 	 */

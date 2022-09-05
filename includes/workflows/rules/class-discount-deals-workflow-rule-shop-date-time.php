@@ -24,14 +24,14 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Shop_Date_Time' ) ) {
 		/**
 		 * Use is not set comparison.
 		 *
-		 * @var bool
+		 * @var boolean
 		 */
 		public $has_is_set = false;
 
 		/**
 		 * Use is not set comparison.
 		 *
-		 * @var bool
+		 * @var boolean
 		 */
 		public $has_is_not_set = false;
 
@@ -40,16 +40,17 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Shop_Date_Time' ) ) {
 		 */
 		public function init() {
 			$this->title = __( 'Shop - Current Date/Time', 'discount-deals' );
-		}
+		}//end init()
+
 
 		/**
 		 * Validate rule against order items
 		 *
-		 * @param Discount_Deals_Workflow_Data_Item_Shop $data_item WC Order.
+		 * @param Discount_Deals_Workflow_Data_Item_Shop $data_item    WC Order.
 		 * @param string                                 $compare_type Compare type.
-		 * @param array                                  $value Rule value.
+		 * @param array                                  $value        Rule value.
 		 *
-		 * @return bool
+		 * @return boolean
 		 */
 		public function validate( $data_item, $compare_type, $value ) {
 			try {
@@ -57,6 +58,8 @@ if ( ! class_exists( 'Discount_Deals_Workflow_Rule_Shop_Date_Time' ) ) {
 			} catch ( Exception $e ) {
 				return false;
 			}
-		}
-	}
+		}//end validate()
+
+	}//end class
+
 }

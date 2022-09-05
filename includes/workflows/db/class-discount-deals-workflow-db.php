@@ -39,6 +39,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 			'dd_title'      => '%s',
 			'dd_rules'      => '%s',
 			'dd_discounts'  => '%s',
+			'dd_index'      => '%s',
+			'dd_promotion'  => '%s',
 			'dd_meta'       => '%s',
 			'dd_type'       => '%s',
 			'dd_language'   => '%s',
@@ -62,6 +64,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 			'dd_user_id'    => 0,
 			'dd_rules'      => '',
 			'dd_discounts'  => '',
+			'dd_index'      => '*',
+			'dd_promotion'  => '',
 			'dd_meta'       => '',
 			'dd_type'       => 'simple_discount',
 			'dd_exclusive'  => 0,
@@ -73,8 +77,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Get workflows by id
 	 *
-	 * @param integer $id     Workflow.
-	 * @param string  $output Output format.
+	 * @param integer $id Workflow.
+	 * @param string $output Output format.
 	 *
 	 * @return array|object|null
 	 */
@@ -98,7 +102,7 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	 *
 	 * @param array $workflow_data Workflow data.
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function insert_workflow( $workflow_data = array() ) {
 		if ( empty( $workflow_data ) || ! is_array( $workflow_data ) ) {
@@ -115,15 +119,16 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		}
 
 		return $this->insert( $workflow_data );
-	}
+	}//end insert_workflow()
+
 
 	/**
 	 * Update Workflow
 	 *
-	 * @param int   $workflow_id Workflow ID.
+	 * @param integer $workflow_id Workflow ID.
 	 * @param array $workflow_data Workflow data.
 	 *
-	 * @return bool|void
+	 * @return boolean|void
 	 */
 	public function update_workflow( $workflow_id = 0, $workflow_data = array() ) {
 
@@ -136,7 +141,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		}
 
 		return $this->update( $workflow_id, $workflow_data );
-	}
+	}//end update_workflow()
+
 
 }//end class
 

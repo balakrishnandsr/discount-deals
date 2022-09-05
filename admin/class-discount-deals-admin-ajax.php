@@ -21,12 +21,48 @@ class Discount_Deals_Admin_Ajax {
 		$ajax_events = array(
 			'fill_discount_fields',
 			'update_workflow_column_value',
+			'json_search_coupons',
+			'get_rule_select_choices'
 		);
 
 		foreach ( $ajax_events as $ajax_event ) {
 			add_action( 'wp_ajax_discount_deals_' . $ajax_event, array( __CLASS__, $ajax_event ) );
 		}
-	}
+	}//end init()
+
+
+	public static function get_rule_select_choices() {
+
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			die;
+		}
+
+		if ( ! $rule_name = discount_deals_get_request_data( 'rule_name' ) ) {
+			die;
+		}
+
+		$rule_object = Discount_Deals_Workflows::get_rule_type( $rule_name );
+
+		if ( 'select' === $rule_object->type ) {
+			wp_send_json_success( [
+				'select_choices' => $rule_object->get_select_choices()
+			] );
+		}
+
+		die;
+	}//end get_rule_select_choices()
+
+
+	public static function json_search_coupons() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			die;
+		}
+		$term    = discount_deals_get_request_data( 'term' );
+		$results = discount_deals_search_coupons( $term, true );
+
+		wp_send_json( $results );
+	}//end json_search_coupons()
+
 
 	public static function update_workflow_column_value() {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
@@ -49,7 +85,8 @@ class Discount_Deals_Admin_Ajax {
 			}
 		}
 		die( - 1 );
-	}
+	}//end update_workflow_column_value()
+
 
 	/**
 	 * Get discount details for the type
@@ -70,11 +107,13 @@ class Discount_Deals_Admin_Ajax {
 
 		wp_send_json_success(
 			array(
-				'fields'           => $discount->load_fields(),
-				'discount_details' => Discount_Deals_Workflows::get_discount_data( $discount ),
+				'fields'             => $discount->load_fields(),
+				'promotional_fields' => $discount->load_promotion_fields(),
+				'discount_details'   => Discount_Deals_Workflows::get_discount_data( $discount ),
 			)
 		);
-	}
+	}//end fill_discount_fields()
+
 
 }//end class
 
