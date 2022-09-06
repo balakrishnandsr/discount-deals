@@ -20,8 +20,15 @@
             let $row = $(this).closest('tr');
             if (value === "free_shipping") {
                 $row.find('.cart-discount-value').attr('disabled', true).val('');
+                $row.find('.discount-value-symbol').html('');
+            } else if (value === "flat") {
+                $row.find('.cart-discount-value').attr('disabled', false);
+                $row.find('.cart-max-discount').attr('disabled', true);
+                let symbol = $row.find('.discount-value-symbol').data('currency');
+                $row.find('.discount-value-symbol').html(symbol);
             } else {
                 $row.find('.cart-discount-value').attr('disabled', false);
+                $row.find('.discount-value-symbol').html('%');
             }
         });
         $(document).on('click', '.discount-deals-add-cart-discount', function () {
@@ -36,10 +43,15 @@
             }
             $new_discount.find('input').each(function (i) {
                 change_input_name($(this))
+                $(this).val('');
             });
             $new_discount.find('select').each(function (i) {
                 change_input_name($(this))
+                $(this).val('flat');
             });
+            let symbol = $new_discount.find('.discount-value-symbol').data('currency');
+            $new_discount.find('.discount-value-symbol').html(symbol);
+            $new_discount.find('.cart-discount-value').attr('disabled', false);
             if (total_discounts >= 1) {
                 $new_discount.find('.discount-deals-remove-cart-discount').removeClass('discount-deals-hidden')
             }

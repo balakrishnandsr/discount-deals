@@ -15,8 +15,12 @@
     width: 100%;
 }
 
-.discount-deals-w120 {
-    width: 120px;
+.discount-deals-w100 {
+    width: 100px;
+}
+
+input:disabled {
+    background: #dddddd;
 }
 
 .discount-deals-text-left {
@@ -60,8 +64,8 @@
 
 .discount-deals-table .discount-deals-table__col--label {
     border-top-color: #f0f0f0;
-    width: 31.5%;
-    line-height: 1.15;
+    width: 25%;
+    line-height: 2;
     font-size: 13px;
     font-weight: 600;
     border-right: 1px solid #e6e6e6;
