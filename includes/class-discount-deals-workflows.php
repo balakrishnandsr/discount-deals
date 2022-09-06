@@ -525,7 +525,7 @@ class Discount_Deals_Workflows {
 		}
 
 		$valid_discounts['discounts']     = self::get_matched_cart_discount( $applied_discount );
-		$valid_discounts['free_shipping'] = $free_shipping;
+		$valid_discounts['free_shipping'] = self::get_matched_cart_discount( $free_shipping );
 
 		return $valid_discounts;
 	}
@@ -533,26 +533,50 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get matched Discount
 	 *
-	 * @param $valid_discounts
+	 * @param array $valid_discounts all valid discounts.
+	 * @param string $type type to check.
 	 *
-	 * @return float|integer|mixed
+	 * @return array
 	 */
-	public static function get_matched_cart_discount( $valid_discounts ) {
-		$apply_as             = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
+	public static function get_matched_cart_discount( $valid_discounts, $type = 'amount' ) {
+		$apply_as             = Discount_Deals_Settings::get_settings( 'apply_cart_discount_to', 'lowest_matched' );
 		$calculated_discounts = 0;
 		if ( ! empty( $valid_discounts ) ) {
 			switch ( $apply_as ) {
 				case 'biggest_with_free_shipping':
-					$calculated_discounts = 1;
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array( max( $valid_discounts ) );
+					} else {
+						$calculated_discounts = $valid_discounts;
+					}
 					break;
 				case 'biggest_without_free_shipping':
-					$calculated_discounts = 2;
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array( max( $valid_discounts ) );
+					} else {
+						$calculated_discounts = array();
+					}
 					break;
 				case 'lowest_with_free_shipping':
-					$calculated_discounts = 4;
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array( min( $valid_discounts ) );
+					} else {
+						$calculated_discounts = $valid_discounts;
+					}
 					break;
 				case 'lowest_without_free_shipping':
-					$calculated_discounts = 5;
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array( min( $valid_discounts ) );
+					} else {
+						$calculated_discounts = array();
+					}
+					break;
+				case 'free_shipping_only':
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array();
+					} else {
+						$calculated_discounts = $valid_discounts;
+					}
 					break;
 				default:
 				case 'all_matched':

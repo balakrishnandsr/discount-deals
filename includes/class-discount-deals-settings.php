@@ -26,16 +26,16 @@ class Discount_Deals_Settings {
 
 	private static $default_config = array(
 
-		/*
-		 * todo:General
-		 */
+		//Product
 		'calculate_discount_from'          => 'regular_price',
 		'apply_product_discount_to'        => 'lowest_matched',
 		'apply_discount_subsequently'      => 'no',
-		'apply_cart_discount_subsequently' => 0,
-		'apply_cart_discount_as'           => 'coupon',
-		'apply_coupon_title'               => 'sale10',
-		'apply_fee_title'                  => '',
+		//Cart
+		'apply_cart_discount_to'           => 'lowest_with_free_shipping',
+		'apply_cart_discount_subsequently' => 'no',
+		'apply_cart_discount_as'           => 'fee',
+		'apply_coupon_title'               => '',
+		'apply_fee_title'                  => 'You discount',
 	);
 
 	/**

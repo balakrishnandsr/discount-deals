@@ -183,7 +183,7 @@ class Discount_Deals_Public {
 		} elseif ( empty( $discounted_details['discounts'] ) ) {
 			return null;
 		}
-		
+
 		$sum_of_discounts = array_sum( $discounted_details['discounts'] );
 		if ( $sum_of_discounts > 0 && WC()->cart->has_discount( $coupon_code ) ) {
 			return null;
@@ -209,7 +209,7 @@ class Discount_Deals_Public {
 			return null;
 		}
 		$fee_title = Discount_Deals_Settings::get_settings( 'apply_fee_title', 'Fee Title' );
-		if ( $fee_title ) {
+		if ( empty( $fee_title ) ) {
 			return null;
 		}
 		$discounted_details = discount_deals_apply_cart_discount();
