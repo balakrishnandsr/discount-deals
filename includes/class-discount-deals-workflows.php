@@ -35,12 +35,12 @@ class Discount_Deals_Workflows {
 	 */
 	protected static $_active_workflows = array();
 
-    /**
-     * Holds all cart discounts
-     *
-     * @var array
-     */
-    protected static $_cart_discounts = array();
+	/**
+	 * Holds all cart discounts
+	 *
+	 * @var array
+	 */
+	protected static $_cart_discounts = array();
 
 	/**
 	 * Class constructor
@@ -155,7 +155,7 @@ class Discount_Deals_Workflows {
 	public static function get_all_discounts() {
 		return array(
 			'simple_discount' => 'Discount_Deals_Workflow_Simple_Discount',
-			'cart_discount' => 'Discount_Deals_Workflow_Cart_Discount',
+			'cart_discount'   => 'Discount_Deals_Workflow_Cart_Discount',
 			'bulk_discount'   => 'Discount_Deals_Workflow_Bulk_Discount',
 		);
 	}//end get_all_discounts()
@@ -263,7 +263,7 @@ class Discount_Deals_Workflows {
 	/**
 	 * Calculate product discount.
 	 *
-	 * @param float      $price   Product price.
+	 * @param float $price Product price.
 	 * @param WC_Product $product Product.
 	 *
 	 * @return integer|void
@@ -331,16 +331,16 @@ class Discount_Deals_Workflows {
 
 	/**
 	 * Get_active_workflows.
-     *
+	 *
 	 * @return Discount_Deals_Workflow[]
 	 */
-	public static function get_active_workflows( ) {
+	public static function get_active_workflows() {
 		if ( ! empty( self::$_active_workflows ) ) {
 			return self::$_active_workflows;
 		}
-        self::$_active_workflows = array();
-		$workflows_db = new Discount_Deals_Workflow_DB();
-		$workflows    = $workflows_db->get_by_conditions(  'dd_status = 1', 'object' );
+		self::$_active_workflows = array();
+		$workflows_db            = new Discount_Deals_Workflow_DB();
+		$workflows               = $workflows_db->get_by_conditions( 'dd_status = 1', 'object' );
 		if ( ! empty( $workflows ) ) {
 			$data_items = array(
 				'customer' => WC()->customer,
@@ -366,10 +366,10 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get discount details by workflows.
 	 *
-	 * @param array      $workflows Array of objects.
-	 * @param WC_Product $product   Product object.
-	 * @param float      $price     Product price.
-	 * @param string     $apply_as  Apply Discount as.
+	 * @param array $workflows Array of objects.
+	 * @param WC_Product $product Product object.
+	 * @param float $price Product price.
+	 * @param string $apply_as Apply Discount as.
 	 *
 	 * @return array|mixed
 	 */
@@ -382,11 +382,15 @@ class Discount_Deals_Workflows {
 		$subsequent_price = $price;
 		foreach ( $workflows as $workflow ) {
 			$workflow_id = $workflow->get_id();
-			/*
+			/**
 			 * Workflow.
 			 *
-			 * @var Discount_Deals_Workflow $workflow
+			 * @var Discount_Deals_Workflow $workflow Actual Workflow
 			 */
+
+			if ( 'cart_discount' == $workflow->get_type() ) {
+				continue;
+			}
 			$workflow->data_layer()->set_item( 'product', $product );
 			$apply_subsequently = Discount_Deals_Settings::get_settings( 'apply_discount_subsequently', 'no' );
 
@@ -399,21 +403,12 @@ class Discount_Deals_Workflows {
 				$valid_discounts[ $workflow_id ] = $workflow->may_have_product_discount( $product, $subsequent_price );
 			}
 		}
-        $discounted_details = self::get_matched_discount( $valid_discounts );
-        $discounted_price = 0;
-        foreach ( $discounted_details as $workflow_id => $discounted_value){
-            foreach ( $workflows as $workflow ) {
-                $id = $workflow->get_id();
-                if( $workflow_id === $id ){
-                    $discounted_price += $discounted_value;
-                }
-            }
-        }
-		if ( 0 >= $discounted_price ) {
+		$discount_price = self::get_matched_product_discount( $valid_discounts );
+		if ( 0 >= $discount_price ) {
 			return false;
 		}
 
-		return $price - $discounted_price;
+		return $price - $discount_price;
 
 	}//end get_discount()
 
@@ -425,136 +420,173 @@ class Discount_Deals_Workflows {
 	 *
 	 * @return float|integer|mixed
 	 */
-	public static function get_matched_discount( $valid_discounts ) {
-		$apply_as             = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
-		$applied_discount     = array();
-		$calculated_discounts = 0;
+	public static function get_matched_product_discount( $valid_discounts ) {
+		$apply_as = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
 		if ( ! empty( $valid_discounts ) ) {
 			switch ( $apply_as ) {
 				case 'biggest_matched':
-					$applied_discount     = array_keys( $valid_discounts, max( $valid_discounts ) );
-					$calculated_discounts = array( $applied_discount[0] => $valid_discounts[ $applied_discount[0] ] );
-					break;
-                case 'biggest_with_free_shipping':
-                    $calculated_discounts = 1;
-                    break;
-                case 'biggest_without_free_shipping':
-                    $calculated_discounts = 2;
-                    break;
-                case 'lowest_matched':
-					$applied_discount     = array_keys( $valid_discounts, min( $valid_discounts ) );
-					$calculated_discounts = array( $applied_discount[0] => $valid_discounts[ $applied_discount[0] ] );
-					break;
-                case 'lowest_with_free_shipping':
-                    $calculated_discounts = 4;
-                    break;
-                case 'lowest_without_free_shipping':
-                    $calculated_discounts = 5;
-                    break;
+					return max( $valid_discounts );
+				case 'lowest_matched':
+					return min( $valid_discounts );
 				default:
 				case 'all_matched':
-					$applied_discount     = $valid_discounts;
+					return array_sum( $valid_discounts );
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Calculate Cart Discount
+	 *
+	 * @return array
+	 */
+	public static function calculate_cart_discount() {
+		if ( ! empty( self::$_cart_discounts['is_discount_calculated'] ) ) {
+			return self::$_cart_discounts['discount_details'];
+		}
+		$active_workflows = self::get_active_workflows();
+
+		$exclusive_workflows = $non_exclusive_workflows = array();
+
+		if ( empty( $active_workflows ) ) {
+			return array();
+		}
+
+		$apply_as = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
+
+		if ( ! empty( $active_workflows['exclusive'] ) ) {
+			$exclusive_workflows = $active_workflows['exclusive'];
+		} else {
+			$non_exclusive_workflows = $active_workflows['non_exclusive'];
+		}
+
+		$valid_workflow = self::get_cart_discount( $exclusive_workflows, $apply_as );
+
+		if ( empty( $valid_workflow ) ) {
+			$valid_workflow = self::get_cart_discount( $non_exclusive_workflows, $apply_as );
+		}
+		self::$_cart_discounts['is_discount_calculated'] = 'yes';
+		self::$_cart_discounts['discount_details']       = $valid_workflow;
+
+		return $valid_workflow;
+
+	}//end get_matched_discount()
+
+	/**
+	 * Get cart discount
+	 *
+	 * @param $workflows
+	 * @param $apply_as
+	 *
+	 * @return array
+	 */
+	public static function get_cart_discount( $workflows, $apply_as ) {
+
+		if ( empty( $workflows ) ) {
+			return array();
+		}
+
+		if ( ! is_a( WC()->cart, 'WC_Cart' ) ) {
+			return array();
+		}
+
+		$valid_discounts  = array();
+		$applied_discount = array();
+		$free_shipping    = array();
+
+		$subsequent_subtotal = WC()->cart->get_subtotal();
+		foreach ( $workflows as $workflow ) {
+			$workflow_id = $workflow->get_id();
+			/**
+			 * Workflow.
+			 *
+			 * @var Discount_Deals_Workflow $workflow Actual Workflow
+			 */
+
+			if ( 'cart_discount' === $workflow->get_type() ) {
+				$apply_subsequently = Discount_Deals_Settings::get_settings( 'apply_cart_discount_subsequently', 'no' );
+
+				if ( 'yes' == $apply_subsequently && 'all_matched' === $apply_as ) {
+					$discounts           = array_sum( $valid_discounts );
+					$subsequent_subtotal = $subsequent_subtotal - $discounts;
+				}
+
+				if ( $workflow->validate_rules() ) {
+					$processed_discount = $workflow->may_have_cart_discount( WC()->cart, $subsequent_subtotal );
+					if ( 'discount_deals_free_shipping' == $processed_discount ) {
+						$free_shipping[ $workflow_id ] = $processed_discount;
+					} else {
+						$applied_discount[ $workflow_id ] = $processed_discount;
+					}
+				}
+			}
+		}
+
+		$valid_discounts['discounts']     = self::get_matched_cart_discount( $applied_discount );
+		$valid_discounts['free_shipping'] = self::get_matched_cart_discount( $free_shipping );
+
+		return $valid_discounts;
+	}
+
+	/**
+	 * Get matched Discount
+	 *
+	 * @param array $valid_discounts all valid discounts.
+	 * @param string $type type to check.
+	 *
+	 * @return array
+	 */
+	public static function get_matched_cart_discount( $valid_discounts, $type = 'amount' ) {
+		$apply_as             = Discount_Deals_Settings::get_settings( 'apply_cart_discount_to', 'lowest_matched' );
+		$calculated_discounts = 0;
+		if ( ! empty( $valid_discounts ) ) {
+			switch ( $apply_as ) {
+				case 'biggest_with_free_shipping':
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array( max( $valid_discounts ) );
+					} else {
+						$calculated_discounts = $valid_discounts;
+					}
+					break;
+				case 'biggest_without_free_shipping':
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array( max( $valid_discounts ) );
+					} else {
+						$calculated_discounts = array();
+					}
+					break;
+				case 'lowest_with_free_shipping':
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array( min( $valid_discounts ) );
+					} else {
+						$calculated_discounts = $valid_discounts;
+					}
+					break;
+				case 'lowest_without_free_shipping':
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array( min( $valid_discounts ) );
+					} else {
+						$calculated_discounts = array();
+					}
+					break;
+				case 'free_shipping_only':
+					if ( 'amount' === $type ) {
+						$calculated_discounts = array();
+					} else {
+						$calculated_discounts = $valid_discounts;
+					}
+					break;
+				default:
+				case 'all_matched':
 					$calculated_discounts = $valid_discounts;
 					break;
 			}
 		}
 
 		return $calculated_discounts;
-	}//end get_matched_discount()
-
-
-    /**
-     * Calculate Cart Discount
-     *
-     * @return array
-     */
-    public static function calculate_cart_discount(){
-        if( !empty( self::$_cart_discounts['is_discount_calculated'] ) ){
-            return self::$_cart_discounts['discount_details'];
-        }
-        $active_workflows    = self::get_active_workflows();
-
-        $exclusive_workflows = $non_exclusive_workflows = array();
-
-        if ( empty( $active_workflows ) ) {
-            return array();
-        }
-
-        $apply_as  = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
-
-        if ( ! empty( $active_workflows['exclusive'] ) ) {
-            $exclusive_workflows = $active_workflows['exclusive'];
-        } else {
-            $non_exclusive_workflows = $active_workflows['non_exclusive'];
-        }
-
-        $valid_workflow = self::get_cart_discount( $exclusive_workflows, $apply_as );
-
-        if ( empty($valid_workflow) ) {
-            $valid_workflow = self::get_cart_discount( $non_exclusive_workflows, $apply_as );
-        }
-        self::$_cart_discounts['is_discount_calculated'] = 'yes';
-        self::$_cart_discounts['discount_details'] = $valid_workflow;
-
-        return $valid_workflow;
-
-    }
-
-    /**
-     * Get cart discount
-     *
-     * @param $workflows
-     * @param $apply_as
-     * @return array
-     */
-    public static function get_cart_discount( $workflows, $apply_as ){
-
-        if ( empty( $workflows ) ) {
-            return array();
-        }
-
-        $valid_discounts  = array();
-        $applied_discount = array();
-        $free_shipping    = array();
-
-        $cart_subtotal = is_a( WC()->cart, 'WC_Cart') ? WC()->cart->get_subtotal() : 0;
-        $subsequent_subtotal = $cart_subtotal;
-        foreach ( $workflows as $workflow ) {
-            $workflow_id = $workflow->get_id();
-            /**
-             * Workflow.
-             *
-             * @var Discount_Deals_Workflow $workflow
-             */
-
-            if( 'cart_discount' === $workflow->get_type() ){
-                $apply_subsequently = Discount_Deals_Settings::get_settings( 'apply_discount_subsequently', 'no' );
-
-                if ( 'yes' == $apply_subsequently && 'all_matched' === $apply_as ) {
-                    $discounts        = array_sum( $valid_discounts );
-                    $subsequent_subtotal = $subsequent_subtotal - $discounts;
-                }
-
-                if ( $workflow->validate_rules() ) {
-                     $processed_discount = $workflow->may_have_cart_discount(  $cart_subtotal, $subsequent_subtotal );
-                     if( 'discount_deals_free_shipping' == $processed_discount){
-                         $free_shipping[ $workflow_id ] = $processed_discount;
-                     }else{
-                         $applied_discount[ $workflow_id ] = $processed_discount;
-
-                     }
-                }
-            }
-
-        }
-
-        $valid_discounts['discounts'] = self::get_matched_discount( $applied_discount );
-
-        $valid_discounts[ 'free_shipping' ] = $free_shipping;
-
-        return $valid_discounts;
-
-    }
+	}
 
 
 }//end class

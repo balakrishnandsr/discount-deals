@@ -611,21 +611,6 @@ class Discount_Deals_Workflow {
 		return 0;
 	}//end may_have_product_discount()
 
-    /**
-     * Check cart has discount.
-     * @param float $cart_subtotal Actual cart subtotal.
-     * @param float $calculated_subtotal Calculated cart subtotal.
-     * @return string | number
-     */
-    public function may_have_cart_discount($cart_subtotal, $calculated_subtotal ){
-        $discount = $this->get_discount();
-        if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
-            return $discount->calculate_discount( $cart_subtotal, $calculated_subtotal );
-        }
-
-        return 0;
-    }
-
 	/**
 	 * Get all actions in current workflow.
 	 *
@@ -633,7 +618,7 @@ class Discount_Deals_Workflow {
 	 */
 	public function get_discount() {
 		return $this->discount;
-	}//end get_discount()
+	}
 
 	/**
 	 * Set discounts
@@ -648,6 +633,23 @@ class Discount_Deals_Workflow {
 		$discount_object->set_discount_details( $discounts );
 		$discount_object->set_promotion_details( $this->get_promotion() );
 		$this->discount = $discount_object;
+	}//end get_discount()
+
+	/**
+	 * Check cart has discount.
+	 *
+	 * @param WC_Cart $cart Actual cart object.
+	 * @param float $subtotal Calculated cart subtotal.
+	 *
+	 * @return string | number
+	 */
+	public function may_have_cart_discount( $cart, $subtotal ) {
+		$discount = $this->get_discount();
+		if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
+			return $discount->calculate_discount( $cart, $subtotal );
+		}
+
+		return 0;
 	}//end set_discount()
 
 

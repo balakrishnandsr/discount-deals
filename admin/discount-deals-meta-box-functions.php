@@ -22,7 +22,6 @@ function discount_deals_select( $field ) {
 			'style'                 => '',
 			'value'                 => '',
 			'name'                  => $field['id'],
-			'desc_tip'              => false,
 			'required'              => false,
 			'custom_attributes'     => array(),
 			'has_value_description' => false,
@@ -49,17 +48,12 @@ function discount_deals_select( $field ) {
 	if ( $field['required'] ) {
 		$field_attributes['required'] = 'required';
 	}
-
-	$tooltip = ! empty( $field['description'] ) && false !== $field['desc_tip'] ? $field['description'] : '';
 	?>
     <tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); ?>>
         <td class="discount-deals-table__col discount-deals-table__col--label">
             <label <?php echo wc_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
                 <span class="required">*</span>
-			<?php endif; ?>
-			<?php if ( $tooltip ) : ?>
-				<?php echo wc_help_tip( $tooltip ); ?>
 			<?php endif; ?>
         </td>
         <td class="discount-deals-table__col discount-deals-table__col--field">
@@ -92,7 +86,6 @@ function discount_deals_editor( $field ) {
 			'style'             => '',
 			'value'             => '',
 			'name'              => $field['id'],
-			'desc_tip'          => false,
 			'required'          => false,
 			'custom_attributes' => array(),
 		)
@@ -106,16 +99,12 @@ function discount_deals_editor( $field ) {
 		'for' => $field['id'],
 	);
 
-	$tooltip = ! empty( $field['description'] ) && false !== $field['desc_tip'] ? $field['description'] : '';
 	?>
     <tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); ?>>
         <td class="discount-deals-table__col discount-deals-table__col--label">
             <label <?php echo wc_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
                 <span class="required">*</span>
-			<?php endif; ?>
-			<?php if ( $tooltip ) : ?>
-				<?php echo wc_help_tip( $tooltip ); ?>
 			<?php endif; ?>
         </td>
         <td class="discount-deals-table__col discount-deals-table__col--field">
@@ -153,19 +142,13 @@ function discount_deals_radio( $field ) {
 			'wrapper_class'     => '',
 			'value'             => '',
 			'name'              => $field['id'],
-			'desc_tip'          => false,
 			'required'          => false,
 			'custom_attributes' => array(),
 			'options'           => array(),
 		)
 	);
 
-	$wrapper_attributes = array(
-		'class'         => 'discount-deals-table__row ' . $field['wrapper_class'],
-		'data-name'     => $field['id'],
-		'data-type'     => 'select',
-		'data-required' => $field['required'] ? 1 : 0,
-	);
+	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'], );
 
 	$label_attributes = array(
 		'for' => $field['id'],
@@ -214,6 +197,46 @@ function discount_deals_radio( $field ) {
  *
  * @param array $field Data about the field to render.
  */
+function discount_deals_html( $field ) {
+	$field = wp_parse_args(
+		$field,
+		array(
+			'class'         => 'discount-deals-field ',
+			'style'         => '',
+			'wrapper_class' => '',
+			'html'          => '',
+			'required'      => false,
+		)
+	);
+
+	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'], );
+
+	$label_attributes = array(
+		'for' => $field['id'],
+	);
+	?>
+    <tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); ?>>
+        <td class="discount-deals-table__col discount-deals-table__col--label">
+            <label <?php echo wc_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<?php if ( $field['required'] ) : ?>
+                <span class="required">*</span>
+			<?php endif; ?>
+        </td>
+        <td class="discount-deals-table__col discount-deals-table__col--field">
+			<?php
+			echo $field['html'];
+			?>
+        </td>
+    </tr>
+	<?php
+}//end discount_deals_radio()
+
+
+/**
+ * Output a radio input box.
+ *
+ * @param array $field Data about the field to render.
+ */
 function discount_deals_text_input( $field ) {
 	$field = wp_parse_args(
 		$field,
@@ -225,18 +248,12 @@ function discount_deals_text_input( $field ) {
 			'type'              => 'text',
 			'placeholder'       => '',
 			'data_type'         => '',
-			'desc_tip'          => false,
 			'required'          => false,
 			'custom_attributes' => array(),
 		)
 	);
 
-	$wrapper_attributes = array(
-		'class'         => 'discount-deals-table__row ' . $field['wrapper_class'],
-		'data-name'     => $field['id'],
-		'data-type'     => 'select',
-		'data-required' => $field['required'] ? 1 : 0,
-	);
+	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'], );
 
 	$label_attributes = array(
 		'for' => $field['id'],

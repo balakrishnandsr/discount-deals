@@ -7,12 +7,24 @@
     margin: 0;
 }
 
-.discount-deals-table-save td {
-    padding: 10px;
+.discount-deals-fw-table td {
+    padding: 10px 5px;
 }
 
-.discount-deals-table-save {
+.discount-deals-fw-table {
     width: 100%;
+}
+
+.discount-deals-w120 {
+    width: 120px;
+}
+
+.discount-deals-text-left {
+    text-align: left;
+}
+
+.discount-deals-text-right {
+    text-align: right;
 }
 
 .discount-deals-table {
