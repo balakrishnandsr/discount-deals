@@ -160,11 +160,13 @@ if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
 	 * Calculate the discount for the product.
 	 *
 	 * @param WC_Product $product Product object.
+	 * @param float $price Product price.
+	 * @param int $quantity Product quantity.
 	 *
-	 * @return mixed|string
+	 * @return float|int
 	 */
-	function discount_deals_get_product_discount( $price, $product ) {
-		return Discount_Deals_Workflows::calculate_product_discount( $price, $product );
+	function discount_deals_get_product_discount( $price, $product , $quantity = 1) {
+		return Discount_Deals_Workflows::calculate_product_discount( $price, $product, $quantity );
 	}//end discount_deals_get_product_discount()
 }
 

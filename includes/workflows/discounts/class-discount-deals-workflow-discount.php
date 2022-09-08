@@ -188,7 +188,7 @@ abstract class Discount_Deals_Workflow_Discount {
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_toggle_promotion',
 				'name'          => 'discount_deals_workflow[dd_promotion][enable]',
-				'value'         => discount_deals_get_value_from_array( $discount_details, 'enable', 'yes' ),
+				'value'         => discount_deals_get_value_from_array( $discount_details, 'enable', 'no' ),
 				'label'         => __( 'Do you want to display promotional messages in store front?', 'discount-deals' ),
 				'options'       => array(
 					'yes' => __( 'Yes', 'discount-deals' ),
@@ -249,7 +249,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 *
 	 * @return mixed
 	 */
-	abstract public function calculate_discount( $data_item, $price );
+	abstract public function calculate_discount( $data_item, $price, $extra = array() );
 
     /**
      * Calculate discount amount.

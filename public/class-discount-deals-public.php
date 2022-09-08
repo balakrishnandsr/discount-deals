@@ -117,7 +117,21 @@ class Discount_Deals_Public {
 	 * @return float
 	 */
 	public function get_product_price( $price, $product ) {
-		return discount_deals_get_product_discount( $price, $product );
+		$cart_items = WC()->cart->get_cart();
+		$quantity   = 1;
+		//For bulk discount, check cart item quantity and calculate discount
+		if ( ! empty( $cart_items ) ) {
+			foreach ( $cart_items as $cart_item ) {
+				$cart_item_object = $cart_item['data'];
+				if ( is_a( $cart_item_object, 'WC_Product' ) ) {
+					if ( $product->get_id() == $cart_item_object->get_id() ) {
+						$quantity = ! empty( $cart_item['quantity'] ) ? intval( $cart_item['quantity'] ) : 1;
+					}
+				}
+			}
+		}
+
+		return discount_deals_get_product_discount( $price, $product, $quantity );
 	}//end get_product_price()
 
 	/**

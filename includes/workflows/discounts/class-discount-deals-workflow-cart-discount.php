@@ -47,7 +47,6 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'value'         => discount_deals_get_value_from_array( $discount_details, 'type', 'flat' ),
 				'label'         => __( 'How much discount do you want to give?', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
@@ -61,11 +60,11 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Cart $data_item Cart object.
-	 * @param float $price Cart subtotal.
+	 * @param array $extra     Extra details for calculate discount.
 	 *
-	 * @return array|string
+	 * @return integer
 	 */
-	public function calculate_discount( $data_item, $price ) {
+	public function calculate_discount( $data_item, $price,$extra = array() ) {
 		$discount_details = $this->get_discount_details();
 		if ( empty( $discount_details ) ) {
 			return 0;

@@ -65,10 +65,10 @@ if ( empty( $discount_details ) ) {
                         data-name="discount_deals_workflow[dd_discounts][--rule_id--][type]">
                     <option value="flat" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
 						echo ' selected';
-					} ?>><?php echo __( "Flat", "discount-deals" ) ?></option>
+					} ?>><?php echo __( "Fixed Discount", "discount-deals" ) ?></option>
                     <option value="percent" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'percent' ) {
 						echo ' selected';
-					} ?>><?php echo __( "Percent", "discount-deals" ) ?></option>
+					} ?>><?php echo __( "Percentage Discount", "discount-deals" ) ?></option>
                 </select>
             </td>
             <td>
@@ -96,10 +96,10 @@ if ( empty( $discount_details ) ) {
 						echo ' disabled ';
 					} ?>
                        value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'max_discount', '' ); ?>"
-                       class="discount-deals-w100 cart-discount-value cart-max-discount" required
+                       class="discount-deals-w100 cart-discount-value cart-max-discount"
                        name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][max_discount]"
                        data-name="discount_deals_workflow[dd_discounts][--rule_id--][max_discount]"
-                       placeholder="<?php echo __( "E.g. 100.00", "discount-deals" ) ?>">
+                       placeholder="<?php echo __( "E.g. 20.00", "discount-deals" ) ?>">
             </td>
             <td>
                 <button type="button"

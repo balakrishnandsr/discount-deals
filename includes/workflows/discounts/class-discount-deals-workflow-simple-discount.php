@@ -48,7 +48,6 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'value'         => discount_deals_get_value_from_array( $discount_details, 'type', 'flat' ),
 				'label'         => __( 'How much discount do you want to give for product(s) ?', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
@@ -64,10 +63,11 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 	 *
 	 * @param mixed $data_item Calculate discount for which data item.
 	 * @param int|float $price Subsequent price.
+	 * @param array $extra     Extra details for calculate discount.
 	 *
 	 * @return integer
 	 */
-	public function calculate_discount( $data_item, $price ) {
+	public function calculate_discount( $data_item, $price, $extra = array() ) {
 		$discount_details = $this->get_discount_details();
 		if ( empty( $discount_details ) ) {
 			return 0;
