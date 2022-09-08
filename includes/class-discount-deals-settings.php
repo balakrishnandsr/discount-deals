@@ -39,6 +39,8 @@ class Discount_Deals_Settings {
 		'apply_cart_discount_as'           => 'fee',
 		'apply_coupon_title'               => '',
 		'apply_fee_title'                  => 'You discount',
+        //Free Shipping
+        'free_shipping_title'              => 'free shipping',
 	);
 
 	/**
@@ -64,7 +66,7 @@ class Discount_Deals_Settings {
 			self::saved_settings();
 		}
 
-		return discount_deals_get_value_from_array( self::$config, $key, $default );
+		return wc_clean( wp_unslash( discount_deals_get_value_from_array( self::$config, $key, $default ) ) );
 	}//end get_settings()
 
 
