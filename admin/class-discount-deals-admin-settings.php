@@ -165,6 +165,34 @@ class Discount_Deals_Admin_Settings {
 				'value'       => Discount_Deals_Settings::get_settings( 'apply_fee_title' ),
 				'id'          => 'wc_settings_tab_discount_deals_apply_fee_title',
 			),
+			'show_strikeout_price_in_cart'     => array(
+				'name'    => __( 'Do you need to show strikeout price for each cart item?', 'discount-deals' ),
+				'type'    => 'radio',
+				'options' => array(
+					'yes' => __( 'Yes', 'discount-deals' ),
+					'no'  => __( 'No', 'discount-deals' ),
+				),
+				'value'   => Discount_Deals_Settings::get_settings( 'show_strikeout_price_in_cart' ),
+				'id'      => 'wc_settings_tab_discount_deals_show_strikeout_price_in_cart',
+			),
+			'you_saved_text'                   => array(
+				'name'  => __( 'Promotional message to display in cart line item\'s total and cart subtotal', 'discount-deals' ),
+				'type'  => 'text',
+				'value' => Discount_Deals_Settings::get_settings( 'you_saved_text' ),
+				'id'    => 'wc_settings_tab_discount_deals_you_saved_text',
+			),
+			'where_display_saving_text'        => array(
+				'name'    => __( 'Where to show "You saved" text?', 'discount-deals' ),
+				'type'    => 'select',
+				'options' => array(
+					'disabled'                       => __( 'Don\'t show anywhere ', 'discount-deals' ),
+					'on_each_line_item'              => __( 'On after each line item\'s total', 'discount-deals' ),
+					'after_total'                    => __( 'On after cart total', 'discount-deals' ),
+					'both_line_item_and_after_total' => __( 'On both line item\'s total and cart total', 'discount-deals' ),
+				),
+				'value'   => Discount_Deals_Settings::get_settings( 'where_display_saving_text' ),
+				'id'      => 'wc_settings_tab_discount_deals_where_display_saving_text',
+			),
 			'cart_section_end'                 => array(
 				'type' => 'sectionend',
 				'id'   => 'wc_settings_tab_discount_deals_cart_settings_end',

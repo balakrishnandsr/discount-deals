@@ -265,13 +265,13 @@ class Discount_Deals_Workflows {
 	 *
 	 * @param float $price Product price.
 	 * @param WC_Product $product Product.
+	 * @param int $quantity Quantity.
 	 *
 	 * @return integer|void
 	 */
-	public static function calculate_product_discount( $price, $product ) {
+	public static function calculate_product_discount( $price, $product, $quantity = 1 ) {
 
 		$active_workflows    = self::get_active_workflows();
-		$discounted_price    = 0;
 		$exclusive_workflows = $non_exclusive_workflows = array();
 
 		$calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
@@ -279,25 +279,6 @@ class Discount_Deals_Workflows {
 		if ( empty( $active_workflows ) ) {
 			return $price;
 		}
-
-		/*
-		 * Hook to apply the exclusive
-		 *
-		 * @since 1.0.0
-		 */
-		$apply_as = apply_filters(
-			'discount_deals_apply_exclusive_rules_as',
-			'lowest_matched',
-			array(
-				'product'            => $product,
-				'active_workflows'   => $active_workflows,
-				'workflows_apply_as' => array(
-					'biggest_matched',
-					'lowest_matched',
-				),
-
-			)
-		);
 
 		if ( ! empty( $active_workflows['exclusive'] ) ) {
 			$exclusive_workflows = $active_workflows['exclusive'];
@@ -314,10 +295,10 @@ class Discount_Deals_Workflows {
 				) ) ? $product->get_regular_price() : 0;
 		}
 
-		$discounted_price = self::get_discount( $exclusive_workflows, $product, $price, $apply_as );
+		$apply_as         = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
+		$discounted_price = self::get_discount( $exclusive_workflows, $product, $price, $quantity, $apply_as );
 		if ( false === $discounted_price ) {
-			$apply_as         = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
-			$discounted_price = self::get_discount( $non_exclusive_workflows, $product, $price, $apply_as );
+			$discounted_price = self::get_discount( $non_exclusive_workflows, $product, $price, $quantity, $apply_as );
 		}
 
 		if ( false === $discounted_price ) {
@@ -369,12 +350,16 @@ class Discount_Deals_Workflows {
 	 * @param array $workflows Array of objects.
 	 * @param WC_Product $product Product object.
 	 * @param float $price Product price.
+	 * @param int $quantity Product quantity.
 	 * @param string $apply_as Apply Discount as.
 	 *
 	 * @return array|mixed
 	 */
-	public static function get_discount( $workflows, $product, $price, $apply_as ) {
+	public static function get_discount( $workflows, $product, $price, $quantity, $apply_as ) {
 		if ( empty( $workflows ) ) {
+			return false;
+		}
+		if ( ! is_numeric( $price ) ) {
 			return false;
 		}
 		$valid_discounts  = array();
@@ -400,7 +385,7 @@ class Discount_Deals_Workflows {
 			}
 
 			if ( $workflow->validate_rules() ) {
-				$valid_discounts[ $workflow_id ] = $workflow->may_have_product_discount( $product, $subsequent_price );
+				$valid_discounts[ $workflow_id ] = $workflow->may_have_product_discount( $product, $subsequent_price, $quantity );
 			}
 		}
 		$discount_price = self::get_matched_product_discount( $valid_discounts );
