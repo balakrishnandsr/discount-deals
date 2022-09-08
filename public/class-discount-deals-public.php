@@ -17,12 +17,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Discount_Deals_Public {
 	/**
+	 * Stores discount for each line item.
+	 *
+	 * @var float[] $cart_item_discounts cart item discounts.
+	 */
+	private static $cart_item_discounts = array();
+	/**
 	 * The ID of this plugin.
 	 *
 	 * @var      string $plugin_slug The ID of this plugin.
 	 */
 	private $plugin_slug;
-
 	/**
 	 * The version of this plugin.
 	 *
@@ -64,6 +69,22 @@ class Discount_Deals_Public {
 		add_filter( 'woocommerce_add_to_cart', array( $this, 'item_added_to_cart' ), 99, 6 );
 		add_filter( 'woocommerce_variation_prices', array( $this, 'get_variation_prices' ), 99, 3 );
 		//Cart Discount.
+		$show_strikeout_for_cart_item = Discount_Deals_Settings::get_settings( 'show_strikeout_price_in_cart', 'yes' );
+		if ( 'yes' == $show_strikeout_for_cart_item ) {
+			add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout' ), 99, 3 );
+		}
+		$save_text_position = Discount_Deals_Settings::get_settings( 'where_display_saving_text', 'disabled' );
+		if ( 'disabled' != $save_text_position ) {
+			if ( 'both_line_item_and_after_total' == $save_text_position || 'after_total' == $save_text_position ) {
+				add_filter( 'woocommerce_cart_totals_order_total_html', array(
+					$this,
+					'show_you_saved_text_in_cart_total'
+				), 99, 3 );
+			}
+			if ( 'both_line_item_and_after_total' == $save_text_position || 'on_each_line_item' == $save_text_position ) {
+				add_filter( 'woocommerce_cart_item_subtotal', array( $this, 'show_you_saved_text' ), 99, 3 );
+			}
+		}
 		$cart_discount_type = Discount_Deals_Settings::get_settings( 'apply_cart_discount_as', 'coupon' );
 		if ( 'coupon' == $cart_discount_type ) {
 			add_filter( 'woocommerce_before_cart_table', array( $this, 'apply_cart_discount_as_coupon' ), 99, 3 );
@@ -107,6 +128,116 @@ class Discount_Deals_Public {
 		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-public.js', array( 'jquery' ), $this->version, false );
 
 	}//end enqueue_scripts()
+
+	/**
+	 * Show strikeout for each product
+	 *
+	 * @param string $item_price price html.
+	 * @param array $cart_item cart item details.
+	 * @param string $cart_item_key cart item hash.
+	 */
+	public function show_price_strikeout( $item_price, $cart_item, $cart_item_key ) {
+		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+		/**
+		 * @var WC_Product $product product.
+		 */
+		$sale_price    = $product->get_sale_price();
+		$regular_price = $product->get_regular_price();
+		if ( is_numeric( $regular_price ) && is_numeric( $sale_price ) ) {
+			if ( $sale_price < $regular_price ) {
+				if ( ! isset( self::$cart_item_discounts[ $cart_item_key ] ) ) {
+					self::$cart_item_discounts[ $cart_item_key ] = $regular_price - $sale_price;
+				}
+				$item_price = wc_format_sale_price( $regular_price, $sale_price );
+			}
+		}
+
+		return $item_price;
+	}
+
+	/**
+	 * Show you saved for each cart item
+	 *
+	 * @param string $item_subtotal price html.
+	 * @param array $cart_item cart item details.
+	 * @param string $cart_item_key cart item hash.
+	 */
+	public function show_you_saved_text( $item_subtotal, $cart_item, $cart_item_key ) {
+		$quantity = intval( $cart_item['quantity'] );
+		if ( 0 >= $quantity ) {
+			return $item_subtotal;
+		}
+		$you_save_text = Discount_Deals_Settings::get_settings( 'you_saved_text' );
+		// Return previously calculated discount
+		if ( isset( self::$cart_item_discounts[ $cart_item_key ] ) && self::$cart_item_discounts[ $cart_item_key ] > 0 ) {
+			$message = str_replace( '{{discount}}', wc_price( $quantity * self::$cart_item_discounts[ $cart_item_key ] ), $you_save_text );
+
+			return $item_subtotal . '<p class="dd-you-save-text" style="color: green;">' . $message . '</p>';
+		}
+		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+		/**
+		 * @var WC_Product $product product.
+		 */
+		$sale_price    = $product->get_sale_price();
+		$regular_price = $product->get_regular_price();
+		if ( is_numeric( $regular_price ) && is_numeric( $sale_price ) ) {
+			if ( $sale_price < $regular_price ) {
+				self::$cart_item_discounts[ $cart_item_key ] = $regular_price - $sale_price;
+
+				$message = str_replace( '{{discount}}', wc_price( $quantity * self::$cart_item_discounts[ $cart_item_key ] ), $you_save_text );
+
+				return $item_subtotal . '<p class="dd-you-save-text" style="color: green;">' . $message . '</p>';
+			}
+		}
+
+		return $item_subtotal;
+	}
+
+	/**
+	 * Show you saved for each cart item
+	 *
+	 * @param string $cart_total price html.
+	 */
+	public function show_you_saved_text_in_cart_total( $cart_total ) {
+
+		$you_save_text = Discount_Deals_Settings::get_settings( 'you_saved_text' );
+		$cart_items    = WC()->cart->get_cart();
+		if ( empty( $cart_items ) ) {
+			return $cart_total;
+		}
+		$total_discount = 0;
+		foreach ( $cart_items as $cart_item_key => $cart_item ) {
+			$quantity = intval( $cart_item['quantity'] );
+			if ( 0 >= $quantity ) {
+				continue;
+			}
+			if ( isset( self::$cart_item_discounts[ $cart_item_key ] ) && self::$cart_item_discounts[ $cart_item_key ] > 0 ) {
+				$total_discount += $quantity * self::$cart_item_discounts[ $cart_item_key ];
+			} else {
+				$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+				/**
+				 * @var WC_Product $product product.
+				 */
+				$sale_price    = $product->get_sale_price();
+				$regular_price = $product->get_regular_price();
+				if ( is_numeric( $regular_price ) && is_numeric( $sale_price ) ) {
+					if ( $sale_price < $regular_price ) {
+						self::$cart_item_discounts[ $cart_item_key ] = $regular_price - $sale_price;
+
+						$total_discount += $quantity * self::$cart_item_discounts[ $cart_item_key ];
+					}
+				}
+			}
+		}
+		// Return previously calculated discount
+		if ( $total_discount > 0 ) {
+			$message = str_replace( '{{discount}}', wc_price( $total_discount ), $you_save_text );
+
+			return $cart_total . '<p class="dd-you-save-text" style="color: green;">' . $message . '</p>';
+		}
+
+		return $cart_total;
+	}
 
 	/**
 	 * Set woocommerce product price as per simple discount.

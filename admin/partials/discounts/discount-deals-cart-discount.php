@@ -46,7 +46,7 @@ if ( empty( $discount_details ) ) {
             <td>
                 <input type="number"
                        value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'min_subtotal', '' ); ?>"
-                       class="discount-deals-w100" required
+                       class="discount-deals-w100" required step="0.1"
                        name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][min_subtotal]"
                        data-name="discount_deals_workflow[dd_discounts][--rule_id--][min_subtotal]"
                        placeholder="<?php echo __( "E.g. 5000.00", "discount-deals" ) ?>">
@@ -54,7 +54,7 @@ if ( empty( $discount_details ) ) {
             <td>
                 <input type="number"
                        value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'max_subtotal', '' ); ?>"
-                       class="discount-deals-w100" required
+                       class="discount-deals-w100" required step="0.1"
                        name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][max_subtotal]"
                        data-name="discount_deals_workflow[dd_discounts][--rule_id--][max_subtotal]"
                        placeholder="<?php echo __( "E.g. 8000.00", "discount-deals" ) ?>">
@@ -80,7 +80,7 @@ if ( empty( $discount_details ) ) {
 						echo ' disabled ';
 					} ?>
                        value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'value', '' ); ?>"
-                       class="discount-deals-w100 cart-discount-value" required
+                       class="discount-deals-w100 cart-discount-value" required step="0.1"
                        name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][value]"
                        data-name="discount_deals_workflow[dd_discounts][--rule_id--][value]"
                        placeholder="<?php echo __( "E.g. 50", "discount-deals" ) ?>"
@@ -99,7 +99,7 @@ if ( empty( $discount_details ) ) {
 						echo ' disabled ';
 					} ?>
                        value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'max_discount', '' ); ?>"
-                       class="discount-deals-w100 cart-discount-value cart-max-discount"
+                       class="discount-deals-w100 cart-discount-value cart-max-discount" step="0.1"
                        name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][max_discount]"
                        data-name="discount_deals_workflow[dd_discounts][--rule_id--][max_discount]"
                        placeholder="<?php echo __( "E.g. 20.00", "discount-deals" ) ?>">

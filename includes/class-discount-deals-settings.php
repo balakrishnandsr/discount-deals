@@ -33,6 +33,9 @@ class Discount_Deals_Settings {
 		//Cart
 		'apply_cart_discount_to'           => 'lowest_with_free_shipping',
 		'apply_cart_discount_subsequently' => 'no',
+		'show_strikeout_price_in_cart'     => 'yes',
+		'you_saved_text'                   => 'You saved {{discount}}',
+		'where_display_saving_text'        => 'disabled',//on_each_line_item,after_total,both_line_item_and_after_total
 		'apply_cart_discount_as'           => 'fee',
 		'apply_coupon_title'               => '',
 		'apply_fee_title'                  => 'You discount',

@@ -359,6 +359,9 @@ class Discount_Deals_Workflows {
 		if ( empty( $workflows ) ) {
 			return false;
 		}
+		if ( ! is_numeric( $price ) ) {
+			return false;
+		}
 		$valid_discounts  = array();
 		$applied_discount = array();
 		$subsequent_price = $price;
