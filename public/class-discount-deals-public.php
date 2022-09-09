@@ -45,14 +45,12 @@ class Discount_Deals_Public {
 
 		$this->plugin_slug = $plugin_name;
 		$this->version     = $version;
-		//if ( ! is_admin() ) {
+		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 			add_action( 'woocommerce_init', array( $this, 'init_public_hooks' ) );
-		//}
-
-
+		}
 	}//end __construct()
 
 	/**
@@ -61,7 +59,7 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function init_public_hooks() {
-        require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-free-shipping.php';
+		$this->load_files();
 		add_filter( 'woocommerce_product_get_price', array( $this, 'get_product_price' ), 99, 2 );
 		add_filter( 'woocommerce_product_variation_get_price', array( $this, 'get_product_price' ), 99, 2 );
 		add_filter( 'woocommerce_product_get_sale_price', array( $this, 'get_sale_price' ), 99, 2 );
@@ -95,9 +93,21 @@ class Discount_Deals_Public {
 		} else {
 			add_action( 'woocommerce_cart_calculate_fees', array( $this, 'apply_cart_discount_as_fee' ), 99 );
 		}
-        //Free shipping
-        add_filter('woocommerce_shipping_methods', array( $this, 'register_free_shipping_method') );
-        add_filter('woocommerce_shipping_discount_deals_free_shipping_is_available', array( $this, 'is_free_shipping_available'));
+		//Free shipping
+		add_filter( 'woocommerce_shipping_methods', array( $this, 'register_free_shipping_method' ) );
+		add_filter( 'woocommerce_shipping_discount_deals_free_shipping_is_available', array(
+			$this,
+			'is_free_shipping_available'
+		) );
+	}
+
+	/**
+	 * Load files required for frontend
+	 *
+	 * @return void
+	 */
+	public function load_files() {
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-free-shipping.php';
 	}//end init_public_hooks()
 
 	public function item_added_to_cart( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
@@ -436,35 +446,36 @@ class Discount_Deals_Public {
 		return $coupon_html;
 	}
 
-    /**
-     * Show the free shipping
-     */
-    public function mayHaveFreeShipping()
-    {
-        new Discount_Deals_Free_Shipping();
-    }
+	/**
+	 * Show the free shipping
+	 */
+	public function mayHaveFreeShipping() {
+		new Discount_Deals_Free_Shipping();
+	}
 
-    /**
-     * Register the discount deals free shipping method.
-     *
-     * @param array $methods Shipping methods.
-     * @return array
-     */
-    public function register_free_shipping_method($methods)
-    {
-        $methods['discount_deals_free_shipping'] = 'Discount_Deals_Free_Shipping';
-        return $methods;
-    }
+	/**
+	 * Register the discount deals free shipping method.
+	 *
+	 * @param array $methods Shipping methods.
+	 *
+	 * @return array
+	 */
+	public function register_free_shipping_method( $methods ) {
+		$methods['discount_deals_free_shipping'] = 'Discount_Deals_Free_Shipping';
 
-    /**
-     * Is free shipping available.
-     *
-     * @return boolean
-     */
-     public function is_free_shipping_available(){
-         $discounted_details = discount_deals_apply_cart_discount();
-         return ! empty( $discounted_details['free_shipping'] );
-     }
+		return $methods;
+	}
+
+	/**
+	 * Is free shipping available.
+	 *
+	 * @return boolean
+	 */
+	public function is_free_shipping_available() {
+		$discounted_details = discount_deals_apply_cart_discount();
+
+		return ! empty( $discounted_details['free_shipping'] );
+	}
 
 
 }//end class

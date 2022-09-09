@@ -8,15 +8,41 @@
 }
 
 .discount-deals-fw-table td {
-    padding: 10px 5px;
+    padding: 10px 5px 10px 0;
 }
 
 .discount-deals-fw-table {
     width: 100%;
 }
 
-.discount-deals-w100 {
-    width: 100px;
+.discount-deals-input-group .input-group-addon {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+}
+
+.discount-deals-input-group input {
+    width: 100%;
+    padding-right: 18px;
+}
+
+.discount-deals-input-group input::-webkit-outer-spin-button,
+.discount-deals-input-group input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.discount-deals-input-group input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.discount-deals-input-group {
+    display: block;
+    position: relative;
+}
+
+.discount-deals-w150 {
+    width: 150px;
 }
 
 input:disabled {
