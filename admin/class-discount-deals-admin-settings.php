@@ -197,6 +197,33 @@ class Discount_Deals_Admin_Settings {
 				'type' => 'sectionend',
 				'id'   => 'wc_settings_tab_discount_deals_cart_settings_end',
 			),
+			//BOGO discount
+			'bogo_section_title'               => array(
+				'name' => __( 'BOGO Discount settings', 'discount-deals' ),
+				'type' => 'title',
+				'desc' => '',
+				'id'   => 'wc_settings_tab_discount_deals_bogo_settings',
+			),
+			'apply_bogo_discount_to'           => array(
+				'name'    => __( 'Apply BOGO discount to?', 'discount-deals' ),
+				'type'    => 'select',
+				'options' => array(
+					'lowest_matched'  => __( 'Lowest discount ', 'discount-deals' ),
+					'biggest_matched' => __( 'Biggest discount', 'discount-deals' )
+				),
+				'value'   => Discount_Deals_Settings::get_settings( 'lowest_matched' ),
+				'id'      => 'wc_settings_tab_discount_deals_apply_bogo_discount_to',
+			),
+			'bogo_discount_highlight_message'  => array(
+				'name'  => __( 'Promotional message to show on free cart item', 'discount-deals' ),
+				'type'  => 'text',
+				'value' => Discount_Deals_Settings::get_settings( 'bogo_discount_highlight_message' ),
+				'id'    => 'wc_settings_tab_discount_deals_bogo_discount_highlight_message',
+			),
+			'bogo_section_end'                 => array(
+				'type' => 'sectionend',
+				'id'   => 'wc_settings_tab_discount_deals_bogo_settings_end',
+			),
 		);
 	}//end get_settings_fields()
 
