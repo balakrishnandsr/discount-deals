@@ -39,8 +39,11 @@ class Discount_Deals_Settings {
 		'apply_cart_discount_as'           => 'fee',
 		'apply_coupon_title'               => '',
 		'apply_fee_title'                  => 'You discount',
-        //Free Shipping
-        'free_shipping_title'              => 'free shipping',
+		//Free Shipping
+		'free_shipping_title'              => 'free shipping',
+		//BOGO
+		'apply_bogo_discount_to'           => 'lowest_matched',
+		'bogo_discount_highlight_message'  => 'It\'s free',
 	);
 
 	/**

@@ -14,8 +14,8 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	 * Get data from the GET request
 	 *
 	 * @param string $key Key of the array.
-	 * @param mixed  $default If there is no data then return default value.
-	 * @param bool   $clean Need to clean the output.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param bool $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -39,8 +39,8 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	 * Get data from the REQUEST
 	 *
 	 * @param string $key Key of the array.
-	 * @param mixed  $default If there is no data then return default value.
-	 * @param bool   $clean Need to clean the output.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param bool $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -63,8 +63,8 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	 * Get data from the POST request
 	 *
 	 * @param string $key Key of the array.
-	 * @param mixed  $default If there is no data then return default value.
-	 * @param bool   $clean Need to clean the output.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param bool $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -165,8 +165,22 @@ if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
 	 *
 	 * @return float|int
 	 */
-	function discount_deals_get_product_discount( $price, $product , $quantity = 1) {
+	function discount_deals_get_product_discount( $price, $product, $quantity = 1 ) {
 		return Discount_Deals_Workflows::calculate_product_discount( $price, $product, $quantity );
+	}//end discount_deals_get_product_discount()
+}
+
+if ( ! function_exists( 'discount_deals_get_bogo_discount' ) ) {
+	/**
+	 * Calculate the discount for the product.
+	 *
+	 * @param WC_Product $product Product object.
+	 * @param int $quantity Product quantity.
+	 *
+	 * @return array
+	 */
+	function discount_deals_get_bogo_discount( $product, $quantity = 1 ) {
+		return Discount_Deals_Workflows::calculate_bogo_discount( $product, $quantity );
 	}//end discount_deals_get_product_discount()
 }
 
@@ -175,25 +189,30 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	/**
 	 * Get value from array
 	 *
-	 * @param Array  $array Array.
+	 * @param Array $array Array.
 	 * @param string $key Array key.
-	 * @param mixed  $default_value What value should return when the key is not found.
+	 * @param mixed $default_value What value should return when the key is not found.
 	 *
 	 * @return mixed
 	 */
 	function discount_deals_get_value_from_array( $array, $key, $default_value = null ) {
 		if ( is_array( $array ) && array_key_exists( $key, $array ) ) {
-			return $array[ $key ];
+			return wc_clean( $array[ $key ] );
 		}
 
 		return $default_value;
 	}//end discount_deals_get_value_from_array()
 }
 
-if( ! function_exists( 'discount_deals_apply_cart_discount')){
-    function discount_deals_apply_cart_discount(){
-        return Discount_Deals_Workflows::calculate_cart_discount();
-    }
+if ( ! function_exists( 'discount_deals_get_cart_discount' ) ) {
+	/**
+	 * Calculate discount for cart.
+	 *
+	 * @return array
+	 */
+	function discount_deals_get_cart_discount() {
+		return Discount_Deals_Workflows::calculate_cart_discount();
+	}
 }
 
 if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {

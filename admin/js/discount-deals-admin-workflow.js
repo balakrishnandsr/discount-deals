@@ -18,7 +18,7 @@
         $(document).on('change', '.cart-discount-type', function () {
             let value = $(this).val();
             let $row = $(this).closest('tr');
-            if (value === "free_shipping") {
+            if (value === "free_shipping" || value === "free") {
                 $row.find('.cart-discount-value').attr('disabled', true).val('');
                 $row.find('.discount-value-symbol').html('');
             } else if (value === "flat") {

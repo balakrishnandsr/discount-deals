@@ -62,6 +62,7 @@ class Discount_Deals_Workflows {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php';
 	}//end load_discounts()
 
 
@@ -157,6 +158,7 @@ class Discount_Deals_Workflows {
 			'simple_discount' => 'Discount_Deals_Workflow_Simple_Discount',
 			'cart_discount'   => 'Discount_Deals_Workflow_Cart_Discount',
 			'bulk_discount'   => 'Discount_Deals_Workflow_Bulk_Discount',
+			'bxgx_discount'   => 'Discount_Deals_Workflow_Bxgx_Discount',
 		);
 	}//end get_all_discounts()
 
@@ -259,61 +261,86 @@ class Discount_Deals_Workflows {
 		return $data;
 	}//end get_discount_data()
 
-
 	/**
-	 * Calculate product discount.
+	 * Calculate BOGO discount
 	 *
-	 * @param float $price Product price.
-	 * @param WC_Product $product Product.
-	 * @param int $quantity Quantity.
+	 * @param WC_Product $product product object.
+	 * @param int $quantity item quantity.
 	 *
-	 * @return integer|void
+	 * @return array
 	 */
-	public static function calculate_product_discount( $price, $product, $quantity = 1 ) {
-
-		$active_workflows    = self::get_active_workflows();
-		$exclusive_workflows = $non_exclusive_workflows = array();
-
+	public static function calculate_bogo_discount( $product, $quantity = 1 ) {
+		$active_workflows = self::get_active_workflows();
+		if ( empty( $active_workflows ) ) {
+			return array();
+		}
 		$calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
 
-		if ( empty( $active_workflows ) ) {
-			return $price;
-		}
-
-		if ( ! empty( $active_workflows['exclusive'] ) ) {
-			$exclusive_workflows = $active_workflows['exclusive'];
-		} else {
-			$non_exclusive_workflows = $active_workflows['non_exclusive'];
-		}
-
 		if ( 'regular_price' === $calculate_discount_from ) {
-			$price = ( is_object( $product ) && is_callable(
-					array(
-						$product,
-						'get_regular_price',
-					)
-				) ) ? $product->get_regular_price() : 0;
+			$price = ( is_a( $product, 'WC_Product' ) ) ? $product->get_regular_price() : 0;
+		} else {
+			$price = ( is_a( $product, 'WC_Product' ) ) ? $product->get_sale_price() : 0;
+		}
+		$apply_as         = Discount_Deals_Settings::get_settings( 'apply_bogo_discount_to', 'lowest_matched' );
+		$discount = array();
+		if ( ! empty( $active_workflows['exclusive'] ) ) {
+			$discount = self::get_bogo_discount( $active_workflows['exclusive'], $product, $price, $quantity, $apply_as );
 		}
 
-		$apply_as         = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
-		$discounted_price = self::get_discount( $exclusive_workflows, $product, $price, $quantity, $apply_as );
-		if ( false === $discounted_price ) {
-			$discounted_price = self::get_discount( $non_exclusive_workflows, $product, $price, $quantity, $apply_as );
+		if ( empty( $discount ) && ! empty( $active_workflows['non_exclusive'] ) ) {
+			$discount = self::get_bogo_discount( $active_workflows['non_exclusive'], $product, $price, $quantity, $apply_as );
 		}
 
-		if ( false === $discounted_price ) {
-			return $price;
+		return $discount;
+	}
+
+	/**
+	 * Get the bogo discount for product
+	 *
+	 * @param Discount_Deals_Workflow[] $workflows workflows to validate against.
+	 * @param WC_Product $product product object.
+	 * @param float $price item price.
+	 * @param int $quantity item quantity.
+	 * @param string $apply_as How to apply.
+	 *
+	 * @return array
+	 */
+	public static function get_bogo_discount( $workflows, $product, $price, $quantity, $apply_as ) {
+		$valid_discounts = array();
+		foreach ( $workflows as $workflow ) {
+			$workflow_id = $workflow->get_id();
+			if ( in_array( $workflow->get_type(), array( 'bxgx_discount', 'bxgy_discount' ) ) ) {
+				$workflow->data_layer()->set_item( 'product', $product );
+				if ( $workflow->validate_rules() ) {
+					$discount_details = $workflow->may_have_bogo_discount( $product, $price, $quantity );
+					if ( ! empty( $discount_details ) ) {
+						$valid_discounts[ $workflow_id ] = $discount_details;
+					}
+				}
+			}
+		}
+		$discount = array();
+		if ( ! empty( $valid_discounts ) ) {
+			$workflow_ids = array_keys( $valid_discounts );
+			switch ( $apply_as ) {
+				default:
+				case "lowest_matched":
+					$workflow_id = $workflow_ids[ array_search( min( $totals = array_column( $valid_discounts, 'total' ) ), $totals ) ];
+					break;
+				case "biggest_matched":
+					$workflow_id = $workflow_ids[ array_search( max( $totals = array_column( $valid_discounts, 'total' ) ), $totals ) ];
+					break;
+			}
+			$discount[ $workflow_id ] = $valid_discounts[ $workflow_id ];
 		}
 
-		return $discounted_price;
-
-	}//end calculate_product_discount()
-
+		return $discount;
+	}
 
 	/**
 	 * Get_active_workflows.
 	 *
-	 * @return Discount_Deals_Workflow[]
+	 * @return array
 	 */
 	public static function get_active_workflows() {
 		if ( ! empty( self::$_active_workflows ) ) {
@@ -342,12 +369,53 @@ class Discount_Deals_Workflows {
 		}
 
 		return self::$_active_workflows;
+	}//end calculate_product_discount()
+
+	/**
+	 * Calculate product discount.
+	 *
+	 * @param float $price Product price.
+	 * @param WC_Product $product Product.
+	 * @param int $quantity Quantity.
+	 *
+	 * @return integer|void
+	 */
+	public static function calculate_product_discount( $price, $product, $quantity = 1 ) {
+		$active_workflows = self::get_active_workflows();
+		if ( empty( $active_workflows ) ) {
+			return $price;
+		}
+		$calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
+
+		if ( 'regular_price' === $calculate_discount_from ) {
+			$price = ( is_object( $product ) && is_callable( array(
+					$product,
+					'get_regular_price',
+				) ) ) ? $product->get_regular_price() : 0;
+		}
+
+		$apply_as         = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
+		$discounted_price = false;
+		if ( ! empty( $active_workflows['exclusive'] ) ) {
+			$discounted_price = self::get_product_discount( $active_workflows['exclusive'], $product, $price, $quantity, $apply_as );
+		}
+
+		if ( false === $discounted_price && ! empty( $active_workflows['non_exclusive'] ) ) {
+			$discounted_price = self::get_product_discount( $active_workflows['non_exclusive'], $product, $price, $quantity, $apply_as );
+		}
+
+		if ( false === $discounted_price ) {
+			return $price;
+		}
+
+		return $discounted_price;
+
 	}//end get_active_workflows()
 
 	/**
 	 * Get discount details by workflows.
 	 *
-	 * @param array $workflows Array of objects.
+	 * @param Discount_Deals_Workflow[] $workflows Array of objects.
 	 * @param WC_Product $product Product object.
 	 * @param float $price Product price.
 	 * @param int $quantity Product quantity.
@@ -355,7 +423,7 @@ class Discount_Deals_Workflows {
 	 *
 	 * @return array|mixed
 	 */
-	public static function get_discount( $workflows, $product, $price, $quantity, $apply_as ) {
+	public static function get_product_discount( $workflows, $product, $price, $quantity, $apply_as ) {
 		if ( empty( $workflows ) ) {
 			return false;
 		}
@@ -367,13 +435,8 @@ class Discount_Deals_Workflows {
 		$subsequent_price = $price;
 		foreach ( $workflows as $workflow ) {
 			$workflow_id = $workflow->get_id();
-			/**
-			 * Workflow.
-			 *
-			 * @var Discount_Deals_Workflow $workflow Actual Workflow
-			 */
 
-			if ( 'cart_discount' == $workflow->get_type() ) {
+			if ( in_array( $workflow->get_type(), array( 'cart_discount', 'bxgx_discount', 'bxgy_discount' ) ) ) {
 				continue;
 			}
 			$workflow->data_layer()->set_item( 'product', $product );
@@ -432,38 +495,32 @@ class Discount_Deals_Workflows {
 			return self::$_cart_discounts['discount_details'];
 		}
 		$active_workflows = self::get_active_workflows();
-
-		$exclusive_workflows = $non_exclusive_workflows = array();
-
 		if ( empty( $active_workflows ) ) {
 			return array();
 		}
 
 		$apply_as = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
 
+		$valid_workflows = array();
 		if ( ! empty( $active_workflows['exclusive'] ) ) {
-			$exclusive_workflows = $active_workflows['exclusive'];
-		} else {
-			$non_exclusive_workflows = $active_workflows['non_exclusive'];
+			$valid_workflows = self::get_cart_discount( $active_workflows['exclusive'], $apply_as );
 		}
 
-		$valid_workflow = self::get_cart_discount( $exclusive_workflows, $apply_as );
-
-		if ( empty( $valid_workflow ) ) {
-			$valid_workflow = self::get_cart_discount( $non_exclusive_workflows, $apply_as );
+		if ( empty( $valid_workflows ) && ! empty( $active_workflows['non_exclusive'] ) ) {
+			$valid_workflows = self::get_cart_discount( $active_workflows['non_exclusive'], $apply_as );
 		}
 		self::$_cart_discounts['is_discount_calculated'] = 'yes';
-		self::$_cart_discounts['discount_details']       = $valid_workflow;
+		self::$_cart_discounts['discount_details']       = $valid_workflows;
 
-		return $valid_workflow;
+		return $valid_workflows;
 
 	}//end get_matched_discount()
 
 	/**
 	 * Get cart discount
 	 *
-	 * @param $workflows
-	 * @param $apply_as
+	 * @param Discount_Deals_Workflow[] $workflows workflows to validate.
+	 * @param string $apply_as how to apply discount?
 	 *
 	 * @return array
 	 */
@@ -484,13 +541,7 @@ class Discount_Deals_Workflows {
 		$subsequent_subtotal = WC()->cart->get_subtotal();
 		foreach ( $workflows as $workflow ) {
 			$workflow_id = $workflow->get_id();
-			/**
-			 * Workflow.
-			 *
-			 * @var Discount_Deals_Workflow $workflow Actual Workflow
-			 */
-
-			if ( 'cart_discount' === $workflow->get_type() ) {
+			if ( 'cart_discount' == $workflow->get_type() ) {
 				$apply_subsequently = Discount_Deals_Settings::get_settings( 'apply_cart_discount_subsequently', 'no' );
 
 				if ( 'yes' == $apply_subsequently && 'all_matched' === $apply_as ) {
