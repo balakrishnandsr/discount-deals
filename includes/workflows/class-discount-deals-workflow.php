@@ -610,7 +610,7 @@ class Discount_Deals_Workflow {
 		}
 
 		return 0;
-	}//end may_have_product_discount()
+	}
 
 	/**
 	 * Get all actions in current workflow.
@@ -619,7 +619,7 @@ class Discount_Deals_Workflow {
 	 */
 	public function get_discount() {
 		return $this->discount;
-	}
+	}//end may_have_product_discount()
 
 	/**
 	 * Set discounts
@@ -634,6 +634,24 @@ class Discount_Deals_Workflow {
 		$discount_object->set_discount_details( $discounts );
 		$discount_object->set_promotion_details( $this->get_promotion() );
 		$this->discount = $discount_object;
+	}
+
+	/**
+	 * May have BOGO discount.
+	 *
+	 * @param WC_Product $product Product.
+	 * @param float $price Product price.
+	 * @param int $quantity Product quantity.
+	 *
+	 * @return array
+	 */
+	public function may_have_bogo_discount( $product, $price, $quantity ) {
+		$discount = $this->get_discount();
+		if ( is_a( $discount, 'Discount_Deals_Workflow_Discount' ) ) {
+			return $discount->calculate_discount( $product, $price, array( 'quantity' => $quantity ) );
+		}
+
+		return array();
 	}//end get_discount()
 
 	/**

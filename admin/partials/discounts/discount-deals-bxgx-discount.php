@@ -16,11 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( empty( $discount_details ) ) {
 	$discount_details = array(
 		array(
-			'min_quantity' => '',
-			'max_quantity' => '',
-			'type'         => 'flat',
-			'value'        => '',
-			'max_discount' => '',
+			'min_quantity'  => '',
+			'max_quantity'  => '',
+			'free_quantity' => '',
+			'type'          => 'flat',
+			'value'         => '',
+			'max_discount'  => '',
 		)
 	);
 }
@@ -31,6 +32,7 @@ if ( empty( $discount_details ) ) {
     <tr>
         <th><?php echo __( "Minimum Quantity", "discount-deals" ); ?></th>
         <th><?php echo __( "Maximum Quantity", "discount-deals" ); ?></th>
+        <th><?php echo __( "Free Quantity", "discount-deals" ); ?></th>
         <th><?php echo __( "Discount Type", "discount-deals" ); ?></th>
         <th><?php echo __( "Discount Value", "discount-deals" ); ?></th>
         <th><?php echo __( "Maximum Discount", "discount-deals" ); ?></th>
@@ -64,9 +66,22 @@ if ( empty( $discount_details ) ) {
                 </div>
             </td>
             <td>
+                <div class="discount-deals-input-group suffix">
+                    <input type="number"
+                           value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'free_quantity', '' ); ?>"
+                           required name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][free_quantity]"
+                           data-name="discount_deals_workflow[dd_discounts][--rule_id--][free_quantity]"
+                           placeholder="<?php echo __( "E.g. 1", "discount-deals" ) ?>">
+                    <span class="input-group-addon "></span>
+                </div>
+            </td>
+            <td>
                 <select name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][type]"
                         class="discount-deals-w150 cart-discount-type"
                         data-name="discount_deals_workflow[dd_discounts][--rule_id--][type]">
+                    <option value="free" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free' ) {
+						echo ' selected';
+					} ?>><?php echo __( "Free", "discount-deals" ) ?></option>
                     <option value="flat" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
 						echo ' selected';
 					} ?>><?php echo __( "Fixed Discount", "discount-deals" ) ?></option>
@@ -78,6 +93,9 @@ if ( empty( $discount_details ) ) {
             <td>
                 <div class="discount-deals-input-group suffix">
                     <input type="number"
+						<?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free' ) {
+							echo ' disabled ';
+						} ?>
                            value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'value', '' ); ?>"
                            class="cart-discount-value" required step="0.1"
                            name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][value]"
@@ -96,7 +114,7 @@ if ( empty( $discount_details ) ) {
             <td>
                 <div class="discount-deals-input-group suffix">
                     <input type="number"
-						<?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
+						<?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' || discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free' ) {
 							echo ' disabled ';
 						} ?>
                            value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'max_discount', '' ); ?>"
