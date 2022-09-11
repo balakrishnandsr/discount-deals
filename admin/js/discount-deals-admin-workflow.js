@@ -15,6 +15,23 @@
             let $row = $(this).closest('tr');
             $row.remove();
         });
+        $(document).on('change', '.discount-deals-free-type', function () {
+            let value = $(this).val();
+            let $row = $(this).closest('tr');
+            if ('cheapest_in_category' == value || 'biggest_in_category' == value) {
+                $row.find('.bxgy-free-category').removeClass('discount-deals-hidden');
+                $row.find('.bxgy-free-product').addClass('discount-deals-hidden');
+            } else if ('products' == value) {
+                $row.find('.bxgy-free-category').addClass('discount-deals-hidden');
+                $row.find('.bxgy-free-product').removeClass('discount-deals-hidden');
+            } else {
+                $row.find('.bxgy-free-category').addClass('discount-deals-hidden');
+                $row.find('.bxgy-free-product').addClass('discount-deals-hidden');
+            }
+            $row.find('.discount-deals-bxgy-products-select option').remove();
+            $row.find('.discount-deals-bxgy-category-select option').remove();
+            console.log($row.find('.discount-deals-bxgy-products-select option'))
+        })
         $(document).on('change', '.cart-discount-type', function () {
             let value = $(this).val();
             let $row = $(this).closest('tr');
@@ -38,16 +55,21 @@
             let timestamp = Date.now();
             const change_input_name = function ($input) {
                 let name = $input.data('name');
-                let new_name = name.replaceAll('--rule_id--', timestamp);
-                $input.attr('name', new_name);
+                if (name) {
+                    let new_name = name.replaceAll('--rule_id--', timestamp);
+                    $input.attr('name', new_name);
+                }
             }
+            $new_discount.find('.bxgy-product-select-container').html($("#temp-free-products-select").html());
+            $new_discount.find('.bxgy-category-select-container').html($("#temp-free-category-select").html());
             $new_discount.find('input').each(function (i) {
                 change_input_name($(this))
                 $(this).val('');
             });
             $new_discount.find('select').each(function (i) {
                 change_input_name($(this))
-                $(this).val('flat');
+                // let default_value = $(this).data('default-val');
+                // $(this).val(default_value).change();
             });
             let symbol = $new_discount.find('.discount-value-symbol').data('currency');
             $new_discount.find('.discount-value-symbol').html(symbol);
@@ -56,6 +78,7 @@
                 $new_discount.find('.discount-deals-remove-cart-discount').removeClass('discount-deals-hidden')
             }
             $table.append($new_discount);
+            $(document.body).trigger('wc-enhanced-select-init');
         });
         $(document).on(
             "change",

@@ -63,6 +63,7 @@ class Discount_Deals_Workflows {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php';
 	}//end load_discounts()
 
 
@@ -159,6 +160,7 @@ class Discount_Deals_Workflows {
 			'cart_discount'   => 'Discount_Deals_Workflow_Cart_Discount',
 			'bulk_discount'   => 'Discount_Deals_Workflow_Bulk_Discount',
 			'bxgx_discount'   => 'Discount_Deals_Workflow_Bxgx_Discount',
+			'bxgy_discount'   => 'Discount_Deals_Workflow_Bxgy_Discount',
 		);
 	}//end get_all_discounts()
 

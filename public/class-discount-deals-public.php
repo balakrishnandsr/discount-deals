@@ -22,12 +22,27 @@ class Discount_Deals_Public {
 	 * @var float[] $cart_item_discounts cart item discounts.
 	 */
 	private static $cart_item_discounts = array();
+
 	/**
 	 * Stores free products.
 	 *
 	 * @var array $free_products cart item discounts.
 	 */
 	private static $free_products = array();
+
+	/**
+	 * Stores free products.
+	 *
+	 * @var array $priced_bogo_products cart item discounts.
+	 */
+	private static $priced_bogo_products = array();
+
+	/**
+	 * In some case customer will eligible for get BxGY product.
+	 *
+	 * @var array $eligible_bxgy_products bxgy discount products.
+	 */
+	private static $eligible_bxgy_products = array();
 
 	/**
 	 * Stores products that need to remove from cart.
@@ -37,29 +52,26 @@ class Discount_Deals_Public {
 	private static $remove_products = array();
 
 	/**
-	 * Stores products that need to remove from cart.
-	 *
-	 * @var array $remove_products cart item discounts.
-	 */
-	private static $update_products = array();
-	/**
 	 * Key for free cart item
 	 *
 	 * @var string $_free_cart_item_key key for free cart item.
 	 */
-	private $_free_cart_item_key = 'discount_deals_free_gift';
+	public $_free_cart_item_key = 'discount_deals_free_gift';
+
 	/**
 	 * Key for free cart item gift workflow id
 	 *
 	 * @var string $_free_cart_item_workflow_key key for free cart item.
 	 */
-	private $_free_cart_item_workflow_key = 'discount_deals_free_gift_by';
+	public $_free_cart_item_workflow_key = 'discount_deals_free_gift_by';
+
 	/**
 	 * The ID of this plugin.
 	 *
 	 * @var      string $plugin_slug The ID of this plugin.
 	 */
 	private $plugin_slug;
+
 	/**
 	 * The version of this plugin.
 	 *
@@ -102,7 +114,7 @@ class Discount_Deals_Public {
 		//Cart Discount.
 		$show_strikeout_for_cart_item = Discount_Deals_Settings::get_settings( 'show_strikeout_price_in_cart', 'yes' );
 		if ( 'yes' == $show_strikeout_for_cart_item ) {
-			add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout' ), 99, 3 );
+			add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout' ), 98, 3 );
 		}
 		$save_text_position = Discount_Deals_Settings::get_settings( 'where_display_saving_text', 'disabled' );
 		if ( 'disabled' != $save_text_position ) {
@@ -138,6 +150,8 @@ class Discount_Deals_Public {
 		add_filter( 'woocommerce_cart_item_remove_link', array( $this, 'hide_cart_item_remove_link' ), 99, 2 );
 		add_filter( 'woocommerce_cart_item_quantity', array( $this, 'hide_cart_item_quantity_update' ), 99, 3 );
 		add_action( 'woocommerce_after_cart_item_name', array( $this, 'highlight_free_gifts' ), 99, 2 );
+		add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout_for_bogo' ), 99, 3 );
+		add_filter( 'woocommerce_before_cart', array( $this, 'show_bxgy_eligible_notices' ), 9 );
 	}
 
 	/**
@@ -275,6 +289,24 @@ class Discount_Deals_Public {
 	}
 
 	/**
+	 * Check that cart item has wrong free item.
+	 *
+	 * @param array $free_cart_item free cart item.
+	 * @param array $actual_discount actual discount for the product.
+	 *
+	 * @return bool
+	 */
+	public function is_wrong_item_in_cart( $free_cart_item, $actual_discount ) {
+		if ( $actual_discount['discount_on_same'] ) {
+			return $free_cart_item['quantity'] != $actual_discount['discount_quantity'];
+		} else {
+			$discount_item = $actual_discount['discount_product'];
+
+			return ( $free_cart_item['product_id'] != $discount_item['product_id'] || $free_cart_item['variation_id'] != $discount_item['variation_id'] || $free_cart_item['quantity'] != $actual_discount['discount_quantity'] );
+		}
+	}
+
+	/**
 	 * Add bogo discount to the cart
 	 *
 	 * @return void
@@ -284,7 +316,6 @@ class Discount_Deals_Public {
 		if ( ! empty( $cart_items ) ) {
 			foreach ( $cart_items as $cart_item_key => $cart_item ) {
 				$cart_item_object = $cart_item['data'];
-				$quantity_in_cart = $cart_item['quantity'];
 				if ( is_a( $cart_item_object, 'WC_Product' ) ) {
 					if ( $this->is_free_cart_item( $cart_item ) ) {
 						$cart_item['data']->set_price( 0 );
@@ -296,12 +327,12 @@ class Discount_Deals_Public {
 						}
 						continue;
 					}
-					$free_product_cart_hash = $this->get_free_product_of_cart_item( $cart_item_key, $cart_items );
-					$discount_details       = discount_deals_get_bogo_discount( $cart_item_object, $cart_item['quantity'] );
+					$free_product_cart_key = $this->get_free_product_of_cart_item( $cart_item_key, $cart_items );
+					$discount_details      = discount_deals_get_bogo_discount( $cart_item_object, $cart_item['quantity'] );
 					// has no discount but the free product for this item is found in cart. maybe it was previously added one.
-					if ( empty( $discount_details ) && $free_product_cart_hash ) {
+					if ( empty( $discount_details ) && $free_product_cart_key ) {
 						// Remove it. We don't need anymore.
-						array_push( self::$remove_products, $free_product_cart_hash );
+						array_push( self::$remove_products, $free_product_cart_key );
 						continue;
 					}
 					//If there is no more discount, to continue to check for net cart item.
@@ -310,15 +341,11 @@ class Discount_Deals_Public {
 					}
 					$actual_discount = current( $discount_details );
 					if ( $actual_discount['is_free'] ) {
-						if ( $free_product_cart_hash ) {
-							$free_cart_item = $cart_items[ $free_product_cart_hash ];
-							if ( $free_cart_item['quantity'] != $actual_discount['discount_quantity'] ) {
+						if ( $free_product_cart_key ) {
+							$free_cart_item = $cart_items[ $free_product_cart_key ];
+							if ( $this->is_wrong_item_in_cart( $free_cart_item, $actual_discount ) ) {
 								//If there is any change in quantity, then we need to update the quantity.
-								array_push( self::$update_products,
-									array(
-										'key'      => $free_product_cart_hash,
-										'quantity' => $actual_discount['discount_quantity']
-									) );
+								array_push( self::$remove_products, $free_product_cart_key );
 							}
 							continue;
 						}
@@ -333,25 +360,126 @@ class Discount_Deals_Public {
 									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0]
 								)
 							);
-							array_push( self::$free_products, $free_product_detail );
 						} else {
-							$free_product_detail = null;
+							$free_product_detail = array(
+								'product_id'   => $actual_discount['discount_product']['product_id'],
+								'quantity'     => $actual_discount['discount_quantity'],
+								'variation_id' => $actual_discount['discount_product']['variation_id'],
+								'variation'    => $actual_discount['discount_product']['variation'],
+								'meta'         => array(
+									$this->_free_cart_item_key          => $cart_item_key,
+									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0]
+								)
+							);
 						}
+						array_push( self::$free_products, $free_product_detail );
 					} else {
 						// No free product in discount abut previous free product traces found.
-						if ( $free_product_cart_hash ) {
+						if ( $free_product_cart_key ) {
 							// Remove it. We don't need anymore.
-							array_push( self::$remove_products, $free_product_cart_hash );
+							array_push( self::$remove_products, $free_product_cart_key );
 						}
+						if ( $actual_discount['discount_on_same'] ) {
+							$discounted_cart_item     = $cart_item;
+							$discounted_cart_item_key = $cart_item_key;
+						} else {
+							//If the item is already found in the cart then give discount.
+							if ( $actual_discount['discount_product']['cart_item_key'] ) {
+								$discounted_cart_item_key = $actual_discount['discount_product']['cart_item_key'];
+								$discounted_cart_item     = $cart_items[ $discounted_cart_item_key ];
+							} else {
+								$existing_cart_key = $this->is_bxgy_item_found_in_cart( $cart_items, $actual_discount['discount_product'] );
+								if ( $existing_cart_key ) {
+									$discounted_cart_item_key = $existing_cart_key;
+									$discounted_cart_item     = $cart_items[ $discounted_cart_item_key ];
+								} else {
+									$key = $actual_discount['discount_product']['product_id'] . '-' . $actual_discount['discount_product']['variation_id'];
+									if ( ! array_key_exists( $key, self::$eligible_bxgy_products ) && isset( $actual_discount['show_eligible_message'] ) && $actual_discount['show_eligible_message'] ) {
+										self::$eligible_bxgy_products[ $key ] = $actual_discount;
+									}
+									$discounted_cart_item     = false;
+									$discounted_cart_item_key = false;
+								}
+							}
+						}
+						if ( ! $discounted_cart_item || ! $discounted_cart_item_key ) {
+							continue;
+						}
+						$quantity_in_cart            = $discounted_cart_item['quantity'];
+						$discounted_cart_item_object = $discounted_cart_item['data'];
 						//IF the discount is flat or percentage, then do calculations accordingly.
 						$discount_per_item = $actual_discount['total'] / $quantity_in_cart;
-						$price_per_product = $cart_item_object->get_sale_price() - $discount_per_item;
-						$cart_item_object->set_price( $price_per_product );
+						$price_per_product = $discounted_cart_item_object->get_sale_price() - $discount_per_item;
+
+						$actual_discount_quantity = $actual_discount['discount_quantity'];
+						if ( $quantity_in_cart < $actual_discount['discount_quantity'] ) {
+							$actual_discount_quantity = $quantity_in_cart;
+						}
+
+						$actual_discounted_price = $discounted_cart_item_object->get_sale_price() - $actual_discount['discount'];
+						if ( 0 >= $price_per_product ) {
+							$actual_discounted_price = 0;
+						}
+
+						self::$priced_bogo_products[ $discounted_cart_item_key ] = array(
+							'original_price'          => $discounted_cart_item_object->get_sale_price(),
+							'original_price_quantity' => $discounted_cart_item['quantity'] - $actual_discount['discount_quantity'],
+							'discount_price'          => $actual_discounted_price,
+							'discount_quantity'       => $actual_discount_quantity,
+							'meta'                    => $actual_discount,
+						);
+						$discounted_cart_item_object->set_price( $price_per_product );
 					}
 				}
 			}
 		}
 	}//end init_public_hooks()
+
+	/**
+	 * Show eligible message to the customer
+	 */
+	public function show_bxgy_eligible_notices() {
+		if ( ! empty( self::$eligible_bxgy_products ) ) {
+			foreach ( self::$eligible_bxgy_products as $eligible_bxgy_product ) {
+				$free_product_details = $eligible_bxgy_product['discount_product'];
+				if ( ! empty( $free_product_details['variation_id'] ) ) {
+					$product = wc_get_product( $free_product_details['variation_id'] );
+				} else {
+					$product = wc_get_product( $free_product_details['product_id'] );
+				}
+				if ( is_a( $product, 'WC_Product' ) ) {
+					$discount_price   = wc_price( $eligible_bxgy_product['total'] );
+					$discount_message = "You are now eligible to get $discount_price discount on {$product->get_title()}, would you like to <a href='{$product->add_to_cart_url()}'>grab this offer?</a>";
+					$discount_message = apply_filters( 'discount_deals_bxgy_eligible_notice', $discount_message, $product, $eligible_bxgy_product );
+					if ( ! empty( $discount_message ) ) {
+						wc_print_notice( $discount_message, 'notice' );
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Check the cart has eligible BXGY item
+	 *
+	 * @param array $cart_items all cart items.
+	 * @param array $discount_item discount item.
+	 *
+	 * @return false|int|string
+	 */
+	public function is_bxgy_item_found_in_cart( $cart_items, $discount_item ) {
+		foreach ( $cart_items as $cart_item_key => $cart_item ) {
+			if ( $this->is_free_cart_item( $cart_item ) ) {
+				continue;
+			}
+
+			if ( $cart_item['product_id'] == $discount_item['product_id'] && $cart_item['variation_id'] == $discount_item['variation_id'] ) {
+				return $cart_item_key;
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	 * Add timestamp to session when 1st product is added to cart.
@@ -420,6 +548,30 @@ class Discount_Deals_Public {
 				}
 				$item_price = wc_format_sale_price( $regular_price, $sale_price );
 			}
+		}
+
+		return $item_price;
+	}
+
+	/**
+	 * Show strikeout for each product which has bogo
+	 *
+	 * @param string $item_price price html.
+	 * @param array $cart_item cart item details.
+	 * @param string $cart_item_key cart item hash.
+	 */
+	public function show_price_strikeout_for_bogo( $item_price, $cart_item, $cart_item_key ) {
+		if ( empty( self::$priced_bogo_products ) ) {
+			return $item_price;
+		}
+		if ( array_key_exists( $cart_item_key, self::$priced_bogo_products ) ) {
+			$discount_details = self::$priced_bogo_products[ $cart_item_key ];
+			$item_price       = '<div>' . wc_format_sale_price( $discount_details['original_price'], $discount_details['discount_price'] ) . ' &times; ' . $discount_details['discount_quantity'] . '</div>';
+			if ( 0 < $discount_details['original_price_quantity'] ) {
+				$item_price .= '<div>' . wc_price( $discount_details['original_price'] ) . ' &times; ' . $discount_details['original_price_quantity'] . '</div>';
+			}
+
+			return $item_price;
 		}
 
 		return $item_price;

@@ -29,11 +29,11 @@ if ( empty( $discount_details ) ) {
 <table class="cart-discount-details-table discount-deals-fw-table">
     <thead class="discount-deals-text-left">
     <tr>
-        <th><?php echo __( "Minimum Quantity", "discount-deals" ); ?></th>
-        <th><?php echo __( "Maximum Quantity", "discount-deals" ); ?></th>
+        <th><?php echo __( "Min Qty.", "discount-deals" ); ?></th>
+        <th><?php echo __( "Max Qty.", "discount-deals" ); ?></th>
         <th><?php echo __( "Discount Type", "discount-deals" ); ?></th>
         <th><?php echo __( "Discount Value", "discount-deals" ); ?></th>
-        <th><?php echo __( "Maximum Discount", "discount-deals" ); ?></th>
+        <th><?php echo __( "Max Discount", "discount-deals" ); ?></th>
         <th></th>
     </tr>
     </thead>
@@ -65,6 +65,7 @@ if ( empty( $discount_details ) ) {
             </td>
             <td>
                 <select name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][type]"
+                        data-default-val="flat"
                         class="discount-deals-w150 cart-discount-type"
                         data-name="discount_deals_workflow[dd_discounts][--rule_id--][type]">
                     <option value="flat" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {

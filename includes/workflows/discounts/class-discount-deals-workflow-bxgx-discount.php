@@ -87,9 +87,10 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 			$max_discount = discount_deals_get_value_from_array( $discount_detail, 'max_discount', 0 );
 			$value        = discount_deals_get_value_from_array( $discount_detail, 'value', 0 );
 			if ( ! empty( $type ) && $product_quantity >= $min_quantity && $product_quantity <= $max_quantity ) {
-				$discount = $this->calculate_discount_amount( $type, $price, $value );
-				if ( ! empty( $max_discount ) && 'free' != $type ) {
-					$discount = min( $max_discount, $discount );
+				$discount       = $this->calculate_discount_amount( $type, $price, $value );
+				$total_discount = $free_quantity * $discount;
+				if ( 0 < floatval( $max_discount ) && 'percent' == $type ) {
+					$total_discount = min( $max_discount, $total_discount );
 				}
 				if ( 0 >= $discount ) {
 					return array();
@@ -98,7 +99,7 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 				return array(
 					'discount_quantity' => $free_quantity,
 					'discount'          => $discount,
-					'total'             => $free_quantity * $discount,
+					'total'             => $total_discount,
 					'is_free'           => 'free' == $type,
 					'discount_on_same'  => true
 				);
