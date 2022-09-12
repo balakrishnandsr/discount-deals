@@ -408,7 +408,13 @@ class Discount_Deals_Public {
 						$quantity_in_cart            = $discounted_cart_item['quantity'];
 						$discounted_cart_item_object = $discounted_cart_item['data'];
 						//IF the discount is flat or percentage, then do calculations accordingly.
-						$discount_per_item = $actual_discount['total'] / $quantity_in_cart;
+						if ( $actual_discount['discount_quantity'] > $quantity_in_cart ) {
+							//If free quantity is greater than cart item quantity, set discount as discount for individual product
+							$discount_per_item = $actual_discount['discount'];
+						} else {
+							//else, take total quantity and calculate accordingly.
+							$discount_per_item = $actual_discount['total'] / $quantity_in_cart;
+						}
 						$price_per_product = $discounted_cart_item_object->get_sale_price() - $discount_per_item;
 
 						$actual_discount_quantity = $actual_discount['discount_quantity'];
