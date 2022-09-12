@@ -19,7 +19,7 @@ if ( empty( $discount_details ) ) {
 			'min_quantity'  => '',
 			'max_quantity'  => '',
 			'free_quantity' => '',
-			'type'          => 'flat',
+			'type'          => 'free',
 			'value'         => '',
 			'max_discount'  => '',
 		)
@@ -30,12 +30,12 @@ if ( empty( $discount_details ) ) {
 <table class="cart-discount-details-table discount-deals-fw-table">
     <thead class="discount-deals-text-left">
     <tr>
-        <th><?php echo __( "Minimum Quantity", "discount-deals" ); ?></th>
-        <th><?php echo __( "Maximum Quantity", "discount-deals" ); ?></th>
-        <th><?php echo __( "Free Quantity", "discount-deals" ); ?></th>
+        <th><?php echo __( "Min Qty.", "discount-deals" ); ?></th>
+        <th><?php echo __( "Max Qty.", "discount-deals" ); ?></th>
+        <th><?php echo __( "Discount Qty.", "discount-deals" ); ?></th>
         <th><?php echo __( "Discount Type", "discount-deals" ); ?></th>
         <th><?php echo __( "Discount Value", "discount-deals" ); ?></th>
-        <th><?php echo __( "Maximum Discount", "discount-deals" ); ?></th>
+        <th><?php echo __( "Max Discount", "discount-deals" ); ?></th>
         <th></th>
     </tr>
     </thead>
@@ -78,6 +78,7 @@ if ( empty( $discount_details ) ) {
             <td>
                 <select name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][type]"
                         class="discount-deals-w150 cart-discount-type"
+                        data-default-val="free"
                         data-name="discount_deals_workflow[dd_discounts][--rule_id--][type]">
                     <option value="free" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free' ) {
 						echo ' selected';
