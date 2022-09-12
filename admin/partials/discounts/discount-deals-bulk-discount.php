@@ -133,12 +133,12 @@ if ( empty( $discount_details ) ) {
     <tr>
         <td colspan="6" class="discount-deals-text-left">
             <p>
-                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' You can give discount, if the product quantity is between min and max values. then, give discount accordingly. ', 'discount-deals' ) ?>
+                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b> <?php echo __( 'If the customers purchase the products in bulk quantity, then you can give discounts accordingly.', 'discount-deals' ) ?>
             </p>
-            <b><?php echo __( 'Example: ', 'discount-deals' ) ?></b>
+            <b><?php echo __( 'Use cases: ', 'discount-deals' ) ?></b>
             <ol>
-                <li><?php echo __( 'Give flat 2$ as discount for the product who is buying 5 to 10 quantities. ', 'discount-deals' ) ?></li>
-                <li><?php echo __( 'Give 15% discount for the product who is buying 15 to 30 quantities. ', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'You can give a 20% discount for customers who are purchasing 5 to 10 quantities of product.', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'You can give  a fixed discount on products to wholesale customers. ', 'discount-deals' ) ?></li>
             </ol>
         </td>
     </tr>

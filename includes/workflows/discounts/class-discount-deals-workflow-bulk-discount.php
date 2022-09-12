@@ -20,8 +20,8 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	public function __construct() {
 		parent::__construct();
 		$this->set_supplied_data_items();
-		$this->set_title( __( 'Product Qty. based Discount', 'discount-deals' ) );
-		$this->set_description( __( 'Give flat or percentage discount for products with high quantity.', 'discount-deals' ) );
+		$this->set_title( __( 'Product quantity based Discount', 'discount-deals' ) );
+		$this->set_description( __( 'Purchase in bulk and get a discount in bulk.', 'discount-deals' ) );
 	}//end __construct()
 
 	/**
@@ -49,7 +49,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'How much discount do you want to give?', 'discount-deals' ),
+				'label'         => __( 'Discount details', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)
