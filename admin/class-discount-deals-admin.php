@@ -168,6 +168,16 @@ class Discount_Deals_Admin {
 	 */
 	public function enqueue_scripts() {
 		$action = discount_deals_get_data( 'action', 'list' );
+		$page   = discount_deals_get_data( 'page', '' );
+		$tab    = discount_deals_get_data( 'tab', '' );
+		if ( 'wc-settings' == $page && 'discount_deals_settings' == $tab ) {
+			wp_enqueue_script( $this->plugin_slug . '-settings', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-settings.js', array( 'jquery' ), $this->version );
+
+			return;
+		}
+		if ( 'discount-deals' != $page ) {
+			return;
+		}
 		if ( 'new' != $action && 'edit' != $action ) {
 			wp_enqueue_script( $this->plugin_slug . '-workflows', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-workflows.js', array( 'jquery' ), $this->version );
 			wp_localize_script( $this->plugin_slug . '-workflows', 'discount_deals_workflows_localize_script', array(

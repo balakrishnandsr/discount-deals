@@ -43,7 +43,7 @@ class Discount_Deals_Settings {
 		'free_shipping_title'              => 'free shipping',
 		//BOGO
 		'apply_bogo_discount_to'           => 'lowest_matched',
-		'bogo_discount_highlight_message'  => 'It\'s free',
+		'bogo_discount_highlight_message'  => 'Free',
 	);
 
 	/**
@@ -54,7 +54,10 @@ class Discount_Deals_Settings {
 	 * @return boolean
 	 */
 	public static function save_settings( $data = array() ) {
-		return update_option( self::DISCOUNT_DEALS_OPTION_KEY, $data );
+		$old_settings = get_option( self::DISCOUNT_DEALS_OPTION_KEY, array() );
+		$new_settings = wp_parse_args( $data, $old_settings );
+
+		return update_option( self::DISCOUNT_DEALS_OPTION_KEY, $new_settings );
 	}//end save_settings()
 
 
