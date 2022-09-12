@@ -428,6 +428,9 @@ class Discount_Deals_Public {
 							'discount_quantity'       => $actual_discount_quantity,
 							'meta'                    => $actual_discount,
 						);
+						if ( 0 >= $price_per_product ) {
+							$price_per_product = 0;
+						}
 						$discounted_cart_item_object->set_price( $price_per_product );
 					}
 				}
