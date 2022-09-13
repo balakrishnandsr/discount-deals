@@ -152,6 +152,10 @@ class Discount_Deals_Public {
 		add_action( 'woocommerce_after_cart_item_name', array( $this, 'highlight_free_gifts' ), 99, 2 );
 		add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout_for_bogo' ), 99, 3 );
 		add_filter( 'woocommerce_before_cart', array( $this, 'show_bxgy_eligible_notices' ), 9 );
+
+        //Promotion Messages
+        add_action('woocommerce_before_cart', array($this, 'showAppliedRulesMessages'), 1000);
+        add_action('woocommerce_before_checkout_form', array($this, 'display_promotion_messages_checkout_container'), 1000);
 	}
 
 	/**
@@ -899,6 +903,29 @@ class Discount_Deals_Public {
 
 		return ! empty( $discounted_details['free_shipping'] );
 	}
+
+    /**
+     * Displaying promotional message in check out
+     * */
+    public function display_promotion_messages_checkout_container(){
+        echo "<div id='discount_deals_checkout_promotion_messages'>";
+        $this->showAppliedRulesMessages();
+        echo "</div>";
+    }
+
+    /**
+     * Show the discount promotion message
+     */
+    function showAppliedRulesMessages()
+    {
+        $message = 'Discount <strong>{{title}}</strong> has been applied to your cart';
+        $message = __($message, 'woo-discount-rules');
+        $title = 'default workflow';
+        $message_to_display = str_replace('{{title}}', $title, $message);
+        wc_print_notice(wp_unslash( $message_to_display ), 'success');
+        wc_print_notice(wp_unslash( $message_to_display ), 'error');
+        wc_print_notice(wp_unslash( $message_to_display ), 'notice');
+    }
 
 
 }//end class
