@@ -77,8 +77,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Get workflows by id
 	 *
-	 * @param integer $id Workflow.
-	 * @param string $output Output format.
+	 * @param integer $id     Workflow.
+	 * @param string  $output Output format.
 	 *
 	 * @return array|object|null
 	 */
@@ -125,8 +125,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Update Workflow
 	 *
-	 * @param integer $workflow_id Workflow ID.
-	 * @param array $workflow_data Workflow data.
+	 * @param integer $workflow_id   Workflow ID.
+	 * @param array   $workflow_data Workflow data.
 	 *
 	 * @return boolean|void
 	 */

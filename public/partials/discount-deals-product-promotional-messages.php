@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
+/*
  * Variable declaration
  *
  * @var array $all_promotions all promotional messages.

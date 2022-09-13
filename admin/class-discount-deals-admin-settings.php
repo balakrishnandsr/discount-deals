@@ -34,7 +34,7 @@ class Discount_Deals_Admin_Settings {
 	 */
 	public static function add_sections() {
 		$sections        = array(
-			//'general'                             => __( 'General', 'discount-deals' ),
+			// 'general'                             => __( 'General', 'discount-deals' ),
 			'product-price-and-quantity-discount' => __( 'Product price and quantity based discount', 'discount-deals' ),
 			'cart-discount'                       => __( 'Cart subtotal based discount', 'discount-deals' ),
 			'bogo-discount'                       => __( 'Buy one Get one discount', 'discount-deals' ),
@@ -45,7 +45,8 @@ class Discount_Deals_Admin_Settings {
 		foreach ( $sections as $id => $label ) {
 			echo '<li><a href="' . admin_url( 'admin.php?page=wc-settings&tab=' . self::$tab_id . '&section=' . sanitize_title( $id ) ) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . $label . '</a> ' . ( end( $array_keys ) == $id ? '' : '|' ) . ' </li>';
 		}
-	}
+	}//end add_sections()
+
 
 	/**
 	 * Add Discount deals settings inside Woocommerce settings.
@@ -143,7 +144,7 @@ class Discount_Deals_Admin_Settings {
 			);
 		} elseif ( 'cart-discount' == $current_section ) {
 			return array(
-				//Cart discount
+				// Cart discount
 				'cart_section_title'               => array(
 					'name' => __( 'Cart discount', 'discount-deals' ),
 					'type' => 'title',
@@ -241,7 +242,7 @@ class Discount_Deals_Admin_Settings {
 			);
 		} elseif ( 'bogo-discount' == $current_section ) {
 			return array(
-				//BOGO discount
+				// BOGO discount
 				'bogo_section_title'              => array(
 					'name' => __( 'BOGO discount', 'discount-deals' ),
 					'type' => 'title',

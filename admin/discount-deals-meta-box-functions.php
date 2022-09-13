@@ -229,7 +229,7 @@ function discount_deals_html( $field ) {
         </td>
     </tr>
 	<?php
-}//end discount_deals_radio()
+}//end discount_deals_html()
 
 
 /**

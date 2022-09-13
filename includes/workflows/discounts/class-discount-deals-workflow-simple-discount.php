@@ -61,9 +61,9 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 	/**
 	 * Calculate discount for the product
 	 *
-	 * @param mixed $data_item Calculate discount for which data item.
-	 * @param int|float $price Subsequent price.
-	 * @param array $extra     Extra details for calculate discount.
+	 * @param mixed         $data_item Calculate discount for which data item.
+	 * @param integer|float $price     Subsequent price.
+	 * @param array         $extra     Extra details for calculate discount.
 	 *
 	 * @return integer
 	 */

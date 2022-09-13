@@ -170,7 +170,8 @@ class Discount_Deals_Workflow {
 	 */
 	public function get_index() {
 		return $this->index;
-	}
+	}//end get_index()
+
 
 	/**
 	 * Create index for products having discount
@@ -179,7 +180,8 @@ class Discount_Deals_Workflow {
 	 */
 	public function set_index( $index ) {
 		$this->index = $index;
-	}
+	}//end set_index()
+
 
 	/**
 	 * Get promotion details
@@ -188,7 +190,8 @@ class Discount_Deals_Workflow {
 	 */
 	public function get_promotion() {
 		return $this->promotion;
-	}
+	}//end get_promotion()
+
 
 	/**
 	 * Set promotion details
@@ -197,7 +200,8 @@ class Discount_Deals_Workflow {
 	 */
 	public function set_promotion( $promotion ) {
 		$this->promotion = $promotion;
-	}
+	}//end set_promotion()
+
 
 
 	/**
@@ -267,8 +271,8 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set workflow data layer.
 	 *
-	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer Data layer.
-	 * @param boolean $reset_workflow_data Reset workflow data.
+	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer          Data layer.
+	 * @param boolean                                  $reset_workflow_data Reset workflow data.
 	 *
 	 * @return void
 	 */
@@ -597,9 +601,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * May have product discount.
 	 *
-	 * @param object $product Product.
-	 * @param int $quantity Product quantity.
-	 * @param float $price Price used for when enable subsequent.
+	 * @param object  $product  Product.
+	 * @param integer $quantity Product quantity.
+	 * @param float   $price    Price used for when enable subsequent.
 	 *
 	 * @return integer
 	 */
@@ -610,7 +614,8 @@ class Discount_Deals_Workflow {
 		}
 
 		return 0;
-	}
+	}//end may_have_product_discount()
+
 
 	/**
 	 * Get all actions in current workflow.
@@ -619,7 +624,7 @@ class Discount_Deals_Workflow {
 	 */
 	public function get_discount() {
 		return $this->discount;
-	}//end may_have_product_discount()
+	}//end get_discount()
 
 	/**
 	 * Set discounts
@@ -634,14 +639,15 @@ class Discount_Deals_Workflow {
 		$discount_object->set_discount_details( $discounts );
 		$discount_object->set_promotion_details( $this->get_promotion() );
 		$this->discount = $discount_object;
-	}
+	}//end set_discount()
+
 
 	/**
 	 * May have BOGO discount.
 	 *
-	 * @param WC_Product $product Product.
-	 * @param float $price Product price.
-	 * @param int $quantity Product quantity.
+	 * @param WC_Product $product  Product.
+	 * @param float      $price    Product price.
+	 * @param integer    $quantity Product quantity.
 	 *
 	 * @return array
 	 */
@@ -652,13 +658,13 @@ class Discount_Deals_Workflow {
 		}
 
 		return array();
-	}//end get_discount()
+	}//end may_have_bogo_discount()
 
 	/**
 	 * Check cart has discount.
 	 *
-	 * @param WC_Cart $cart Actual cart object.
-	 * @param float $subtotal Calculated cart subtotal.
+	 * @param WC_Cart $cart     Actual cart object.
+	 * @param float   $subtotal Calculated cart subtotal.
 	 *
 	 * @return string | number
 	 */
@@ -669,14 +675,14 @@ class Discount_Deals_Workflow {
 		}
 
 		return 0;
-	}//end set_discount()
+	}//end may_have_cart_discount()
 
 	/**
 	 * Chek that the product in the index or not
 	 *
 	 * @param string $validate_for product object.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validate_index( $validate_for = 'product' ) {
 		$data_item = $this->data_layer()->get_item( $validate_for );
@@ -684,7 +690,7 @@ class Discount_Deals_Workflow {
 			return false;
 		}
 		if ( 'product' == $validate_for ) {
-			/**
+			/*
 			 * Variable declaration
 			 *
 			 * @var WC_Product $data_item product object
@@ -713,7 +719,8 @@ class Discount_Deals_Workflow {
 		}
 
 		return false;
-	}
+	}//end validate_index()
+
 
 	/**
 	 * Get the promotional to show on product message
@@ -741,7 +748,8 @@ class Discount_Deals_Workflow {
 		}
 
 		return $promotion_message;
-	}
+	}//end get_promotional_message()
+
 
 	/**
 	 * Get when to show the promotional message
@@ -752,7 +760,8 @@ class Discount_Deals_Workflow {
 		$promotion_details = $this->get_promotion();
 
 		return discount_deals_get_value_from_array( $promotion_details, 'when_to_show', 'all_time' );
-	}
+	}//end get_when_to_show_promotional_message()
+
 
 
 }//end class
