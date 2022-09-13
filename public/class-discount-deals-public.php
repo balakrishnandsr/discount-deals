@@ -154,7 +154,7 @@ class Discount_Deals_Public {
 		add_filter( 'woocommerce_before_cart', array( $this, 'show_bxgy_eligible_notices' ), 9 );
 
         //Promotion Messages
-        add_action('woocommerce_before_cart', array($this, 'showAppliedRulesMessages'), 1000);
+        add_action('woocommerce_before_cart', array($this, 'show_applied_rules_messages'), 1000);
         add_action('woocommerce_before_checkout_form', array($this, 'display_promotion_messages_checkout_container'), 1000);
 	}
 
@@ -909,17 +909,16 @@ class Discount_Deals_Public {
      * */
     public function display_promotion_messages_checkout_container(){
         echo "<div id='discount_deals_checkout_promotion_messages'>";
-        $this->showAppliedRulesMessages();
+        $this->show_applied_rules_messages();
         echo "</div>";
     }
 
     /**
      * Show the discount promotion message
      */
-    function showAppliedRulesMessages()
+    function show_applied_rules_messages()
     {
         $message = 'Discount <strong>{{title}}</strong> has been applied to your cart';
-        $message = __($message, 'woo-discount-rules');
         $title = 'default workflow';
         $message_to_display = str_replace('{{title}}', $title, $message);
         wc_print_notice(wp_unslash( $message_to_display ), 'success');
