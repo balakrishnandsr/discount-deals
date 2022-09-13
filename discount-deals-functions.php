@@ -192,11 +192,16 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	 * @param Array $array Array.
 	 * @param string $key Array key.
 	 * @param mixed $default_value What value should return when the key is not found.
+	 * @param bool $clean Do we need to clean the output?
 	 *
 	 * @return mixed
 	 */
-	function discount_deals_get_value_from_array( $array, $key, $default_value = null ) {
+	function discount_deals_get_value_from_array( $array, $key, $default_value = null, $clean = true ) {
 		if ( is_array( $array ) && array_key_exists( $key, $array ) ) {
+			if ( ! $clean ) {
+				return $array[ $key ];
+			}
+
 			return wc_clean( $array[ $key ] );
 		}
 

@@ -152,6 +152,52 @@ class Discount_Deals_Public {
 		add_action( 'woocommerce_after_cart_item_name', array( $this, 'highlight_free_gifts' ), 99, 2 );
 		add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout_for_bogo' ), 99, 3 );
 		add_filter( 'woocommerce_before_cart', array( $this, 'show_bxgy_eligible_notices' ), 9 );
+		//Promotional messages
+		add_action( 'woocommerce_before_add_to_cart_form', array(
+			$this,
+			'show_promotional_message_before_add_to_cart'
+		) );
+		add_action( 'woocommerce_after_add_to_cart_form', array(
+			$this,
+			'show_promotional_message_after_add_to_cart'
+		) );
+		add_action( 'woocommerce_after_single_product_summary', array(
+			$this,
+			'show_promotional_message_after_product_summary'
+		) );
+	}
+
+	/**
+	 * Show promotional message before add to cart button
+	 */
+	public function show_promotional_message_before_add_to_cart() {
+		global $product;
+		$position       = 'before_add_to_cart_button';
+		$all_promotions = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
+		apply_filters( 'discount_deals_show_promotional_message_before_add_to_cart', $all_promotions, $product );
+		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
+	}
+
+	/**
+	 * Show promotional message after product summary
+	 */
+	public function show_promotional_message_after_product_summary() {
+		global $product;
+		$position       = 'after_single_product_summary';
+		$all_promotions = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
+		apply_filters( 'discount_deals_show_promotional_message_after_product_summary', $all_promotions, $product );
+		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
+	}
+
+	/**
+	 * Show promotional message after add to cart button
+	 */
+	public function show_promotional_message_after_add_to_cart() {
+		global $product;
+		$position       = 'after_add_to_cart_button';
+		$all_promotions = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
+		apply_filters( 'discount_deals_show_promotional_message_after_add_to_cart', $all_promotions, $product );
+		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
 	}
 
 	/**

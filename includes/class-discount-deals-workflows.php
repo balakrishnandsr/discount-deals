@@ -283,7 +283,7 @@ class Discount_Deals_Workflows {
 		} else {
 			$price = ( is_a( $product, 'WC_Product' ) ) ? $product->get_sale_price() : 0;
 		}
-		$apply_as         = Discount_Deals_Settings::get_settings( 'apply_bogo_discount_to', 'lowest_matched' );
+		$apply_as = Discount_Deals_Settings::get_settings( 'apply_bogo_discount_to', 'lowest_matched' );
 		$discount = array();
 		if ( ! empty( $active_workflows['exclusive'] ) ) {
 			$discount = self::get_bogo_discount( $active_workflows['exclusive'], $product, $price, $quantity, $apply_as );
@@ -340,6 +340,55 @@ class Discount_Deals_Workflows {
 	}
 
 	/**
+	 * All messages for that position
+	 *
+	 * @param WC_Product $product product object.
+	 * @param string $position Where to show the promotional message?
+	 *
+	 * @return array
+	 */
+	public static function get_product_promotional_messages( $product, $position = '' ) {
+		if ( ! is_a( $product, 'WC_Product' ) ) {
+			return array();
+		}
+		if ( is_null( $position ) ) {
+			return array();
+		}
+		$active_workflows = self::get_active_workflows();
+		$all_messages     = array();
+		if ( ! empty( $active_workflows['all_active'] ) ) {
+			foreach ( $active_workflows['all_active'] as $workflow ) {
+				if ( 'cart_discount' == $workflow->get_type() ) {
+					continue;
+				}
+				$message = $workflow->get_promotional_message( $position );
+				if ( empty( $message ) ) {
+					continue;
+				}
+				$workflow->data_layer()->set_item( 'product', $product );
+				if ( ! $workflow->validate_index() ) {
+					continue;
+				}
+				$when_to_show = $workflow->get_when_to_show_promotional_message();
+				if ( 'all_time' == $when_to_show ) {
+					array_push( $all_messages, $message );
+				} else {
+					$is_rules_passed = $workflow->validate_rules();
+					if ( 'after_rule' == $when_to_show && $is_rules_passed ) {
+						array_push( $all_messages, $message );
+					}
+
+					if ( 'before_rule' == $when_to_show && ! $is_rules_passed ) {
+						array_push( $all_messages, $message );
+					}
+				}
+			}
+		}
+
+		return $all_messages;
+	}
+
+	/**
 	 * Get_active_workflows.
 	 *
 	 * @return array
@@ -360,7 +409,6 @@ class Discount_Deals_Workflows {
 			foreach ( $workflows as $workflow ) {
 				$workflow_object = new Discount_Deals_Workflow( $workflow );
 				$workflow_object->set_data_layer( $data_items );
-				self::$_active_workflows[]               = $workflow_object;
 				self::$_active_workflows['all_active'][] = $workflow_object;
 				if ( $workflow_object->get_exclusive() ) {
 					self::$_active_workflows['exclusive'][] = $workflow_object;
