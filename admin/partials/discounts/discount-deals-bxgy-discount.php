@@ -31,11 +31,11 @@ if ( empty( $discount_details ) ) {
 }
 
 $discount_types = array(
-	'cheapest_in_cart'  => __( 'Cheapest item in the Cart', 'discount-deals' ),
-	'biggest_in_cart'   => __( 'Expensive item in the Cart', 'discount-deals' ),
-	'products'          => __( 'Select discount product manually', 'discount-deals' ),
-	'cheapest_in_store' => __( 'Cheapest item in the Store', 'discount-deals' ),
-	'biggest_in_store'  => __( 'Expensive item in the Store', 'discount-deals' ),
+	'cheapest_in_cart' => __( 'Cheapest item in the Cart', 'discount-deals' ),
+	'biggest_in_cart'  => __( 'Expensive item in the Cart', 'discount-deals' ),
+	'products'         => __( 'Select discount product manually', 'discount-deals' ),
+//	'cheapest_in_store' => __( 'Cheapest item in the Store', 'discount-deals' ),
+//	'biggest_in_store'  => __( 'Expensive item in the Store', 'discount-deals' ),
 //	'cheapest_in_category' => __( 'Cheapest item in the Category', 'discount-deals' ),
 //	'biggest_in_category'  => __( 'Expensive item in the Category', 'discount-deals' ),
 );
@@ -46,7 +46,25 @@ $discount_types = array(
     <tr>
         <th class="discount-deals-w100"><?php echo __( "Min Qty.", "discount-deals" ); ?></th>
         <th class="discount-deals-w100"><?php echo __( "Max Qty.", "discount-deals" ); ?></th>
-        <th><?php echo __( "Discount Details", "discount-deals" ); ?></th>
+        <th colspan="4">
+            <div class="discount-deals-grid">
+                <div class="discount-deals-col-3">
+					<?php echo __( "Discount", "discount-deals" ); ?>
+                </div>
+                <div class="discount-deals-col-2">
+					<?php echo __( "Discount Qty.", "discount-deals" ); ?>
+                </div>
+                <div class="discount-deals-col-3">
+					<?php echo __( "Discount Type", "discount-deals" ); ?>
+                </div>
+                <div class="discount-deals-col-2">
+					<?php echo __( "Discount Value", "discount-deals" ); ?>
+                </div>
+                <div class="discount-deals-col-2">
+					<?php echo __( "Discount Limit", "discount-deals" ); ?>
+                </div>
+            </div>
+        </th>
         <th></th>
     </tr>
     </thead>

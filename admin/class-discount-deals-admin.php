@@ -81,6 +81,67 @@ class Discount_Deals_Admin {
 
 
 	/**
+	 * Build index for the workflow.
+	 *
+	 * @param array $rule_groups rule groups.
+	 *
+	 * @return array|string
+	 */
+	public function build_workflow_index( $rule_groups ) {
+		if ( empty( $rule_groups ) || ! is_array( $rule_groups ) ) {
+			return '*';
+		}
+
+		$include_products   = array();
+		$exclude_products   = array();
+		$include_categories = array();
+		$exclude_categories = array();
+
+		$has_restrictions = false;
+		foreach ( $rule_groups as $rule_group ) {
+			if ( empty( $rule_group ) || ! is_array( $rule_group ) ) {
+				continue;
+			}
+			foreach ( $rule_group as $rule ) {
+				if ( ! empty( $rule['name'] ) && ! empty( $rule['compare'] ) && ! empty( $rule['value'] ) && is_array( $rule['value'] ) ) {
+					$values = $rule['value'];
+					switch ( $rule['name'] . '_' . $rule['compare'] ) {
+						case "product_categories_matches_all":
+						case "product_categories_matches_any":
+							$has_restrictions   = true;
+							$include_categories = array_merge( $include_categories, $values );
+							break;
+						case "product_categories_matches_none":
+							$has_restrictions   = true;
+							$exclude_categories = array_merge( $exclude_categories, $values );
+							break;
+						case "product_not_includes":
+							$has_restrictions = true;
+							$exclude_products = array_merge( $exclude_products, $values );
+							break;
+						case "product_includes":
+							$has_restrictions = true;
+							$include_products = array_merge( $include_products, $values );
+							break;
+						default:
+							break;
+					}
+				}
+			}
+		}
+		if ( $has_restrictions ) {
+			return array(
+				'products'           => array_filter( $include_products ),
+				'exclude_products'   => array_filter( $exclude_products ),
+				'categories'         => array_filter( $include_categories ),
+				'exclude_categories' => array_filter( $exclude_categories ),
+			);
+		}
+
+		return '*';
+	}
+
+	/**
 	 * Save the Workflow into DB
 	 *
 	 * @return array|false|integer|string
@@ -102,6 +163,7 @@ class Discount_Deals_Admin {
 			$id          = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_id', 0 ) );
 			$type        = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_type', '' ) );
 			$title       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_title', '' ) );
+			$index       = $this->build_workflow_index( $rules );
 			if ( ! empty( $type ) ) {
 				$workflow_data = array(
 					'dd_title'     => $title,
@@ -110,6 +172,7 @@ class Discount_Deals_Admin {
 					'dd_meta'      => maybe_serialize( array() ),
 					'dd_discounts' => maybe_serialize( $discounts ),
 					'dd_promotion' => maybe_serialize( $promotions ),
+					'dd_index'     => maybe_serialize( $index ),
 					'dd_status'    => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_status', '1' ) ),
 					'dd_exclusive' => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_exclusive', '0' ) ),
 					'dd_user_id'   => get_current_user_id(),
