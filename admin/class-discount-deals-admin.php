@@ -85,60 +85,35 @@ class Discount_Deals_Admin {
 	 *
 	 * @param array $rule_groups rule groups.
 	 *
-	 * @return array|string
+	 * @return array
 	 */
 	public function build_workflow_index( $rule_groups ) {
 		if ( empty( $rule_groups ) || ! is_array( $rule_groups ) ) {
-			return '*';
+			return array();
 		}
 
-		$include_products   = array();
-		$exclude_products   = array();
-		$include_categories = array();
-		$exclude_categories = array();
-
-		$has_restrictions = false;
+		$index = array();
 		foreach ( $rule_groups as $rule_group ) {
 			if ( empty( $rule_group ) || ! is_array( $rule_group ) ) {
 				continue;
 			}
+			$index_group = array();
 			foreach ( $rule_group as $rule ) {
 				if ( ! empty( $rule['name'] ) && ! empty( $rule['compare'] ) && ! empty( $rule['value'] ) && is_array( $rule['value'] ) ) {
-					$values = $rule['value'];
-					switch ( $rule['name'] . '_' . $rule['compare'] ) {
-						case "product_categories_matches_all":
-						case "product_categories_matches_any":
-							$has_restrictions   = true;
-							$include_categories = array_merge( $include_categories, $values );
-							break;
-						case "product_categories_matches_none":
-							$has_restrictions   = true;
-							$exclude_categories = array_merge( $exclude_categories, $values );
-							break;
-						case "product_not_includes":
-							$has_restrictions = true;
-							$exclude_products = array_merge( $exclude_products, $values );
-							break;
-						case "product_includes":
-							$has_restrictions = true;
-							$include_products = array_merge( $include_products, $values );
-							break;
-						default:
-							break;
+					if ( in_array( $rule['name'], array( 'product', 'product_categories' ) ) ) {
+						array_push( $index_group, $rule );
 					}
 				}
 			}
+			if ( ! empty( $index_group ) ) {
+				array_push( $index, $index_group );
+			}
 		}
-		if ( $has_restrictions ) {
-			return array(
-				'products'           => array_filter( $include_products ),
-				'exclude_products'   => array_filter( $exclude_products ),
-				'categories'         => array_filter( $include_categories ),
-				'exclude_categories' => array_filter( $exclude_categories ),
-			);
+		if ( ! empty( $index ) ) {
+			return $index;
 		}
 
-		return '*';
+		return array();
 	}
 
 	/**
@@ -159,7 +134,7 @@ class Discount_Deals_Admin {
 			$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array(), false );
 			$rules       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'rule_options', array() ) );
 			$discounts   = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_discounts', array() ) );
-			$promotions  = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array() ) );
+			$promotions  = discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array(), false );
 			$id          = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_id', 0 ) );
 			$type        = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_type', '' ) );
 			$title       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_title', '' ) );

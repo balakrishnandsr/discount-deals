@@ -64,7 +64,7 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 			'dd_user_id'    => 0,
 			'dd_rules'      => '',
 			'dd_discounts'  => '',
-			'dd_index'      => '*',
+			'dd_index'      => '',
 			'dd_promotion'  => '',
 			'dd_meta'       => '',
 			'dd_type'       => 'simple_discount',
