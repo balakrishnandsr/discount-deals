@@ -58,7 +58,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_discount_details() {
 		return $this->discount_details;
-	}
+	}//end get_discount_details()
+
 
 	/**
 	 * Set discount details to the class
@@ -67,7 +68,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_discount_details( $discount_details ) {
 		$this->discount_details = $discount_details;
-	}
+	}//end set_discount_details()
+
 
 	/**
 	 * Get tile of the discount
@@ -76,7 +78,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_title() {
 		return $this->title;
-	}//end get_discount_details()
+	}//end get_title()
 
 	/**
 	 * Set title for the discount
@@ -87,7 +89,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_title( $title ) {
 		$this->title = $title;
-	}//end set_discount_details()
+	}//end set_title()
 
 	/**
 	 * Get description of the discount
@@ -96,7 +98,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_description() {
 		return $this->description;
-	}//end get_title()
+	}//end get_description()
 
 	/**
 	 * Discount description
@@ -105,7 +107,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_description( $description ) {
 		$this->description = $description;
-	}//end set_title()
+	}//end set_description()
 
 	/**
 	 * Get the name of the discount
@@ -114,7 +116,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_name() {
 		return $this->name;
-	}//end get_description()
+	}//end get_name()
 
 	/**
 	 * Set name for the discount
@@ -125,7 +127,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_name( $name ) {
 		$this->name = $name;
-	}//end set_description()
+	}//end set_name()
 
 	/**
 	 * Valid data items for discount
@@ -134,14 +136,14 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_supplied_data_items() {
 		return $this->supplied_data_items;
-	}//end get_name()
+	}//end get_supplied_data_items()
 
 	/**
 	 * Set supplied data items for discount
 	 *
 	 * @return void
 	 */
-	abstract public function set_supplied_data_items();//end set_name()
+	abstract public function set_supplied_data_items();// end set_name()
 
 	/**
 	 * Admin discount fields
@@ -149,7 +151,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * @return false|string|void
 	 */
 	public function load_fields() {
-	}//end get_supplied_data_items()
+	}//end load_fields()
 
 	/**
 	 * Load promotional message fields
@@ -214,7 +216,8 @@ abstract class Discount_Deals_Workflow_Discount {
 		);
 
 		return ob_get_clean();
-	}
+	}//end load_promotion_fields()
+
 
 	/**
 	 * Get promotion details
@@ -223,7 +226,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_promotion_details() {
 		return $this->promotion_details;
-	}//end load_fields()
+	}//end get_promotion_details()
 
 	/**
 	 * Set promotion details for the discount
@@ -232,13 +235,14 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_promotion_details( $promotion_details ) {
 		$this->promotion_details = $promotion_details;
-	}
+	}//end set_promotion_details()
+
 
 	/**
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
-	 * @param mixed $price Price.
+	 * @param mixed $price     Price.
 	 *
 	 * @return mixed
 	 */
@@ -247,11 +251,11 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Calculate discount amount.
 	 *
-	 * @param string $type Discount type.
-	 * @param float $price Price.
-	 * @param float $discount_value discount value.
+	 * @param string $type           Discount type.
+	 * @param float  $price          Price.
+	 * @param float  $discount_value discount value.
 	 *
-	 * @return float|int|mixed
+	 * @return float|integer|mixed
 	 */
 	public function calculate_discount_amount( $type = '', $price = 0, $discount_value = 0 ) {
 
@@ -274,7 +278,8 @@ abstract class Discount_Deals_Workflow_Discount {
 			case 'flat':
 				return $discount_value;
 		}
-	}
+	}//end calculate_discount_amount()
+
 
 }//end class
 

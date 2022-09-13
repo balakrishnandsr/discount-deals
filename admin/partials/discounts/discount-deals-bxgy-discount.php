@@ -8,7 +8,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-/**
+/*
  * Variable declaration
  *
  * @var array $discount_details Discount details.
@@ -34,10 +34,10 @@ $discount_types = array(
 	'cheapest_in_cart' => __( 'Cheapest item in the Cart', 'discount-deals' ),
 	'biggest_in_cart'  => __( 'Expensive item in the Cart', 'discount-deals' ),
 	'products'         => __( 'Select discount product manually', 'discount-deals' ),
-//	'cheapest_in_store' => __( 'Cheapest item in the Store', 'discount-deals' ),
-//	'biggest_in_store'  => __( 'Expensive item in the Store', 'discount-deals' ),
-//	'cheapest_in_category' => __( 'Cheapest item in the Category', 'discount-deals' ),
-//	'biggest_in_category'  => __( 'Expensive item in the Category', 'discount-deals' ),
+// 'cheapest_in_store' => __( 'Cheapest item in the Store', 'discount-deals' ),
+// 'biggest_in_store'  => __( 'Expensive item in the Store', 'discount-deals' ),
+// 'cheapest_in_category' => __( 'Cheapest item in the Category', 'discount-deals' ),
+// 'biggest_in_category'  => __( 'Expensive item in the Category', 'discount-deals' ),
 );
 
 ?>

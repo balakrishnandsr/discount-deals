@@ -22,14 +22,16 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Cart Subtotal Based Discount', 'discount-deals' ) );
 		$this->set_description( __( 'Give flat or percentage discount for Cart.', 'discount-deals' ) );
-	}
+	}//end __construct()
+
 
 	/**
 	 * Set valid data items type of the discount
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop' );
-	}
+	}//end set_supplied_data_items()
+
 
 	/**
 	 * Load fields to get discount details.
@@ -54,13 +56,14 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 		);
 
 		return ob_get_clean();
-	}
+	}//end load_fields()
+
 
 	/**
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Cart $data_item Cart object.
-	 * @param array $extra Extra details for calculate discount.
+	 * @param array   $extra     Extra details for calculate discount.
 	 *
 	 * @return integer
 	 */

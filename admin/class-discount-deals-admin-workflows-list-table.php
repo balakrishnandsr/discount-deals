@@ -191,8 +191,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	/**
 	 * Return default value for the workflow
 	 *
-	 * @param array|object $item Workflow details.
-	 * @param string $column_name column name.
+	 * @param array|object $item        Workflow details.
+	 * @param string       $column_name column name.
 	 *
 	 * @return boolean|mixed|string|void
 	 */
@@ -217,7 +217,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function column_dd_created_at( $item ) {
 		return get_date_from_gmt( $item['dd_created_at'], get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-	}
+	}//end column_dd_created_at()
+
 
 	/**
 	 * Format updated at time to site's time format
@@ -228,7 +229,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function column_dd_updated_at( $item ) {
 		return get_date_from_gmt( $item['dd_updated_at'], get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-	}
+	}//end column_dd_updated_at()
+
 
 
 	/**

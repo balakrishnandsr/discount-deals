@@ -13,9 +13,9 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	/**
 	 * Get data from the GET request
 	 *
-	 * @param string $key Key of the array.
-	 * @param mixed $default If there is no data then return default value.
-	 * @param bool $clean Need to clean the output.
+	 * @param string  $key     Key of the array.
+	 * @param mixed   $default If there is no data then return default value.
+	 * @param boolean $clean   Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -38,9 +38,9 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	/**
 	 * Get data from the REQUEST
 	 *
-	 * @param string $key Key of the array.
-	 * @param mixed $default If there is no data then return default value.
-	 * @param bool $clean Need to clean the output.
+	 * @param string  $key     Key of the array.
+	 * @param mixed   $default If there is no data then return default value.
+	 * @param boolean $clean   Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -62,9 +62,9 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	/**
 	 * Get data from the POST request
 	 *
-	 * @param string $key Key of the array.
-	 * @param mixed $default If there is no data then return default value.
-	 * @param bool $clean Need to clean the output.
+	 * @param string  $key     Key of the array.
+	 * @param mixed   $default If there is no data then return default value.
+	 * @param boolean $clean   Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -152,18 +152,19 @@ if ( ! function_exists( 'discount_deals_normalize_date' ) ) {
 		}
 
 		return false;
-	}
+	}//end discount_deals_normalize_date()
+
 }
 
 if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
 	/**
 	 * Calculate the discount for the product.
 	 *
-	 * @param WC_Product $product Product object.
-	 * @param float $price Product price.
-	 * @param int $quantity Product quantity.
+	 * @param WC_Product $product  Product object.
+	 * @param float      $price    Product price.
+	 * @param integer    $quantity Product quantity.
 	 *
-	 * @return float|int
+	 * @return float|integer
 	 */
 	function discount_deals_get_product_discount( $price, $product, $quantity = 1 ) {
 		return Discount_Deals_Workflows::calculate_product_discount( $price, $product, $quantity );
@@ -174,14 +175,14 @@ if ( ! function_exists( 'discount_deals_get_bogo_discount' ) ) {
 	/**
 	 * Calculate the discount for the product.
 	 *
-	 * @param WC_Product $product Product object.
-	 * @param int $quantity Product quantity.
+	 * @param WC_Product $product  Product object.
+	 * @param integer    $quantity Product quantity.
 	 *
 	 * @return array
 	 */
 	function discount_deals_get_bogo_discount( $product, $quantity = 1 ) {
 		return Discount_Deals_Workflows::calculate_bogo_discount( $product, $quantity );
-	}//end discount_deals_get_product_discount()
+	}//end discount_deals_get_bogo_discount()
 }
 
 
@@ -189,10 +190,10 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	/**
 	 * Get value from array
 	 *
-	 * @param Array $array Array.
-	 * @param string $key Array key.
-	 * @param mixed $default_value What value should return when the key is not found.
-	 * @param bool $clean Do we need to clean the output?
+	 * @param array   $array         Array.
+	 * @param string  $key           Array key.
+	 * @param mixed   $default_value What value should return when the key is not found.
+	 * @param boolean $clean         Do we need to clean the output?
 	 *
 	 * @return mixed
 	 */
@@ -217,7 +218,8 @@ if ( ! function_exists( 'discount_deals_get_cart_discount' ) ) {
 	 */
 	function discount_deals_get_cart_discount() {
 		return Discount_Deals_Workflows::calculate_cart_discount();
-	}
+	}//end discount_deals_get_cart_discount()
+
 }
 
 if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {
@@ -304,7 +306,7 @@ if ( ! function_exists( "discount_deals_get_counted_order_statuses" ) ) {
 	/**
 	 * Get counted order statuses
 	 *
-	 * @param bool $include_prefix Include prefix in status.
+	 * @param boolean $include_prefix Include prefix in status.
 	 *
 	 * @return array|mixed|string[]|void
 	 */
@@ -321,7 +323,8 @@ if ( ! function_exists( "discount_deals_get_counted_order_statuses" ) ) {
 		}
 
 		return $statuses;
-	}
+	}//end discount_deals_get_counted_order_statuses()
+
 }
 if ( ! function_exists( "discount_deals_add_order_status_prefix" ) ) {
 	/**
@@ -333,7 +336,8 @@ if ( ! function_exists( "discount_deals_add_order_status_prefix" ) ) {
 	 */
 	function discount_deals_add_order_status_prefix( $status ) {
 		return 'wc-' . $status;
-	}
+	}//end discount_deals_add_order_status_prefix()
+
 }
 
 if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
@@ -348,7 +352,8 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 		$countries = WC()->countries->get_countries();
 
 		return isset( $countries[ $country_code ] ) ? $countries[ $country_code ] : false;
-	}
+	}//end discount_deals_get_country_name()
+
 }
 if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	/**
@@ -397,7 +402,7 @@ if ( ! function_exists( 'discount_deals_get_state_name' ) ) {
 	 * Get the state name for the text
 	 *
 	 * @param string $country_code Country code.
-	 * @param string $state_code State code.
+	 * @param string $state_code   State code.
 	 *
 	 * @return false|mixed
 	 */

@@ -31,7 +31,8 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
-	}
+	}//end set_supplied_data_items()
+
 
 	/**
 	 * Load fields to get discount details.
@@ -56,14 +57,14 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 		);
 
 		return ob_get_clean();
-	}//end set_supplied_data_items()
+	}//end load_fields()
 
 	/**
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Product $data_item Calculate discount for which data item.
-	 * @param float $price Calculate discount subsequently.
-	 * @param array $extra Extra details for calculate discount.
+	 * @param float      $price     Calculate discount subsequently.
+	 * @param array      $extra     Extra details for calculate discount.
 	 *
 	 * @return array
 	 */

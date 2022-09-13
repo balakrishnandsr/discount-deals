@@ -39,7 +39,7 @@ class Discount_Deals_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of this plugin.
-	 * @param string $version The version of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -114,7 +114,8 @@ class Discount_Deals_Admin {
 		}
 
 		return array();
-	}
+	}//end build_workflow_index()
+
 
 	/**
 	 * Save the Workflow into DB
