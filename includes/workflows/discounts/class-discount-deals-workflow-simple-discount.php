@@ -48,7 +48,7 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'How much discount do you want to give for product(s) ?', 'discount-deals' ),
+				'label'         => __( 'Discount details', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)
