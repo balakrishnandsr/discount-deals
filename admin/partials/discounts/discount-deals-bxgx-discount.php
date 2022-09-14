@@ -151,12 +151,12 @@ if ( empty( $discount_details ) ) {
     <tr>
         <td colspan="6" class="discount-deals-text-left">
             <p>
-                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' You can give discount, if the product quantity is between min and max values. then, give discount accordingly. ', 'discount-deals' ) ?>
+                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' Create multiple discount groups by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount groups, the discount will be applied to that product accordingly. ', 'discount-deals' ) ?>
             </p>
             <b><?php echo __( 'Example: ', 'discount-deals' ) ?></b>
             <ol>
-                <li><?php echo __( 'Give flat 2$ as discount for the product who is buying 5 to 10 quantities. ', 'discount-deals' ) ?></li>
-                <li><?php echo __( 'Give 15% discount for the product who is buying 15 to 30 quantities. ', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'Buy two or more t-shirts and get one t-shirt for free as a discount.', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'Give a 50% discount on a quantity of product X if the customer buys product X in five or more quantities. ', 'discount-deals' ) ?></li>
             </ol>
         </td>
     </tr>

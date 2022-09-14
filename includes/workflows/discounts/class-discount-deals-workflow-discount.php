@@ -167,7 +167,7 @@ abstract class Discount_Deals_Workflow_Discount {
 				'id'            => 'discount_deals_workflow_toggle_promotion',
 				'name'          => 'discount_deals_workflow[dd_promotion][enable]',
 				'value'         => discount_deals_get_value_from_array( $discount_details, 'enable', 'no' ),
-				'label'         => __( 'Do you want to display promotional messages in store front?', 'discount-deals' ),
+				'label'         => __( 'Do you want to display advertising messages in the storefront?', 'discount-deals' ),
 				'options'       => array(
 					'yes' => __( 'Yes', 'discount-deals' ),
 					'no'  => __( 'No', 'discount-deals' ),
@@ -210,7 +210,7 @@ abstract class Discount_Deals_Workflow_Discount {
 				'id'       => 'discount_deals_workflow_promotion_message',
 				'name'     => 'discount_deals_workflow[dd_promotion][message]',
 				'value'    => discount_deals_get_value_from_array( $discount_details, 'message', '<p><b>Special Price</b> Purchase above 500$ and get extra 5% off. </p>', false ),
-				'label'    => __( 'Message to show in the product details page?', 'discount-deals' ),
+				'label'    => __( 'Enter the promotional message that will be displayed to the customer', 'discount-deals' ),
 				'required' => true,
 			)
 		);
@@ -242,7 +242,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
-	 * @param mixed $price     Price.
+	 * @param mixed $price Price.
 	 *
 	 * @return mixed
 	 */
@@ -251,9 +251,9 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Calculate discount amount.
 	 *
-	 * @param string $type           Discount type.
-	 * @param float  $price          Price.
-	 * @param float  $discount_value discount value.
+	 * @param string $type Discount type.
+	 * @param float $price Price.
+	 * @param float $discount_value discount value.
 	 *
 	 * @return float|integer|mixed
 	 */

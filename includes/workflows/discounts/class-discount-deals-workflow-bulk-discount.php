@@ -50,7 +50,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'Discount details', 'discount-deals' ),
+				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)
