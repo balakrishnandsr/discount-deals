@@ -21,7 +21,7 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Product Price based Discount', 'discount-deals' ) );
-		$this->set_description( __( 'Give flat or percentage discount for products you are selling.', 'discount-deals' ) );
+		$this->set_description( __( 'Give dynamic discounts to all products in your store.', 'discount-deals' ) );
 	}//end __construct()
 
 
@@ -48,7 +48,7 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'How much discount do you want to give for product(s) ?', 'discount-deals' ),
+				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)

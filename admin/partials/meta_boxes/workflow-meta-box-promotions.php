@@ -23,13 +23,13 @@ $workflow = $this->get_workflow();
 	}
 	?>
     </tbody>
-    <tfoot class="<?php if ( $workflow ) {
-		echo "discount-deals-hidden";
-	} ?>">
-    <tr>
-        <td>
-            <p class="discount-deals-ph10"><?php esc_html_e( "Promotion can be used to explain the available discounts to your customers.", "discount-deals" ); ?></p>
-        </td>
-    </tr>
-    </tfoot>
+<!--    <tfoot class="--><?php //if ( $workflow ) {
+//		echo "discount-deals-hidden";
+//	} ?><!--">-->
+<!--    <tr>-->
+<!--        <td>-->
+<!--            <p class="discount-deals-ph10">--><?php //esc_html_e( "Promotion can be used to explain the available discounts to your customers.", "discount-deals" ); ?><!--</p>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tfoot>-->
 </table>

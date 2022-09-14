@@ -21,7 +21,7 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Cart Subtotal Based Discount', 'discount-deals' ) );
-		$this->set_description( __( 'Give flat or percentage discount for Cart.', 'discount-deals' ) );
+		$this->set_description( __( 'Give discounts on shopping cart subtotal with coupons and fees.', 'discount-deals' ) );
 	}//end __construct()
 
 
@@ -49,7 +49,7 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'How much discount do you want to give?', 'discount-deals' ),
+				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)
@@ -63,7 +63,7 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Cart $data_item Cart object.
-	 * @param array   $extra     Extra details for calculate discount.
+	 * @param array $extra Extra details for calculate discount.
 	 *
 	 * @return integer
 	 */

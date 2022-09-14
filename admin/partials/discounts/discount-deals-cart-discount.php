@@ -143,12 +143,13 @@ if ( empty( $discount_details ) ) {
     <tr>
         <td colspan="6" class="discount-deals-text-left">
             <p>
-                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' You can give discount, if the cart subtotal is between min and max values. ', 'discount-deals' ) ?>
+                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' Create multiple discount groups by specifying the minimum cart subtotal, maximum cart subtotal, and discount details. If the cart subtotal matches one of the discount groups, the discount will be applied to that cart accordingly. In the settings you can specify the mode for applying the discount. By default, the discount is applied as a fee. However, we recommend you to change the mode to Coupon.', 'discount-deals' ) ?>
             </p>
             <b><?php echo __( 'Example: ', 'discount-deals' ) ?></b>
             <ol>
-                <li><?php echo __( 'Give free shipping for the cart whose subtotal is greater than 500 and lesser than 1000. ', 'discount-deals' ) ?></li>
-                <li><?php echo __( 'Give 10% discount on cart whose subtotal is greater than 1500 and lesser than 3000. ', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'You can give free shipping for the cart whose subtotal is between 100$ and 500$. ', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'You can give a fixed discount of 20$ for the shopping cart if the subtotal of the shopping cart is between 500$ and 1000$. ', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'You can also apply a 25% discount to the cart if the cart subtotal is over $1500. You can also limit the discount on products by entering the maximum discount value. ', 'discount-deals' ) ?></li>
             </ol>
         </td>
     </tr>
