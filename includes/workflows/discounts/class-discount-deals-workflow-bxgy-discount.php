@@ -21,7 +21,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Buy X and Get Y', 'discount-deals' ) );
-		$this->set_description( __( 'When customer is purchasing X then, give discounts on X', 'discount-deals' ) );
+		$this->set_description( __( 'If the customer buys product X, then give some quantities as discounts of product Y.', 'discount-deals' ) );
 	}//end __construct()
 
 	/**
@@ -31,7 +31,8 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
-	}
+	}//end set_supplied_data_items()
+
 
 	/**
 	 * Load fields to get discount details.
@@ -49,14 +50,14 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'How much discount do you want to give?', 'discount-deals' ),
+				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)
 		);
 
 		return ob_get_clean();
-	}//end set_supplied_data_items()
+	}//end load_fields()
 
 	/**
 	 * Pick the free item frm cart
@@ -75,21 +76,22 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 			if ( ! empty( $cart_item['discount_deals_free_gift'] ) ) {
 				continue;
 			}
-			$item_details = array(
+			$item_details   = array(
 				'product_id'    => $cart_item['product_id'],
 				'variation_id'  => $cart_item['variation_id'],
 				'variation'     => $cart_item['variation'],
 				'price'         => $cart_item['data']->get_sale_price(),
 				'cart_item_key' => $cart_item_key,
 			);
-			array_push( $all_products, $item_details );
+			$all_products[] = $item_details;
 		}
 		if ( 'lowest' == $which ) {
 			return $all_products[ array_search( min( $totals = array_column( $all_products, 'price' ) ), $totals ) ];
 		} else {
 			return $all_products[ array_search( max( $totals = array_column( $all_products, 'price' ) ), $totals ) ];
 		}
-	}
+	}//end pick_item_from_cart()
+
 
 	/**
 	 * Pick the free item frm cart
@@ -128,12 +130,13 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 		}
 
 		return array();
-	}
+	}//end pick_item_from_store()
+
 
 	/**
 	 * Pick the free item frm cart
 	 *
-	 * @param int $product_id product that was givent to customers.
+	 * @param integer $product_id product that was given to customers.
 	 *
 	 * @return array
 	 */
@@ -160,7 +163,8 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 			'price'         => $product->get_sale_price(),
 			'cart_item_key' => false,
 		);
-	}
+	}//end format_picked_items()
+
 
 	/**
 	 * Calculate discount for the product

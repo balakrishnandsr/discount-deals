@@ -39,7 +39,7 @@ class Discount_Deals_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of this plugin.
-	 * @param string $version The version of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -81,6 +81,43 @@ class Discount_Deals_Admin {
 
 
 	/**
+	 * Build index for the workflow.
+	 *
+	 * @param array $rule_groups rule groups.
+	 *
+	 * @return array
+	 */
+	public function build_workflow_index( $rule_groups ) {
+		if ( empty( $rule_groups ) || ! is_array( $rule_groups ) ) {
+			return array();
+		}
+
+		$index = array();
+		foreach ( $rule_groups as $rule_group ) {
+			if ( empty( $rule_group ) || ! is_array( $rule_group ) ) {
+				continue;
+			}
+			$index_group = array();
+			foreach ( $rule_group as $rule ) {
+				if ( ! empty( $rule['name'] ) && ! empty( $rule['compare'] ) && ! empty( $rule['value'] ) && is_array( $rule['value'] ) ) {
+					if ( in_array( $rule['name'], array( 'product', 'product_categories' ) ) ) {
+						array_push( $index_group, $rule );
+					}
+				}
+			}
+			if ( ! empty( $index_group ) ) {
+				array_push( $index, $index_group );
+			}
+		}
+		if ( ! empty( $index ) ) {
+			return $index;
+		}
+
+		return array();
+	}//end build_workflow_index()
+
+
+	/**
 	 * Save the Workflow into DB
 	 *
 	 * @return array|false|integer|string
@@ -98,10 +135,11 @@ class Discount_Deals_Admin {
 			$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array(), false );
 			$rules       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'rule_options', array() ) );
 			$discounts   = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_discounts', array() ) );
-			$promotions  = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array() ) );
+			$promotions  = discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array(), false );
 			$id          = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_id', 0 ) );
 			$type        = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_type', '' ) );
 			$title       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_title', '' ) );
+			$index       = $this->build_workflow_index( $rules );
 			if ( ! empty( $type ) ) {
 				$workflow_data = array(
 					'dd_title'     => $title,
@@ -110,6 +148,7 @@ class Discount_Deals_Admin {
 					'dd_meta'      => maybe_serialize( array() ),
 					'dd_discounts' => maybe_serialize( $discounts ),
 					'dd_promotion' => maybe_serialize( $promotions ),
+					'dd_index'     => maybe_serialize( $index ),
 					'dd_status'    => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_status', '1' ) ),
 					'dd_exclusive' => wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_exclusive', '0' ) ),
 					'dd_user_id'   => get_current_user_id(),

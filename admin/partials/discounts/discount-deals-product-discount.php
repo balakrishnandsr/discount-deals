@@ -8,10 +8,10 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-/**
+/*
  * Variable declaration
  *
- * @var array $discount_details Discount details.
+ * @var array $discount_details Configure the discount you want to give to your customers.
  */
 if ( empty( $discount_details ) ) {
 	$discount_details = array(
@@ -138,12 +138,12 @@ if ( empty( $discount_details ) ) {
     <tr>
         <td colspan="6" class="discount-deals-text-left">
             <p>
-                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' You can give discount, if the product price is between min and max values. then, give discount accordingly. ', 'discount-deals' ) ?>
+                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' Create multiple discount groups by specifying the minimum product price, maximum product price, and discount details. If the product price matches one of the discount groups, the discount will be applied to that product accordingly. ', 'discount-deals' ) ?>
             </p>
             <b><?php echo __( 'Example: ', 'discount-deals' ) ?></b>
             <ol>
-                <li><?php echo __( 'Give flat 2$ as discount for the product whose price is between 10$ and 50$. ', 'discount-deals' ) ?></li>
-                <li><?php echo __( 'Give 15% discount for the product whose price is greater than 200$ and lesser than 1000$. ', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'You can give a fixed discount of 2$ on products whose price is between 5$ and 20$.', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'You can also give a 25% discount on products priced between $50 and $150. You can also limit the discount by entering the maximum discount value. ', 'discount-deals' ) ?></li>
             </ol>
         </td>
     </tr>

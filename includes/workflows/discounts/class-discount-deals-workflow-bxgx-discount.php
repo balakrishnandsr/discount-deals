@@ -21,7 +21,7 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Buy X and Get X', 'discount-deals' ) );
-		$this->set_description( __( 'When customer is purchasing X then, give discounts on X', 'discount-deals' ) );
+		$this->set_description( __( 'If the customer buys product X, then give some quantities as discounts on the same product.', 'discount-deals' ) );
 	}//end __construct()
 
 	/**
@@ -31,7 +31,8 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
-	}
+	}//end set_supplied_data_items()
+
 
 	/**
 	 * Load fields to get discount details.
@@ -49,21 +50,21 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'How much discount do you want to give?', 'discount-deals' ),
+				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)
 		);
 
 		return ob_get_clean();
-	}//end set_supplied_data_items()
+	}//end load_fields()
 
 	/**
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Product $data_item Calculate discount for which data item.
-	 * @param float $price Calculate discount subsequently.
-	 * @param array $extra Extra details for calculate discount.
+	 * @param float      $price     Calculate discount subsequently.
+	 * @param array      $extra     Extra details for calculate discount.
 	 *
 	 * @return array
 	 */

@@ -51,7 +51,7 @@
         $(document).on('click', '.discount-deals-add-cart-discount', function () {
             let $table = discount_meta_box.find('.cart-discount-details-table tbody');
             let total_discounts = $table.find('tr').length;
-            let $new_discount = $table.children().last().clone();
+            let $new_discount = $table.children().last().clone(true);
             let timestamp = Date.now();
             const change_input_name = function ($input) {
                 let name = $input.data('name');
@@ -64,12 +64,14 @@
             $new_discount.find('.bxgy-category-select-container').html($("#temp-free-category-select").html());
             $new_discount.find('input').each(function (i) {
                 change_input_name($(this))
-                $(this).val('');
+                if ('checkbox' != $(this).attr('type')) {
+                    $(this).val('');
+                }
             });
             $new_discount.find('select').each(function (i) {
                 change_input_name($(this))
-                // let default_value = $(this).data('default-val');
-                // $(this).val(default_value).change();
+                let default_value = $(this).data('default-val');
+                $(this).val(default_value);
             });
             let symbol = $new_discount.find('.discount-value-symbol').data('currency');
             $new_discount.find('.discount-value-symbol').html(symbol);
@@ -79,6 +81,7 @@
             }
             $table.append($new_discount);
             $(document.body).trigger('wc-enhanced-select-init');
+            $('.cart-discount-type').trigger('change');
         });
         $(document).on(
             "change",
@@ -103,7 +106,8 @@
                             discount_deals.rules.clear_incompatible_rules();
                             quicktags({id: "editor_discount_deals_workflow_promotion_message"});
                             tinymce.init(tinyMCEPreInit.mceInit['editor_discount_deals_workflow_promotion_message']);
-                            // tinyMCE.execCommand('mceAddEditor', false, "editor_discount_deals_workflow_promotion_message");
+                            $('input[name="discount_deals_workflow[dd_promotion][enable]"]').trigger('change')
+                            tinyMCE.execCommand('mceAddEditor', false, "editor_discount_deals_workflow_promotion_message");
                         }
                     );
                 } else {

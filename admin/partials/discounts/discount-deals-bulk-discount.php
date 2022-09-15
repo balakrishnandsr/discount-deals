@@ -8,7 +8,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-/**
+/*
  * Variable declaration
  *
  * @var array $discount_details Discount details.
@@ -133,12 +133,12 @@ if ( empty( $discount_details ) ) {
     <tr>
         <td colspan="6" class="discount-deals-text-left">
             <p>
-                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b> <?php echo __( 'If the customers purchase the products in bulk quantity, then you can give discounts accordingly.', 'discount-deals' ) ?>
+                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b> <?php echo __( 'Create multiple discount groups by entering minimum purchase quantity, maximum purchase quantity and discount details. If the product quantity matches one of the discount groups, the discount will be applied to that product accordingly.', 'discount-deals' ) ?>
             </p>
             <b><?php echo __( 'Use cases: ', 'discount-deals' ) ?></b>
             <ol>
-                <li><?php echo __( 'You can give a 20% discount for customers who are purchasing 5 to 10 quantities of product.', 'discount-deals' ) ?></li>
-                <li><?php echo __( 'You can give  a fixed discount on products to wholesale customers. ', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'You can give a 20% discount to customers who buy 5 to 10 quantities of a product.', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'You can give a fixed discount on products to wholesale customers.', 'discount-deals' ) ?></li>
             </ol>
         </td>
     </tr>

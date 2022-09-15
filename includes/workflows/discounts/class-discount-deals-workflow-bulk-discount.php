@@ -21,7 +21,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Product quantity based Discount', 'discount-deals' ) );
-		$this->set_description( __( 'Purchase in bulk and get a discount in bulk.', 'discount-deals' ) );
+		$this->set_description( __( 'Give dynamic discounts on products when customers buy the products in large quantities.', 'discount-deals' ) );
 	}//end __construct()
 
 	/**
@@ -31,7 +31,8 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );
-	}
+	}//end set_supplied_data_items()
+
 
 	/**
 	 * Load fields to get discount details.
@@ -49,21 +50,21 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'Discount details', 'discount-deals' ),
+				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)
 		);
 
 		return ob_get_clean();
-	}//end set_supplied_data_items()
+	}//end load_fields()
 
 	/**
 	 * Calculate discount for the product
 	 *
 	 * @param mixed $data_item Calculate discount for which data item.
-	 * @param float $price Calculate discount subsequently.
-	 * @param array $extra Extra details for calculate discount.
+	 * @param float $price     Calculate discount subsequently.
+	 * @param array $extra     Extra details for calculate discount.
 	 *
 	 * @return integer
 	 */

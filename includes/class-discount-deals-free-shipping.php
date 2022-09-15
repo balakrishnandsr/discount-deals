@@ -28,7 +28,8 @@ if ( ! class_exists( 'Discount_Deals_Free_Shipping' ) ) {
 			$this->init();
 			$this->enabled = true;
 			$this->title   = ( empty( $title ) ) ? __( 'Discount Deals Free Shipping', 'discount-deals' ) : __( $title, 'discount-deals' );
-		}
+		}//end __construct()
+
 
 		/**
 		 * Initialize Wdr free shipping.
@@ -38,7 +39,8 @@ if ( ! class_exists( 'Discount_Deals_Free_Shipping' ) ) {
 			$this->init_settings();
 			// Save settings in admin if you have any defined
 			add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
-		}
+		}//end init()
+
 
 		/**
 		 * Called to calculate shipping rates for this method. Rates can be added using the add_rate() method.
@@ -57,7 +59,8 @@ if ( ! class_exists( 'Discount_Deals_Free_Shipping' ) ) {
 					'package' => $package,
 				)
 			);
-		}
+		}//end calculate_shipping()
+
 	}//end class
 
 }

@@ -8,7 +8,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-/**
+/*
  * Variable declaration
  *
  * @var array $discount_details Discount details.
@@ -31,13 +31,13 @@ if ( empty( $discount_details ) ) {
 }
 
 $discount_types = array(
-	'cheapest_in_cart'  => __( 'Cheapest item in the Cart', 'discount-deals' ),
-	'biggest_in_cart'   => __( 'Expensive item in the Cart', 'discount-deals' ),
-	'products'          => __( 'Select discount product manually', 'discount-deals' ),
-	'cheapest_in_store' => __( 'Cheapest item in the Store', 'discount-deals' ),
-	'biggest_in_store'  => __( 'Expensive item in the Store', 'discount-deals' ),
-//	'cheapest_in_category' => __( 'Cheapest item in the Category', 'discount-deals' ),
-//	'biggest_in_category'  => __( 'Expensive item in the Category', 'discount-deals' ),
+	'cheapest_in_cart' => __( 'Cheapest item in the Cart', 'discount-deals' ),
+	'biggest_in_cart'  => __( 'Expensive item in the Cart', 'discount-deals' ),
+	'products'         => __( 'Select discount product manually', 'discount-deals' ),
+// 'cheapest_in_store' => __( 'Cheapest item in the Store', 'discount-deals' ),
+// 'biggest_in_store'  => __( 'Expensive item in the Store', 'discount-deals' ),
+// 'cheapest_in_category' => __( 'Cheapest item in the Category', 'discount-deals' ),
+// 'biggest_in_category'  => __( 'Expensive item in the Category', 'discount-deals' ),
 );
 
 ?>
@@ -46,7 +46,25 @@ $discount_types = array(
     <tr>
         <th class="discount-deals-w100"><?php echo __( "Min Qty.", "discount-deals" ); ?></th>
         <th class="discount-deals-w100"><?php echo __( "Max Qty.", "discount-deals" ); ?></th>
-        <th><?php echo __( "Discount Details", "discount-deals" ); ?></th>
+        <th colspan="4">
+            <div class="discount-deals-grid">
+                <div class="discount-deals-col-3">
+					<?php echo __( "Discount", "discount-deals" ); ?>
+                </div>
+                <div class="discount-deals-col-2">
+					<?php echo __( "Discount Qty.", "discount-deals" ); ?>
+                </div>
+                <div class="discount-deals-col-3">
+					<?php echo __( "Discount Type", "discount-deals" ); ?>
+                </div>
+                <div class="discount-deals-col-2">
+					<?php echo __( "Discount Value", "discount-deals" ); ?>
+                </div>
+                <div class="discount-deals-col-2">
+					<?php echo __( "Discount Limit", "discount-deals" ); ?>
+                </div>
+            </div>
+        </th>
         <th></th>
     </tr>
     </thead>
@@ -255,12 +273,12 @@ $discount_types = array(
     <tr>
         <td colspan="7" class="discount-deals-text-left">
             <p>
-                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' You can give discount, if the product quantity is between min and max values. then, give discount accordingly. ', 'discount-deals' ) ?>
+                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' Create multiple discount groups by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount groups, the discount will be applied to that product accordingly. ', 'discount-deals' ) ?>
             </p>
             <b><?php echo __( 'Example: ', 'discount-deals' ) ?></b>
             <ol>
-                <li><?php echo __( 'Give flat 2$ as discount for the product who is buying 5 to 10 quantities. ', 'discount-deals' ) ?></li>
-                <li><?php echo __( 'Give 15% discount for the product who is buying 15 to 30 quantities. ', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'Buy two or more t-shirts and get one cap for free as a discount.', 'discount-deals' ) ?></li>
+                <li><?php echo __( 'Give a 50% discount on a quantity of product Y if the customer buys product X in five or more quantities. ', 'discount-deals' ) ?></li>
             </ol>
         </td>
     </tr>
