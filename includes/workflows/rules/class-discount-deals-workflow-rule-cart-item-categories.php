@@ -33,7 +33,8 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 	function init() {
 		parent::init();
 
-		$this->title = __( 'Cart - Item Categories', 'discount-deals' );
+		$this->placeholder = __( 'Select categories...', 'discount-deals' );
+		$this->title       = __( 'Cart - Item Categories', 'discount-deals' );
 	}//end init()
 
 
@@ -50,9 +51,9 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 	/**
 	 * Validate the cart item has given categories
 	 *
-	 * @param WC_Cart $data_item    data item.
-	 * @param string  $compare_type compare operator.
-	 * @param array   $value        list of values.
+	 * @param WC_Cart $data_item data item.
+	 * @param string $compare_type compare operator.
+	 * @param array $value list of values.
 	 *
 	 * @return boolean
 	 */

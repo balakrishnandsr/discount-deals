@@ -34,7 +34,8 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	public function init() {
 		$this->is_multi = true;
 		parent::init();
-		$this->title = __( 'Cart - Coupons', 'discount-deals' );
+		$this->title       = __( 'Cart - Coupons', 'discount-deals' );
+		$this->placeholder = __( 'Search and Select Coupons...', 'discount-deals' );
 	}//end init()
 
 
@@ -51,9 +52,9 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	/**
 	 * Validate the cart coupons rule.
 	 *
-	 * @param WC_Cart $data_item    Cart object.
-	 * @param string  $compare_type Compare operation.
-	 * @param array   $value        Expected output.
+	 * @param WC_Cart $data_item Cart object.
+	 * @param string $compare_type Compare operation.
+	 * @param array $value Expected output.
 	 *
 	 * @return boolean
 	 */

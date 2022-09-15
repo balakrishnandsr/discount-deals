@@ -36,6 +36,7 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 		parent::init();
 
 		$this->title = __( 'Customer - User Tags', 'discount-deals' );
+		$this->placeholder = __( 'Select tags...', 'discount-deals' );
 	}//end init()
 
 	/**

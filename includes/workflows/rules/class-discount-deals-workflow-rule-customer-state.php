@@ -29,6 +29,7 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 		parent::init();
 
 		$this->title = __( 'Customer - State', 'discount-deals' );
+		$this->placeholder = __( 'Select state...', 'discount-deals' );
 	}//end init()
 
 	/**
