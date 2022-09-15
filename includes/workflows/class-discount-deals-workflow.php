@@ -727,7 +727,7 @@ class Discount_Deals_Workflow {
 	 *
 	 * @param string $position position to show the promotional message.
 	 *
-	 * @return string|null
+	 * @return array|null
 	 */
 	public function get_promotional_message( $position ) {
 		$promotion_details = $this->get_promotion();
@@ -742,12 +742,22 @@ class Discount_Deals_Workflow {
 		if ( $position != discount_deals_get_value_from_array( $promotion_details, 'where_to_show', '' ) ) {
 			return null;
 		}
+        $promotion = array();
+         if( 'bulk_discount' == $this->get_type() ) {
+             if ( 'yes' == discount_deals_get_value_from_array( $promotion_details, 'show_bulk_table', 'yes' ) ) {
+                 $promotion['bulk_promotion'] = $this->get_discount()->get_discount_details();
+
+             }
+         }
+
 		$promotion_message = discount_deals_get_value_from_array( $promotion_details, 'message', null, false );
 		if ( empty( $promotion_message ) ) {
 			return null;
 		}
 
-		return $promotion_message;
+        $promotion['promotion_message'] = $promotion_message;
+
+		return $promotion;
 	}//end get_promotional_message()
 
 
