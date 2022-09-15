@@ -39,7 +39,7 @@ class Discount_Deals_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of this plugin.
-	 * @param string $version     The version of this plugin.
+	 * @param string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -52,6 +52,7 @@ class Discount_Deals_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 		add_action( 'admin_head', array( $this, 'add_remove_submenu' ) );
+		add_filter( 'woocommerce_screen_ids', array( $this, 'add_screen_ids' ) );
 		// Filter to add Settings link on Plugins page.
 		add_filter(
 			'plugin_action_links_' . plugin_basename( DISCOUNT_DEALS_PLUGIN_FILE ),
@@ -196,8 +197,23 @@ class Discount_Deals_Admin {
 	public function enqueue_styles() {
 		wp_enqueue_style( $this->plugin_slug . '-datetime-picker', plugin_dir_url( __FILE__ ) . 'css/jquery.datetimepicker.css', array(), $this->version );
 		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/discount-deals-admin.css', array(), $this->version );
-		wp_enqueue_style( 'jquery-ui-style' );
 	}//end enqueue_styles()
+
+	/**
+	 * Add our own screen ids to woocommerce screen.
+	 *
+	 * @param array $screen_ids all woocommerce screen ids.
+	 *
+	 * @return array
+	 */
+	public function add_screen_ids( $screen_ids ) {
+		$screen = get_current_screen();
+		if ( ! empty( $screen ) ) {
+			$screen_ids[] = $screen->id;
+		}
+
+		return $screen_ids;
+	}
 
 
 	/**
