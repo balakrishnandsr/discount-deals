@@ -360,9 +360,6 @@ class Discount_Deals_Workflows {
 		$all_messages     = array();
 		if ( ! empty( $active_workflows['all_active'] ) ) {
 			foreach ( $active_workflows['all_active'] as $workflow ) {
-				if ( 'cart_discount' == $workflow->get_type() ) {
-					continue;
-				}
 				$message = $workflow->get_promotional_message( $position );
 				if ( empty( $message ) ) {
 					continue;
