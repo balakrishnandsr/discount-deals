@@ -45,6 +45,7 @@ class Discount_Deals_Admin_Settings {
 		foreach ( $sections as $id => $label ) {
 			echo '<li><a href="' . admin_url( 'admin.php?page=wc-settings&tab=' . self::$tab_id . '&section=' . sanitize_title( $id ) ) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . $label . '</a> ' . ( end( $array_keys ) == $id ? '' : '|' ) . ' </li>';
 		}
+		echo '</ul><br class="clear">';
 	}//end add_sections()
 
 

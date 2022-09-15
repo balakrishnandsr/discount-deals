@@ -66,6 +66,13 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			$where .= " AND dd_title like '%{$search_keyword}%' ";
 		}
 
+		// Add discount type in where query.
+		$discount_type = discount_deals_get_post_data( 'tab', '' );
+		$discount_type = str_replace( '-', '_', $discount_type );
+		if ( ! empty( $discount_type ) && 'all' != $discount_type ) {
+			$where .= " AND dd_type = '$discount_type' ";
+		}
+
 		// Set order by query in where.
 		$order_by   = discount_deals_get_data( 'orderby', 'dd_id' );
 		$order      = strtolower( discount_deals_get_data( 'order', 'desc' ) );
@@ -191,8 +198,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	/**
 	 * Return default value for the workflow
 	 *
-	 * @param array|object $item        Workflow details.
-	 * @param string       $column_name column name.
+	 * @param array|object $item Workflow details.
+	 * @param string $column_name column name.
 	 *
 	 * @return boolean|mixed|string|void
 	 */
@@ -230,7 +237,6 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	public function column_dd_updated_at( $item ) {
 		return get_date_from_gmt( $item['dd_updated_at'], get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 	}//end column_dd_updated_at()
-
 
 
 	/**
