@@ -156,7 +156,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <button type="button" class="discount-deals-add-rule discount-deals-rule__add button">
                             <?php esc_html_e( 'and', 'discount-deals' ); ?>
                         </button>
-                        <button type="button" class="discount-deals-remove-rule button discount-deals-rule__remove">
+                        <button type="button" class="button discount-deals-remove-rule discount-deals-rule__remove">
                             X
                         </button>
                     </div>

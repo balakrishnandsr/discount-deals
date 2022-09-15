@@ -39,8 +39,9 @@
     top: 6px;
 }
 
-.select2-container {
-    width: 100% !important;
+.discount-deals-remove-rule:hover{
+    background: #ff5454 !important;
+    color: #ffffff !important;
 }
 
 .discount-deals-input-group input {
