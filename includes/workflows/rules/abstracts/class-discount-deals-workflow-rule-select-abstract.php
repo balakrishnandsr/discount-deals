@@ -21,6 +21,13 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 	public $type = 'select';
 
 	/**
+	 * The field placeholder.
+	 *
+	 * @var string
+	 */
+	public $placeholder;
+
+	/**
 	 * Allow multiple selections?
 	 *
 	 * @var boolean
@@ -36,15 +43,16 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 		} else {
 			$this->compare_types = $this->get_is_or_not_compare_types();
 		}
+		$this->placeholder = __( 'Select...', 'discount-deals' );
 	}//end init()
 
 
 	/**
 	 * Validate select rule, but case insensitive.
 	 *
-	 * @param array|string $actual       Will be an array when is_multi prop is true.
-	 * @param string       $compare_type Compare type.
-	 * @param array|string $expected     Expected value.
+	 * @param array|string $actual Will be an array when is_multi prop is true.
+	 * @param string $compare_type Compare type.
+	 * @param array|string $expected Expected value.
 	 *
 	 * @return boolean
 	 */
@@ -63,9 +71,9 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 	/**
 	 * Validate a select rule.
 	 *
-	 * @param string|array $actual       Will be an array when is_multi prop is true.
-	 * @param string       $compare_type Compare type.
-	 * @param array|string $expected     Expected type.
+	 * @param string|array $actual Will be an array when is_multi prop is true.
+	 * @param string $compare_type Compare type.
+	 * @param array|string $expected Expected type.
 	 *
 	 * @return boolean
 	 */

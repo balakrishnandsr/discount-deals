@@ -32,7 +32,8 @@ class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Wor
 	function init() {
 		parent::init();
 
-		$this->title = __( 'Product - Categories', 'discount-deals' );
+		$this->title       = __( 'Product - Categories', 'discount-deals' );
+		$this->placeholder = __( 'Select categories...', 'discount-deals' );
 	}//end init()
 
 
@@ -49,9 +50,9 @@ class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Wor
 	/**
 	 * Validate the product has given categories
 	 *
-	 * @param WC_Product|WC_Product_Variation $data_item    data item.
-	 * @param string                          $compare_type compare operator.
-	 * @param array                           $value        list of values.
+	 * @param WC_Product|WC_Product_Variation $data_item data item.
+	 * @param string $compare_type compare operator.
+	 * @param array $value list of values.
 	 *
 	 * @return boolean
 	 */

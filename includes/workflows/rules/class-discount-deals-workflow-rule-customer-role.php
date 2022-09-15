@@ -30,6 +30,7 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 		parent::init();
 
 		$this->title = __( 'Customer - User Role', 'discount-deals' );
+		$this->placeholder = __( 'Select roles...', 'discount-deals' );
 	}//end init()
 
 	/**

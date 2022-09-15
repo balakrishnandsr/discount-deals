@@ -167,7 +167,7 @@ abstract class Discount_Deals_Workflow_Discount {
 				'id'            => 'discount_deals_workflow_toggle_promotion',
 				'name'          => 'discount_deals_workflow[dd_promotion][enable]',
 				'value'         => discount_deals_get_value_from_array( $discount_details, 'enable', 'no' ),
-				'label'         => __( 'Do you want to display advertising messages in the storefront?', 'discount-deals' ),
+				'label'         => __( 'Would you like to display promotional message in the storefront?', 'discount-deals' ),
 				'options'       => array(
 					'yes' => __( 'Yes', 'discount-deals' ),
 					'no'  => __( 'No', 'discount-deals' ),

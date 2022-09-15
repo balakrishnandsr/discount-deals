@@ -36,7 +36,8 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 	function init() {
 		parent::init();
 
-		$this->title = __( "Customer - Purchased Categories - All Time", 'discount-deals' );
+		$this->title       = __( "Customer - Purchased Categories - All Time", 'discount-deals' );
+		$this->placeholder = __( 'Select categories...', 'discount-deals' );
 	}//end init()
 
 	/**
@@ -51,9 +52,9 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 	/**
 	 * Validates rule.
 	 *
-	 * @param WC_Customer $data_item    The customer.
-	 * @param string      $compare_type What variables we're using to compare.
-	 * @param array       $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
+	 * @param WC_Customer $data_item The customer.
+	 * @param string $compare_type What variables we're using to compare.
+	 * @param array $value The values we have to compare. Null is only allowed when $compare is is_not_set.
 	 *
 	 * @return boolean
 	 */
@@ -62,7 +63,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 			return false;
 		}
 		$category_ids = [];
-		foreach ( discount_deals_get_customer_purchased_products($data_item) as $id ) {
+		foreach ( discount_deals_get_customer_purchased_products( $data_item ) as $id ) {
 			$terms        = wp_get_object_terms( $id, 'product_cat', [ 'fields' => 'ids' ] );
 			$category_ids = array_merge( $category_ids, $terms );
 		}

@@ -37,6 +37,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 		parent::init();
 
 		$this->title = __( "Customer - Last Order Status", 'discount-deals' );
+		$this->placeholder = __( 'Select order statuses...', 'discount-deals' );
 		unset( $this->compare_types['matches_all'] );
 	}//end init()
 
