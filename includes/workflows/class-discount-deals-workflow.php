@@ -203,7 +203,6 @@ class Discount_Deals_Workflow {
 	}//end set_promotion()
 
 
-
 	/**
 	 * Get workflow title
 	 *
@@ -271,8 +270,8 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set workflow data layer.
 	 *
-	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer          Data layer.
-	 * @param boolean                                  $reset_workflow_data Reset workflow data.
+	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer Data layer.
+	 * @param boolean $reset_workflow_data Reset workflow data.
 	 *
 	 * @return void
 	 */
@@ -601,9 +600,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * May have product discount.
 	 *
-	 * @param object  $product  Product.
+	 * @param object $product Product.
 	 * @param integer $quantity Product quantity.
-	 * @param float   $price    Price used for when enable subsequent.
+	 * @param float $price Price used for when enable subsequent.
 	 *
 	 * @return integer
 	 */
@@ -645,9 +644,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * May have BOGO discount.
 	 *
-	 * @param WC_Product $product  Product.
-	 * @param float      $price    Product price.
-	 * @param integer    $quantity Product quantity.
+	 * @param WC_Product $product Product.
+	 * @param float $price Product price.
+	 * @param integer $quantity Product quantity.
 	 *
 	 * @return array
 	 */
@@ -663,8 +662,8 @@ class Discount_Deals_Workflow {
 	/**
 	 * Check cart has discount.
 	 *
-	 * @param WC_Cart $cart     Actual cart object.
-	 * @param float   $subtotal Calculated cart subtotal.
+	 * @param WC_Cart $cart Actual cart object.
+	 * @param float $subtotal Calculated cart subtotal.
 	 *
 	 * @return string | number
 	 */
@@ -727,7 +726,7 @@ class Discount_Deals_Workflow {
 	 *
 	 * @param string $position position to show the promotional message.
 	 *
-	 * @return string|null
+	 * @return array|null
 	 */
 	public function get_promotional_message( $position ) {
 		$promotion_details = $this->get_promotion();
@@ -742,12 +741,27 @@ class Discount_Deals_Workflow {
 		if ( $position != discount_deals_get_value_from_array( $promotion_details, 'where_to_show', '' ) ) {
 			return null;
 		}
-		$promotion_message = discount_deals_get_value_from_array( $promotion_details, 'message', null, false );
-		if ( empty( $promotion_message ) ) {
-			return null;
+		$promotion = array( 'bulk_promotion' => array(), 'promotion_message' => null );
+		if ( 'bulk_discount' == $this->get_type() ) {
+			if ( 'yes' == discount_deals_get_value_from_array( $promotion_details, 'show_bulk_table', 'yes' ) ) {
+				$promotion['bulk_promotion'] = $this->get_discount()->get_discount_details();
+			}
+		}
+		if ( 'bxgx_discount' == $this->get_type() ) {
+			$promotion['bxgx_promotion'] = $this->get_discount()->get_discount_details();
+		}
+		if ( 'bxgy_discount' == $this->get_type() ) {
+			$promotion['bxgy_promotion'] = $this->get_discount()->get_discount_details();
 		}
 
-		return $promotion_message;
+		$promotion_message = discount_deals_get_value_from_array( $promotion_details, 'message', null, false );
+		if ( empty( $promotion_message ) ) {
+			return $promotion;
+		}
+
+		$promotion['promotion_message'] = $promotion_message;
+
+		return $promotion;
 	}//end get_promotional_message()
 
 
@@ -761,7 +775,6 @@ class Discount_Deals_Workflow {
 
 		return discount_deals_get_value_from_array( $promotion_details, 'when_to_show', 'all_time' );
 	}//end get_when_to_show_promotional_message()
-
 
 
 }//end class

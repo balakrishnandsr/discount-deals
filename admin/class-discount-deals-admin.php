@@ -102,12 +102,12 @@ class Discount_Deals_Admin {
 			foreach ( $rule_group as $rule ) {
 				if ( ! empty( $rule['name'] ) && ! empty( $rule['compare'] ) && ! empty( $rule['value'] ) && is_array( $rule['value'] ) ) {
 					if ( in_array( $rule['name'], array( 'product', 'product_categories' ) ) ) {
-						array_push( $index_group, $rule );
+						$index_group[] = $rule;
 					}
 				}
 			}
 			if ( ! empty( $index_group ) ) {
-				array_push( $index, $index_group );
+				$index[] = $index_group;
 			}
 		}
 		if ( ! empty( $index ) ) {

@@ -609,8 +609,8 @@ abstract class Discount_Deals_DB {
 			} else {
 				$start_id = $wpdb->insert_id;
 				$end_id   = ( $start_id - 1 ) + count( $batch );
-				array_push( $bulk_rows_start_end_ids, $start_id );
-				array_push( $bulk_rows_start_end_ids, $end_id );
+				$bulk_rows_start_end_ids[] = $start_id;
+				$bulk_rows_start_end_ids[] = $end_id;
 			}
 		}
 
