@@ -89,8 +89,8 @@
             function () {
                 let discount_type = $(this).val();
                 discount_meta_box.find('tr.discount-options-field-container').remove();
-                promotion_meta_box.find('table tbody tr').remove();
-                promotion_meta_box.find('table tfoot').removeClass('discount-deals-hidden');
+                //promotion_meta_box.find('table tbody tr').remove();
+                //promotion_meta_box.find('table tfoot').removeClass('discount-deals-hidden');
                 if (discount_type) {
                     $(".discount-deals-fp-loader").removeClass('discount-deals-hidden');
                     fetch_discount_details(discount_type).done(
@@ -99,9 +99,9 @@
                             if (!response.success) {
                                 return;
                             }
-                            promotion_meta_box.find('table tfoot').addClass('discount-deals-hidden');
+                            //promotion_meta_box.find('table tfoot').addClass('discount-deals-hidden');
                             discount_meta_box.find('tbody').append(response.data.fields);
-                            promotion_meta_box.find('table tbody').append(response.data.promotional_fields);
+                            //promotion_meta_box.find('table tbody').append(response.data.promotional_fields);
                             discount_deals.workflow.set('discount_type', response.data.discount_details);
                             discount_deals.rules.clear_incompatible_rules();
                             tinymce.execCommand('mceRemoveEditor', true, 'editor_discount_deals_workflow_promotion_message');
