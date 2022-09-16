@@ -266,8 +266,8 @@ class Discount_Deals_Workflows {
 	/**
 	 * Calculate BOGO discount
 	 *
-	 * @param WC_Product $product  product object.
-	 * @param integer    $quantity item quantity.
+	 * @param WC_Product $product product object.
+	 * @param integer $quantity item quantity.
 	 *
 	 * @return array
 	 */
@@ -301,10 +301,10 @@ class Discount_Deals_Workflows {
 	 * Get the bogo discount for product
 	 *
 	 * @param Discount_Deals_Workflow[] $workflows workflows to validate against.
-	 * @param WC_Product                $product   product object.
-	 * @param float                     $price     item price.
-	 * @param integer                   $quantity  item quantity.
-	 * @param string                    $apply_as  How to apply.
+	 * @param WC_Product $product product object.
+	 * @param float $price item price.
+	 * @param integer $quantity item quantity.
+	 * @param string $apply_as How to apply.
 	 *
 	 * @return array
 	 */
@@ -344,8 +344,8 @@ class Discount_Deals_Workflows {
 	/**
 	 * All messages for that position
 	 *
-	 * @param WC_Product $product  product object.
-	 * @param string     $position Where to show the promotional message?
+	 * @param WC_Product $product product object.
+	 * @param string $position Where to show the promotional message?
 	 *
 	 * @return array
 	 */
@@ -357,31 +357,55 @@ class Discount_Deals_Workflows {
 			return array();
 		}
 		$active_workflows = self::get_active_workflows();
-		$all_messages     = array();
+		$all_messages     = array(
+			'all_promotions'     => array(),
+			'bulk_promotions'    => array(),
+			'promotion_messages' => array(),
+			'bxgx_promotions'    => array(),
+			'bxgy_promotions'    => array()
+		);
 		if ( ! empty( $active_workflows['all_active'] ) ) {
 			foreach ( $active_workflows['all_active'] as $workflow ) {
-				//if ( 'cart_discount' == $workflow->get_type() ) {
-				//	continue;
-				//}
-				$message = $workflow->get_promotional_message( $position );
-				if ( empty( $message ) ) {
+				$promotion_details = $workflow->get_promotional_message( $position );
+				if ( is_null( $promotion_details ) ) {
+					continue;
+				}
+				if ( empty( $promotion_details['bulk_promotion'] ) && empty( $promotion_details['promotion_message'] ) ) {
 					continue;
 				}
 				$workflow->data_layer()->set_item( 'product', $product );
 				if ( ! $workflow->validate_index() ) {
 					continue;
 				}
-				$when_to_show = $workflow->get_when_to_show_promotional_message();
+				$when_to_show   = $workflow->get_when_to_show_promotional_message();
+				$show_promotion = false;
 				if ( 'all_time' == $when_to_show ) {
-					array_push( $all_messages, $message );
+					$show_promotion = true;
 				} else {
 					$is_rules_passed = $workflow->validate_rules();
 					if ( 'after_rule' == $when_to_show && $is_rules_passed ) {
-						array_push( $all_messages, $message );
+						$show_promotion = true;
 					}
 
 					if ( 'before_rule' == $when_to_show && ! $is_rules_passed ) {
-						array_push( $all_messages, $message );
+						$show_promotion = true;
+					}
+				}
+				if ( $show_promotion ) {
+					if ( ! empty( $promotion_details['bulk_promotion'] ) && is_array( $promotion_details['bulk_promotion'] ) ) {
+						$all_messages['bulk_promotions'] = array_merge( $all_messages['bulk_promotions'], $promotion_details['bulk_promotion'] );
+						$all_messages['all_promotions']  = array_merge( $all_messages['all_promotions'], $promotion_details['bulk_promotion'] );
+					}
+					if ( ! empty( $promotion_details['bxgy_promotion'] ) && is_array( $promotion_details['bxgy_promotion'] ) ) {
+						$all_messages['bxgy_promotions'] = array_merge( $all_messages['bxgy_promotions'], $promotion_details['bxgy_promotion'] );
+						$all_messages['all_promotions']  = array_merge( $all_messages['all_promotions'], $promotion_details['bxgy_promotion'] );
+					}
+					if ( ! empty( $promotion_details['bxgx_promotion'] ) && is_array( $promotion_details['bxgx_promotion'] ) ) {
+						$all_messages['bxgx_promotions'] = array_merge( $all_messages['bxgx_promotions'], $promotion_details['bxgx_promotion'] );
+						$all_messages['all_promotions']  = array_merge( $all_messages['all_promotions'], $promotion_details['bxgx_promotion'] );
+					}
+					if ( ! empty( $promotion_details['promotion_message'] ) ) {
+						$all_messages['promotion_messages'][] = $promotion_details['promotion_message'];
 					}
 				}
 			}
@@ -427,13 +451,14 @@ class Discount_Deals_Workflows {
 	/**
 	 * Calculate product discount.
 	 *
-	 * @param float      $price    Product price.
-	 * @param WC_Product $product  Product.
-	 * @param integer    $quantity Quantity.
+	 * @param float $price Product price.
+	 * @param WC_Product $product Product.
+	 * @param integer $quantity Quantity.
+	 * @param bool $validate_against_rules need to validate against rules.
 	 *
 	 * @return integer|void
 	 */
-	public static function calculate_product_discount( $price, $product, $quantity = 1 ) {
+	public static function calculate_product_discount( $price, $product, $quantity = 1, $validate_against_rules = true ) {
 		$active_workflows = self::get_active_workflows();
 		if ( empty( $active_workflows ) ) {
 			return $price;
@@ -450,11 +475,11 @@ class Discount_Deals_Workflows {
 		$apply_as         = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
 		$discounted_price = false;
 		if ( ! empty( $active_workflows['exclusive'] ) ) {
-			$discounted_price = self::get_product_discount( $active_workflows['exclusive'], $product, $price, $quantity, $apply_as );
+			$discounted_price = self::get_product_discount( $active_workflows['exclusive'], $product, $price, $quantity, $apply_as, $validate_against_rules );
 		}
 
 		if ( false === $discounted_price && ! empty( $active_workflows['non_exclusive'] ) ) {
-			$discounted_price = self::get_product_discount( $active_workflows['non_exclusive'], $product, $price, $quantity, $apply_as );
+			$discounted_price = self::get_product_discount( $active_workflows['non_exclusive'], $product, $price, $quantity, $apply_as, $validate_against_rules );
 		}
 
 		if ( false === $discounted_price ) {
@@ -469,14 +494,15 @@ class Discount_Deals_Workflows {
 	 * Get discount details by workflows.
 	 *
 	 * @param Discount_Deals_Workflow[] $workflows Array of objects.
-	 * @param WC_Product                $product   Product object.
-	 * @param float                     $price     Product price.
-	 * @param integer                   $quantity  Product quantity.
-	 * @param string                    $apply_as  Apply Discount as.
+	 * @param WC_Product $product Product object.
+	 * @param float $price Product price.
+	 * @param integer $quantity Product quantity.
+	 * @param string $apply_as Apply Discount as.
+	 * @param bool $validate_against_rules need to validate against rules.
 	 *
 	 * @return array|mixed
 	 */
-	public static function get_product_discount( $workflows, $product, $price, $quantity, $apply_as ) {
+	public static function get_product_discount( $workflows, $product, $price, $quantity, $apply_as, $validate_against_rules = false ) {
 		if ( empty( $workflows ) ) {
 			return false;
 		}
@@ -484,7 +510,6 @@ class Discount_Deals_Workflows {
 			return false;
 		}
 		$valid_discounts  = array();
-		$applied_discount = array();
 		$subsequent_price = $price;
 		foreach ( $workflows as $workflow ) {
 			$workflow_id = $workflow->get_id();
@@ -499,9 +524,16 @@ class Discount_Deals_Workflows {
 				$discounts        = array_sum( $valid_discounts );
 				$subsequent_price = $subsequent_price - $discounts;
 			}
-
-			if ( $workflow->validate_rules() ) {
-				$valid_discounts[ $workflow_id ] = $workflow->may_have_product_discount( $product, $subsequent_price, $quantity );
+			if ( ! $validate_against_rules ) {
+				$is_passed = $workflow->validate_index();
+			} else {
+				$is_passed = $workflow->validate_rules();
+			}
+			if ( $is_passed ) {
+				$discount = $workflow->may_have_product_discount( $product, $subsequent_price, $quantity );
+				if ( 0 < $discount ) {
+					$valid_discounts[ $workflow_id ] = $discount;
+				}
 			}
 		}
 		$discount_price = self::get_matched_product_discount( $valid_discounts );
@@ -574,7 +606,7 @@ class Discount_Deals_Workflows {
 	 * Get cart discount
 	 *
 	 * @param Discount_Deals_Workflow[] $workflows workflows to validate.
-	 * @param string                    $apply_as  how to apply discount?
+	 * @param string $apply_as how to apply discount?
 	 *
 	 * @return array
 	 */
@@ -624,8 +656,8 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get matched Discount
 	 *
-	 * @param array  $valid_discounts all valid discounts.
-	 * @param string $type            type to check.
+	 * @param array $valid_discounts all valid discounts.
+	 * @param string $type type to check.
 	 *
 	 * @return array
 	 */
@@ -678,7 +710,6 @@ class Discount_Deals_Workflows {
 
 		return $calculated_discounts;
 	}//end get_matched_cart_discount()
-
 
 
 }//end class

@@ -13,9 +13,9 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	/**
 	 * Get data from the GET request
 	 *
-	 * @param string  $key     Key of the array.
-	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
+	 * @param string $key Key of the array.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param boolean $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -38,9 +38,9 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	/**
 	 * Get data from the REQUEST
 	 *
-	 * @param string  $key     Key of the array.
-	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
+	 * @param string $key Key of the array.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param boolean $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -62,9 +62,9 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	/**
 	 * Get data from the POST request
 	 *
-	 * @param string  $key     Key of the array.
-	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
+	 * @param string $key Key of the array.
+	 * @param mixed $default If there is no data then return default value.
+	 * @param boolean $clean Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
@@ -160,14 +160,15 @@ if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
 	/**
 	 * Calculate the discount for the product.
 	 *
-	 * @param WC_Product $product  Product object.
-	 * @param float      $price    Product price.
-	 * @param integer    $quantity Product quantity.
+	 * @param WC_Product $product Product object.
+	 * @param float $price Product price.
+	 * @param integer $quantity Product quantity.
+	 * @param bool $validate_against_rules need to validate against rules.
 	 *
 	 * @return float|integer
 	 */
-	function discount_deals_get_product_discount( $price, $product, $quantity = 1 ) {
-		return Discount_Deals_Workflows::calculate_product_discount( $price, $product, $quantity );
+	function discount_deals_get_product_discount( $price, $product, $quantity = 1, $validate_against_rules = true ) {
+		return Discount_Deals_Workflows::calculate_product_discount( $price, $product, $quantity, $validate_against_rules );
 	}//end discount_deals_get_product_discount()
 }
 
@@ -175,8 +176,8 @@ if ( ! function_exists( 'discount_deals_get_bogo_discount' ) ) {
 	/**
 	 * Calculate the discount for the product.
 	 *
-	 * @param WC_Product $product  Product object.
-	 * @param integer    $quantity Product quantity.
+	 * @param WC_Product $product Product object.
+	 * @param integer $quantity Product quantity.
 	 *
 	 * @return array
 	 */
@@ -190,10 +191,10 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	/**
 	 * Get value from array
 	 *
-	 * @param array   $array         Array.
-	 * @param string  $key           Array key.
-	 * @param mixed   $default_value What value should return when the key is not found.
-	 * @param boolean $clean         Do we need to clean the output?
+	 * @param array $array Array.
+	 * @param string $key Array key.
+	 * @param mixed $default_value What value should return when the key is not found.
+	 * @param boolean $clean Do we need to clean the output?
 	 *
 	 * @return mixed
 	 */
@@ -402,7 +403,7 @@ if ( ! function_exists( 'discount_deals_get_state_name' ) ) {
 	 * Get the state name for the text
 	 *
 	 * @param string $country_code Country code.
-	 * @param string $state_code   State code.
+	 * @param string $state_code State code.
 	 *
 	 * @return false|mixed
 	 */
@@ -434,4 +435,28 @@ if ( ! function_exists( 'discount_deals_get_user_tags' ) ) {
 		return $list;
 	}//end discount_deals_get_user_tags()
 
+}
+if ( ! function_exists( 'discount_deals_arrange_discounts_by_quantity_range' ) ) {
+	/**
+	 * Re-order discount ranges by quantities
+	 *
+	 * @param array $range_1 discount range 1.
+	 * @param array $range_2 discount range 2.
+	 *
+	 * @return int
+	 */
+	function discount_deals_arrange_discounts_by_quantity_range( $range_1, $range_2 ) {
+		if ( empty( $range_1 ) || empty( $range_2 ) || ! isset( $range_1['min_quantity'] ) || ! isset( $range_2['min_quantity'] ) ) {
+			return 0;
+		}
+		$min_quantity_1 = intval( $range_1['min_quantity'] );
+		$min_quantity_2 = intval( $range_2['min_quantity'] );
+		if ( $min_quantity_1 > $min_quantity_2 ) {
+			return 1;
+		} else if ( $min_quantity_1 < $min_quantity_2 ) {
+			return - 1;
+		} else {
+			return 0;
+		}
+	}
 }

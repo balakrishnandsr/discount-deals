@@ -24,6 +24,13 @@ class Discount_Deals_Public {
 	private static $cart_item_discounts = array();
 
 	/**
+	 * Stores discount for each item.
+	 *
+	 * @var float[] $product_discounts item discounts.
+	 */
+	private static $product_discounts = array();
+
+	/**
 	 * Stores free products.
 	 *
 	 * @var array $free_products cart item discounts.
@@ -83,13 +90,13 @@ class Discount_Deals_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of the plugin.
-	 * @param string $version     The version of this plugin.
+	 * @param string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_slug = $plugin_name;
 		$this->version     = $version;
-		if ( ! is_admin() ) {
+		if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
@@ -165,16 +172,80 @@ class Discount_Deals_Public {
 			$this,
 			'show_promotional_message_after_product_summary'
 		) );
+		//get product price by ajax
+		add_action( 'wp_ajax_nopriv_discount_deals_get_product_discount_price', array(
+			$this,
+			'get_product_discount_price'
+		) );
+		add_action( 'wp_ajax_discount_deals_get_product_discount_price', array(
+			$this,
+			'get_product_discount_price'
+		) );
 	}//end init_public_hooks()
 
+	/**
+	 * Set woocommerce product price as per simple discount.
+	 *
+	 */
+	public function get_product_discount_price() {
+		$nonce = discount_deals_get_post_data( 'nonce', '' );
+		if ( ! wp_verify_nonce( $nonce, 'discount-deals-bulk-discount' ) ) {
+			die( 0 );
+		}
+		$product_id  = intval( discount_deals_get_post_data( 'product_id', 0 ) );
+		$product_qty = intval( discount_deals_get_post_data( 'quantity', 0 ) );
+		if ( 0 >= $product_qty && 0 >= $product_id ) {
+			die( 0 );
+		}
+		$product     = wc_get_product( $product_id );
+		$quantity    = $this->get_quantities_in_cart( $product );
+		$product_qty += $quantity;
+		if ( array_key_exists( $product_id, self::$product_discounts ) ) {
+			$price = self::$product_discounts[ $product_id ]['price_before_discount'];
+		} else {
+			$price = $product->get_price();
+		}
+
+		$discount = discount_deals_get_product_discount( $price, $product, $product_qty, false );
+		wp_send_json( array(
+			'success'    => true,
+			'price_html' => wc_format_sale_price( $product->get_regular_price(), $discount )
+		) );
+	}//end get_product_price()
+
+	/**
+	 * Get how many quantities in cart
+	 *
+	 * @param WC_Product $product product obj.
+	 *
+	 * @return int
+	 */
+	public function get_quantities_in_cart( $product ) {
+		$cart_items = WC()->cart->get_cart();
+		$quantity   = 0;
+		// For bulk discount, check cart item quantity and calculate discount
+		if ( ! empty( $cart_items ) ) {
+			foreach ( $cart_items as $cart_item ) {
+				$cart_item_object = $cart_item['data'];
+				if ( is_a( $cart_item_object, 'WC_Product' ) ) {
+					if ( $product->get_id() == $cart_item_object->get_id() ) {
+						$quantity = ! empty( $cart_item['quantity'] ) ? intval( $cart_item['quantity'] ) : 0;
+					}
+				}
+			}
+		}
+
+		return $quantity;
+	}
 
 	/**
 	 * Show promotional message before add to cart button
 	 */
 	public function show_promotional_message_before_add_to_cart() {
 		global $product;
-		$position       = 'before_add_to_cart_button';
-		$all_promotions = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
+		$position          = 'before_add_to_cart_button';
+		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
+		$product_discounts = self::$product_discounts;
 		apply_filters( 'discount_deals_show_promotional_message_before_add_to_cart', $all_promotions, $product );
 		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
 	}//end show_promotional_message_before_add_to_cart()
@@ -185,8 +256,9 @@ class Discount_Deals_Public {
 	 */
 	public function show_promotional_message_after_product_summary() {
 		global $product;
-		$position       = 'after_single_product_summary';
-		$all_promotions = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
+		$position          = 'after_single_product_summary';
+		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
+		$product_discounts = self::$product_discounts;
 		apply_filters( 'discount_deals_show_promotional_message_after_product_summary', $all_promotions, $product );
 		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
 	}//end show_promotional_message_after_product_summary()
@@ -197,8 +269,9 @@ class Discount_Deals_Public {
 	 */
 	public function show_promotional_message_after_add_to_cart() {
 		global $product;
-		$position       = 'after_add_to_cart_button';
-		$all_promotions = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
+		$position          = 'after_add_to_cart_button';
+		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
+		$product_discounts = self::$product_discounts;
 		apply_filters( 'discount_deals_show_promotional_message_after_add_to_cart', $all_promotions, $product );
 		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
 	}//end show_promotional_message_after_add_to_cart()
@@ -274,7 +347,7 @@ class Discount_Deals_Public {
 	/**
 	 * Stop showing remove link for gifts
 	 *
-	 * @param string $remove_link   link to remove cart item.
+	 * @param string $remove_link link to remove cart item.
 	 * @param string $cart_item_key cart item key.
 	 *
 	 * @return string
@@ -294,7 +367,7 @@ class Discount_Deals_Public {
 	/**
 	 * Stop showing remove link for gifts
 	 *
-	 * @param array  $cart_item     cart item.
+	 * @param array $cart_item cart item.
 	 * @param string $cart_item_key cart item key.
 	 *
 	 * @return void
@@ -310,9 +383,9 @@ class Discount_Deals_Public {
 	/**
 	 * Stop showing quantity update for gifts
 	 *
-	 * @param string $update_field  link to remove cart item.
+	 * @param string $update_field link to remove cart item.
 	 * @param string $cart_item_key cart item key.
-	 * @param array  $cart_item     cart item.
+	 * @param array $cart_item cart item.
 	 *
 	 * @return string
 	 */
@@ -329,7 +402,7 @@ class Discount_Deals_Public {
 	 * What is the free product for particular cart item
 	 *
 	 * @param string $actual_cart_item_key Check that the cart item has free product?
-	 * @param array  $cart_items           all cart items.
+	 * @param array $cart_items all cart items.
 	 *
 	 * @return false|integer|string
 	 */
@@ -349,7 +422,7 @@ class Discount_Deals_Public {
 	/**
 	 * Check that cart item has wrong free item.
 	 *
-	 * @param array $free_cart_item  free cart item.
+	 * @param array $free_cart_item free cart item.
 	 * @param array $actual_discount actual discount for the product.
 	 *
 	 * @return boolean
@@ -382,7 +455,7 @@ class Discount_Deals_Public {
 						// In some cases, customer will remove the original product. then we didn't need to give discount to the customer.
 						if ( ! array_key_exists( $actual_product_key, $cart_items ) ) {
 							// Remove it. We don't need anymore.
-							array_push( self::$remove_products, $cart_item_key );
+							self::$remove_products[] = $cart_item_key;
 						}
 						continue;
 					}
@@ -391,7 +464,7 @@ class Discount_Deals_Public {
 					// has no discount but the free product for this item is found in cart. maybe it was previously added one.
 					if ( empty( $discount_details ) && $free_product_cart_key ) {
 						// Remove it. We don't need anymore.
-						array_push( self::$remove_products, $free_product_cart_key );
+						self::$remove_products[] = $free_product_cart_key;
 						continue;
 					}
 					// If there is no more discount, to continue to check for net cart item.
@@ -404,7 +477,7 @@ class Discount_Deals_Public {
 							$free_cart_item = $cart_items[ $free_product_cart_key ];
 							if ( $this->is_wrong_item_in_cart( $free_cart_item, $actual_discount ) ) {
 								// If there is any change in quantity, then we need to update the quantity.
-								array_push( self::$remove_products, $free_product_cart_key );
+								self::$remove_products[] = $free_product_cart_key;
 							}
 							continue;
 						}
@@ -431,12 +504,12 @@ class Discount_Deals_Public {
 								)
 							);
 						}
-						array_push( self::$free_products, $free_product_detail );
+						self::$free_products[] = $free_product_detail;
 					} else {
 						// No free product in discount abut previous free product traces found.
 						if ( $free_product_cart_key ) {
 							// Remove it. We don't need anymore.
-							array_push( self::$remove_products, $free_product_cart_key );
+							self::$remove_products[] = $free_product_cart_key;
 						}
 						if ( $actual_discount['discount_on_same'] ) {
 							$discounted_cart_item     = $cart_item;
@@ -531,7 +604,7 @@ class Discount_Deals_Public {
 	/**
 	 * Check the cart has eligible BXGY item
 	 *
-	 * @param array $cart_items    all cart items.
+	 * @param array $cart_items all cart items.
 	 * @param array $discount_item discount item.
 	 *
 	 * @return false|integer|string
@@ -554,12 +627,12 @@ class Discount_Deals_Public {
 	/**
 	 * Add timestamp to session when 1st product is added to cart.
 	 *
-	 * @param string  $cart_item_key  cart item key.
-	 * @param integer $product_id     product id.
-	 * @param integer $quantity       item quantity.
-	 * @param integer $variation_id   variation id.
-	 * @param array   $variation      variation details.
-	 * @param array   $cart_item_data cart item details.
+	 * @param string $cart_item_key cart item key.
+	 * @param integer $product_id product id.
+	 * @param integer $quantity item quantity.
+	 * @param integer $variation_id variation id.
+	 * @param array $variation variation details.
+	 * @param array $cart_item_data cart item details.
 	 */
 	public function item_added_to_cart( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
 		// TODO: remove session value after order placement
@@ -589,16 +662,20 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-
-		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-public.js', array( 'jquery' ), $this->version, true );
+		$localize_params = array(
+			'ajax_url'            => admin_url( 'admin-ajax.php' ),
+			'product_price_nonce' => wp_create_nonce( 'discount-deals-bulk-discount' ),
+		);
+		wp_localize_script( $this->plugin_slug, 'discount_deals_params', $localize_params );
 
 	}//end enqueue_scripts()
 
 	/**
 	 * Show strikeout for each product
 	 *
-	 * @param string $item_price    price html.
-	 * @param array  $cart_item     cart item details.
+	 * @param string $item_price price html.
+	 * @param array $cart_item cart item details.
 	 * @param string $cart_item_key cart item hash.
 	 */
 	public function show_price_strikeout( $item_price, $cart_item, $cart_item_key ) {
@@ -627,8 +704,8 @@ class Discount_Deals_Public {
 	/**
 	 * Show strikeout for each product which has bogo
 	 *
-	 * @param string $item_price    price html.
-	 * @param array  $cart_item     cart item details.
+	 * @param string $item_price price html.
+	 * @param array $cart_item cart item details.
 	 * @param string $cart_item_key cart item hash.
 	 */
 	public function show_price_strikeout_for_bogo( $item_price, $cart_item, $cart_item_key ) {
@@ -653,7 +730,7 @@ class Discount_Deals_Public {
 	 * Show you saved for each cart item
 	 *
 	 * @param string $item_subtotal price html.
-	 * @param array  $cart_item     cart item details.
+	 * @param array $cart_item cart item details.
 	 * @param string $cart_item_key cart item hash.
 	 */
 	public function show_you_saved_text( $item_subtotal, $cart_item, $cart_item_key ) {
@@ -744,27 +821,34 @@ class Discount_Deals_Public {
 	/**
 	 * Set woocommerce product price as per simple discount.
 	 *
-	 * @param float      $price   Product price.
+	 * @param float $price Product price.
 	 * @param WC_Product $product Product object.
 	 *
 	 * @return float
 	 */
 	public function get_product_price( $price, $product ) {
-		$cart_items = WC()->cart->get_cart();
-		$quantity   = 1;
-		// For bulk discount, check cart item quantity and calculate discount
-		if ( ! empty( $cart_items ) ) {
-			foreach ( $cart_items as $cart_item ) {
-				$cart_item_object = $cart_item['data'];
-				if ( is_a( $cart_item_object, 'WC_Product' ) ) {
-					if ( $product->get_id() == $cart_item_object->get_id() ) {
-						$quantity = ! empty( $cart_item['quantity'] ) ? intval( $cart_item['quantity'] ) : 1;
-					}
-				}
+		$quantity = $this->get_quantities_in_cart( $product );
+		if ( 0 >= $quantity ) {
+			$quantity = 1;
+		} else {
+			$quantity += 1;
+		}
+		$product_id = $product->get_id();
+		if ( array_key_exists( $product_id, self::$product_discounts ) ) {
+			if ( self::$product_discounts[ $product_id ]['quantity_while_calculation'] == $quantity ) {
+				return self::$product_discounts[ $product_id ]['discounted_price'];
 			}
 		}
 
-		return discount_deals_get_product_discount( $price, $product, $quantity );
+		$discounted_price = discount_deals_get_product_discount( $price, $product, $quantity );
+
+		self::$product_discounts[ $product_id ] = array(
+			'discounted_price'           => $discounted_price,
+			'price_before_discount'      => $price,
+			'quantity_while_calculation' => $quantity,
+		);
+
+		return $discounted_price;
 	}//end get_product_price()
 
 	/**
@@ -788,9 +872,9 @@ class Discount_Deals_Public {
 	/**
 	 * Get variation prices.
 	 *
-	 * @param array      $transient_cached_prices_array Cached prices array
-	 * @param WC_Product $product                       Product.
-	 * @param boolean    $for_display                   true | false
+	 * @param array $transient_cached_prices_array Cached prices array
+	 * @param WC_Product $product Product.
+	 * @param boolean $for_display true | false
 	 *
 	 * @return array
 	 */
@@ -877,7 +961,7 @@ class Discount_Deals_Public {
 	/**
 	 * Set coupon amount.
 	 *
-	 * @param float     $amount Amount.
+	 * @param float $amount Amount.
 	 * @param WC_Coupon $coupon Coupon object.
 	 *
 	 * @return float
@@ -903,8 +987,8 @@ class Discount_Deals_Public {
 	/**
 	 * Set coupon type.
 	 *
-	 * @param string    $discount_type Type.
-	 * @param WC_Coupon $coupon        Coupon object.
+	 * @param string $discount_type Type.
+	 * @param WC_Coupon $coupon Coupon object.
 	 *
 	 * @return string
 	 */
@@ -922,9 +1006,9 @@ class Discount_Deals_Public {
 	/**
 	 * Hide remove option in applied coupon.
 	 *
-	 * @param string    $coupon_html          Coupon html.
-	 * @param WC_Coupon $coupon               Coupon object.
-	 * @param string    $discount_amount_html Amount html.
+	 * @param string $coupon_html Coupon html.
+	 * @param WC_Coupon $coupon Coupon object.
+	 * @param string $discount_amount_html Amount html.
 	 *
 	 * @return string
 	 */
@@ -972,7 +1056,6 @@ class Discount_Deals_Public {
 
 		return ! empty( $discounted_details['free_shipping'] );
 	}//end is_free_shipping_available()
-
 
 
 }//end class
