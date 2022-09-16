@@ -830,17 +830,22 @@ class Discount_Deals_Public {
 		$quantity = $this->get_quantities_in_cart( $product );
 		if ( 0 >= $quantity ) {
 			$quantity = 1;
+		} else {
+			$quantity += 1;
 		}
 		$product_id = $product->get_id();
 		if ( array_key_exists( $product_id, self::$product_discounts ) ) {
-			return self::$product_discounts[ $product_id ]['discounted_price'];
+			if ( self::$product_discounts[ $product_id ]['quantity_while_calculation'] == $quantity ) {
+				return self::$product_discounts[ $product_id ]['discounted_price'];
+			}
 		}
 
 		$discounted_price = discount_deals_get_product_discount( $price, $product, $quantity );
 
 		self::$product_discounts[ $product_id ] = array(
-			'discounted_price'      => $discounted_price,
-			'price_before_discount' => $price
+			'discounted_price'           => $discounted_price,
+			'price_before_discount'      => $price,
+			'quantity_while_calculation' => $quantity,
 		);
 
 		return $discounted_price;
