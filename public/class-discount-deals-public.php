@@ -185,7 +185,25 @@ class Discount_Deals_Public {
 		add_action( 'woocommerce_new_order', array( $this, 'on_after_new_order' ), 99 );
 		// Show applied discounts
 		add_action( 'woocommerce_before_cart', array( $this, 'show_applied_workflow_notices' ), 98 );
+		// Save discount information for orders
+		add_action( 'woocommerce_checkout_create_order', array( $this, 'before_checkout_create_order' ), 99, 2 );
 	}//end init_public_hooks()
+
+	/**
+	 * Save important information before placing order.
+	 *
+	 * @param WC_Order $order order object.
+	 * @param array $data extra information.
+	 *
+	 * @return void
+	 */
+	public function before_checkout_create_order( $order, $data ) {
+		$applied_discounts = discount_deals_get_applied_workflow_discounts();
+		if ( ! empty( $applied_discounts ) ) {
+			$order->update_meta_data( '_discount_deals_has_discount', 'yes' );
+			$order->update_meta_data( '_discount_deals_discount_details', $applied_discounts );
+		}
+	}
 
 	/**
 	 * Show applied workflows to the cart users.

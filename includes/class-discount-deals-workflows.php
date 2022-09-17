@@ -29,6 +29,13 @@ class Discount_Deals_Workflows {
 	protected static $_applied_workflows = array();
 
 	/**
+	 * Holds all discount types
+	 *
+	 * @var mixed $_applied_workflow_discounts applied_workflows.
+	 */
+	protected static $_applied_workflow_discounts = array();
+
+	/**
 	 * Holds all rules
 	 *
 	 * @var array $_rules workflow rules.
@@ -331,16 +338,23 @@ class Discount_Deals_Workflows {
 		}
 		$discount = array();
 		if ( ! empty( $valid_discounts ) ) {
-			$workflow_ids = array_keys( $valid_discounts );
+			$workflow_ids      = array_keys( $valid_discounts );
+			$extra_information = array(
+				'type'     => 'product',
+				'id'       => $product->get_id(),
+				'quantity' => $quantity,
+				'apply_as' => $apply_as,
+				'price'    => $price
+			);
 			switch ( $apply_as ) {
 				default:
 				case "lowest_matched":
 					$workflow_id = $workflow_ids[ array_search( min( $totals = array_column( $valid_discounts, 'total' ) ), $totals ) ];
-					self::set_applied_workflows( $workflow_id );
+					self::set_applied_workflows( $workflow_id, $valid_discounts[ $workflow_id ], $extra_information );
 					break;
 				case "biggest_matched":
 					$workflow_id = $workflow_ids[ array_search( max( $totals = array_column( $valid_discounts, 'total' ) ), $totals ) ];
-					self::set_applied_workflows( $workflow_id );
+					self::set_applied_workflows( $workflow_id, $valid_discounts[ $workflow_id ], $extra_information );
 					break;
 			}
 			$discount[ $workflow_id ] = $valid_discounts[ $workflow_id ];
@@ -545,7 +559,7 @@ class Discount_Deals_Workflows {
 				}
 			}
 		}
-		$discount_price = self::get_matched_product_discount( $valid_discounts );
+		$discount_price = self::get_matched_product_discount( $valid_discounts, $product, $price, $quantity, $apply_as );
 		if ( 0 >= $discount_price ) {
 			return false;
 		}
@@ -558,24 +572,34 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get matched Discount
 	 *
-	 * @param $valid_discounts
+	 * @param WC_Product $product Product object.
+	 * @param float $price Product price.
+	 * @param integer $quantity Product quantity.
+	 * @param string $apply_as Apply Discount as.
+	 * @param array $valid_discounts discounts.
 	 *
 	 * @return float|integer|mixed
 	 */
-	public static function get_matched_product_discount( $valid_discounts ) {
-		$apply_as = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
+	public static function get_matched_product_discount( $valid_discounts, $product, $price, $quantity, $apply_as ) {
+		$extra_information = array(
+			'type'     => 'product',
+			'id'       => $product->get_id(),
+			'quantity' => $quantity,
+			'apply_as' => $apply_as,
+			'price'    => $price
+		);
 		if ( ! empty( $valid_discounts ) ) {
 			switch ( $apply_as ) {
 				case 'biggest_matched':
 					$discount    = max( $valid_discounts );
 					$workflow_id = array_search( $discount, $valid_discounts );
-					self::set_applied_workflows( $workflow_id );
+					self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 
 					return $discount;
 				case 'lowest_matched':
 					$discount    = min( $valid_discounts );
 					$workflow_id = array_search( $discount, $valid_discounts );
-					self::set_applied_workflows( $workflow_id );
+					self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 
 					return $discount;
 				default:
@@ -583,7 +607,7 @@ class Discount_Deals_Workflows {
 					$discount_total = 0;
 					foreach ( $valid_discounts as $workflow_id => $discount ) {
 						$discount_total += $discount;
-						self::set_applied_workflows( $workflow_id );
+						self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 					}
 
 					return $discount_total;
@@ -597,11 +621,18 @@ class Discount_Deals_Workflows {
 	 * Set all applied discounts in store.
 	 *
 	 * @param int $workflow_id workflow ID.
+	 * @param float $discount discount for particular workflow.
+	 * @param array $extra save some extra information.
 	 *
 	 * @return void
 	 */
-	public static function set_applied_workflows( $workflow_id ) {
-		self::$_applied_workflows[] = $workflow_id;
+	public static function set_applied_workflows( $workflow_id, $discount, $extra = array() ) {
+		self::$_applied_workflows[]          = $workflow_id;
+		self::$_applied_workflow_discounts[] = array(
+			'workflow_id'          => $workflow_id,
+			'discount_information' => $discount,
+			'extra_information'    => $extra
+		);
 	}
 
 	/**
@@ -629,6 +660,15 @@ class Discount_Deals_Workflows {
 		}
 
 		return $applied_workflows;
+	}
+
+	/**
+	 * Get all applied discounts in store.
+	 *
+	 * @return Discount_Deals_Workflow[]
+	 */
+	public static function get_applied_workflow_discounts() {
+		return self::$_applied_workflow_discounts;
 	}
 
 
@@ -708,7 +748,7 @@ class Discount_Deals_Workflows {
 		}
 
 		$valid_discounts['discounts']     = self::get_matched_cart_discount( $applied_discount );
-		$valid_discounts['free_shipping'] = self::get_matched_cart_discount( $free_shipping );
+		$valid_discounts['free_shipping'] = self::get_matched_cart_discount( $free_shipping, 'shipping' );
 
 		return $valid_discounts;
 	}//end get_cart_discount()
@@ -725,6 +765,11 @@ class Discount_Deals_Workflows {
 	public static function get_matched_cart_discount( $valid_discounts, $type = 'amount' ) {
 		$apply_as             = Discount_Deals_Settings::get_settings( 'apply_cart_discount_to', 'lowest_matched' );
 		$calculated_discounts = 0;
+		$extra_information    = array(
+			'type'       => 'cart',
+			'apply_as'   => $apply_as,
+			'apply_type' => $type
+		);
 		if ( ! empty( $valid_discounts ) ) {
 			switch ( $apply_as ) {
 				case 'biggest_with_free_shipping':
@@ -732,11 +777,11 @@ class Discount_Deals_Workflows {
 						$discount             = max( $valid_discounts );
 						$calculated_discounts = array( $discount );
 						$workflow_id          = array_search( $discount, $valid_discounts );
-						self::set_applied_workflows( $workflow_id );
+						self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 					} else {
 						$calculated_discounts = $valid_discounts;
 						foreach ( $valid_discounts as $workflow_id => $discount ) {
-							self::set_applied_workflows( $workflow_id );
+							self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 						}
 					}
 					break;
@@ -745,7 +790,7 @@ class Discount_Deals_Workflows {
 						$discount             = max( $valid_discounts );
 						$calculated_discounts = array( $discount );
 						$workflow_id          = array_search( $discount, $valid_discounts );
-						self::set_applied_workflows( $workflow_id );
+						self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 					} else {
 						$calculated_discounts = array();
 					}
@@ -755,11 +800,11 @@ class Discount_Deals_Workflows {
 						$discount             = min( $valid_discounts );
 						$calculated_discounts = array( $discount );
 						$workflow_id          = array_search( $discount, $valid_discounts );
-						self::set_applied_workflows( $workflow_id );
+						self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 					} else {
 						$calculated_discounts = $valid_discounts;
 						foreach ( $valid_discounts as $workflow_id => $discount ) {
-							self::set_applied_workflows( $workflow_id );
+							self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 						}
 					}
 					break;
@@ -768,7 +813,7 @@ class Discount_Deals_Workflows {
 						$discount             = min( $valid_discounts );
 						$calculated_discounts = array( $discount );
 						$workflow_id          = array_search( $discount, $valid_discounts );
-						self::set_applied_workflows( $workflow_id );
+						self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 					} else {
 						$calculated_discounts = array();
 					}
@@ -779,7 +824,7 @@ class Discount_Deals_Workflows {
 					} else {
 						$calculated_discounts = $valid_discounts;
 						foreach ( $valid_discounts as $workflow_id => $discount ) {
-							self::set_applied_workflows( $workflow_id );
+							self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 						}
 					}
 					break;
@@ -787,7 +832,7 @@ class Discount_Deals_Workflows {
 				case 'all_matched':
 					$calculated_discounts = $valid_discounts;
 					foreach ( $valid_discounts as $workflow_id => $discount ) {
-						self::set_applied_workflows( $workflow_id );
+						self::set_applied_workflows( $workflow_id, $discount, $extra_information );
 					}
 					break;
 			}
