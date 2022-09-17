@@ -17,7 +17,7 @@ class Discount_Deals_Admin_Settings {
 	 * Tab id for woocommerce
 	 * @var string $tab_id tab id
 	 */
-	protected static $tab_id = "discount_deals_settings";
+	protected static $tab_id = "discount-deals-settings";
 
 	/**
 	 * Init the settings

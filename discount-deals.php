@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name:       Discount Deals for WooCommerce
+ * Plugin Name:       Dynamic Product Pricing and Discount Rules
  * Plugin URI:        https://inperks.org
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Create simple to complex dynamic product pricing and discounts. A simple, flexible and powerful extension for dynamic discounts.
  * Version:           1.0.0
- * Author:            Inperks
- * Author URI:        https://inperks.org
+ * Author:            Discount Deals
+ * Author URI:        https://dynamicdiscount.deals
  * License:           GPL-3.0+
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       discount-deals
@@ -50,7 +50,7 @@ function deactivate_discount_deals() {
 register_deactivation_hook( __FILE__, 'deactivate_discount_deals' );
 
 /**
- * Load Discount Deals For WooCommerce only if woocommerce is activated
+ * Load Dynamic Product Pricing and Discount Rules only if woocommerce is activated
  *
  * @return Discount_Deals
  */
