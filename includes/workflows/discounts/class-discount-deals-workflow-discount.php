@@ -182,9 +182,9 @@ abstract class Discount_Deals_Workflow_Discount {
 				'value'    => discount_deals_get_value_from_array( $discount_details, 'when_to_show', 'all_time' ),
 				'label'    => __( 'When to show this promotional message?', 'discount-deals' ),
 				'options'  => array(
-					'before_rule' => __( 'Before all rules are passed', 'discount-deals' ),
-					'after_rule'  => __( 'After all rules are passed', 'discount-deals' ),
-					'all_time'    => __( 'All time', 'discount-deals' ),
+					'before_rule' => __( 'Before all workflow rules are passed', 'discount-deals' ),
+					'after_rule'  => __( 'After all workflow rules are passed', 'discount-deals' ),
+					'all_time'    => __( 'All time (Not checked against all rules)', 'discount-deals' ),
 				),
 				'required' => true,
 			)
@@ -197,8 +197,8 @@ abstract class Discount_Deals_Workflow_Discount {
 				'value'    => discount_deals_get_value_from_array( $discount_details, 'where_to_show', 'all_time' ),
 				'label'    => __( 'Where to show this promotional message?', 'discount-deals' ),
 				'options'  => array(
-					'before_add_to_cart_button'    => __( 'Before "Add to cart" button', 'discount-deals' ),
-					'after_add_to_cart_button'     => __( 'After "Add to cart" button', 'discount-deals' ),
+					'before_add_to_cart_button'    => __( 'Before "Add to cart" form', 'discount-deals' ),
+					'after_add_to_cart_button'     => __( 'After "Add to cart" form', 'discount-deals' ),
 					'after_single_product_summary' => __( 'Before product additional information', 'discount-deals' ),
 				),
 				'required' => true,
