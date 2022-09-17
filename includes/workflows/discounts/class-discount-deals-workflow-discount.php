@@ -258,7 +258,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * @return float|integer|mixed
 	 */
 	public function calculate_discount_amount( $type = '', $price = 0, $discount_value = 0 ) {
-
+		$price = floatval($price);
 		$discount = 0;
 		if ( empty( $type ) ) {
 			return $discount;
