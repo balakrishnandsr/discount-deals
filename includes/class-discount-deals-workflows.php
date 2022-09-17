@@ -22,6 +22,13 @@ class Discount_Deals_Workflows {
 	protected static $_discounts = array();
 
 	/**
+	 * Holds all discount types
+	 *
+	 * @var Discount_Deals_Workflow $_applied_workflows applied_workflows.
+	 */
+	protected static $_applied_workflows = array();
+
+	/**
 	 * Holds all rules
 	 *
 	 * @var array $_rules workflow rules.
@@ -329,9 +336,11 @@ class Discount_Deals_Workflows {
 				default:
 				case "lowest_matched":
 					$workflow_id = $workflow_ids[ array_search( min( $totals = array_column( $valid_discounts, 'total' ) ), $totals ) ];
+					self::set_applied_workflows( $workflow_id );
 					break;
 				case "biggest_matched":
 					$workflow_id = $workflow_ids[ array_search( max( $totals = array_column( $valid_discounts, 'total' ) ), $totals ) ];
+					self::set_applied_workflows( $workflow_id );
 					break;
 			}
 			$discount[ $workflow_id ] = $valid_discounts[ $workflow_id ];
@@ -558,17 +567,69 @@ class Discount_Deals_Workflows {
 		if ( ! empty( $valid_discounts ) ) {
 			switch ( $apply_as ) {
 				case 'biggest_matched':
-					return max( $valid_discounts );
+					$discount    = max( $valid_discounts );
+					$workflow_id = array_search( $discount, $valid_discounts );
+					self::set_applied_workflows( $workflow_id );
+
+					return $discount;
 				case 'lowest_matched':
-					return min( $valid_discounts );
+					$discount    = min( $valid_discounts );
+					$workflow_id = array_search( $discount, $valid_discounts );
+					self::set_applied_workflows( $workflow_id );
+
+					return $discount;
 				default:
 				case 'all_matched':
-					return array_sum( $valid_discounts );
+					$discount_total = 0;
+					foreach ( $valid_discounts as $workflow_id => $discount ) {
+						$discount_total += $discount;
+						self::set_applied_workflows( $workflow_id );
+					}
+
+					return $discount_total;
 			}
 		}
 
 		return 0;
 	}//end get_matched_product_discount()
+
+	/**
+	 * Set all applied discounts in store.
+	 *
+	 * @param int $workflow_id workflow ID.
+	 *
+	 * @return void
+	 */
+	public static function set_applied_workflows( $workflow_id ) {
+		self::$_applied_workflows[] = $workflow_id;
+	}
+
+	/**
+	 * Get all applied discounts in store.
+	 *
+	 * @return Discount_Deals_Workflow[]
+	 */
+	public static function get_applied_workflows() {
+		$applied_workflow_ids = array_unique( self::$_applied_workflows );
+		$applied_workflows    = array();
+		if ( ! empty( $applied_workflow_ids ) ) {
+			$active_workflows = self::get_active_workflows();
+			if ( ! empty( $active_workflows['all_active'] ) ) {
+				foreach ( $active_workflows['all_active'] as $workflow ) {
+					/**
+					 * Variable declaration.
+					 * @var Discount_Deals_Workflow $workflow workflow object.
+					 */
+					$workflow_id = $workflow->get_id();
+					if ( in_array( $workflow_id, $applied_workflow_ids ) ) {
+						$applied_workflows[] = $workflow;
+					}
+				}
+			}
+		}
+
+		return $applied_workflows;
+	}
 
 
 	/**
@@ -668,28 +729,46 @@ class Discount_Deals_Workflows {
 			switch ( $apply_as ) {
 				case 'biggest_with_free_shipping':
 					if ( 'amount' === $type ) {
-						$calculated_discounts = array( max( $valid_discounts ) );
+						$discount             = max( $valid_discounts );
+						$calculated_discounts = array( $discount );
+						$workflow_id          = array_search( $discount, $valid_discounts );
+						self::set_applied_workflows( $workflow_id );
 					} else {
 						$calculated_discounts = $valid_discounts;
+						foreach ( $valid_discounts as $workflow_id => $discount ) {
+							self::set_applied_workflows( $workflow_id );
+						}
 					}
 					break;
 				case 'biggest_without_free_shipping':
 					if ( 'amount' === $type ) {
-						$calculated_discounts = array( max( $valid_discounts ) );
+						$discount             = max( $valid_discounts );
+						$calculated_discounts = array( $discount );
+						$workflow_id          = array_search( $discount, $valid_discounts );
+						self::set_applied_workflows( $workflow_id );
 					} else {
 						$calculated_discounts = array();
 					}
 					break;
 				case 'lowest_with_free_shipping':
 					if ( 'amount' === $type ) {
-						$calculated_discounts = array( min( $valid_discounts ) );
+						$discount             = min( $valid_discounts );
+						$calculated_discounts = array( $discount );
+						$workflow_id          = array_search( $discount, $valid_discounts );
+						self::set_applied_workflows( $workflow_id );
 					} else {
 						$calculated_discounts = $valid_discounts;
+						foreach ( $valid_discounts as $workflow_id => $discount ) {
+							self::set_applied_workflows( $workflow_id );
+						}
 					}
 					break;
 				case 'lowest_without_free_shipping':
 					if ( 'amount' === $type ) {
-						$calculated_discounts = array( min( $valid_discounts ) );
+						$discount             = min( $valid_discounts );
+						$calculated_discounts = array( $discount );
+						$workflow_id          = array_search( $discount, $valid_discounts );
+						self::set_applied_workflows( $workflow_id );
 					} else {
 						$calculated_discounts = array();
 					}
@@ -699,11 +778,17 @@ class Discount_Deals_Workflows {
 						$calculated_discounts = array();
 					} else {
 						$calculated_discounts = $valid_discounts;
+						foreach ( $valid_discounts as $workflow_id => $discount ) {
+							self::set_applied_workflows( $workflow_id );
+						}
 					}
 					break;
 				default:
 				case 'all_matched':
 					$calculated_discounts = $valid_discounts;
+					foreach ( $valid_discounts as $workflow_id => $discount ) {
+						self::set_applied_workflows( $workflow_id );
+					}
 					break;
 			}
 		}

@@ -34,12 +34,12 @@ class Discount_Deals_Admin_Settings {
 	 */
 	public static function add_sections() {
 		$sections        = array(
-			// 'general'                             => __( 'General', 'discount-deals' ),
+			'general'                             => __( 'General', 'discount-deals' ),
 			'product-price-and-quantity-discount' => __( 'Product price and quantity based discount', 'discount-deals' ),
 			'cart-discount'                       => __( 'Cart subtotal based discount', 'discount-deals' ),
 			'bogo-discount'                       => __( 'Buy one Get one discount', 'discount-deals' ),
 		);
-		$current_section = discount_deals_get_data( 'section', 'product-price-and-quantity-discount' );
+		$current_section = discount_deals_get_data( 'section', 'general' );
 		echo '<ul class="subsubsub">';
 		$array_keys = array_keys( $sections );
 		foreach ( $sections as $id => $label ) {
@@ -95,7 +95,46 @@ class Discount_Deals_Admin_Settings {
 	 */
 	public static function get_settings_fields() {
 		$current_section = discount_deals_get_data( 'section', 'product-price-and-quantity-discount' );
-		if ( 'product-price-and-quantity-discount' == $current_section ) {
+		if ( 'general' == $current_section ) {
+			return array(
+				'general_section_title'          => array(
+					'name' => __( 'General', 'discount-deals' ),
+					'type' => 'title',
+					'desc' => '',
+					'id'   => 'wc_settings_tab_discount_deals_general_settings',
+				),
+				'show_applied_discounts_message' => array(
+					'name'    => __( 'Would you like to inform your customers about all applied discounts in their shopping cart?', 'discount-deals' ),
+					'type'    => 'radio',
+					'options' => array(
+						'yes' => __( 'Yes', 'discount-deals' ),
+						'no'  => __( 'No', 'discount-deals' ),
+					),
+					'value'   => Discount_Deals_Settings::get_settings( 'show_applied_discounts_message' ),
+					'id'      => 'wc_settings_tab_discount_deals_show_applied_discounts_message',
+				),
+				'combine_applied_discounts_message' => array(
+					'name'    => __( 'Would you like to merge multiple message into single message?', 'discount-deals' ),
+					'type'    => 'radio',
+					'options' => array(
+						'yes' => __( 'Yes', 'discount-deals' ),
+						'no'  => __( 'No', 'discount-deals' ),
+					),
+					'value'   => Discount_Deals_Settings::get_settings( 'combine_applied_discounts_message' ),
+					'id'      => 'wc_settings_tab_discount_deals_combine_applied_discounts_message',
+				),
+				'applied_discount_message'       => array(
+					'name'  => __( 'Message to be displayed to your customers on the shopping cart page?', 'discount-deals' ),
+					'type'  => 'text',
+					'value' => Discount_Deals_Settings::get_settings( 'applied_discount_message' ),
+					'id'    => 'wc_settings_tab_discount_deals_applied_discount_message',
+				),
+				'general_section_end'            => array(
+					'type' => 'sectionend',
+					'id'   => 'wc_settings_tab_discount_deals_general_settings_end',
+				)
+			);
+		} elseif ( 'product-price-and-quantity-discount' == $current_section ) {
 			return array(
 				'product_section_title'       => array(
 					'name' => __( 'Product discount', 'discount-deals' ),

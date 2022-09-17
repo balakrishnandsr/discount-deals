@@ -223,6 +223,18 @@ if ( ! function_exists( 'discount_deals_get_cart_discount' ) ) {
 
 }
 
+if ( ! function_exists( 'discount_deals_get_applied_workflows' ) ) {
+	/**
+	 * get applied workflows
+	 *
+	 * @return Discount_Deals_Workflow[]
+	 */
+	function discount_deals_get_applied_workflows() {
+		return Discount_Deals_Workflows::get_applied_workflows();
+	}//end discount_deals_get_cart_discount()
+
+}
+
 if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {
 	/**
 	 * Get all categories of the shop

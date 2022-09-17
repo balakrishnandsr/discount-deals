@@ -158,7 +158,7 @@ class Discount_Deals_Public {
 		add_filter( 'woocommerce_cart_item_quantity', array( $this, 'hide_cart_item_quantity_update' ), 99, 3 );
 		add_action( 'woocommerce_after_cart_item_name', array( $this, 'highlight_free_gifts' ), 99, 2 );
 		add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout_for_bogo' ), 99, 3 );
-		add_filter( 'woocommerce_before_cart', array( $this, 'show_bxgy_eligible_notices' ), 9 );
+		add_filter( 'woocommerce_before_cart', array( $this, 'show_bxgy_eligible_notices' ), 99 );
 		// Promotional messages
 		add_action( 'woocommerce_before_add_to_cart_form', array(
 			$this,
@@ -183,7 +183,55 @@ class Discount_Deals_Public {
 		) );
 		//Remove unwanted stuffs after order placed
 		add_action( 'woocommerce_new_order', array( $this, 'on_after_new_order' ), 99 );
+		// Show applied discounts
+		add_action( 'woocommerce_before_cart', array( $this, 'show_applied_workflow_notices' ), 98 );
 	}//end init_public_hooks()
+
+	/**
+	 * Show applied workflows to the cart users.
+	 *
+	 * @return void
+	 */
+	public function show_applied_workflow_notices() {
+		discount_deals_get_cart_discount();
+		$applied_workflows = discount_deals_get_applied_workflows();
+
+		if ( ! empty( $applied_workflows ) ) {
+			$need_to_show_message = Discount_Deals_Settings::get_settings( 'show_applied_discounts_message', 'yes' );
+			if ( 'yes' != $need_to_show_message ) {
+				return;
+			}
+			$message = Discount_Deals_Settings::get_settings( 'applied_discount_message' );
+			if ( empty( $message ) ) {
+				return;
+			}
+			$combine_message = Discount_Deals_Settings::get_settings( 'combine_applied_discounts_message', 'no' );
+			if ( 'yes' == $combine_message ) {
+				$titles = '';
+				$total  = count( $applied_workflows );
+				foreach ( $applied_workflows as $index => $workflow ) {
+					$titles .= $workflow->get_title();
+					if ( $total > 1 ) {
+						if ( $total != $index + 1 ) {
+							$titles .= ', ';
+						}
+						if ( $total - 2 == $index ) {
+							$titles .= __( ' and ', 'discount-deals' );
+						}
+					}
+				}
+				$new_message = str_replace( '{{workflow_title}}', $titles, $message );
+				$new_message = apply_filters( 'discount_deals_applied_workflow_text', $new_message, $applied_workflows, null );
+				wc_print_notice( $new_message );
+			} else {
+				foreach ( $applied_workflows as $workflow ) {
+					$new_message = str_replace( '{{workflow_title}}', $workflow->get_title(), $message );
+					$new_message = apply_filters( 'discount_deals_applied_workflow_text', $new_message, $applied_workflows, $workflow );
+					wc_print_notice( $new_message );
+				}
+			}
+		}
+	}
 
 	/**
 	 * Do remove some session variables and transient after order is newly placed.
