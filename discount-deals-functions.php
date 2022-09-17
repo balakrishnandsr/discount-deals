@@ -201,10 +201,10 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	function discount_deals_get_value_from_array( $array, $key, $default_value = null, $clean = true ) {
 		if ( is_array( $array ) && array_key_exists( $key, $array ) ) {
 			if ( ! $clean ) {
-				return $array[ $key ];
+				return wp_unslash( $array[ $key ] );
 			}
 
-			return wc_clean( $array[ $key ] );
+			return wc_clean( wp_unslash( $array[ $key ] ) );
 		}
 
 		return $default_value;

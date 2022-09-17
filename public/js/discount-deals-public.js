@@ -7,6 +7,21 @@
 (function ($) {
     'use strict';
     var timeout = false;
+
+    function refresh_cart() {
+        $('body').trigger('update_checkout');
+    }
+
+    $(document).on('change', 'input[name="payment_method"],input[name="billing_city"],input[name="billing_company"],input[name="billing_postcode"],input[name="billing_phone"]', function () {
+        refresh_cart();
+    });
+
+    /**
+     * refresh cart when Email changed
+     */
+    $(document).on('blur', 'input[name="billing_email"], select#billing_state', function () {
+        refresh_cart();
+    });
     $(document).on('change', '[name="quantity"]', function () {
         if (timeout) {
             clearTimeout(timeout);
