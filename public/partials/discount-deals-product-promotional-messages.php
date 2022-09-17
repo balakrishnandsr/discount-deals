@@ -16,12 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var WC_Product $product product object.
  * @var string $position product object.
  * @var array $product_discounts product object.
+ * @var Discount_Deals_Public $this public class.
  */
 if ( ! empty( $all_promotions ) ) {
 	global $product;
 
 	if ( ! empty( $all_promotions['bulk_promotions'] ) ) {
-		$bulk_promotions = $all_promotions['bulk_promotions'];
+		$show_table_summary = apply_filters( 'discount_deals_show_bulk_table_summary', true, $product, $this );
+		$items_in_cart      = $this->get_quantities_in_cart( $product );
+		$bulk_promotions    = $all_promotions['bulk_promotions'];
 		usort( $bulk_promotions, 'discount_deals_arrange_discounts_by_quantity_range' );
 		$calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
 		$product_id              = $product->get_id();
@@ -57,21 +60,10 @@ if ( ! empty( $all_promotions ) ) {
 					} else {
 						$discount_value = wc_price( $value );
 					}
-					$discount_price = $price - $value;
 				} else {
 					$discount_value = $value . '%';
-					if ( empty( $value ) ) {
-						$discount = $price;
-					} elseif ( 100 < $value ) {
-						$discount = 0;
-					} else {
-						$discount = $price * ( $value / 100 );
-					}
-					if ( 0 < floatval( $max_discount ) ) {
-						$discount = min( floatval( $max_discount ), $discount );
-					}
-					$discount_price = $price - $discount;
 				}
+				$discount_price = discount_deals_get_product_discount( $price, $product, $min_quantity, false );
 				?>
                 <tr>
                     <td><?php echo $min_quantity . '-' . $max_quantity ?></td>
@@ -82,6 +74,42 @@ if ( ! empty( $all_promotions ) ) {
 			}
 			?>
             </tbody>
+			<?php
+			if ( $show_table_summary ) {
+				?>
+                <tfoot>
+                <tr>
+                    <th colspan="3"><?php _e( 'Summary' ) ?></th>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <div class="dd-bulk-table-summary-quantity">
+							<?php
+							$new_quantity       = $items_in_cart + 1;
+							$new_discount_price = discount_deals_get_product_discount( $price, $product, $new_quantity, false );
+							echo $new_quantity . ' &times; ' . wc_price( $new_discount_price );
+							?>
+                        </div>
+                        <small class="dd-bulk-table-summary-quantity-in-cart">
+							<?php
+							if ( 0 < $items_in_cart ) {
+								echo apply_filters( 'discount_Deals_bulk_table_summary_items_in_cart_text', sprintf( "%s %d %s %d %s", __( 'Of', 'discount-deals' ), $new_quantity, __( 'quantities, ', 'discount-deals' ), $items_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $new_quantity, $items_in_cart, $product, $this );
+							}
+							?>
+                        </small>
+                    </th>
+                    <th>
+                        <div class="dd-bulk-table-summary-total">
+							<?php
+							echo wc_price( $new_quantity * $new_discount_price );
+							?>
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+				<?php
+			}
+			?>
         </table>
 		<?php
 	}
