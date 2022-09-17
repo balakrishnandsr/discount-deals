@@ -181,7 +181,25 @@ class Discount_Deals_Public {
 			$this,
 			'get_product_discount_price'
 		) );
+		//Remove unwanted stuffs after order placed
+		add_action( 'woocommerce_new_order', array( $this, 'on_after_new_order' ), 99 );
 	}//end init_public_hooks()
+
+	/**
+	 * Do remove some session variables and transient after order is newly placed.
+	 *
+	 * @param int $order_id order id.
+	 *
+	 * @return void
+	 */
+	public function on_after_new_order( $order_id = 0 ) {
+		WC()->session->__unset( 'discount_deals_cart_created_time' );
+		$order = wc_get_order( $order_id );
+		if ( is_a( $order, 'WC_Order' ) ) {
+			$customer_id = $order->get_customer_id();
+			delete_transient( 'discount_deals_cpp_' . $customer_id );
+		}
+	}
 
 	/**
 	 * Set woocommerce product price as per simple discount.
@@ -643,7 +661,6 @@ class Discount_Deals_Public {
 	 * @param array $cart_item_data cart item details.
 	 */
 	public function item_added_to_cart( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
-		// TODO: remove session value after order placement
 		$created_time = WC()->session->get( 'discount_deals_cart_created_time', false );
 		if ( ! $created_time ) {
 			WC()->session->set( 'discount_deals_cart_created_time', current_time( 'U', true ) );

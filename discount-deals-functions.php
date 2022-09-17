@@ -370,7 +370,9 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 		if ( ! is_a( $customer, 'WC_Customer' ) ) {
 			return array();
 		}
-		// TODO: remove transient after order place
+		if ( 0 >= $customer->get_id() ) {
+			return array();
+		}
 		$transient_name = 'discount_deals_cpp_' . $customer->get_id();
 		$products       = get_transient( $transient_name );
 		if ( $products === false ) {
