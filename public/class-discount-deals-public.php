@@ -24,6 +24,13 @@ class Discount_Deals_Public {
 	private static $cart_item_discounts = array();
 
 	/**
+	 * Need to forcefully calculate product price instead of get from cache.
+	 *
+	 * @var bool $force_fetch_price yes/no.
+	 */
+	private $force_fetch_price = false;
+
+	/**
 	 * Stores discount for each item.
 	 *
 	 * @var float[] $product_discounts item discounts.
@@ -199,7 +206,36 @@ class Discount_Deals_Public {
 			$this,
 			'before_checkout_create_order_line_item'
 		), 99, 4 );
+		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'update_order_review' ), 9 );
 	}//end init_public_hooks()
+
+	/**
+	 * Update checkout form data
+	 *
+	 * @param string $post_data all post data.
+	 *
+	 * @return void
+	 */
+	public function update_order_review( $post_data ) {
+		if ( empty( $post_data ) ) {
+			return;
+		}
+		$post = array();
+		wp_parse_str( $post_data, $post );
+		WC()->customer->set_props( array(
+			'billing_first_name'  => discount_deals_get_value_from_array( $post, 'billing_first_name' ),
+			'billing_last_name'   => discount_deals_get_value_from_array( $post, 'billing_last_name' ),
+			'billing_company'     => discount_deals_get_value_from_array( $post, 'billing_company' ),
+			'billing_email'       => discount_deals_get_value_from_array( $post, 'billing_email' ),
+			'billing_phone'       => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+			'shipping_company'    => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+			'shipping_first_name' => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+			'shipping_last_name'  => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+		) );
+		// By default, price will be fetched from cache. Here we need to recalculate once again.
+		// So we are using this flag.
+		$this->force_fetch_price = true;
+	}
 
 	/**
 	 * Set order item meta details
@@ -1049,7 +1085,7 @@ class Discount_Deals_Public {
 			return $price;
 		}
 		$product_id = $product->get_id();
-		if ( array_key_exists( $product_id, self::$product_discounts ) ) {
+		if ( array_key_exists( $product_id, self::$product_discounts ) && ! $this->force_fetch_price ) {
 			if ( self::$product_discounts[ $product_id ]['quantity_while_calculation'] == $quantity ) {
 				return self::$product_discounts[ $product_id ]['discounted_price'];
 			}
@@ -1062,6 +1098,9 @@ class Discount_Deals_Public {
 			'price_before_discount'      => $price,
 			'quantity_while_calculation' => $quantity,
 		);
+
+		//Reset to force fetch false;
+		$this->force_fetch_price = false;
 
 		return $discounted_price;
 	}//end get_product_price()
