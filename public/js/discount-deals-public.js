@@ -54,12 +54,15 @@
                             $price_place.html(response.original_price_html)
                         }
                     }
+                    $('.dd-bulk-table-summary-quantity').html(response.quantity_price_summary);
+                    $('.dd-bulk-table-summary-quantity-in-cart').html(response.existing_quantity_summary);
+                    $('.dd-bulk-table-summary-total').html(response.total_price_summary);
                 },
                 error: function (response) {
                     $price_place.html("")
                 }
             });
-        }, 1500)
+        }, 1000)
     });
 
 })(jQuery);

@@ -188,6 +188,8 @@ class Discount_Deals_Public {
 	 *
 	 */
 	public function get_product_discount_price() {
+		remove_filter( 'woocommerce_product_get_price', array( $this, 'get_product_price' ), 99 );
+		remove_filter( 'woocommerce_product_variation_get_price', array( $this, 'get_product_price' ), 99 );
 		$nonce = discount_deals_get_post_data( 'nonce', '' );
 		if ( ! wp_verify_nonce( $nonce, 'discount-deals-bulk-discount' ) ) {
 			die( 0 );
@@ -197,19 +199,25 @@ class Discount_Deals_Public {
 		if ( 0 >= $product_qty && 0 >= $product_id ) {
 			die( 0 );
 		}
-		$product     = wc_get_product( $product_id );
-		$quantity    = $this->get_quantities_in_cart( $product );
-		$product_qty += $quantity;
+		$product               = wc_get_product( $product_id );
+		$quantity_in_cart      = $this->get_quantities_in_cart( $product );
+		$quantity_to_calculate = $product_qty + $quantity_in_cart;
 		if ( array_key_exists( $product_id, self::$product_discounts ) ) {
 			$price = self::$product_discounts[ $product_id ]['price_before_discount'];
 		} else {
 			$price = $product->get_price();
 		}
 
-		$discount = discount_deals_get_product_discount( $price, $product, $product_qty, false );
+		$discount = discount_deals_get_product_discount( $price, $product, $quantity_to_calculate, false );
 		wp_send_json( array(
-			'success'    => true,
-			'price_html' => wc_format_sale_price( $product->get_regular_price(), $discount )
+			'success'                   => true,
+			'price_html'                => wc_format_sale_price( $product->get_regular_price(), $discount ),
+			'new_quantity'              => $product_qty,
+			'quantity_in_cart'          => $quantity_in_cart,
+			'discount'                  => wc_price( $discount ),
+			'quantity_price_summary'    => $quantity_to_calculate . ' &times; ' . wc_price( $discount ),
+			'existing_quantity_summary' => apply_filters( 'discount_Deals_bulk_table_summary_items_in_cart_text', sprintf( "%s %d %s %d %s", __( 'Of', 'discount-deals' ), $quantity_to_calculate, __( 'quantities, ', 'discount-deals' ), $quantity_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $quantity_to_calculate, $quantity_in_cart, $product, $this ),
+			'total_price_summary'       => wc_price( $quantity_to_calculate * $discount )
 		) );
 	}//end get_product_price()
 
@@ -830,8 +838,6 @@ class Discount_Deals_Public {
 		$quantity = $this->get_quantities_in_cart( $product );
 		if ( 0 >= $quantity ) {
 			$quantity = 1;
-		} else {
-			$quantity += 1;
 		}
 		$product_id = $product->get_id();
 		if ( array_key_exists( $product_id, self::$product_discounts ) ) {
