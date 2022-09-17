@@ -94,7 +94,7 @@ class Discount_Deals_Admin_Settings {
 	 * @return array
 	 */
 	public static function get_settings_fields() {
-		$current_section = discount_deals_get_data( 'section', 'product-price-and-quantity-discount' );
+		$current_section = discount_deals_get_data( 'section', 'general' );
 		if ( 'general' == $current_section ) {
 			return array(
 				'general_section_title'          => array(

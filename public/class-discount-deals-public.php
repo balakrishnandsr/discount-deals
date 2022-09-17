@@ -936,7 +936,7 @@ class Discount_Deals_Public {
 		/*
 		 * @var WC_Product $product product.
 		 */
-		$sale_price    = $product->get_sale_price();
+		$sale_price    = $product->get_price();
 		$regular_price = $product->get_regular_price();
 		if ( is_numeric( $regular_price ) && is_numeric( $sale_price ) ) {
 			if ( $sale_price < $regular_price ) {
