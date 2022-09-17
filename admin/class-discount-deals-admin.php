@@ -225,7 +225,7 @@ class Discount_Deals_Admin {
 		$action = discount_deals_get_data( 'action', 'list' );
 		$page   = discount_deals_get_data( 'page', '' );
 		$tab    = discount_deals_get_data( 'tab', '' );
-		if ( 'wc-settings' == $page && 'discount_deals_settings' == $tab ) {
+		if ( 'wc-settings' == $page && 'discount-deals-settings' == $tab ) {
 			wp_enqueue_script( $this->plugin_slug . '-settings', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-settings.js', array( 'jquery' ), $this->version );
 
 			return;

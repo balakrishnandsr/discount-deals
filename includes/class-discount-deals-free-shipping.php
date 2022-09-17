@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'Discount_Deals_Free_Shipping' ) ) {
 	/**
-	 * Discount Deals Main class.
+	 * Free Shipping Main class.
 	 */
 	class Discount_Deals_Free_Shipping extends WC_Shipping_Method {
 

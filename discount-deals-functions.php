@@ -223,6 +223,29 @@ if ( ! function_exists( 'discount_deals_get_cart_discount' ) ) {
 
 }
 
+if ( ! function_exists( 'discount_deals_get_applied_workflows' ) ) {
+	/**
+	 * get applied workflows
+	 *
+	 * @return Discount_Deals_Workflow[]
+	 */
+	function discount_deals_get_applied_workflows() {
+		return Discount_Deals_Workflows::get_applied_workflows();
+	}//end discount_deals_get_applied_workflows()
+
+}
+
+if ( ! function_exists( 'discount_deals_get_applied_workflow_discounts' ) ) {
+	/**
+	 * get applied workflows
+	 *
+	 * @return array
+	 */
+	function discount_deals_get_applied_workflow_discounts() {
+		return Discount_Deals_Workflows::get_applied_workflow_discounts();
+	}//end discount_deals_get_applied_workflow_discounts()
+}
+
 if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {
 	/**
 	 * Get all categories of the shop
@@ -370,7 +393,9 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 		if ( ! is_a( $customer, 'WC_Customer' ) ) {
 			return array();
 		}
-		// TODO: remove transient after order place
+		if ( 0 >= $customer->get_id() ) {
+			return array();
+		}
 		$transient_name = 'discount_deals_cpp_' . $customer->get_id();
 		$products       = get_transient( $transient_name );
 		if ( $products === false ) {
