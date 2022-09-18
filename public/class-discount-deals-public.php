@@ -799,7 +799,7 @@ class Discount_Deals_Public {
 						$discount_quantity           = $actual_discount['discount_quantity'];
 						$original_price_quantity     = $quantity_in_cart - $discount_quantity;
 						$discounted_cart_item_object = apply_filters( 'discount_deals_cart_item_product', $discounted_cart_item['data'], $discounted_cart_item, $discounted_cart_item_key );
-						$item_price                  = $discounted_cart_item_object->get_sale_price();
+						$item_price                  = $discounted_cart_item_object->get_price();
 
 						// IF the discount is flat or percentage, then do calculations accordingly.
 						if ( $quantity_in_cart < $discount_quantity ) {
@@ -812,14 +812,17 @@ class Discount_Deals_Public {
 							if ( 0 >= $total_discounted_price ) {
 								$total_discounted_price = ( $item_price * $discount_quantity );
 								$total_discount         = ( $item_price * $original_price_quantity ) - $total_discounted_price;
-								$discount_per_item      = $total_discount / $quantity_in_cart;
+								if ( 0 >= $total_discount ) {
+									$discount_per_item = $total_discounted_price / $quantity_in_cart;
+								} else {
+									$discount_per_item = $total_discount / $quantity_in_cart;
+								}
 							} else {
 								$discount_per_item = $actual_discount['total'] / $quantity_in_cart;
 							}
 						}
 
-						$price_per_product       = $item_price - $discount_per_item;
-						$actual_discounted_price = $discounted_cart_item_object->get_price() - $actual_discount['discount'];
+						$price_per_product = $item_price - $discount_per_item;
 						if ( 0 >= $price_per_product ) {
 							$price_per_product = 0;
 						}
@@ -827,7 +830,7 @@ class Discount_Deals_Public {
 						self::$priced_bogo_products[ $discounted_cart_item_key ] = array(
 							'original_price'          => $discounted_cart_item_object->get_price(),
 							'original_price_quantity' => max( 0, $original_price_quantity ),
-							'discount_price'          => $actual_discounted_price,
+							'discount_price'          => $item_price - $actual_discount['discount'],
 							'discount_quantity'       => $discount_quantity,
 							'meta'                    => $actual_discount,
 						);

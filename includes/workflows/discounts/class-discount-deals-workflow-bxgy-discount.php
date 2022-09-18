@@ -62,12 +62,13 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Pick the free item frm cart
 	 *
+	 * @param WC_Cart $cart cart object
 	 * @param string $which Which discount should apply to the cart?
 	 *
 	 * @return array|mixed
 	 */
-	public function pick_item_from_cart( $which = "lowest" ) {
-		$cart_items = WC()->cart->get_cart();
+	public function pick_item_from_cart( $cart, $which = "lowest" ) {
+		$cart_items = $cart->get_cart();
 		if ( empty( $cart_items ) ) {
 			return array();
 		}
@@ -76,14 +77,13 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 			if ( ! empty( $cart_item['discount_deals_free_gift'] ) ) {
 				continue;
 			}
-			$item_details   = array(
+			$all_products[] = array(
 				'product_id'    => $cart_item['product_id'],
 				'variation_id'  => $cart_item['variation_id'],
 				'variation'     => $cart_item['variation'],
-				'price'         => $cart_item['data']->get_sale_price(),
+				'price'         => $cart_item['data']->get_price(),
 				'cart_item_key' => $cart_item_key,
 			);
-			$all_products[] = $item_details;
 		}
 		if ( 'lowest' == $which ) {
 			return $all_products[ array_search( min( $totals = array_column( $all_products, 'price' ) ), $totals ) ];
@@ -184,6 +184,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 		if ( $product_quantity <= 0 ) {
 			$product_quantity = 1;
 		}
+		$cart = WC()->cart;
 		foreach ( $discount_details as $discount_detail ) {
 			$free_quantity = discount_deals_get_value_from_array( $discount_detail, 'free_quantity', 1 );
 			if ( 0 >= $free_quantity ) {
@@ -201,16 +202,16 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 				switch ( $free_product_type ) {
 					default:
 					case "cheapest_in_cart":
-						$discount_products = $this->pick_item_from_cart();
+						$discount_products = $this->pick_item_from_cart( $cart );
 						break;
 					case "biggest_in_cart":
-						$discount_products = $this->pick_item_from_cart( 'biggest' );
+						$discount_products = $this->pick_item_from_cart( $cart, 'biggest' );
 						break;
 					case "cheapest_in_store":
-						$discount_products = $this->pick_item_from_store();
+						$discount_products = $this->pick_item_from_store( $cart );
 						break;
 					case "biggest_in_store":
-						$discount_products = $this->pick_item_from_store( 'biggest' );
+						$discount_products = $this->pick_item_from_store( $cart, 'biggest' );
 						break;
 					case "products":
 						$discount_products = $this->format_picked_items( $free_product );
