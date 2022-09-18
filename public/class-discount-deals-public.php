@@ -1038,7 +1038,7 @@ class Discount_Deals_Public {
 		$regular_price = $product->get_regular_price();
 		if ( is_numeric( $regular_price ) && is_numeric( $sale_price ) ) {
 			if ( $sale_price < $regular_price ) {
-				$saved_price = $this->calculate_tax_for_cart_item( $product, self::$cart_item_discounts[ $cart_item_key ], $quantity );
+				$saved_price = $this->calculate_tax_for_cart_item( $product, $regular_price - $sale_price, $quantity );
 				$message     = str_replace( '{{discount}}', wc_price( $saved_price ), $you_save_text );
 
 				return $item_subtotal . '<p class="dd-you-save-text" style="color: green;">' . $message . '</p>';
