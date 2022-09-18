@@ -796,37 +796,42 @@ class Discount_Deals_Public {
 							continue;
 						}
 						$quantity_in_cart            = $discounted_cart_item['quantity'];
+						$discount_quantity           = $actual_discount['discount_quantity'];
+						$original_price_quantity     = $quantity_in_cart - $discount_quantity;
 						$discounted_cart_item_object = apply_filters( 'discount_deals_cart_item_product', $discounted_cart_item['data'], $discounted_cart_item, $discounted_cart_item_key );
+						$item_price                  = $discounted_cart_item_object->get_sale_price();
+
 						// IF the discount is flat or percentage, then do calculations accordingly.
-						if ( $actual_discount['discount_quantity'] > $quantity_in_cart ) {
+						if ( $quantity_in_cart < $discount_quantity ) {
 							// If free quantity is greater than cart item quantity, set discount as discount for individual product
 							$discount_per_item = $actual_discount['discount'];
+							$discount_quantity = $quantity_in_cart;
 						} else {
 							// else, take total quantity and calculate accordingly.
-							$discount_per_item = $actual_discount['total'] / $quantity_in_cart;
-						}
-						$price_per_product = $discounted_cart_item_object->get_sale_price() - $discount_per_item;
-
-						$actual_discount_quantity = $actual_discount['discount_quantity'];
-						if ( $quantity_in_cart < $actual_discount['discount_quantity'] ) {
-							$actual_discount_quantity = $quantity_in_cart;
-						}
-
-						$actual_discounted_price = $discounted_cart_item_object->get_sale_price() - $actual_discount['discount'];
-						if ( 0 >= $price_per_product ) {
-							$actual_discounted_price = 0;
+							$total_discounted_price = ( $item_price * $discount_quantity ) - $actual_discount['total'];
+							if ( 0 >= $total_discounted_price ) {
+								$total_discounted_price = ( $item_price * $discount_quantity );
+								$total_discount         = ( $item_price * $original_price_quantity ) - $total_discounted_price;
+								$discount_per_item      = $total_discount / $quantity_in_cart;
+							} else {
+								$discount_per_item = $actual_discount['total'] / $quantity_in_cart;
+							}
 						}
 
-						self::$priced_bogo_products[ $discounted_cart_item_key ] = array(
-							'original_price'          => $discounted_cart_item_object->get_sale_price(),
-							'original_price_quantity' => $discounted_cart_item['quantity'] - $actual_discount['discount_quantity'],
-							'discount_price'          => $actual_discounted_price,
-							'discount_quantity'       => $actual_discount_quantity,
-							'meta'                    => $actual_discount,
-						);
+						$price_per_product       = $item_price - $discount_per_item;
+						$actual_discounted_price = $discounted_cart_item_object->get_price() - $actual_discount['discount'];
 						if ( 0 >= $price_per_product ) {
 							$price_per_product = 0;
 						}
+
+						self::$priced_bogo_products[ $discounted_cart_item_key ] = array(
+							'original_price'          => $discounted_cart_item_object->get_price(),
+							'original_price_quantity' => max( 0, $original_price_quantity ),
+							'discount_price'          => $actual_discounted_price,
+							'discount_quantity'       => $discount_quantity,
+							'meta'                    => $actual_discount,
+						);
+
 						$this->calculate_discount = false;
 						$discounted_cart_item_object->set_price( $price_per_product );
 					}
@@ -995,7 +1000,11 @@ class Discount_Deals_Public {
 			$regular_price  = $this->calculate_tax_for_cart_item( $product, $regular_price );
 			$discount_price = $this->calculate_tax_for_cart_item( $product, $discount_details['discount_price'] );
 			$original_price = $this->calculate_tax_for_cart_item( $product, $discount_details['original_price'] );
-			$item_price     = '<div>' . wc_format_sale_price( $regular_price, $discount_price ) . ' &times; ' . $discount_details['discount_quantity'] . '</div>';
+			$item_price     = '<div>' . wc_format_sale_price( $regular_price, $discount_price );
+			if ( 1 < $discount_details['discount_quantity'] ) {
+				$item_price .= ' &times; ' . $discount_details['discount_quantity'];
+			}
+			$item_price .= ' </div>';
 			if ( 0 < $discount_details['original_price_quantity'] ) {
 				$item_price .= '<div>' . wc_format_sale_price( $regular_price, $original_price ) . ' &times; ' . $discount_details['original_price_quantity'] . '</div>';
 			}
