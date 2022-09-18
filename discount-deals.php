@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Dynamic Product Pricing and Discount Rules
- * Plugin URI:        https://inperks.org
+ * Plugin URI:        https://dynamicdiscount.deals
  * Description:       Create simple to complex dynamic product pricing and discounts. A simple, flexible and powerful extension for dynamic discounts.
  * Version:           1.0.0
  * Author:            Discount Deals

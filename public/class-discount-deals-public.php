@@ -31,6 +31,13 @@ class Discount_Deals_Public {
 	private $force_fetch_price = false;
 
 	/**
+	 * Need to calculate discount at the time?.
+	 *
+	 * @var bool $calculate_discount yes/no.
+	 */
+	private $calculate_discount = true;
+
+	/**
 	 * Stores discount for each item.
 	 *
 	 * @var float[] $product_discounts item discounts.
@@ -248,7 +255,7 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function before_checkout_create_order_line_item( $item, $cart_item_key, $cart_item, $order ) {
-		$product = $cart_item['data'];
+		$product = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 		if ( ! is_a( $product, 'WC_Product' ) ) {
 			return;
 		}
@@ -465,8 +472,8 @@ class Discount_Deals_Public {
 		$quantity   = 0;
 		// For bulk discount, check cart item quantity and calculate discount
 		if ( ! empty( $cart_items ) ) {
-			foreach ( $cart_items as $cart_item ) {
-				$cart_item_object = $cart_item['data'];
+			foreach ( $cart_items as $cart_item_key => $cart_item ) {
+				$cart_item_object = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 				if ( is_a( $cart_item_object, 'WC_Product' ) ) {
 					if ( $product->get_id() == $cart_item_object->get_id() ) {
 						$quantity = ! empty( $cart_item['quantity'] ) ? intval( $cart_item['quantity'] ) : 0;
@@ -608,9 +615,10 @@ class Discount_Deals_Public {
 		if ( empty( $cart_items ) ) {
 			return;
 		}
-		foreach ( $cart_items as $cart_item ) {
+		foreach ( $cart_items as $cart_item_key => $cart_item ) {
 			if ( $this->is_free_cart_item( $cart_item ) ) {
-				$cart_item['data']->set_price( 0 );
+				$product = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+				$product->set_price( 0 );
 			}
 		}
 	}//end hide_cart_item_remove_link()
@@ -699,7 +707,7 @@ class Discount_Deals_Public {
 		$cart_items = WC()->cart->get_cart();
 		if ( ! empty( $cart_items ) ) {
 			foreach ( $cart_items as $cart_item_key => $cart_item ) {
-				$cart_item_object = $cart_item['data'];
+				$cart_item_object = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 				if ( is_a( $cart_item_object, 'WC_Product' ) ) {
 					if ( $this->is_free_cart_item( $cart_item ) ) {
 						$actual_product_key = $cart_item[ $this->_free_cart_item_key ];
@@ -757,7 +765,6 @@ class Discount_Deals_Public {
 						}
 						self::$free_products[] = $free_product_detail;
 					} else {
-						// No free product in discount abut previous free product traces found.
 						if ( $free_product_cart_key ) {
 							// Remove it. We don't need anymore.
 							self::$remove_products[] = $free_product_cart_key;
@@ -789,7 +796,7 @@ class Discount_Deals_Public {
 							continue;
 						}
 						$quantity_in_cart            = $discounted_cart_item['quantity'];
-						$discounted_cart_item_object = $discounted_cart_item['data'];
+						$discounted_cart_item_object = apply_filters( 'discount_deals_cart_item_product', $discounted_cart_item['data'], $discounted_cart_item, $discounted_cart_item_key );
 						// IF the discount is flat or percentage, then do calculations accordingly.
 						if ( $actual_discount['discount_quantity'] > $quantity_in_cart ) {
 							// If free quantity is greater than cart item quantity, set discount as discount for individual product
@@ -820,6 +827,7 @@ class Discount_Deals_Public {
 						if ( 0 >= $price_per_product ) {
 							$price_per_product = 0;
 						}
+						$this->calculate_discount = false;
 						$discounted_cart_item_object->set_price( $price_per_product );
 					}
 				}
@@ -932,18 +940,27 @@ class Discount_Deals_Public {
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			return $item_price;
 		}
-		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+		$product = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 		/*
 		 * @var WC_Product $product product.
 		 */
-		$sale_price    = $product->get_price();
-		$regular_price = $product->get_regular_price();
+		$sale_price          = $product->get_price();
+		$show_strikeout_from = apply_filters( 'discount_deals_cart_item_show_strikeout_from', 'regular_price', $item_price, $cart_item, $cart_item_key );
+		$regular_price       = $product->get_regular_price();
+
+		if ( 'sale_price' == $show_strikeout_from ) {
+			$product_id = $product->get_id();
+			if ( array_key_exists( $product_id, self::$product_discounts ) ) {
+				$regular_price = self::$product_discounts[ $product_id ]['price_before_discount'];
+			}
+		}
+
 		if ( is_numeric( $regular_price ) && is_numeric( $sale_price ) ) {
 			if ( $sale_price < $regular_price ) {
 				if ( ! isset( self::$cart_item_discounts[ $cart_item_key ] ) ) {
 					self::$cart_item_discounts[ $cart_item_key ] = $regular_price - $sale_price;
 				}
-				$item_price = wc_format_sale_price( $regular_price, $sale_price );
+				$item_price = wc_format_sale_price( $this->calculate_tax_for_cart_item( $product, $regular_price, $cart_item['quantity'] ), $this->calculate_tax_for_cart_item( $product, $sale_price, $cart_item['quantity'] ) );
 			}
 		}
 
@@ -964,9 +981,23 @@ class Discount_Deals_Public {
 		}
 		if ( array_key_exists( $cart_item_key, self::$priced_bogo_products ) ) {
 			$discount_details = self::$priced_bogo_products[ $cart_item_key ];
-			$item_price       = '<div>' . wc_format_sale_price( $discount_details['original_price'], $discount_details['discount_price'] ) . ' &times; ' . $discount_details['discount_quantity'] . '</div>';
+
+			$product             = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+			$show_strikeout_from = apply_filters( 'discount_deals_cart_item_show_strikeout_from', 'regular_price', $item_price, $cart_item, $cart_item_key );
+			$regular_price       = $product->get_regular_price();
+
+			if ( 'sale_price' == $show_strikeout_from ) {
+				$product_id = $product->get_id();
+				if ( array_key_exists( $product_id, self::$product_discounts ) ) {
+					$regular_price = self::$product_discounts[ $product_id ]['price_before_discount'];
+				}
+			}
+			$regular_price  = $this->calculate_tax_for_cart_item( $product, $regular_price );
+			$discount_price = $this->calculate_tax_for_cart_item( $product, $discount_details['discount_price'] );
+			$original_price = $this->calculate_tax_for_cart_item( $product, $discount_details['original_price'] );
+			$item_price     = '<div>' . wc_format_sale_price( $regular_price, $discount_price ) . ' &times; ' . $discount_details['discount_quantity'] . '</div>';
 			if ( 0 < $discount_details['original_price_quantity'] ) {
-				$item_price .= '<div>' . wc_price( $discount_details['original_price'] ) . ' &times; ' . $discount_details['original_price_quantity'] . '</div>';
+				$item_price .= '<div>' . wc_format_sale_price( $regular_price, $original_price ) . ' &times; ' . $discount_details['original_price_quantity'] . '</div>';
 			}
 
 			return $item_price;
@@ -992,13 +1023,14 @@ class Discount_Deals_Public {
 			return $item_subtotal;
 		}
 		$you_save_text = Discount_Deals_Settings::get_settings( 'you_saved_text' );
+		$product       = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 		// Return previously calculated discount
 		if ( isset( self::$cart_item_discounts[ $cart_item_key ] ) && self::$cart_item_discounts[ $cart_item_key ] > 0 ) {
-			$message = str_replace( '{{discount}}', wc_price( $quantity * self::$cart_item_discounts[ $cart_item_key ] ), $you_save_text );
+			$saved_price = $this->calculate_tax_for_cart_item( $product, self::$cart_item_discounts[ $cart_item_key ], $quantity );
+			$message     = str_replace( '{{discount}}', wc_price( $saved_price ), $you_save_text );
 
 			return $item_subtotal . '<p class="dd-you-save-text" style="color: green;">' . $message . '</p>';
 		}
-		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 		/*
 		 * @var WC_Product $product product.
 		 */
@@ -1006,9 +1038,8 @@ class Discount_Deals_Public {
 		$regular_price = $product->get_regular_price();
 		if ( is_numeric( $regular_price ) && is_numeric( $sale_price ) ) {
 			if ( $sale_price < $regular_price ) {
-				self::$cart_item_discounts[ $cart_item_key ] = $regular_price - $sale_price;
-
-				$message = str_replace( '{{discount}}', wc_price( $quantity * self::$cart_item_discounts[ $cart_item_key ] ), $you_save_text );
+				$saved_price = $this->calculate_tax_for_cart_item( $product, self::$cart_item_discounts[ $cart_item_key ], $quantity );
+				$message     = str_replace( '{{discount}}', wc_price( $saved_price ), $you_save_text );
 
 				return $item_subtotal . '<p class="dd-you-save-text" style="color: green;">' . $message . '</p>';
 			}
@@ -1039,10 +1070,10 @@ class Discount_Deals_Public {
 			if ( $this->is_free_cart_item( $cart_item ) ) {
 				continue;
 			}
+			$product = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 			if ( isset( self::$cart_item_discounts[ $cart_item_key ] ) && self::$cart_item_discounts[ $cart_item_key ] > 0 ) {
-				$total_discount += $quantity * self::$cart_item_discounts[ $cart_item_key ];
+				$total_discount += $this->calculate_tax_for_cart_item( $product, self::$cart_item_discounts[ $cart_item_key ], $quantity );
 			} else {
-				$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 				/*
 				 * @var WC_Product $product product.
 				 */
@@ -1052,7 +1083,7 @@ class Discount_Deals_Public {
 					if ( $sale_price < $regular_price ) {
 						self::$cart_item_discounts[ $cart_item_key ] = $regular_price - $sale_price;
 
-						$total_discount += $quantity * self::$cart_item_discounts[ $cart_item_key ];
+						$total_discount += $this->calculate_tax_for_cart_item( $product, self::$cart_item_discounts[ $cart_item_key ], $quantity );
 					}
 				}
 			}
@@ -1082,6 +1113,9 @@ class Discount_Deals_Public {
 			$quantity = 1;
 		}
 		if ( 0 >= $price ) {
+			return $price;
+		}
+		if ( ! $this->calculate_discount ) {
 			return $price;
 		}
 		$product_id = $product->get_id();
@@ -1310,6 +1344,32 @@ class Discount_Deals_Public {
 
 		return ! empty( $discounted_details['free_shipping'] );
 	}//end is_free_shipping_available()
+
+
+	/**
+	 * Calculate tax for products
+	 *
+	 * @param WC_Product $product Product object
+	 * @param float $price
+	 * @param $quantity
+	 *
+	 * @return float
+	 */
+	function calculate_tax_for_cart_item( $product, $price, $quantity = 1 ) {
+		if ( ! is_a( $product, 'WC_Product' ) ) {
+			return $price;
+		}
+		if ( empty( $product ) || empty( $price ) || empty( $quantity ) ) {
+			return $price;
+		}
+		if ( get_option( 'woocommerce_tax_display_cart' ) === 'excl' ) {
+			$price_with_price = wc_get_price_excluding_tax( $product, array( 'qty' => $quantity, 'price' => $price ) );
+		} else {
+			$price_with_price = wc_get_price_including_tax( $product, array( 'qty' => $quantity, 'price' => $price ) );
+		}
+
+		return apply_filters( 'discount_deals_calculate_tax_for_cart_item', $price_with_price, $product, $price, $quantity );
+	}
 
 
 }//end class

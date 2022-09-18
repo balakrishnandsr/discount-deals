@@ -725,7 +725,9 @@ class Discount_Deals_Workflows {
 		$applied_discount = array();
 		$free_shipping    = array();
 
-		$subsequent_subtotal = WC()->cart->get_subtotal();
+		$subtotal = WC()->cart->get_subtotal();
+		$subtotal_tax = WC()->cart->get_subtotal_tax();
+		$subsequent_subtotal = apply_filters('discount_deals_cart_subtotal', ($subtotal + $subtotal_tax ), $subtotal, $subtotal_tax );
 		foreach ( $workflows as $workflow ) {
 			$workflow_id = $workflow->get_id();
 			if ( 'cart_discount' == $workflow->get_type() ) {
