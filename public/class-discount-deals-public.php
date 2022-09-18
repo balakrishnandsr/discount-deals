@@ -272,7 +272,7 @@ class Discount_Deals_Public {
 			return;
 		}
 		$props = array(
-			'dd_saved_amount' => $total_discount
+			'dd_saved_amount' => $this->calculate_tax_for_cart_item( $product, $total_discount, $quantity )
 		);
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			$props['dd_type'] = 'free';
