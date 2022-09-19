@@ -16,6 +16,8 @@ class Discount_Deals_Admin_Ajax {
 
 	/**
 	 * Hook in methods
+  *
+  * @return void
 	 */
 	public static function init() {
 		$ajax_events = array(

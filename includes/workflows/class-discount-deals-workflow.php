@@ -693,7 +693,6 @@ class Discount_Deals_Workflow {
 			return false;
 		}
 		if ( 'product' == $validate_for ) {
-
 			/*
 			 * Variable declaration
 			 *

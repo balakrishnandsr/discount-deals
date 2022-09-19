@@ -33,8 +33,8 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	/**
 	 * Validate a meta value.
 	 *
-	 * @param mixed  $actual_value Actual value.
-	 * @param string $compare_type Compare type.
+	 * @param mixed  $actual_value   Actual value.
+	 * @param string $compare_type   Compare type.
 	 * @param mixed  $expected_value Expected value.
 	 * @return boolean
 	 */
@@ -56,7 +56,7 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	 * but not in string comparisons).
 	 *
 	 * @param string $compare_type Compare type.
-	 * @param mixed  $value Compare value.
+	 * @param mixed  $value        Compare value.
 	 *
 	 * @return boolean True if the meta field is determined to be numeric.
 	 */

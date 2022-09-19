@@ -62,8 +62,8 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Pick the free item frm cart
 	 *
-	 * @param WC_Cart $cart  cart object
-	 * @param string  $which Which discount should apply to the cart?
+	 * @param WC_Cart $cart  Cart object.
+	 * @param string  $which Which discount should apply to the cart.
 	 *
 	 * @return array|mixed
 	 */
@@ -96,7 +96,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Pick the free item frm cart
 	 *
-	 * @param string $which Which discount should apply to the cart?
+	 * @param string $which Which discount should apply to the cart?.
 	 *
 	 * @return array
 	 */
@@ -136,7 +136,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Pick the free item frm cart
 	 *
-	 * @param integer $product_id product that was given to customers.
+	 * @param integer $product_id Product that was given to customers.
 	 *
 	 * @return array
 	 */

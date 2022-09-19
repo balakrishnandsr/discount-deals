@@ -27,6 +27,8 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 
 	/**
 	 * Set valid data items type of the discount
+  *
+  * @return void
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop' );
@@ -63,6 +65,7 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Cart $data_item Cart object.
+  * @param float   $price     Price.
 	 * @param array   $extra     Extra details for calculate discount.
 	 *
 	 * @return integer
