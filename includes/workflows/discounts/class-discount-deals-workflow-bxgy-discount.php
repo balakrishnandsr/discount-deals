@@ -67,7 +67,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	 *
 	 * @return array|mixed
 	 */
-	public function pick_item_from_cart( $cart, $which = "lowest" ) {
+	public function pick_item_from_cart( $cart, $which = 'lowest' ) {
 		$cart_items = $cart->get_cart();
 		if ( empty( $cart_items ) ) {
 			return array();
@@ -85,11 +85,13 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 				'cart_item_key' => $cart_item_key,
 			);
 		}
+		$totals_column = array_column( $all_products, 'price' );
 		if ( 'lowest' == $which ) {
-			return $all_products[ array_search( min( $totals = array_column( $all_products, 'price' ) ), $totals ) ];
+			$workflow_id = array_search( min( $totals_column ), $totals_column );
 		} else {
-			return $all_products[ array_search( max( $totals = array_column( $all_products, 'price' ) ), $totals ) ];
+			$workflow_id = array_search( max( $totals_column ), $totals_column );
 		}
+		return $all_products[ $workflow_id ];
 	}//end pick_item_from_cart()
 
 
@@ -100,7 +102,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	 *
 	 * @return array
 	 */
-	public function pick_item_from_store( $which = "lowest" ) {
+	public function pick_item_from_store( $which = 'lowest' ) {
 		$args          = array(
 			'posts_per_page' => 1,
 			'post_type'      => 'product',
@@ -201,19 +203,19 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 				$show_eligible_message = discount_deals_get_value_from_array( $discount_detail, 'show_eligible_message', '' );
 				switch ( $free_product_type ) {
 					default:
-					case "cheapest_in_cart":
+					case 'cheapest_in_cart':
 						$discount_products = $this->pick_item_from_cart( $cart );
 						break;
-					case "biggest_in_cart":
+					case 'biggest_in_cart':
 						$discount_products = $this->pick_item_from_cart( $cart, 'biggest' );
 						break;
-					case "cheapest_in_store":
+					case 'cheapest_in_store':
 						$discount_products = $this->pick_item_from_store( $cart );
 						break;
-					case "biggest_in_store":
+					case 'biggest_in_store':
 						$discount_products = $this->pick_item_from_store( $cart, 'biggest' );
 						break;
-					case "products":
+					case 'products':
 						$discount_products = $this->format_picked_items( $free_product );
 						break;
 				}

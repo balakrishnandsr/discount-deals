@@ -21,7 +21,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 	 *
 	 * @var string
 	 */
-	public $data_item = "customer";
+	public $data_item = 'customer';
 
 	/**
 	 * Supports multiple values or not?
@@ -35,10 +35,10 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 	 * 
 	 * @return void
 	 */
-	function init() {
+	public function init() {
 		parent::init();
 
-		$this->title = __( "Customer - Last Order Status", 'discount-deals' );
+		$this->title = __( 'Customer - Last Order Status', 'discount-deals' );
 		$this->placeholder = __( 'Select order statuses...', 'discount-deals' );
 		unset( $this->compare_types['matches_all'] );
 	}//end init()
@@ -48,7 +48,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 	 *
 	 * @return array
 	 */
-	function load_select_choices() {
+	public function load_select_choices() {
 		return wc_get_order_statuses();
 	}//end load_select_choices()
 
@@ -61,7 +61,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		$last_order = $data_item->get_last_order();
 		if ( ! $last_order ) {
 			return false;

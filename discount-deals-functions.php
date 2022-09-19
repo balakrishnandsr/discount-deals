@@ -227,7 +227,7 @@ if ( ! function_exists( 'discount_deals_get_cart_discount' ) ) {
 
 if ( ! function_exists( 'discount_deals_get_applied_workflows' ) ) {
 	/**
-	 * get applied workflows
+	 * Get applied workflows
 	 *
 	 * @return Discount_Deals_Workflow[]
 	 */
@@ -239,7 +239,7 @@ if ( ! function_exists( 'discount_deals_get_applied_workflows' ) ) {
 
 if ( ! function_exists( 'discount_deals_get_applied_workflow_discounts' ) ) {
 	/**
-	 * get applied workflows
+	 * Get applied workflows
 	 *
 	 * @return array
 	 */
@@ -331,7 +331,7 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	}//end discount_deals_search_coupons()
 
 }
-if ( ! function_exists( "discount_deals_get_counted_order_statuses" ) ) {
+if ( ! function_exists( 'discount_deals_get_counted_order_statuses' ) ) {
 	/**
 	 * Get counted order statuses
 	 *
@@ -341,6 +341,11 @@ if ( ! function_exists( "discount_deals_get_counted_order_statuses" ) ) {
 	 */
 	function discount_deals_get_counted_order_statuses( $include_prefix = true ) {
 		$default_statuses = array_merge( wc_get_is_paid_statuses(), [ 'on-hold' ] );
+		/**
+		 * Filter to modify counted order statuses.
+		 *
+		 * @since 1.0.0
+		 */
 		$statuses         = array_filter( apply_filters( 'discount_deals_counted_order_statuses', $default_statuses ) );
 
 		if ( ! $statuses ) {
@@ -355,7 +360,7 @@ if ( ! function_exists( "discount_deals_get_counted_order_statuses" ) ) {
 	}//end discount_deals_get_counted_order_statuses()
 
 }
-if ( ! function_exists( "discount_deals_add_order_status_prefix" ) ) {
+if ( ! function_exists( 'discount_deals_add_order_status_prefix' ) ) {
 	/**
 	 * Add prifix to order status
 	 *
@@ -403,22 +408,24 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 		}
 		$transient_name = 'discount_deals_cpp_' . $customer->get_id();
 		$products       = get_transient( $transient_name );
-		if ( $products === false ) {
+		if ( false === $products ) {
 			$customer_data = [ $customer->get_email(), $customer->get_id() ];
 			$customer_data = array_map( 'esc_sql', array_filter( $customer_data ) );
 			$statuses      = array_map( 'esc_sql', discount_deals_get_counted_order_statuses( true ) );
 
-			$result   = $wpdb->get_col( "
+			$query   =  "
 				SELECT im.meta_value FROM {$wpdb->posts} AS p
 				INNER JOIN {$wpdb->postmeta} AS pm ON p.ID = pm.post_id
 				INNER JOIN {$wpdb->prefix}woocommerce_order_items AS i ON p.ID = i.order_id
 				INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS im ON i.order_item_id = im.order_item_id
-				WHERE p.post_status IN ( '" . implode( "','", $statuses ) . "' )
+				WHERE p.post_status IN ( %s )
 				AND pm.meta_key IN ( '_billing_email', '_customer_user' )
 				AND im.meta_key IN ( '_product_id', '_variation_id' )
 				AND im.meta_value != 0
-				AND pm.meta_value IN ( '" . implode( "','", $customer_data ) . "' )
-			" );
+				AND pm.meta_value IN ( %s )
+			";
+			$query   = $wpdb->prepare( $query, array(implode( "','", $statuses ),implode( "','", $customer_data )) );
+			$result = $wpdb->get_col($query);
 			$products = array_unique( array_map( 'absint', $result ) );
 
 			set_transient( $transient_name, $result, DAY_IN_SECONDS * 7 );

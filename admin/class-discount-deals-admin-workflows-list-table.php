@@ -265,12 +265,12 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function column_dd_exclusive( $item ) {
 		?>
-        <label class="discount-deals-switch">
-            <input type="checkbox" data-workflow="<?php echo esc_attr( $item['dd_id'] ) ?>"
-                   class="discount-deals-workflow-switch"
-                   data-column="exclusive" <?php echo $item['dd_exclusive'] == 1 ? 'checked' : '' ?> />
-            <span class="slider round"></span>
-        </label>
+		<label class="discount-deals-switch">
+			<input type="checkbox" data-workflow="<?php echo esc_attr( $item['dd_id'] ); ?>"
+				   class="discount-deals-workflow-switch"
+				   data-column="exclusive" <?php echo 1 == $item['dd_exclusive'] ? 'checked' : ''; ?> />
+			<span class="slider round"></span>
+		</label>
 		<?php
 	}//end column_dd_exclusive()
 
@@ -284,12 +284,12 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	 */
 	public function column_dd_status( $item ) {
 		?>
-        <label class="discount-deals-switch">
-            <input type="checkbox" data-workflow="<?php echo esc_attr( $item['dd_id'] ) ?>"
-                   class="discount-deals-workflow-switch"
-                   data-column="status" <?php echo $item['dd_status'] == 1 ? 'checked' : '' ?> />
-            <span class="slider round"></span>
-        </label>
+		<label class="discount-deals-switch">
+			<input type="checkbox" data-workflow="<?php echo esc_attr( $item['dd_id'] ); ?>"
+				   class="discount-deals-workflow-switch"
+				   data-column="status" <?php echo 1 == $item['dd_status'] ? 'checked' : ''; ?> />
+			<span class="slider round"></span>
+		</label>
 		<?php
 	}//end column_dd_status()
 

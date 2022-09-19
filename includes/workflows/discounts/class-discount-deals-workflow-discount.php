@@ -37,11 +37,11 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * @var array $discount_details Discount details.
 	 */
 	public $discount_details = array();
-    /**
-     * Promotion details
-     *
-     * @var array $promotion_details Promotion details.
-     */
+	/**
+	 * Promotion details
+	 *
+	 * @var array $promotion_details Promotion details.
+	 */
 	public $promotion_details = array();
 	/**
 	 * Data items of the discount

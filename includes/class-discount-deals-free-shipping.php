@@ -36,7 +36,7 @@ if ( ! class_exists( 'Discount_Deals_Free_Shipping' ) ) {
 		 *
 		 * @return void
 		 */
-		function init() {
+		public function init() {
 			// Load the settings.
 			$this->init_settings();
 			// Save settings in admin if you have any defined.

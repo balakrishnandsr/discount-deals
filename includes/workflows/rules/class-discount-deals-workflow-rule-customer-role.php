@@ -28,7 +28,7 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 	 * 
 	 * @return void
 	 */
-	function init() {
+	public function init() {
 		parent::init();
 
 		$this->title = __( 'Customer - User Role', 'discount-deals' );
@@ -40,7 +40,7 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 	 *
 	 * @return array
 	 */
-	function load_select_choices() {
+	public function load_select_choices() {
 		global $wp_roles;
 		$choices = [];
 
@@ -62,7 +62,7 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_select( $data_item->get_role(), $compare_type, $value );
 	}//end validate()
 

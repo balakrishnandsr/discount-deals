@@ -25,7 +25,7 @@ class Discount_Deals_Workflow_Rule_Customer_First_Order_Date extends Discount_De
 	public $data_item = 'customer';
 
 	/**
-	 * class Discount_Deals_Workflow_Rule_Customer_First_Order_Date constructor.
+	 * Class Discount_Deals_Workflow_Rule_Customer_First_Order_Date constructor.
 	 */
 	public function __construct() {
 		$this->has_is_past_comparison = true;

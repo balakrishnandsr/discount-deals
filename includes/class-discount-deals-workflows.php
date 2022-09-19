@@ -348,17 +348,18 @@ class Discount_Deals_Workflows {
 				'apply_as' => $apply_as,
 				'price'    => $price
 			);
+			$valid_discounts_totals = array_column( $valid_discounts, 'total' );
 			switch ( $apply_as ) {
 				default:
-				case "lowest_matched":
-					$workflow_id = $workflow_ids[ array_search( min( $totals = array_column( $valid_discounts, 'total' ) ), $totals ) ];
-					self::set_applied_workflows( $workflow_id, $valid_discounts[ $workflow_id ], $extra_information );
+				case 'lowest_matched':
+					$value_index = array_search( min( $valid_discounts_totals ), $valid_discounts_totals );
 					break;
-				case "biggest_matched":
-					$workflow_id = $workflow_ids[ array_search( max( $totals = array_column( $valid_discounts, 'total' ) ), $totals ) ];
-					self::set_applied_workflows( $workflow_id, $valid_discounts[ $workflow_id ], $extra_information );
+				case 'biggest_matched':
+					$value_index = array_search( max( $valid_discounts_totals ), $valid_discounts_totals );
 					break;
 			}
+			$workflow_id = $workflow_ids[ $value_index ];
+			self::set_applied_workflows( $workflow_id, $valid_discounts[ $workflow_id ], $extra_information );
 			$discount[ $workflow_id ] = $valid_discounts[ $workflow_id ];
 		}
 
@@ -733,7 +734,12 @@ class Discount_Deals_Workflows {
 
 		$subtotal = WC()->cart->get_subtotal();
 		$subtotal_tax = WC()->cart->get_subtotal_tax();
-		$subsequent_subtotal = apply_filters('discount_deals_cart_subtotal', ($subtotal + $subtotal_tax ), $subtotal, $subtotal_tax );
+		/**
+		 * Filter to modify cart subtotal.
+		 *
+		 * @since 1.0.0
+		 */
+		$subsequent_subtotal = apply_filters('discount_deals_cart_subtotal', ( $subtotal + $subtotal_tax ), $subtotal, $subtotal_tax );
 		foreach ( $workflows as $workflow ) {
 			$workflow_id = $workflow->get_id();
 			if ( 'cart_discount' == $workflow->get_type() ) {

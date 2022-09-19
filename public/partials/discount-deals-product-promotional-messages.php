@@ -23,6 +23,11 @@ if ( ! empty( $all_promotions ) ) {
 	global $product;
 
 	if ( ! empty( $all_promotions['bulk_promotions'] ) ) {
+		/**
+		 * Filter to modify show/hide bulk table summary.
+		 *
+		 * @since 1.0.0
+		 */
 		$show_table_summary = apply_filters( 'discount_deals_show_bulk_table_summary', true, $product, $this );
 		$items_in_cart      = $this->get_quantities_in_cart( $product );
 		$bulk_promotions    = $all_promotions['bulk_promotions'];
@@ -39,23 +44,23 @@ if ( ! empty( $all_promotions ) ) {
 			}
 		}
 		?>
-        <table>
-            <thead>
-            <tr>
-                <th><?php esc_html_e( 'Qty', 'discount-deals' ) ?></th>
-                <th><?php esc_html_e( 'Discount', 'discount-deals' ) ?></th>
-                <th><?php esc_html_e( 'Price Per Unit', 'discount-deals' ) ?></th>
-            </tr>
-            </thead>
-            <tbody>
+		<table>
+			<thead>
+			<tr>
+				<th><?php esc_html_e( 'Qty', 'discount-deals' ); ?></th>
+				<th><?php esc_html_e( 'Discount', 'discount-deals' ); ?></th>
+				<th><?php esc_html_e( 'Price Per Unit', 'discount-deals' ); ?></th>
+			</tr>
+			</thead>
+			<tbody>
 			<?php
 			foreach ( $bulk_promotions as $range ) {
 				$min_quantity = discount_deals_get_value_from_array( $range, 'min_quantity', 0 );
 				$max_quantity = discount_deals_get_value_from_array( $range, 'max_quantity', 999999999 );
-				$type         = discount_deals_get_value_from_array( $range, 'type', 'flat' );
+				$discount_type         = discount_deals_get_value_from_array( $range, 'type', 'flat' );
 				$value        = discount_deals_get_value_from_array( $range, 'value', 0 );
 				$max_discount = discount_deals_get_value_from_array( $range, 'max_discount', 0 );
-				if ( "flat" == $type ) {
+				if ( 'flat' == $discount_type ) {
 					if ( $value > $price ) {
 						$discount_value = wc_price( $price );
 					} else {
@@ -66,52 +71,58 @@ if ( ! empty( $all_promotions ) ) {
 				}
 				$discount_price = discount_deals_get_product_discount( $price, $product, $min_quantity, false );
 				?>
-                <tr>
-                    <td><?php echo wp_kses_post( $min_quantity . '-' . $max_quantity ) ?></td>
-                    <td><?php echo wp_kses_post( $discount_value ); ?></td>
-                    <td><?php echo wp_kses_post( ( 0 < $discount_price ) ? wc_price( $discount_price ) : wc_price( 0 ) ) ?></td>
-                </tr>
+				<tr>
+					<td><?php echo wp_kses_post( $min_quantity . '-' . $max_quantity ); ?></td>
+					<td><?php echo wp_kses_post( $discount_value ); ?></td>
+					<td><?php echo wp_kses_post( ( 0 < $discount_price ) ? wc_price( $discount_price ) : wc_price( 0 ) ); ?></td>
+				</tr>
 				<?php
 			}
 			?>
-            </tbody>
+			</tbody>
 			<?php
 			if ( $show_table_summary ) {
 				?>
-                <tfoot>
-                <tr>
-                    <th colspan="3"><?php esc_html_e( 'Summary', 'discount-deals' ) ?></th>
-                </tr>
-                <tr>
-                    <th colspan="2">
-                        <div class="dd-bulk-table-summary-quantity">
+				<tfoot>
+				<tr>
+					<th colspan="3"><?php esc_html_e( 'Summary', 'discount-deals' ); ?></th>
+				</tr>
+				<tr>
+					<th colspan="2">
+						<div class="dd-bulk-table-summary-quantity">
 							<?php
 							$new_quantity       = $items_in_cart + 1;
 							$new_discount_price = discount_deals_get_product_discount( $price, $product, $new_quantity, false );
 							echo wp_kses_post( $new_quantity . ' &times; ' . wc_price( $new_discount_price ) );
 							?>
-                        </div>
-                        <small class="dd-bulk-table-summary-quantity-in-cart">
+						</div>
+						<small class="dd-bulk-table-summary-quantity-in-cart">
 							<?php
 							if ( 0 < $items_in_cart ) {
-								echo wp_kses_post( apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( "%s %d %s %d %s", __( 'Of', 'discount-deals' ), $new_quantity, __( 'quantities, ', 'discount-deals' ), $items_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $new_quantity, $items_in_cart, $product, $this ) );
+								/**
+								 * Filter to modify the bulk table item quantity count in cart.
+								 *
+								 * @since 1.0.0
+								 */
+								$items_in_cart_summary = apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( '%s %d %s %d %s', __( 'Of', 'discount-deals' ), $new_quantity, __( 'quantities, ', 'discount-deals' ), $items_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $new_quantity, $items_in_cart, $product, $this );
+								echo wp_kses_post( $items_in_cart_summary );
 							}
 							?>
-                        </small>
-                    </th>
-                    <th>
-                        <div class="dd-bulk-table-summary-total">
+						</small>
+					</th>
+					<th>
+						<div class="dd-bulk-table-summary-total">
 							<?php
 							echo wp_kses_post( wc_price( $new_quantity * $new_discount_price ) );
 							?>
-                        </div>
-                    </th>
-                </tr>
-                </tfoot>
+						</div>
+					</th>
+				</tr>
+				</tfoot>
 				<?php
 			}
 			?>
-        </table>
+		</table>
 		<?php
 	}
 	if ( ! empty( $all_promotions['promotion_messages'] ) ) {

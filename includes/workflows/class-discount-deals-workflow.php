@@ -743,7 +743,7 @@ class Discount_Deals_Workflow {
 			return null;
 		}
 
-		if ( $position != discount_deals_get_value_from_array( $promotion_details, 'where_to_show', '' ) ) {
+		if ( discount_deals_get_value_from_array( $promotion_details, 'where_to_show', '' ) != $position ) {
 			return null;
 		}
 		$promotion = array( 'bulk_promotion' => array(), 'promotion_message' => null );

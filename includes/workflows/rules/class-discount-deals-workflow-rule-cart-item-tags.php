@@ -18,10 +18,11 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Tags extends Discount_Deals_Workflo
 	 *
 	 * @var string
 	 */
-	public $data_item = "cart";
+	public $data_item = 'cart';
 
 	/**
 	 * Has multi select option?
+	 *
 	 * @var boolean
 	 */
 	public $is_multi = true;
@@ -29,7 +30,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Tags extends Discount_Deals_Workflo
 	/**
 	 * Init the rule
 	 */
-	function init() {
+	public function init() {
 		parent::init();
 
 		$this->title = __( 'Cart - Item Tags', 'discount-deals' );
@@ -42,7 +43,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Tags extends Discount_Deals_Workflo
 	 *
 	 * @return array
 	 */
-	function load_select_choices() {
+	public function load_select_choices() {
 		return discount_deals_get_all_tags();
 	}//end load_select_choices()
 
@@ -57,7 +58,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Tags extends Discount_Deals_Workflo
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		if ( empty( $value ) || ! is_array( $value ) ) {
 			return false;
 		}

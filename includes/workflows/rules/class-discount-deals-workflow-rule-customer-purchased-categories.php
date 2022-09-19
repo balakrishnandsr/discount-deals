@@ -35,10 +35,10 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 	 * 
 	 * @return void
 	 */
-	function init() {
+	public function init() {
 		parent::init();
 
-		$this->title       = __( "Customer - Purchased Categories - All Time", 'discount-deals' );
+		$this->title       = __( 'Customer - Purchased Categories - All Time', 'discount-deals' );
 		$this->placeholder = __( 'Select categories...', 'discount-deals' );
 	}//end init()
 
@@ -47,7 +47,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 	 *
 	 * @return array
 	 */
-	function load_select_choices() {
+	public function load_select_choices() {
 		return discount_deals_get_all_categories();
 	}//end load_select_choices()
 
@@ -60,7 +60,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		if ( empty( $value ) ) {
 			return false;
 		}

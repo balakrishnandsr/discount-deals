@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Discount_Deals_Settings {
 	/**
-	 * settings constant
+	 * Settings constant
 	 *
 	 * @var string
 	 */
@@ -26,10 +26,11 @@ class Discount_Deals_Settings {
 	 */
 	private static $config = array();
 
-    /**
-     * Contains default configuration details.
-     * @var array
-     */
+	/**
+	 * Contains default configuration details.
+	 *
+	 * @var array
+	 */
 	private static $default_config = array(
 		// General.
 		'show_applied_discounts_message'    => 'yes',
@@ -71,6 +72,8 @@ class Discount_Deals_Settings {
 
 
 	/**
+	 * Get settings.
+	 *
 	 * @param string $key     What configuration need to get.
 	 * @param string $default Default value if config value not found.
 	 *

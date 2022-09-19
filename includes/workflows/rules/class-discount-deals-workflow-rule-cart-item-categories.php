@@ -18,7 +18,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 	 *
 	 * @var string
 	 */
-	public $data_item = "cart";
+	public $data_item = 'cart';
 
 	/**
 	 * Has multi select option?
@@ -32,7 +32,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 	 *
 	 * @return void
 	 */
-	function init() {
+	public function init() {
 		parent::init();
 
 		$this->placeholder = __( 'Select categories...', 'discount-deals' );
@@ -45,7 +45,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 	 *
 	 * @return array
 	 */
-	function load_select_choices() {
+	public function load_select_choices() {
 		return discount_deals_get_all_categories();
 	}//end load_select_choices()
 
@@ -59,7 +59,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		if ( empty( $value ) || ! is_array( $value ) ) {
 			return false;
 		}

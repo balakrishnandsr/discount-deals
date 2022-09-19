@@ -19,7 +19,7 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	 *
 	 * @var string
 	 */
-	public $data_item = "cart";
+	public $data_item = 'cart';
 
 	/**
 	 * The CSS class to use on the search field.

@@ -39,15 +39,13 @@ class Discount_Deals_Admin_Ajax {
 	 * @return void
 	 */
 	public static function get_rule_select_choices() {
-
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die;
 		}
-
-		if ( ! $rule_name = discount_deals_get_request_data( 'rule_name' ) ) {
+		$rule_name = discount_deals_get_request_data( 'rule_name' );
+		if ( empty($rule_name)  ) {
 			die;
 		}
-
 		$rule_object = Discount_Deals_Workflows::get_rule_type( $rule_name );
 
 		if ( 'select' === $rule_object->type ) {

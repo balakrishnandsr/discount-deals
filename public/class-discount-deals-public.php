@@ -256,6 +256,11 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function before_checkout_create_order_line_item( $item, $cart_item_key, $cart_item, $order ) {
+		/**
+		 * Filter to modify cart line item object.
+		 *
+		 * @since 1.0.0
+		 */
 		$product = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 		if ( ! is_a( $product, 'WC_Product' ) ) {
 			return;
@@ -398,11 +403,21 @@ class Discount_Deals_Public {
 					}
 				}
 				$new_message = str_replace( '{{workflow_title}}', $titles, $message );
+				/**
+				 * Filter to modify applied workflows promotional messages.
+				 *
+				 * @since 1.0.0
+				 */
 				$new_message = apply_filters( 'discount_deals_applied_workflow_text', $new_message, $applied_workflows, null );
 				wc_print_notice( $new_message );
 			} else {
 				foreach ( $applied_workflows as $workflow ) {
 					$new_message = str_replace( '{{workflow_title}}', $workflow->get_title(), $message );
+					/**
+					 * Filter to modify applied workflows promotional messages.
+					 *
+					 * @since 1.0.0
+					 */
 					$new_message = apply_filters( 'discount_deals_applied_workflow_text', $new_message, $applied_workflows, $workflow );
 					wc_print_notice( $new_message );
 				}
@@ -455,6 +470,12 @@ class Discount_Deals_Public {
 		}
 
 		$discount = discount_deals_get_product_discount( $price, $product, $quantity_to_calculate, false );
+		/**
+		 * Filter to modify the bulk table item quantity count in cart.
+		 *
+		 * @since 1.0.0
+		 */
+		$items_in_cart_summary = 0 < $quantity_in_cart ? wp_kses_post( apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( '%s %d %s %d %s', __( 'Of', 'discount-deals' ), $quantity_to_calculate, __( 'quantities, ', 'discount-deals' ), $quantity_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $quantity_to_calculate, $quantity_in_cart, $product, $this ) ) : '';
 		wp_send_json( array(
 			'success'                   => true,
 			'price_html'                => wc_format_sale_price( $product->get_regular_price(), $discount ),
@@ -462,7 +483,7 @@ class Discount_Deals_Public {
 			'quantity_in_cart'          => $quantity_in_cart,
 			'discount'                  => wc_price( $discount ),
 			'quantity_price_summary'    => $quantity_to_calculate . ' &times; ' . wc_price( $discount ),
-			'existing_quantity_summary' => 0 < $quantity_in_cart ? wp_kses_post( apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( "%s %d %s %d %s", __( 'Of', 'discount-deals' ), $quantity_to_calculate, __( 'quantities, ', 'discount-deals' ), $quantity_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $quantity_to_calculate, $quantity_in_cart, $product, $this ) ) : '',
+			'existing_quantity_summary' => $items_in_cart_summary,
 			'total_price_summary'       => wc_price( $quantity_to_calculate * $discount )
 		) );
 	}//end get_product_discount_price()
@@ -480,6 +501,11 @@ class Discount_Deals_Public {
 		// For bulk discount, check cart item quantity and calculate discount.
 		if ( ! empty( $cart_items ) ) {
 			foreach ( $cart_items as $cart_item_key => $cart_item ) {
+				/**
+				 * Filter to modify cart line item object.
+				 *
+				 * @since 1.0.0
+				 */
 				$cart_item_object = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 				if ( is_a( $cart_item_object, 'WC_Product' ) ) {
 					if ( $product->get_id() == $cart_item_object->get_id() ) {
@@ -503,6 +529,11 @@ class Discount_Deals_Public {
 		$position          = 'before_add_to_cart_button';
 		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
 		$product_discounts = self::$product_discounts;
+		/**
+		 * Filter to modify promotional message that was shown before add to cart form.
+		 *
+		 * @since 1.0.0
+		 */
 		apply_filters( 'discount_deals_show_promotional_message_before_add_to_cart', $all_promotions, $product );
 		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
 	}//end show_promotional_message_before_add_to_cart()
@@ -518,6 +549,11 @@ class Discount_Deals_Public {
 		$position          = 'after_single_product_summary';
 		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
 		$product_discounts = self::$product_discounts;
+		/**
+		 * Filter to modify promotional message that was shown after product summary.
+		 *
+		 * @since 1.0.0
+		 */
 		apply_filters( 'discount_deals_show_promotional_message_after_product_summary', $all_promotions, $product );
 		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
 	}//end show_promotional_message_after_product_summary()
@@ -533,6 +569,11 @@ class Discount_Deals_Public {
 		$position          = 'after_add_to_cart_button';
 		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
 		$product_discounts = self::$product_discounts;
+		/**
+		 * Filter to modify applied workflows promotional message.
+		 *
+		 * @since 1.0.0
+		 */
 		apply_filters( 'discount_deals_show_promotional_message_after_add_to_cart', $all_promotions, $product );
 		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
 	}//end show_promotional_message_after_add_to_cart()
@@ -595,6 +636,7 @@ class Discount_Deals_Public {
 					}
 				} catch ( Exception $exception ) {
 					// Maybe the out of stock.
+					continue;
 				}
 			}
 			self::$free_products = array();
@@ -635,6 +677,11 @@ class Discount_Deals_Public {
 		}
 		foreach ( $cart_items as $cart_item_key => $cart_item ) {
 			if ( $this->is_free_cart_item( $cart_item ) ) {
+				/**
+				 * Filter to modify cart line item object.
+				 *
+				 * @since 1.0.0
+				 */
 				$product = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 				$product->set_price( 0 );
 			}
@@ -725,6 +772,11 @@ class Discount_Deals_Public {
 		$cart_items = WC()->cart->get_cart();
 		if ( ! empty( $cart_items ) ) {
 			foreach ( $cart_items as $cart_item_key => $cart_item ) {
+				/**
+				 * Filter to modify cart line item object.
+				 *
+				 * @since 1.0.0
+				 */
 				$cart_item_object = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 				if ( is_a( $cart_item_object, 'WC_Product' ) ) {
 					if ( $this->is_free_cart_item( $cart_item ) ) {
@@ -816,6 +868,11 @@ class Discount_Deals_Public {
 						$quantity_in_cart            = $discounted_cart_item['quantity'];
 						$discount_quantity           = $actual_discount['discount_quantity'];
 						$original_price_quantity     = $quantity_in_cart - $discount_quantity;
+						/**
+						 * Filter to modify cart line item object.
+						 *
+						 * @since 1.0.0
+						 */
 						$discounted_cart_item_object = apply_filters( 'discount_deals_cart_item_product', $discounted_cart_item['data'], $discounted_cart_item, $discounted_cart_item_key );
 						$item_price                  = $discounted_cart_item_object->get_price();
 
@@ -878,6 +935,11 @@ class Discount_Deals_Public {
 				if ( is_a( $product, 'WC_Product' ) ) {
 					$discount_price   = wc_price( $eligible_bxgy_product['total'] );
 					$discount_message = "You are now eligible to get $discount_price discount on {$product->get_title()}, would you like to <a href='{$product->add_to_cart_url()}'>grab this offer?</a>";
+					/**
+					 * Filter to modify Buy X Get Y product is not found in cart. This filter can be used to change promotion message.
+					 *
+					 * @since 1.0.0
+					 */
 					$discount_message = apply_filters( 'discount_deals_bxgy_eligible_notice', $discount_message, $product, $eligible_bxgy_product );
 					if ( ! empty( $discount_message ) ) {
 						wc_print_notice( $discount_message, 'notice' );
@@ -926,9 +988,9 @@ class Discount_Deals_Public {
 	public function item_added_to_cart( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
 		$created_time = WC()->session->get( 'discount_deals_cart_created_time', false );
 		if ( ! $created_time ) {
-			WC()->session->set( 'discount_deals_cart_created_time', current_time( 'U', true ) );
+			WC()->session->set( 'discount_deals_cart_created_time', time() );
 		}
-		WC()->session->set( 'discount_deals_cart_updated_time', current_time( 'U', true ) );
+		WC()->session->set( 'discount_deals_cart_updated_time', time() );
 	}//end item_added_to_cart()
 
 
@@ -972,6 +1034,11 @@ class Discount_Deals_Public {
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			return $item_price;
 		}
+		/**
+		 * Filter to modify cart line item object.
+		 *
+		 * @since 1.0.0
+		 */
 		$product = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 
 		/*
@@ -979,6 +1046,11 @@ class Discount_Deals_Public {
 		 */
 
 		$sale_price          = $product->get_price();
+		/**
+		 * Filter to modify "From which price, we need to show strikeout for cart item".
+		 *
+		 * @since 1.0.0
+		 */
 		$show_strikeout_from = apply_filters( 'discount_deals_cart_item_show_strikeout_from', 'regular_price', $item_price, $cart_item, $cart_item_key );
 		$regular_price       = $product->get_regular_price();
 
@@ -1017,8 +1089,17 @@ class Discount_Deals_Public {
 		}
 		if ( array_key_exists( $cart_item_key, self::$priced_bogo_products ) ) {
 			$discount_details = self::$priced_bogo_products[ $cart_item_key ];
-
+			/**
+			 * Filter to modify cart line item object.
+			 *
+			 * @since 1.0.0
+			 */
 			$product             = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+			/**
+			 * Filter to modify "From which price, we need to show strikeout for cart item".
+			 *
+			 * @since 1.0.0
+			 */
 			$show_strikeout_from = apply_filters( 'discount_deals_cart_item_show_strikeout_from', 'regular_price', $item_price, $cart_item, $cart_item_key );
 			$regular_price       = $product->get_regular_price();
 
@@ -1065,6 +1146,12 @@ class Discount_Deals_Public {
 			return $item_subtotal;
 		}
 		$you_save_text = Discount_Deals_Settings::get_settings( 'you_saved_text' );
+
+		/**
+		 * Filter to modify cart line item object.
+		 *
+		 * @since 1.0.0
+		 */
 		$product       = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 		// Return previously calculated discount.
 		if ( isset( self::$cart_item_discounts[ $cart_item_key ] ) && self::$cart_item_discounts[ $cart_item_key ] > 0 ) {
@@ -1117,6 +1204,11 @@ class Discount_Deals_Public {
 			if ( $this->is_free_cart_item( $cart_item ) ) {
 				continue;
 			}
+			/**
+			 * Filter to modify cart line item object.
+			 *
+			 * @since 1.0.0
+			 */
 			$product = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 			if ( isset( self::$cart_item_discounts[ $cart_item_key ] ) && self::$cart_item_discounts[ $cart_item_key ] > 0 ) {
 				$total_discount += $this->calculate_tax_for_cart_item( $product, self::$cart_item_discounts[ $cart_item_key ], $quantity );
@@ -1413,7 +1505,7 @@ class Discount_Deals_Public {
 	 *
 	 * @return float
 	 */
-	function calculate_tax_for_cart_item( $product, $price, $quantity = 1 ) {
+	public function calculate_tax_for_cart_item( $product, $price, $quantity = 1 ) {
 		if ( ! is_a( $product, 'WC_Product' ) ) {
 			return $price;
 		}
@@ -1425,7 +1517,11 @@ class Discount_Deals_Public {
 		} else {
 			$price_with_price = wc_get_price_including_tax( $product, array( 'qty' => $quantity, 'price' => $price ) );
 		}
-
+		/**
+		 * Caculate tax for given product and quantity.
+		 *
+		 * @since 1.0.0
+		 */
 		return apply_filters( 'discount_deals_calculate_tax_for_cart_item', $price_with_price, $product, $price, $quantity );
 	}//end calculate_tax_for_cart_item()
 

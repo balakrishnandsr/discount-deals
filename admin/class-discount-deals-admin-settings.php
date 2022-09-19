@@ -15,9 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Discount_Deals_Admin_Settings {
 	/**
 	 * Tab id for woocommerce
+	 *
 	 * @var string $tab_id tab id
 	 */
-	protected static $tab_id = "discount-deals-settings";
+	protected static $tab_id = 'discount-deals-settings';
 
 	/**
 	 * Init the settings
@@ -151,7 +152,7 @@ class Discount_Deals_Admin_Settings {
 				'calculate_discount_from'     => array(
 					'name'    => __( 'Calculate the discount from ', 'discount-deals' ),
 					'type'    => 'select',
-					'desc'    => sprintf( "%s <br/> %s", __( 'For what price do you want to calculate the discount for the product?', 'discount-deals' ), __( 'Example: the regular price of product A is $50, and the retail price is $45. Which price should be taken into account when calculating the discount?', 'discount-deals' ) ),
+					'desc'    => sprintf( '%s <br/> %s', __( 'For what price do you want to calculate the discount for the product?', 'discount-deals' ), __( 'Example: the regular price of product A is $50, and the retail price is $45. Which price should be taken into account when calculating the discount?', 'discount-deals' ) ),
 					'options' => array(
 						'sale_price'    => __( 'Sale price', 'discount-deals' ),
 						'regular_price' => __( 'Regular price', 'discount-deals' ),
@@ -162,7 +163,7 @@ class Discount_Deals_Admin_Settings {
 				'apply_product_discount_to'   => array(
 					'name'    => __( 'Apply discount to', 'discount-deals' ),
 					'type'    => 'select',
-					'desc'    => sprintf( "%s <br/> %s", __( 'If one or more workflows are applied to the product, which workflow should be used to apply the discount?', 'discount-deals' ), __( 'Note: If you select "All matching workflows", all discounts will be applied to the product.', 'discount-deals' ) ),
+					'desc'    => sprintf( '%s <br/> %s', __( 'If one or more workflows are applied to the product, which workflow should be used to apply the discount?', 'discount-deals' ), __( 'Note: If you select "All matching workflows", all discounts will be applied to the product.', 'discount-deals' ) ),
 					'options' => array(
 						'lowest_matched'  => __( 'Lowest one from matched workflows', 'discount-deals' ),
 						'biggest_matched' => __( 'Biggest one from matched workflows', 'discount-deals' ),
@@ -209,7 +210,7 @@ class Discount_Deals_Admin_Settings {
 				),
 				'you_saved_text'                   => array(
 					'name'  => __( 'You saved text', 'discount-deals' ),
-					'desc'  => sprintf( "%s <br/> %s <code>%s</code> %s", __( 'The message to highlight the customer\'s savings.', 'discount-deals' ), __( 'Use the ', 'discount-deals' ), '{{discount}}', __( ' shortcode to display the discount amount.', 'discount-deals' ) ),
+					'desc'  => sprintf( '%s <br/> %s <code>%s</code> %s', __( 'The message to highlight the customer\'s savings.', 'discount-deals' ), __( 'Use the ', 'discount-deals' ), '{{discount}}', __( ' shortcode to display the discount amount.', 'discount-deals' ) ),
 					'type'  => 'text',
 					'value' => Discount_Deals_Settings::get_settings( 'you_saved_text' ),
 					'id'    => 'wc_settings_tab_discount_deals_you_saved_text',
@@ -239,7 +240,7 @@ class Discount_Deals_Admin_Settings {
 						'free_shipping_only'            => __( 'Free shipping only', 'discount-deals' ),
 						'all_matched'                   => __( 'All matching workflows', 'discount-deals' ),
 					),
-					'desc'    => sprintf( "%s <br/> %s", __( 'If one or more workflows are applied to the cart, which workflow should be used to apply the discount?', 'discount-deals' ), __( 'Note: If you select "All matching workflows", all discounts will be applied to the cart.', 'discount-deals' ) ),
+					'desc'    => sprintf( '%s <br/> %s', __( 'If one or more workflows are applied to the cart, which workflow should be used to apply the discount?', 'discount-deals' ), __( 'Note: If you select "All matching workflows", all discounts will be applied to the cart.', 'discount-deals' ) ),
 					'value'   => Discount_Deals_Settings::get_settings( 'apply_cart_discount_to' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_cart_discount_to',
 				),
@@ -261,14 +262,14 @@ class Discount_Deals_Admin_Settings {
 						'coupon' => __( 'Coupon', 'discount-deals' ),
 						'fee'    => __( 'Fee', 'discount-deals' ),
 					),
-					'desc'    => sprintf( "%s <br/> %s", __( 'In which mode would you like to give a discount on the shopping cart? ', 'discount-deals' ), __( 'Note: Our recommended mode is “Coupon”.', 'discount-deals' ) ),
+					'desc'    => sprintf( '%s <br/> %s', __( 'In which mode would you like to give a discount on the shopping cart? ', 'discount-deals' ), __( 'Note: Our recommended mode is “Coupon”.', 'discount-deals' ) ),
 					'value'   => Discount_Deals_Settings::get_settings( 'apply_cart_discount_as' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_cart_discount_as',
 				),
 				'apply_coupon_title'               => array(
 					'name'        => __( 'Coupon code', 'discount-deals' ),
 					'type'        => 'text',
-					'desc'        => sprintf( "%s <br/> %s", __( 'Create a coupon with a value of \'0\' in Marketing - > Coupons and then fill the above input field with the coupon code you created.', 'discount-deals' ), __( 'Note: Do not delete or change the discount value of the coupon.', 'discount-deals' ) ),
+					'desc'        => sprintf( '%s <br/> %s', __( 'Create a coupon with a value of \'0\' in Marketing - > Coupons and then fill the above input field with the coupon code you created.', 'discount-deals' ), __( 'Note: Do not delete or change the discount value of the coupon.', 'discount-deals' ) ),
 					'placeholder' => __( 'Enter coupon code here...', 'discount-deals' ),
 					'value'       => Discount_Deals_Settings::get_settings( 'apply_coupon_title' ),
 					'id'          => 'wc_settings_tab_discount_deals_apply_coupon_title',
@@ -308,7 +309,7 @@ class Discount_Deals_Admin_Settings {
 				),
 				'bogo_discount_highlight_message' => array(
 					'name'  => __( 'Free item text', 'discount-deals' ),
-					'desc'  => sprintf( "%s <br/> %s", __( 'The message to highlight the free items in the shopping cart.', 'discount-deals' ), __( 'Note: This message should clearly indicate that the product is free.', 'discount-deals' ) ),
+					'desc'  => sprintf( '%s <br/> %s', __( 'The message to highlight the free items in the shopping cart.', 'discount-deals' ), __( 'Note: This message should clearly indicate that the product is free.', 'discount-deals' ) ),
 					'type'  => 'text',
 					'value' => Discount_Deals_Settings::get_settings( 'bogo_discount_highlight_message' ),
 					'id'    => 'wc_settings_tab_discount_deals_bogo_discount_highlight_message',

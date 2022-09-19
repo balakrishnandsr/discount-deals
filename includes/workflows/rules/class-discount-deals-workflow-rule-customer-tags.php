@@ -34,7 +34,7 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 	 * 
 	 * @return void
 	 */
-	function init() {
+	public function init() {
 		parent::init();
 
 		$this->title = __( 'Customer - User Tags', 'discount-deals' );
@@ -46,7 +46,7 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 	 *
 	 * @return array
 	 */
-	function load_select_choices() {
+	public function load_select_choices() {
 		return discount_deals_get_user_tags();
 	}//end load_select_choices()
 
@@ -59,7 +59,7 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 
 		if ( $data_item->get_id() > 0 ) {
 			$tags = wp_get_object_terms( $data_item->get_id(), 'user_tag', [

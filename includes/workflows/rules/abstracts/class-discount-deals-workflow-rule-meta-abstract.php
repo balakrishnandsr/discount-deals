@@ -14,10 +14,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals_Workflow_Rule_Abstract {
 
-	/** @var string */
+	/**
+	 * Rule type
+	 *
+	 * @var string
+	 */
 	public $type = 'meta';
 
-	/** @var boolean */
+	/**
+	 * Has multiple value fields?
+	 *
+	 * @var boolean
+	 */
 	public $has_multiple_value_fields = true;
 
 	/**

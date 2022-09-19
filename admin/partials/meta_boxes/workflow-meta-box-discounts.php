@@ -43,7 +43,7 @@ $workflow = $this->get_workflow();
 		)
 	);
 	if ( $workflow ) {
-		echo $workflow->get_discount()->load_fields(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */
+		echo $workflow->get_discount()->load_fields();
 	}
 	?>
 	</tbody>

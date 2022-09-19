@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Customer Email Rule
+ *
  * @class Discount_Deals_Workflow_Rule_Customer_Email
  */
 class Discount_Deals_Workflow_Rule_Customer_Email extends Discount_Deals_Workflow_Rule_String_Abstract {
@@ -19,14 +21,14 @@ class Discount_Deals_Workflow_Rule_Customer_Email extends Discount_Deals_Workflo
 	 *
 	 * @var string
 	 */
-	public $data_item = "customer";
+	public $data_item = 'customer';
 
 	/**
 	 * Init the rule.
 	 * 
 	 * @return void
 	 */
-	function init() {
+	public function init() {
 		$this->title = __( 'Customer - Email', 'discount-deals' );
 	}//end init()
 
@@ -39,7 +41,7 @@ class Discount_Deals_Workflow_Rule_Customer_Email extends Discount_Deals_Workflo
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_string( $data_item->get_billing_email(), $compare_type, $value );
 	}//end validate()
 

@@ -91,8 +91,8 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 				$discount       = $this->calculate_discount_amount( $type, $price, $value );
 				$total_discount = $free_quantity * $discount;
 				if ( 0 < floatval( $max_discount ) && 'percent' == $type ) {
-                    $total_discount = min( $max_discount, $total_discount );
-                    $discount = $total_discount / $free_quantity;
+					$total_discount = min( $max_discount, $total_discount );
+					$discount = $total_discount / $free_quantity;
 				}
 				if ( 0 >= $discount ) {
 					return array();

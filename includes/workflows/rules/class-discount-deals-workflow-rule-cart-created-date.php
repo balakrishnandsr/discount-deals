@@ -19,7 +19,7 @@ class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Work
 	 *
 	 * @var string
 	 */
-	public $data_item = "cart";
+	public $data_item = 'cart';
 
 	/**
 	 * Discount_Deals_Workflow_Rule_Cart_Created_Date constructor.
