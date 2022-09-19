@@ -72,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <# } else { #>
 
                                 <# if ( data.rule.object.type === 'number' ) { #>
-                                    <input name="{{ data.field_name_base }}[value]" class="discount-deals-field discount-deals-rule-value-field" type="text" required>
+                                    <input name="{{ data.field_name_base }}[value]" placeholder="<?php esc_attr_e( 'Enter value here...', 'discount-deals' ); ?>" class="discount-deals-field discount-deals-rule-value-field" type="text" required>
                                 <# } else if ( data.rule.object.type === 'object' ) { #>
                                     <select name="{{ data.field_name_base }}[value]{{ data.rule.object.is_multi ? '[]' : '' }}"
                                             class="{{ data.rule.object.class }} discount-deals-field discount-deals-rule-value-field"
@@ -93,7 +93,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <# }) #>
                                         </select>
                                 <# } else if ( data.rule.object.type === 'string' && ( data.rule.compare != 'blank' && data.rule.compare != 'not_blank' ) )  { #>
-                                    <input name="{{ data.field_name_base }}[value]" class="discount-deals-field discount-deals-rule-value-field" type="text" required>
+                                    <input name="{{ data.field_name_base }}[value]" class="discount-deals-field discount-deals-rule-value-field" type="text" placeholder="<?php esc_attr_e( 'Enter value here...', 'discount-deals' ); ?>" required>
                                 <# } else if ( data.rule.object.type === 'meta' )  { #>
                                     <input name="{{ data.field_name_base }}[value][]" class="discount-deals-field discount-deals-rule-value-field" type="text" placeholder="<?php esc_attr_e( 'key', 'discount-deals' ); ?>">
                                     <input name="{{ data.field_name_base }}[value][]" class="discount-deals-field discount-deals-rule-value-field" type="text" placeholder="<?php esc_attr_e( 'value', 'discount-deals' ); ?>">
@@ -105,18 +105,18 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </select>
                                 <# } else if ( data.rule.object.type === 'date' ) { #>
                                     <# if ( data.rule.object.uses_datepicker === true ) { #>
-                                        <input type="text" name="{{ data.field_name_base }}[value][date]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-date discount-deals-date-picker date-picker discount-deals-hidden" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" data-discount-deals-compare="is_after is_before is_on is_not_on" autocomplete="off"/>
+                                        <input type="text" name="{{ data.field_name_base }}[value][date]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-date discount-deals-date-picker date-picker discount-deals-hidden" placeholder="<?php esc_attr_e( 'Select date...', 'discount-deals' ); ?>" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" data-discount-deals-compare="is_after is_before is_on is_not_on" autocomplete="off"/>
                                     <# } #>
                                     <# if ( data.rule.object.uses_datetime_picker === true ) { #>
-                                        <input type="text" name="{{ data.field_name_base }}[value][date]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-date discount-deals-date-time-picker date-time-picker discount-deals-hidden" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" data-discount-deals-compare="is_after is_before is_on is_not_on" autocomplete="off"/>
+                                        <input type="text" name="{{ data.field_name_base }}[value][date]" placeholder="<?php esc_attr_e( 'Select date...', 'discount-deals' ); ?>" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-date discount-deals-date-time-picker date-time-picker discount-deals-hidden" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" data-discount-deals-compare="is_after is_before is_on is_not_on" autocomplete="off"/>
                                     <# } #>
                                     <# if ( data.rule.object.has_is_between_dates === true ) { #>
                                         <div class="discount-deals-grid discount-deals-hidden" data-discount-deals-compare="is_between">
                                             <div class="discount-deals-col-6">
-                                                <input type="text" name="{{ data.field_name_base }}[value][from]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-from date-time-picker discount-deals-date-time-picker" placeholder="start" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" autocomplete="off"/>
+                                                <input type="text" name="{{ data.field_name_base }}[value][from]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-from date-time-picker discount-deals-date-time-picker" placeholder="<?php esc_attr_e( 'Select start date...', 'discount-deals' ); ?>" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" autocomplete="off"/>
                                             </div>
                                             <div class="discount-deals-col-6">
-                                                <input type="text" name="{{ data.field_name_base }}[value][to]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-to date-time-picker discount-deals-date-time-picker" placeholder="end" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" autocomplete="off"/>
+                                                <input type="text" name="{{ data.field_name_base }}[value][to]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-to date-time-picker discount-deals-date-time-picker" placeholder="<?php esc_attr_e( 'Select end date...', 'discount-deals' ); ?>" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" autocomplete="off"/>
                                             </div>
                                         </div>
                                     <# } #>
@@ -132,7 +132,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <# if( data.rule.object.has_is_future_comparison === true || data.rule.object.has_is_past_comparison === true ) { #>
                                         <div class="discount-deals-grid discount-deals-hidden" data-discount-deals-compare="is_in_the_next is_not_in_the_next is_in_the_last is_not_in_the_last">
                                             <div class="discount-deals-col-6">
-                                                <input type="number" step="1" min="1" name="{{ data.field_name_base }}[value][timeframe]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-timeframe" required/>
+                                                <input type="number" step="1" min="1" name="{{ data.field_name_base }}[value][timeframe]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-timeframe" placeholder="<?php esc_attr_e( 'Enter value here...', 'discount-deals' ); ?>" required/>
                                             </div>
                                             <div class="discount-deals-col-6">
                                                 <select name="{{ data.field_name_base }}[value][measure]" class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-measure" required>

@@ -518,6 +518,10 @@
                     var selected_title = this.model.get('selected');
                     var selected_id = this.model.get('value');
                     var value_field;
+                    var select_value = this.$el.find('.discount-deals-rule-select').val();
+                    if (['cart_item_count', 'cart_total','customer_total_spent','customer_order_count'].includes(select_value)){
+                        this.$el.find('.discount-deals-rule-value-field').attr('type','number');
+                    }
                     // TODO: check && selected_id is causing any issue
                     if (selected_title && selected_id) {
                         value_field = this.$el.find('.discount-deals-rule-value-field');
