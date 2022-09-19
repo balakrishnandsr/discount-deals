@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Dynamic Product Pricing and Discount Rules
+ * Plugin Name:       Discount Deals
  * Plugin URI:        https://dynamicdiscount.deals
  * Description:       Create simple to complex dynamic product pricing and discounts. A simple, flexible and powerful extension for dynamic discounts.
  * Version:           1.0.0
@@ -10,6 +10,9 @@
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       discount-deals
  * Domain Path:       /languages
+ *
+ * WC requires at least: 3.6
+ * WC tested up to: 6.9
  *
  * @package Discount_Deals
  */
@@ -50,7 +53,7 @@ function deactivate_discount_deals() {
 register_deactivation_hook( __FILE__, 'deactivate_discount_deals' );
 
 /**
- * Load Dynamic Product Pricing and Discount Rules only if woocommerce is activated
+ * Load Discount Deals only if woocommerce is activated
  *
  * @return Discount_Deals
  */
@@ -60,4 +63,8 @@ function discount_deals() {
 	return Discount_Deals::run();
 }//end discount_deals()
 
-discount_deals();
+//Don't run our plugin if WooCommerce plugin is not active.
+$plugin_path = trailingslashit( WP_PLUGIN_DIR ) . 'woocommerce/woocommerce.php';
+if ( in_array( $plugin_path, wp_get_active_and_valid_plugins() ) || in_array( $plugin_path, wp_get_active_network_plugins() ) ) {
+	discount_deals();
+}

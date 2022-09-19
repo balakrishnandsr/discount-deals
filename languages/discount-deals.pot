@@ -1,0 +1,1326 @@
+# Copyright (C) 2022 Discount Deals
+# This file is distributed under the GPL-3.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Discount Deals 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/Discount-Deals\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-09-19T07:51:36+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: discount-deals\n"
+
+#. Plugin Name of the plugin
+#. Author of the plugin
+#: admin/class-discount-deals-admin-settings.php:60
+#: admin/class-discount-deals-admin.php:393
+#: admin/class-discount-deals-admin.php:394
+msgid "Discount Deals"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://dynamicdiscount.deals"
+msgstr ""
+
+#. Description of the plugin
+msgid "Create simple to complex dynamic product pricing and discounts. A simple, flexible and powerful extension for dynamic discounts."
+msgstr ""
+
+#: admin/class-discount-deals-admin-ajax.php:97
+msgid "Action done successfully!!!"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:37
+#: admin/class-discount-deals-admin-settings.php:101
+msgid "General"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:38
+msgid "Product price and quantity based discount"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:39
+msgid "Cart subtotal based discount"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:40
+msgid "Buy one Get one discount"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:107
+msgid "Would you like to inform your customers about all applied discounts in their shopping cart?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:110
+#: admin/class-discount-deals-admin-settings.php:120
+#: admin/class-discount-deals-admin-settings.php:173
+#: admin/class-discount-deals-admin-settings.php:185
+#: admin/class-discount-deals-admin-settings.php:244
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:78
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:122
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:172
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php:35
+msgid "Yes"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:111
+#: admin/class-discount-deals-admin-settings.php:121
+#: admin/class-discount-deals-admin-settings.php:174
+#: admin/class-discount-deals-admin-settings.php:186
+#: admin/class-discount-deals-admin-settings.php:245
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:79
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:123
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:173
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php:36
+msgid "No"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:117
+msgid "Would you like to merge multiple message into single message?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:127
+msgid "Message to be displayed to your customers on the shopping cart page?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:140
+msgid "Product discount"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:146
+msgid "Calculate the discount from "
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:148
+msgid "For what price do you want to calculate the discount for the product?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:148
+msgid "Example: the regular price of product A is $50, and the retail price is $45. Which price should be taken into account when calculating the discount?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:150
+msgid "Sale price"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:151
+msgid "Regular price"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:157
+#: admin/class-discount-deals-admin-settings.php:226
+msgid "Apply discount to"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:159
+msgid "If one or more workflows are applied to the product, which workflow should be used to apply the discount?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:159
+msgid "Note: If you select \"All matching workflows\", all discounts will be applied to the product."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:161
+#: admin/class-discount-deals-admin-settings.php:297
+msgid "Lowest one from matched workflows"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:162
+#: admin/class-discount-deals-admin-settings.php:298
+msgid "Biggest one from matched workflows"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:164
+#: admin/class-discount-deals-admin-settings.php:234
+msgid "All matching workflows"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:170
+#: admin/class-discount-deals-admin-settings.php:241
+msgid "Calculate discount subsequently?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:176
+#: admin/class-discount-deals-admin-settings.php:247
+msgid "When calculating multiple discounts, calculate the first discount on the full price and the second discount on the discounted price and so on."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:181
+msgid "Show strikeout on cart?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:182
+msgid "Would you like to cross out the prices of each item to highlight the discount?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:192
+msgid "Display you saved text"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:193
+msgid "Do you want to display the message \"How much was saved on a customer's purchase?\" If yes, where should the message be displayed?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:196
+msgid "Don't show anywhere "
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:197
+msgid "On after each line item's total"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:198
+msgid "On after cart total"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:199
+msgid "On both line item's total and cart total"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:205
+msgid "You saved text"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:206
+msgid "The message to highlight the customer's savings."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:206
+msgid "Use the "
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:206
+msgid " shortcode to display the discount amount."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:220
+msgid "Cart discount"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:229
+msgid "Biggest one from matched workflows and free shipping together"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:230
+msgid "Biggest one from matched workflows and ignore free shipping"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:231
+msgid "Lowest one from matched workflows and free shipping together"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:232
+msgid "Lowest one from matched workflows and ignore free shipping"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:233
+msgid "Free shipping only"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:236
+msgid "If one or more workflows are applied to the cart, which workflow should be used to apply the discount?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:236
+msgid "Note: If you select \"All matching workflows\", all discounts will be applied to the cart."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:252
+msgid "Apply discount as "
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:255
+msgid "Coupon"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:256
+msgid "Fee"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:258
+msgid "In which mode would you like to give a discount on the shopping cart? "
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:258
+msgid "Note: Our recommended mode is “Coupon”."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:263
+msgid "Coupon code"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:265
+msgid "Create a coupon with a value of '0' in Marketing - > Coupons and then fill the above input field with the coupon code you created."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:265
+msgid "Note: Do not delete or change the discount value of the coupon."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:266
+msgid "Enter coupon code here..."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:271
+msgid "Fee text"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:273
+msgid "Enter fee text here..."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:274
+msgid "The label for the discount that was charged as a fee."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:287
+msgid "BOGO discount"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:293
+msgid "Apply discount to?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:295
+msgid "If one or more workflows are applied to the product, which workflow should be used to provide the discount?"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:304
+msgid "Free item text"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:305
+msgid "The message to highlight the free items in the shopping cart."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:305
+msgid "Note: This message should clearly indicate that the product is free."
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:28
+msgid "workflow"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:29
+msgid "workflows"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:115
+msgid "Title"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:116
+#: admin/partials/discounts/discount-deals-bulk-discount.php:36
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:38
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:60
+#: admin/partials/discounts/discount-deals-cart-discount.php:36
+#: admin/partials/discounts/discount-deals-product-discount.php:36
+msgid "Discount Type"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:117
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:44
+msgid "Is Exclusive"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:118
+msgid "Created At"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:119
+msgid "Updated At"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:120
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:30
+msgid "Status"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:189
+#: admin/class-discount-deals-admin-workflows-list-table.php:252
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:64
+msgid "Delete"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:190
+msgid "Enable"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:191
+msgid "Disable"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:192
+msgid "Mark as Exclusive"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:193
+msgid "Mark as Not-Exclusive"
+msgstr ""
+
+#: admin/class-discount-deals-admin-workflows-list-table.php:251
+msgid "Edit"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:408
+#: admin/class-discount-deals-admin.php:409
+msgid "Getting Started"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:507
+msgid "Discounts"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:519
+msgid "Rules (Optional)"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:530
+msgid "Promotion (Optional)"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:542
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:76
+msgid "Save"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:634
+msgid "Getting started"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:635
+msgid "Settings"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:636
+msgid "Docs"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:637
+msgid "Support"
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:638
+msgid "Review"
+msgstr ""
+
+#: admin/partials/discount-deals-admin-workflow-add-or-edit.php:23
+msgid " Add New Workflow"
+msgstr ""
+
+#: admin/partials/discount-deals-admin-workflow-add-or-edit.php:25
+msgid " Edit Workflow"
+msgstr ""
+
+#: admin/partials/discount-deals-admin-workflow-add-or-edit.php:57
+msgid "Add title"
+msgstr ""
+
+#: admin/partials/discount-deals-admin-workflows-list-table.php:32
+msgid "Workflows"
+msgstr ""
+
+#: admin/partials/discount-deals-admin-workflows-list-table.php:34
+msgid "Add Workflow"
+msgstr ""
+
+#: admin/partials/discount-deals-admin-workflows-list-table.php:39
+msgid "All"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:29
+msgid "Thank you for installing Discount Deals"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:30
+msgid "Glad to have you onboard. We hope the plugin adds to your success 🏆"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:34
+msgid "To get started"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:37
+msgid "Review and update your Discount Deals %s"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:46
+msgid "Settings &rarr;"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:52
+msgid "Access Discount Deals %s."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:60
+msgid "dashboard"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:66
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:69
+msgid "Is it possible to give discounts based on user roles?"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:70
+msgid "Yes, you can apply discounts for different user roles. Example: Premium customers receive a 20% discount, while first-time customers receive a 10% discount."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:73
+msgid "Are the discounts visible on the product page?"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:74
+msgid "Yes, the discount is displayed on the product page, on the product details page and in the shopping cart, but the original price is not taken into account."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:77
+msgid "Can I offer a discount based on the customer's purchase history?"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:78
+msgid "Yes. You can offer a discount based on the purchase history, the total amount spent by the customer on their previous orders or based on the total number of orders placed by a customer."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:83
+msgid "Is it possible to offer discounts to wholesale customers?"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:84
+msgid "Yes. The plugin has a user role specific discount rule. You can set up a discount for specific user roles such as wholesale customers."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:87
+msgid "How can I offer a quantity discount in WooCommerce?"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:88
+msgid "Simple. Simply install the plugin and create a product quantity based discount workflow. You can configure quantity ranges for bulk purchases with discount percentages. Example: 3 to 5 quantities at 10%, 6 to 10 quantities at 20%."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:91
+msgid "Is it possible to offer bogo offers?"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:92
+msgid "Yes, you can offer \"Buy 1 get 1\" offers in your shop."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:97
+msgid "Can I set discounts based on billing country and city?"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:98
+msgid "Yes, it is possible to set a discount rule based on the customer's city. Example: Customers from Texas will receive a 15% discount. The discount is applied at the shopping cart level."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:101
+msgid "Is the discount displayed on the invoice?"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:102
+msgid "Yes, the discount will be shown separately on the invoice."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:105
+msgid "How can I set up BOGO ( buy one and get one )?"
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:106
+msgid "Navigate to WooCommerce - > Discount Deals - > Add New Workflow. Select Buy X and Get X as the discount type. Then set rules and discount groups."
+msgstr ""
+
+#. Translators: Link to the Affiliate For WooCommerce documentation.
+#: admin/partials/discount-deals-welcome-doc.php:114
+msgid "View detailed documentation from %s."
+msgstr ""
+
+#: admin/partials/discount-deals-welcome-doc.php:115
+msgid "here"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:34
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:35
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:49
+msgid "Min Qty."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:35
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:36
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:50
+msgid "Max Qty."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:37
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:39
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:63
+#: admin/partials/discounts/discount-deals-cart-discount.php:37
+#: admin/partials/discounts/discount-deals-product-discount.php:37
+msgid "Discount Value"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:38
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:40
+#: admin/partials/discounts/discount-deals-cart-discount.php:38
+#: admin/partials/discounts/discount-deals-product-discount.php:38
+msgid "Max Discount"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:54
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:56
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:76
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:85
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:124
+msgid "E.g. 1"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:64
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:66
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:95
+msgid "E.g. 10"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:75
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:90
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:138
+#: admin/partials/discounts/discount-deals-cart-discount.php:80
+#: admin/partials/discounts/discount-deals-product-discount.php:77
+msgid "Fixed Discount"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:78
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:93
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:141
+#: admin/partials/discounts/discount-deals-cart-discount.php:83
+#: admin/partials/discounts/discount-deals-product-discount.php:80
+msgid "Percentage Discount"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:88
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:106
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:154
+#: admin/partials/discounts/discount-deals-cart-discount.php:96
+#: admin/partials/discounts/discount-deals-product-discount.php:93
+msgid "E.g. 50"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:109
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:127
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:175
+#: admin/partials/discounts/discount-deals-cart-discount.php:119
+#: admin/partials/discounts/discount-deals-product-discount.php:114
+msgid "E.g. 20.00"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:131
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:149
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:271
+#: admin/partials/discounts/discount-deals-cart-discount.php:141
+#: admin/partials/discounts/discount-deals-product-discount.php:136
+msgid "+ Add Discount Group"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:138
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:156
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:278
+#: admin/partials/discounts/discount-deals-cart-discount.php:148
+#: admin/partials/discounts/discount-deals-product-discount.php:143
+msgid "How it Works?"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:138
+msgid "Create multiple discount groups by entering minimum purchase quantity, maximum purchase quantity and discount details. If the product quantity matches one of the discount groups, the discount will be applied to that product accordingly."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:140
+msgid "Use cases: "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:142
+msgid "You can give a 20% discount to customers who buy 5 to 10 quantities of a product."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:143
+msgid "You can give a fixed discount on products to wholesale customers."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:37
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:57
+msgid "Discount Qty."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:87
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:135
+msgid "Free"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:156
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:278
+msgid " Create multiple discount groups by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount groups, the discount will be applied to that product accordingly. "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:158
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:280
+#: admin/partials/discounts/discount-deals-cart-discount.php:150
+#: admin/partials/discounts/discount-deals-product-discount.php:145
+msgid "Example: "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:160
+msgid "Buy two or more t-shirts and get one t-shirt for free as a discount."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:161
+msgid "Give a 50% discount on a quantity of product X if the customer buys product X in five or more quantities. "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:36
+msgid "Cheapest item in the Cart"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:37
+msgid "Expensive item in the Cart"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:38
+msgid "Select discount product manually"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:54
+#: public/partials/discount-deals-product-promotional-messages.php:46
+msgid "Discount"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:66
+msgid "Discount Limit"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:186
+msgid "Select category to pick free product"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:192
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:299
+msgid "Search category..."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:219
+msgid "Select free products"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:225
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:292
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-product-select-abstract.php:32
+msgid "Search products..."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:249
+msgid "Would you like to show \"Eligible for discount\" message, if the above product not found in cart? "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:282
+msgid "Buy two or more t-shirts and get one cap for free as a discount."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:283
+msgid "Give a 50% discount on a quantity of product Y if the customer buys product X in five or more quantities. "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:34
+msgid "Min Subtotal"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:35
+msgid "Max Subtotal"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:55
+#: admin/partials/discounts/discount-deals-product-discount.php:55
+msgid "E.g. 5000.00"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:66
+#: admin/partials/discounts/discount-deals-product-discount.php:66
+msgid "E.g. 8000.00"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:77
+msgid "Free Shipping"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:148
+msgid " Create multiple discount groups by specifying the minimum cart subtotal, maximum cart subtotal, and discount details. If the cart subtotal matches one of the discount groups, the discount will be applied to that cart accordingly. In the settings you can specify the mode for applying the discount. By default, the discount is applied as a fee. However, we recommend you to change the mode to Coupon."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:152
+msgid "You can give free shipping for the cart whose subtotal is between 100$ and 500$. "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:153
+msgid "You can give a fixed discount of 20$ for the shopping cart if the subtotal of the shopping cart is between 500$ and 1000$. "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:154
+msgid "You can also apply a 25% discount to the cart if the cart subtotal is over $1500. You can also limit the discount on products by entering the maximum discount value. "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-product-discount.php:34
+msgid "Min Price"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-product-discount.php:35
+msgid "Max Price"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-product-discount.php:143
+msgid " Create multiple discount groups by specifying the minimum product price, maximum product price, and discount details. If the product price matches one of the discount groups, the discount will be applied to that product accordingly. "
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-product-discount.php:147
+msgid "You can give a fixed discount of 2$ on products whose price is between 5$ and 20$."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-product-discount.php:148
+msgid "You can also give a 25% discount on products priced between $50 and $150. You can also limit the discount by entering the maximum discount value. "
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:25
+msgid "[ Select ]"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:36
+msgid "Workflow type"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:42
+msgid "What type of discount that you are planning to create for your customers."
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-promotions.php:33
+msgid "Promotions can be used to entice customers to buy from your store with more discounts."
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:22
+msgid "+ Add Rule Group"
+msgstr ""
+
+#. Translators: Strong Open Tag.
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:33
+msgid "Rules can be used to add conditional logic to workflows. Click the %1$s+ Add Rule Group%2$s button to create a rule."
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:51
+msgid "[Select Rule]"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:75
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:96
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:135
+msgid "Enter value here..."
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:98
+msgid "key"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:99
+msgid "value"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:108
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:111
+msgid "Select date..."
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:116
+msgid "Select start date..."
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:119
+msgid "Select end date..."
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:125
+msgid "Select days..."
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:157
+msgid "and"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-rules.php:172
+msgid "or"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:72
+msgid "Save & Close"
+msgstr ""
+
+#: includes/class-discount-deals-free-shipping.php:26
+msgid "Free shipping"
+msgstr ""
+
+#: includes/class-discount-deals-free-shipping.php:27
+msgid "Free shipping is a special method which can be triggered with coupons and minimum spends."
+msgstr ""
+
+#: includes/class-discount-deals-free-shipping.php:30
+msgid "Discount Deals Free Shipping"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:23
+msgid "Product quantity based Discount"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:24
+msgid "Give dynamic discounts on products when customers buy the products in large quantities."
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:53
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:53
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:53
+#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:52
+#: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:51
+msgid "Configure the discount you want to give to your customers"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:76
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:170
+msgid "Would you like to display promotional message in the storefront?"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:89
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:183
+msgid "When to show this promotional message?"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:91
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:185
+msgid "Before all workflow rules are passed"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:92
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:186
+msgid "After all workflow rules are passed"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:93
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:187
+msgid "All time (Not checked against all rules)"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:104
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:198
+msgid "Where to show this promotional message?"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:106
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:200
+msgid "Before \"Add to cart\" form"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:107
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:201
+msgid "After \"Add to cart\" form"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:108
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:202
+msgid "Before product additional information"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:120
+msgid "Do you want to show bulk table in product detail page?"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:134
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:213
+msgid "Enter the promotional message that will be displayed to the customer"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:23
+msgid "Buy X and Get X"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:24
+msgid "If the customer buys product X, then give some quantities as discounts on the same product."
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:23
+msgid "Buy X and Get Y"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:24
+msgid "If the customer buys product X, then give some quantities as discounts of product Y."
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:23
+msgid "Cart Subtotal Based Discount"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:24
+msgid "Give discounts on shopping cart subtotal with coupons and fees."
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:23
+msgid "Product Price based Discount"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:24
+msgid "Give dynamic discounts to all products in your store."
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:110
+msgid "Other"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:202
+msgid "any contains"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:203
+msgid "any matches exactly"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:204
+msgid "any starts with"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:205
+msgid "any ends with"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:217
+msgid "matches all"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:218
+msgid "matches any"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:219
+msgid "matches none"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:231
+msgid "includes in list"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:232
+msgid "does not include in list"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:256
+msgid "contains"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:257
+msgid "does not contain"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:258
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:314
+msgid "is"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:259
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:315
+msgid "is not"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:260
+msgid "starts with"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:261
+msgid "ends with"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:262
+msgid "is blank"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:263
+msgid "is not blank"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:264
+msgid "matches regex"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:288
+msgid "is a multiple of"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:289
+msgid "is not a multiple of"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:301
+msgid "is greater than"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:302
+msgid "is less than"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:133
+msgid "Is in the next"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:134
+msgid "Is not in the next"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:138
+msgid "Is in the last"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:139
+msgid "Is not in the last"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:144
+msgid "Is after"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:149
+msgid "Is before"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:154
+msgid "Is on"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:159
+msgid "Is not on"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:163
+msgid "Is on day/s of the week"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:167
+msgid "Is in the range"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:171
+msgid "Is not set"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:175
+msgid "Is set"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:179
+msgid "Hours"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:180
+msgid "Days"
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-searchable-select-abstract.php:50
+msgid "Search..."
+msgstr ""
+
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-select-abstract.php:48
+msgid "Select..."
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-coupons.php:39
+msgid "Cart - Coupons"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-coupons.php:40
+msgid "Search and Select Coupons..."
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-created-date.php:39
+msgid "Cart - Created Date"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-categories.php:38
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-purchased-categories.php:42
+#: includes/workflows/rules/class-discount-deals-workflow-rule-product-categories.php:36
+msgid "Select categories..."
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-categories.php:39
+msgid "Cart - Item Categories"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-count.php:34
+msgid "Cart - Item Count"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-tags.php:35
+msgid "Cart - Item Tags"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-tags.php:36
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-tags.php:41
+msgid "Select tags..."
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-items.php:28
+msgid "Cart - Items"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-total.php:34
+msgid "Cart - Sub total"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-account-created-date.php:40
+msgid "Customer - Account Created Date"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-city.php:30
+msgid "Customer - City"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-company.php:30
+msgid "Customer - Company"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-country.php:30
+msgid "Customer - Country"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-email.php:30
+msgid "Customer - Email"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-first-order-date.php:42
+msgid "Customer - First Paid Order Date"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-is-guest.php:29
+msgid "Customer - Is Guest"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-last-order-date.php:42
+msgid "Customer - Last Paid Order Date"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-last-review-date.php:42
+msgid "Customer - Last Review Date"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-meta.php:33
+msgid "Customer - Custom Field"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-order-count.php:38
+msgid "Customer - Order Count"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-order-statuses.php:41
+msgid "Customer - Last Order Status"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-order-statuses.php:42
+msgid "Select order statuses..."
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-phone.php:30
+msgid "Customer - Phone"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-postcode.php:32
+msgid "Customer - Postcode"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-purchased-categories.php:41
+msgid "Customer - Purchased Categories - All Time"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-purchased-products.php:32
+msgid "Customer - Purchased Products - All Time"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-review-count.php:38
+msgid "Customer - Review Count"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-role.php:34
+msgid "Customer - User Role"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-role.php:35
+msgid "Select roles..."
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-role.php:51
+msgid "Guest"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-state-text-match.php:32
+msgid "Customer - State - Text Match"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-state.php:33
+msgid "Customer - State"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-state.php:34
+msgid "Select state..."
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-tags.php:40
+msgid "Customer - User Tags"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-total-spent.php:38
+msgid "Customer - Total Spent"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-product-categories.php:35
+msgid "Product - Categories"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-product.php:29
+msgid "Product - Product"
+msgstr ""
+
+#: includes/workflows/rules/class-discount-deals-workflow-rule-shop-date-time.php:42
+msgid "Shop - Current Date/Time"
+msgstr ""
+
+#: public/class-discount-deals-public.php:396
+msgid " and "
+msgstr ""
+
+#: public/class-discount-deals-public.php:465
+#: public/partials/discount-deals-product-promotional-messages.php:97
+msgid "Of"
+msgstr ""
+
+#: public/class-discount-deals-public.php:465
+#: public/partials/discount-deals-product-promotional-messages.php:97
+msgid "quantities, "
+msgstr ""
+
+#: public/class-discount-deals-public.php:465
+#: public/partials/discount-deals-product-promotional-messages.php:97
+msgid "quantities were already in the shopping cart."
+msgstr ""
+
+#: public/partials/discount-deals-product-promotional-messages.php:45
+msgid "Qty"
+msgstr ""
+
+#: public/partials/discount-deals-product-promotional-messages.php:47
+msgid "Price Per Unit"
+msgstr ""
+
+#: public/partials/discount-deals-product-promotional-messages.php:83
+msgid "Summary"
+msgstr ""

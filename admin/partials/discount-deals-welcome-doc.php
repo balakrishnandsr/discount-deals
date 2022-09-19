@@ -21,12 +21,13 @@ $plugin_data = Discount_Deals::get_plugin_data();
     </style>
     <script type="text/javascript">
         jQuery(function () {
-            jQuery('#toplevel_page_woocommerce').find('a[href$="admin.php?page=discount-deals"]').addClass('current');
-            jQuery('#toplevel_page_woocommerce').find('a[href$="admin.php?page=discount-deals"]').parent().addClass('current');
+            let top_level_page = jQuery('#toplevel_page_woocommerce');
+            top_level_page.find('a[href$="admin.php?page=discount-deals"]').addClass('current');
+            top_level_page.find('a[href$="admin.php?page=discount-deals"]').parent().addClass('current');
         });
     </script>
     <div class="wrap about-wrap">
-        <h1><?php echo esc_html__( 'Thank you for installing Dynamic Product Pricing and Discount Rules', 'discount-deals' ) . ' ' . esc_html( $plugin_data['Version'] ) . '!'; ?></h1>
+        <h1><?php echo esc_html__( 'Thank you for installing Discount Deals', 'discount-deals' ) . ' ' . esc_html( $plugin_data['Version'] ) . '!'; ?></h1>
         <p class="about-text"><?php echo esc_html__( 'Glad to have you onboard. We hope the plugin adds to your success 🏆', 'discount-deals' ); ?></p>
 
         <div class="changelog">
@@ -34,7 +35,7 @@ $plugin_data = Discount_Deals::get_plugin_data();
                 <h3><?php echo esc_html__( 'To get started', 'discount-deals' ); ?></h3>
 				<?php
 				echo sprintf(
-					esc_html__( 'Review and update your Dynamic Product Pricing and Discount Rules %s', 'discount-deals' ),
+					esc_html__( 'Review and update your Discount Deals %s', 'discount-deals' ),
 					'<a target="_blank" href="' . esc_url(
 						add_query_arg(
 							array(
@@ -49,7 +50,7 @@ $plugin_data = Discount_Deals::get_plugin_data();
                 <br>
 				<?php
 				echo sprintf(
-					esc_html__( 'Access Dynamic Product Pricing and Discount Rules %s.', 'discount-deals' ),
+					esc_html__( 'Access Discount Deals %s.', 'discount-deals' ),
 					'<a target="_blank" href="' . esc_url(
 						add_query_arg(
 							array(
