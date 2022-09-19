@@ -290,7 +290,6 @@ class Discount_Deals_Admin {
 						continue;
 					}
 					if ( 'object' == $rule_object->type ) {
-
                         /*
                          * Preload the selected values
                          * @var Discount_Deals_Workflow_Rule_Searchable_Select_Abstract $rule_object searchable select.
@@ -312,6 +311,7 @@ class Discount_Deals_Admin {
 						 * Preload the selected values
 						 * @var Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract $rule_object searchable select.
 						 */
+
 						$rule_object->get_select_choices();
 					}
 				}

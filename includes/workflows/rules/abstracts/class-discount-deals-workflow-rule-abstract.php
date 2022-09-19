@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * This class defines all code necessary to workflow rule
  *
@@ -101,7 +101,7 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 			return;
 		}
 
-		// extract the hyphenated part of the title and use as group.
+		// Extract the hyphenated part of the title and use as group.
 		if ( isset( $this->title ) && strstr( $this->title, '-' ) ) {
 			list( $this->group ) = explode( ' - ', $this->title, 2 );
 		}
@@ -131,7 +131,7 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	 *
 	 * @throws UnexpectedValueException When the value is not valid.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function validate_value( $value ) {
 		// Override this method in child classes.

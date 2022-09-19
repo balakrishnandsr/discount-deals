@@ -157,10 +157,10 @@ if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
 	/**
 	 * Calculate the discount for the product.
 	 *
-	 * @param WC_Product $product                Product object.
 	 * @param float      $price                  Product price.
+	 * @param WC_Product $product                Product object.
 	 * @param integer    $quantity               Product quantity.
-	 * @param boolean    $validate_against_rules need to validate against rules.
+	 * @param boolean    $validate_against_rules Need to validate against rules.
 	 *
 	 * @return float|integer
 	 */
@@ -196,7 +196,7 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	 * @param array   $array         Array.
 	 * @param string  $key           Array key.
 	 * @param mixed   $default_value What value should return when the key is not found.
-	 * @param boolean $clean         Do we need to clean the output?
+	 * @param boolean $clean         Do we need to clean the output.
 	 *
 	 * @return mixed
 	 */
@@ -298,6 +298,9 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	/**
 	 * Search coupons
 	 *
+  * @param string  $term                 Term.
+  * @param boolean $exclude_personalized Exclude personalized.
+  *
 	 * @return array
 	 */
 	function discount_deals_search_coupons( $term, $exclude_personalized ) {
@@ -370,7 +373,7 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	/**
 	 * Get the country name for country code
 	 *
-	 * @param string $country_code country code.
+	 * @param string $country_code Country code.
 	 *
 	 * @return false|mixed
 	 */
@@ -467,8 +470,8 @@ if ( ! function_exists( 'discount_deals_arrange_discounts_by_quantity_range' ) )
 	/**
 	 * Re-order discount ranges by quantities
 	 *
-	 * @param array $range_1 discount range 1.
-	 * @param array $range_2 discount range 2.
+	 * @param array $range_1 Discount range 1.
+	 * @param array $range_2 Discount range 2.
 	 *
 	 * @return integer
 	 */

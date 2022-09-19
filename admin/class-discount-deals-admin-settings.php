@@ -21,6 +21,8 @@ class Discount_Deals_Admin_Settings {
 
 	/**
 	 * Init the settings
+  *
+  * @return void
 	 */
 	public static function init() {
 		add_filter( 'woocommerce_settings_tabs_array', array( __CLASS__, 'add_settings_tab' ), 50 );
@@ -31,6 +33,8 @@ class Discount_Deals_Admin_Settings {
 
 	/**
 	 * Add settings sections
+  *
+  * @return void
 	 */
 	public static function add_sections() {
 		$sections        = array(
@@ -39,11 +43,11 @@ class Discount_Deals_Admin_Settings {
 			'cart-discount'                       => __( 'Cart subtotal based discount', 'discount-deals' ),
 			'bogo-discount'                       => __( 'Buy one Get one discount', 'discount-deals' ),
 		);
-		$current_section = discount_deals_get_data( 'section', 'general' );
+		$current_section = esc_attr( discount_deals_get_data( 'section', 'general' ) );
 		echo '<ul class="subsubsub">';
 		$array_keys = array_keys( $sections );
 		foreach ( $sections as $id => $label ) {
-			echo '<li><a href="' . admin_url( 'admin.php?page=wc-settings&tab=' . self::$tab_id . '&section=' . sanitize_title( $id ) ) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . $label . '</a> ' . ( end( $array_keys ) == $id ? '' : '|' ) . ' </li>';
+			echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=' . self::$tab_id . '&section=' . sanitize_title( $id ) ) ) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . esc_html($label) . '</a> ' . ( end( $array_keys ) == $id ? '' : '|' ) . ' </li>';
 		}
 		echo '</ul><br class="clear">';
 	}//end add_sections()
@@ -83,6 +87,8 @@ class Discount_Deals_Admin_Settings {
 
 	/**
 	 * Add settings fields
+  *
+  * @return void
 	 */
 	public static function add_settings() {
 		woocommerce_admin_fields( self::get_settings_fields() );
@@ -215,7 +221,7 @@ class Discount_Deals_Admin_Settings {
 			);
 		} elseif ( 'cart-discount' == $current_section ) {
 			return array(
-				// Cart discount
+				// Cart discount.
 				'cart_section_title'               => array(
 					'name' => __( 'Cart discount', 'discount-deals' ),
 					'type' => 'title',
@@ -282,7 +288,7 @@ class Discount_Deals_Admin_Settings {
 			);
 		} elseif ( 'bogo-discount' == $current_section ) {
 			return array(
-				// BOGO discount
+				// BOGO discount.
 				'bogo_section_title'              => array(
 					'name' => __( 'BOGO discount', 'discount-deals' ),
 					'type' => 'title',

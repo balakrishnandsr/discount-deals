@@ -241,11 +241,13 @@ class Discount_Deals_Workflows {
 		if ( count( self::$_rules ) < count( $valid_rules ) ) {
 			foreach ( $valid_rules as $rule_name => $class_name ) {
 				$rule_class = new $class_name();
+
 				/*
 				 * Workflow discount
 				 *
 				 * @var Discount_Deals_Workflow_Rule_Abstract $rule_class Rule.
 				 */
+
 				$rule_class->set_name( $rule_name );
 				self::$_rules[ $rule_name ] = $rule_class;
 			}
@@ -280,8 +282,8 @@ class Discount_Deals_Workflows {
 	/**
 	 * Calculate BOGO discount
 	 *
-	 * @param WC_Product $product  product object.
-	 * @param integer    $quantity item quantity.
+	 * @param WC_Product $product  Product object.
+	 * @param integer    $quantity Item quantity.
 	 *
 	 * @return array
 	 */
@@ -314,10 +316,10 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get the bogo discount for product
 	 *
-	 * @param Discount_Deals_Workflow[] $workflows workflows to validate against.
-	 * @param WC_Product                $product   product object.
-	 * @param float                     $price     item price.
-	 * @param integer                   $quantity  item quantity.
+	 * @param Discount_Deals_Workflow[] $workflows Workflows to validate against.
+	 * @param WC_Product                $product   Product object.
+	 * @param float                     $price     Item price.
+	 * @param integer                   $quantity  Item quantity.
 	 * @param string                    $apply_as  How to apply.
 	 *
 	 * @return array
@@ -367,8 +369,8 @@ class Discount_Deals_Workflows {
 	/**
 	 * All messages for that position
 	 *
-	 * @param WC_Product $product  product object.
-	 * @param string     $position Where to show the promotional message?
+	 * @param WC_Product $product  Product object.
+	 * @param string     $position Where to show the promotional message.
 	 *
 	 * @return array
 	 */
@@ -477,7 +479,7 @@ class Discount_Deals_Workflows {
 	 * @param float      $price                  Product price.
 	 * @param WC_Product $product                Product.
 	 * @param integer    $quantity               Quantity.
-	 * @param boolean    $validate_against_rules need to validate against rules.
+	 * @param boolean    $validate_against_rules Need to validate against rules.
 	 *
 	 * @return integer|void
 	 */
@@ -521,7 +523,7 @@ class Discount_Deals_Workflows {
 	 * @param float                     $price                  Product price.
 	 * @param integer                   $quantity               Product quantity.
 	 * @param string                    $apply_as               Apply Discount as.
-	 * @param boolean                   $validate_against_rules need to validate against rules.
+	 * @param boolean                   $validate_against_rules Need to validate against rules.
 	 *
 	 * @return array|mixed
 	 */
@@ -571,12 +573,12 @@ class Discount_Deals_Workflows {
 
 	/**
 	 * Get matched Discount
-	 *
+  *
+	 * @param array      $valid_discounts Discounts.
 	 * @param WC_Product $product         Product object.
 	 * @param float      $price           Product price.
 	 * @param integer    $quantity        Product quantity.
 	 * @param string     $apply_as        Apply Discount as.
-	 * @param array      $valid_discounts discounts.
 	 *
 	 * @return float|integer|mixed
 	 */
@@ -620,9 +622,9 @@ class Discount_Deals_Workflows {
 	/**
 	 * Set all applied discounts in store.
 	 *
-	 * @param integer $workflow_id workflow ID.
-	 * @param float   $discount    discount for particular workflow.
-	 * @param array   $extra       save some extra information.
+	 * @param integer $workflow_id Workflow ID.
+	 * @param float   $discount    Discount for particular workflow.
+	 * @param array   $extra       Save some extra information.
 	 *
 	 * @return void
 	 */
@@ -652,6 +654,7 @@ class Discount_Deals_Workflows {
 					 * Variable declaration.
 					 * @var Discount_Deals_Workflow $workflow workflow object.
 					 */
+
 					$workflow_id = $workflow->get_id();
 					if ( in_array( $workflow_id, $applied_workflow_ids ) ) {
 						$applied_workflows[] = $workflow;
@@ -709,8 +712,8 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get cart discount
 	 *
-	 * @param Discount_Deals_Workflow[] $workflows workflows to validate.
-	 * @param string                    $apply_as  how to apply discount?
+	 * @param Discount_Deals_Workflow[] $workflows Workflows to validate.
+	 * @param string                    $apply_as  How to apply discount.
 	 *
 	 * @return array
 	 */
@@ -762,8 +765,8 @@ class Discount_Deals_Workflows {
 	/**
 	 * Get matched Discount
 	 *
-	 * @param array  $valid_discounts all valid discounts.
-	 * @param string $type            type to check.
+	 * @param array  $valid_discounts All valid discounts.
+	 * @param string $type            Type to check.
 	 *
 	 * @return array
 	 */

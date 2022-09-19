@@ -34,9 +34,14 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Discount details
 	 *
-	 * @var array $discount_details Discount details
+	 * @var array $discount_details Discount details.
 	 */
 	public $discount_details = array();
+    /**
+     * Promotion details
+     *
+     * @var array $promotion_details Promotion details.
+     */
 	public $promotion_details = array();
 	/**
 	 * Data items of the discount
@@ -65,6 +70,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Set discount details to the class
 	 *
 	 * @param array $discount_details Discount details.
+  * @return void
 	 */
 	public function set_discount_details( $discount_details ) {
 		$this->discount_details = $discount_details;
@@ -104,6 +110,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Discount description
 	 *
 	 * @param string $description Description of the discount.
+  * @return void
 	 */
 	public function set_description( $description ) {
 		$this->description = $description;
@@ -130,7 +137,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	}//end set_name()
 
 	/**
-	 * Valid data items for discount
+	 * Valid data items for discount.
 	 *
 	 * @return array
 	 */
@@ -139,11 +146,11 @@ abstract class Discount_Deals_Workflow_Discount {
 	}//end get_supplied_data_items()
 
 	/**
-	 * Set supplied data items for discount
+	 * Set supplied data items for discount.
 	 *
 	 * @return void
 	 */
-	abstract public function set_supplied_data_items();// end set_name()
+	abstract public function set_supplied_data_items();// End set_name().
 
 	/**
 	 * Admin discount fields
@@ -231,7 +238,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Set promotion details for the discount
 	 *
-	 * @param array $promotion_details promotion details.
+	 * @param array $promotion_details Promotion details.
+  * @return void
 	 */
 	public function set_promotion_details( $promotion_details ) {
 		$this->promotion_details = $promotion_details;
@@ -242,6 +250,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
+  * @param array $extra     Extra.
 	 * @param mixed $price     Price.
 	 *
 	 * @return mixed
@@ -253,7 +262,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 *
 	 * @param string $type           Discount type.
 	 * @param float  $price          Price.
-	 * @param float  $discount_value discount value.
+	 * @param float  $discount_value Discount value.
 	 *
 	 * @return float|integer|mixed
 	 */
