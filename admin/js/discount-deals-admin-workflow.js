@@ -105,8 +105,11 @@
                             discount_deals.workflow.set('discount_type', response.data.discount_details);
                             discount_deals.rules.clear_incompatible_rules();
                             tinymce.execCommand('mceRemoveEditor', true, 'editor_discount_deals_workflow_promotion_message');
-                            var init = tinymce.extend( {}, tinyMCEPreInit.mceInit[ 'editor_discount_deals_workflow_promotion_message' ] );
-                            try { tinymce.init( init ); } catch(e){}
+                            var init = tinymce.extend({}, tinyMCEPreInit.mceInit['editor_discount_deals_workflow_promotion_message']);
+                            try {
+                                tinymce.init(init);
+                            } catch (e) {
+                            }
                             $('input[name="discount_deals_workflow[dd_promotion][enable]"]').trigger('change')
                         }
                     );
@@ -592,6 +595,13 @@
                             {
                                 dateFormat: 'yy-mm-dd',
                                 showButtonPanel: true,
+                            }
+                        );
+                    } else if (['is_after', 'is_before'].includes(compare)) {
+                        this.$el.find('.discount-deals-date-picker').attr('pattern','[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}');
+                        this.$el.find('.discount-deals-date-picker').datetimepicker(
+                            {
+                                format: 'Y-m-d H:i',
                             }
                         );
                     } else {
