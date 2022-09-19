@@ -35,18 +35,21 @@ class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Ru
 	}//end init()
 
 
-
 	/**
 	 * Validate the cart subtotal with the given value
 	 *
-	 * @param WC_Cart       $data_item    data item.
-	 * @param string        $compare_type compare operator.
-	 * @param integer|float $value        list of values.
+	 * @param WC_Cart $data_item data item.
+	 * @param string $compare_type compare operator.
+	 * @param integer|float $value list of values.
 	 *
 	 * @return boolean
 	 */
 	function validate( $data_item, $compare_type, $value ) {
-		return $this->validate_number( $data_item->get_subtotal(), $compare_type, $value );
+		$subtotal      = WC()->cart->get_subtotal();
+		$subtotal_tax  = WC()->cart->get_subtotal_tax();
+		$cart_subtotal = apply_filters( 'discount_deals_cart_subtotal', ( $subtotal + $subtotal_tax ), $subtotal, $subtotal_tax );
+
+		return $this->validate_number( $cart_subtotal, $compare_type, $value );
 	}//end validate()
 
 
