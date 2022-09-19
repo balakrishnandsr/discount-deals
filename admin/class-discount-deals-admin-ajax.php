@@ -31,6 +31,11 @@ class Discount_Deals_Admin_Ajax {
 	}//end init()
 
 
+	/**
+	 * Get choice for select
+	 *
+	 * @return void
+	 */
 	public static function get_rule_select_choices() {
 
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
@@ -53,6 +58,11 @@ class Discount_Deals_Admin_Ajax {
 	}//end get_rule_select_choices()
 
 
+	/**
+	 * Search for json coupons.
+	 *
+	 * @return void
+	 */
 	public static function json_search_coupons() {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die;
@@ -63,7 +73,11 @@ class Discount_Deals_Admin_Ajax {
 		wp_send_json( $results );
 	}//end json_search_coupons()
 
-
+	/**
+	 * Update workflow column value.
+	 *
+	 * @return void
+	 */
 	public static function update_workflow_column_value() {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die;

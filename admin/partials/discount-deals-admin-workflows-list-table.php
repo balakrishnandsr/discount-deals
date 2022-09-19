@@ -35,8 +35,8 @@ $all_workflows_count = $workflows_db->count();
         <hr class="wp-header-end">
         <ul class="subsubsub">
             <li>
-                <a href="<?php echo admin_url( 'admin.php?page=discount-deals&tab=all' ); ?>"
-                   class="<?php echo( $current_discount == 'all' ? 'current' : '' ) ?>"><?php echo __( "All", "discount-deals" ) ?></a><span
+                <a href="<?php echo esc_url(admin_url( 'admin.php?page=discount-deals&tab=all' )); ?>"
+                   class="<?php echo( $current_discount == 'all' ? 'current' : '' ) ?>"><?php esc_html_e( "All", "discount-deals" ) ?></a><span
                         class="count">(<?php echo intval( $all_workflows_count ) ?>)</span>
             </li>&nbsp;|&nbsp;
 			<?php
@@ -48,8 +48,8 @@ $all_workflows_count = $workflows_db->count();
 				$id           = str_replace( '_', '-', $name );
 				?>
                 <li>
-                    <a href="<?php echo admin_url( 'admin.php?page=discount-deals&tab=' . sanitize_title( $id ) ); ?>"
-                       class="<?php echo( $current_discount == $id ? 'current' : '' ) ?>"><?php echo $discount_obj->get_title() ?></a><span
+                    <a href="<?php echo esc_url(admin_url( 'admin.php?page=discount-deals&tab=' . sanitize_title( $id ) )); ?>"
+                       class="<?php echo( $current_discount == $id ? 'current' : '' ) ?>"><?php echo wp_kses_post($discount_obj->get_title()) ?></a><span
                             class="count">(<?php echo intval( $count ) ?>)</span>
                 </li>
 				<?php

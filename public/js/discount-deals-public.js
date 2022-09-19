@@ -16,9 +16,7 @@
         refresh_cart();
     });
 
-    /**
-     * refresh cart when Email changed
-     */
+    // Refresh cart when Email changed
     $(document).on('blur', 'input[name="billing_email"], select#billing_state', function () {
         refresh_cart();
     });

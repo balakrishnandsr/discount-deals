@@ -32,6 +32,8 @@ class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Work
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	public function init() {
 		$this->title = __( 'Cart - Created Date', 'discount-deals' );
@@ -41,9 +43,9 @@ class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Work
 	/**
 	 * Validate cart created rule
 	 *
-	 * @param WC_Cart $data_item    data item.
-	 * @param string  $compare_type compare operator.
-	 * @param array   $value        list of values.
+	 * @param WC_Cart $data_item    Data item.
+	 * @param string  $compare_type Compare operator.
+	 * @param array   $value        List of values.
 	 *
 	 * @return boolean
 	 */

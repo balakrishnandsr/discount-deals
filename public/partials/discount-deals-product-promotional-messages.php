@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
+/*
  * Variable declaration
  *
  * @var array $all_promotions all promotional messages.
@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var array $product_discounts product object.
  * @var Discount_Deals_Public $this public class.
  */
+
 if ( ! empty( $all_promotions ) ) {
 	global $product;
 
@@ -66,9 +67,9 @@ if ( ! empty( $all_promotions ) ) {
 				$discount_price = discount_deals_get_product_discount( $price, $product, $min_quantity, false );
 				?>
                 <tr>
-                    <td><?php echo $min_quantity . '-' . $max_quantity ?></td>
-                    <td><?php echo $discount_value; ?></td>
-                    <td><?php echo ( 0 < $discount_price ) ? wc_price( $discount_price ) : wc_price( 0 ) ?></td>
+                    <td><?php echo wp_kses_post( $min_quantity . '-' . $max_quantity ) ?></td>
+                    <td><?php echo wp_kses_post( $discount_value ); ?></td>
+                    <td><?php echo wp_kses_post( ( 0 < $discount_price ) ? wc_price( $discount_price ) : wc_price( 0 ) ) ?></td>
                 </tr>
 				<?php
 			}
@@ -79,7 +80,7 @@ if ( ! empty( $all_promotions ) ) {
 				?>
                 <tfoot>
                 <tr>
-                    <th colspan="3"><?php _e( 'Summary' ) ?></th>
+                    <th colspan="3"><?php esc_html_e( 'Summary', 'discount-deals' ) ?></th>
                 </tr>
                 <tr>
                     <th colspan="2">
@@ -87,13 +88,13 @@ if ( ! empty( $all_promotions ) ) {
 							<?php
 							$new_quantity       = $items_in_cart + 1;
 							$new_discount_price = discount_deals_get_product_discount( $price, $product, $new_quantity, false );
-							echo $new_quantity . ' &times; ' . wc_price( $new_discount_price );
+							echo wp_kses_post( $new_quantity . ' &times; ' . wc_price( $new_discount_price ) );
 							?>
                         </div>
                         <small class="dd-bulk-table-summary-quantity-in-cart">
 							<?php
 							if ( 0 < $items_in_cart ) {
-								echo apply_filters( 'discount_Deals_bulk_table_summary_items_in_cart_text', sprintf( "%s %d %s %d %s", __( 'Of', 'discount-deals' ), $new_quantity, __( 'quantities, ', 'discount-deals' ), $items_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $new_quantity, $items_in_cart, $product, $this );
+								echo wp_kses_post( apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( "%s %d %s %d %s", __( 'Of', 'discount-deals' ), $new_quantity, __( 'quantities, ', 'discount-deals' ), $items_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $new_quantity, $items_in_cart, $product, $this ) );
 							}
 							?>
                         </small>
@@ -101,7 +102,7 @@ if ( ! empty( $all_promotions ) ) {
                     <th>
                         <div class="dd-bulk-table-summary-total">
 							<?php
-							echo wc_price( $new_quantity * $new_discount_price );
+							echo wp_kses_post( wc_price( $new_quantity * $new_discount_price ) );
 							?>
                         </div>
                     </th>
@@ -114,6 +115,6 @@ if ( ! empty( $all_promotions ) ) {
 		<?php
 	}
 	if ( ! empty( $all_promotions['promotion_messages'] ) ) {
-		echo implode( '<br />', $all_promotions['promotion_messages'] );
+		echo wp_kses_post( implode( '<br />', $all_promotions['promotion_messages'] ) );
 	}
 }

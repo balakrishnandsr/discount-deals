@@ -23,7 +23,7 @@ class Discount_Deals_Workflow_Data_Layer {
 	/**
 	 * Class constructor Discount_Deals_Workflow_Data_Layer
 	 *
-	 * @param array $data data items.
+	 * @param array $data Data items.
 	 */
 	public function __construct( $data = array() ) {
 

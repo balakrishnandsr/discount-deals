@@ -38,9 +38,9 @@ class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Ru
 	/**
 	 * Validate the cart subtotal with the given value
 	 *
-	 * @param WC_Cart $data_item data item.
-	 * @param string $compare_type compare operator.
-	 * @param integer|float $value list of values.
+	 * @param WC_Cart       $data_item    Data item.
+	 * @param string        $compare_type Compare operator.
+	 * @param integer|float $value        List of values.
 	 *
 	 * @return boolean
 	 */

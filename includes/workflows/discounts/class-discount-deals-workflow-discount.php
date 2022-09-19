@@ -242,7 +242,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
-	 * @param mixed $price Price.
+	 * @param mixed $price     Price.
 	 *
 	 * @return mixed
 	 */
@@ -251,9 +251,9 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Calculate discount amount.
 	 *
-	 * @param string $type Discount type.
-	 * @param float $price Price.
-	 * @param float $discount_value discount value.
+	 * @param string $type           Discount type.
+	 * @param float  $price          Price.
+	 * @param float  $discount_value discount value.
 	 *
 	 * @return float|integer|mixed
 	 */

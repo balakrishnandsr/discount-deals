@@ -74,6 +74,8 @@ class Discount_Deals_Date_Time extends DateTime {
 	 * @param Discount_Deals_Date_Time $datetime Discount deals date time.
 	 *
 	 * @throws Exception Throws exception.
+	 *
+	 * @return void
 	 */
 	public function convert_to_gmt( $datetime ) {
 		$datetime->modify( '-' . $this->get_timezone_offset() * HOUR_IN_SECONDS . ' seconds' );
@@ -84,6 +86,8 @@ class Discount_Deals_Date_Time extends DateTime {
 	 * Get site timezone offset
 	 *
 	 * @throws Exception Throws exception.
+	 *
+	 * @return float|integer
 	 */
 	public function get_timezone_offset() {
 		$timezone = get_option( 'timezone_string' );
@@ -118,6 +122,8 @@ class Discount_Deals_Date_Time extends DateTime {
 	 * @param Discount_Deals_Date_Time $datetime Discount deals date time.
 	 *
 	 * @throws Exception Throws exception.
+	 *
+	 * @return void
 	 */
 	public function convert_from_gmt( $datetime ) {
 		$offset = $this->get_timezone_offset();
@@ -156,6 +162,8 @@ class Discount_Deals_Date_Time extends DateTime {
 	 * @param integer $months_to_add How many months need to add in the given time.
 	 *
 	 * @throws Exception When months isn't a valid number.
+	 *
+	 * @return void
 	 */
 	public function add_natural_months( $months_to_add ) {
 		$original_day = $this->format( 'd' );

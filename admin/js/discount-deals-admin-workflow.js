@@ -153,19 +153,19 @@
                 },
                 remove_rule: function (id) {
                     var rules = this.get('rules');
-                    // find rule index - note we cant use _.findIndex due to backwards compatibility.
+                    // Find rule index - note we cant use _.findIndex due to backwards compatibility.
                     var index = rules.map(
                         function (rule) {
                             return rule.id;
                         }
                     ).indexOf(id);
-                    // if only 1 rule left delete the whole group object.
+                    // If only 1 rule left delete the whole group object.
                     if (rules.length > 1) {
                         rules[index].destroy();
                         rules.splice(index, 1);
                         this.set('rules', rules);
                     } else {
-                        rules[index].destroy(); // destroy the last rule.
+                        rules[index].destroy(); // Destroy the last rule.
                         this.clear();
                     }
                 },
@@ -198,7 +198,7 @@
                                         rule_obj.reset_options();
                                         rule_obj.set('compare', raw_rule.compare);
                                         rule_obj.set('value', raw_rule.value);
-                                        // for objects.
+                                        // For objects.
                                         if (raw_rule.selected) {
                                             rule_obj.set('selected', raw_rule.selected);
                                         }
@@ -255,7 +255,7 @@
                 },
                 remove_group: function (id) {
                     var groups = this.get('rule_options');
-                    // find index - note we cant use _.findIndex due to backwards compatibility.
+                    // Find index - note we cant use _.findIndex due to backwards compatibility.
                     var index = groups.map(
                         function (group) {
                             return group.id;
@@ -288,7 +288,7 @@
                         }
                     );
 
-                    // clear out of initial loop to avoid index changing issues, when rules are cleared
+                    // Clear out of initial loop to avoid index changing issues, when rules are cleared
                     _.each(
                         rules_to_remove,
                         function (rule) {
@@ -447,7 +447,6 @@
                     var $to = this.$el.find('.discount-deals-rule-value-to');
 
                     if ($from.length && $to.length) {
-                        // $to.datepicker( 'option', 'minDate', $from.val() );
                         $to.datetimepicker(
                             {
                                 format: 'Y-m-d H:i',

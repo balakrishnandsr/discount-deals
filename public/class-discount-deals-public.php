@@ -26,14 +26,14 @@ class Discount_Deals_Public {
 	/**
 	 * Need to forcefully calculate product price instead of get from cache.
 	 *
-	 * @var bool $force_fetch_price yes/no.
+	 * @var boolean $force_fetch_price yes/no.
 	 */
 	private $force_fetch_price = false;
 
 	/**
 	 * Need to calculate discount at the time?.
 	 *
-	 * @var bool $calculate_discount yes/no.
+	 * @var boolean $calculate_discount yes/no.
 	 */
 	private $calculate_discount = true;
 
@@ -104,7 +104,7 @@ class Discount_Deals_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of the plugin.
-	 * @param string $version The version of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -165,13 +165,13 @@ class Discount_Deals_Public {
 		} else {
 			add_action( 'woocommerce_cart_calculate_fees', array( $this, 'apply_cart_discount_as_fee' ), 99 );
 		}
-		// Free shipping
+		// Free shipping.
 		add_filter( 'woocommerce_shipping_methods', array( $this, 'register_free_shipping_method' ) );
 		add_filter( 'woocommerce_shipping_discount_deals_free_shipping_is_available', array(
 			$this,
 			'is_free_shipping_available'
 		) );
-		// BOGO
+		// BOGO.
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_and_add_bogo_discount' ), 97 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'remove_free_products_from_cart' ), 98 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'add_free_products_to_cart' ), 99 );
@@ -181,7 +181,7 @@ class Discount_Deals_Public {
 		add_action( 'woocommerce_after_cart_item_name', array( $this, 'highlight_free_gifts' ), 99, 2 );
 		add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout_for_bogo' ), 99, 3 );
 		add_filter( 'woocommerce_before_cart', array( $this, 'show_bxgy_eligible_notices' ), 99 );
-		// Promotional messages
+		// Promotional messages.
 		add_action( 'woocommerce_before_add_to_cart_form', array(
 			$this,
 			'show_promotional_message_before_add_to_cart'
@@ -194,7 +194,7 @@ class Discount_Deals_Public {
 			$this,
 			'show_promotional_message_after_product_summary'
 		) );
-		//get product price by ajax
+		// Get product price by ajax.
 		add_action( 'wp_ajax_nopriv_discount_deals_get_product_discount_price', array(
 			$this,
 			'get_product_discount_price'
@@ -203,11 +203,11 @@ class Discount_Deals_Public {
 			$this,
 			'get_product_discount_price'
 		) );
-		//Remove unwanted stuffs after order placed
+		// Remove unwanted stuffs after order placed.
 		add_action( 'woocommerce_new_order', array( $this, 'on_after_new_order' ), 99 );
-		// Show applied discounts
+		// Show applied discounts.
 		add_action( 'woocommerce_before_cart', array( $this, 'show_applied_workflow_notices' ), 98 );
-		// Save discount information for orders
+		// Save discount information for orders.
 		add_action( 'woocommerce_checkout_create_order', array( $this, 'before_checkout_create_order' ), 99, 2 );
 		add_action( 'woocommerce_checkout_create_order_line_item', array(
 			$this,
@@ -219,7 +219,7 @@ class Discount_Deals_Public {
 	/**
 	 * Update checkout form data
 	 *
-	 * @param string $post_data all post data.
+	 * @param string $post_data All post data.
 	 *
 	 * @return void
 	 */
@@ -242,15 +242,16 @@ class Discount_Deals_Public {
 		// By default, price will be fetched from cache. Here we need to recalculate once again.
 		// So we are using this flag.
 		$this->force_fetch_price = true;
-	}
+	}//end update_order_review()
+
 
 	/**
 	 * Set order item meta details
 	 *
-	 * @param WC_Order_Item $item order item.
-	 * @param string $cart_item_key cart item key.
-	 * @param array $cart_item cart item details.
-	 * @param WC_Order $order order object.
+	 * @param WC_Order_Item $item          Order item.
+	 * @param string        $cart_item_key Cart item key.
+	 * @param array         $cart_item     Cart item details.
+	 * @param WC_Order      $order         Order object.
 	 *
 	 * @return void
 	 */
@@ -278,14 +279,15 @@ class Discount_Deals_Public {
 			$props['dd_type'] = 'free';
 		}
 		$item->add_meta_data( 'discount_deals_discount', $props, true );
-	}
+	}//end before_checkout_create_order_line_item()
+
 
 	/**
 	 * Format the line subtotal
 	 *
-	 * @param string $subtotal subtotal.
-	 * @param WC_Order_Item $item item object.
-	 * @param WC_Order $order order obj
+	 * @param string        $subtotal Subtotal.
+	 * @param WC_Order_Item $item     Item object.
+	 * @param WC_Order      $order    Order object.
 	 *
 	 * @return string
 	 */
@@ -306,14 +308,14 @@ class Discount_Deals_Public {
 		}
 
 		return $subtotal;
-	}
+	}//end order_formatted_line_subtotal()
 
 
 	/**
 	 * Format the line subtotal
 	 *
-	 * @param string $total subtotal.
-	 * @param WC_Order $order order obj
+	 * @param string   $total Subtotal.
+	 * @param WC_Order $order Order object.
 	 *
 	 * @return string
 	 */
@@ -342,13 +344,14 @@ class Discount_Deals_Public {
 
 
 		return $total;
-	}
+	}//end order_formatted_subtotal()
+
 
 	/**
 	 * Save important information before placing order.
 	 *
-	 * @param WC_Order $order order object.
-	 * @param array $data extra information.
+	 * @param WC_Order $order Order object.
+	 * @param array    $data  Extra information.
 	 *
 	 * @return void
 	 */
@@ -358,7 +361,8 @@ class Discount_Deals_Public {
 			$order->update_meta_data( '_discount_deals_has_discount', 'yes' );
 			$order->update_meta_data( '_discount_deals_discount_details', $applied_discounts );
 		}
-	}
+	}//end before_checkout_create_order()
+
 
 	/**
 	 * Show applied workflows to the cart users.
@@ -404,12 +408,13 @@ class Discount_Deals_Public {
 				}
 			}
 		}
-	}
+	}//end show_applied_workflow_notices()
+
 
 	/**
 	 * Do remove some session variables and transient after order is newly placed.
 	 *
-	 * @param int $order_id order id.
+	 * @param integer $order_id Order id.
 	 *
 	 * @return void
 	 */
@@ -420,11 +425,13 @@ class Discount_Deals_Public {
 			$customer_id = $order->get_customer_id();
 			delete_transient( 'discount_deals_cpp_' . $customer_id );
 		}
-	}
+	}//end on_after_new_order()
+
 
 	/**
 	 * Set woocommerce product price as per simple discount.
 	 *
+	 * @return void
 	 */
 	public function get_product_discount_price() {
 		remove_filter( 'woocommerce_product_get_price', array( $this, 'get_product_price' ), 99 );
@@ -455,22 +462,22 @@ class Discount_Deals_Public {
 			'quantity_in_cart'          => $quantity_in_cart,
 			'discount'                  => wc_price( $discount ),
 			'quantity_price_summary'    => $quantity_to_calculate . ' &times; ' . wc_price( $discount ),
-			'existing_quantity_summary' => apply_filters( 'discount_Deals_bulk_table_summary_items_in_cart_text', sprintf( "%s %d %s %d %s", __( 'Of', 'discount-deals' ), $quantity_to_calculate, __( 'quantities, ', 'discount-deals' ), $quantity_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $quantity_to_calculate, $quantity_in_cart, $product, $this ),
+			'existing_quantity_summary' => 0 < $quantity_in_cart ? wp_kses_post( apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( "%s %d %s %d %s", __( 'Of', 'discount-deals' ), $quantity_to_calculate, __( 'quantities, ', 'discount-deals' ), $quantity_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $quantity_to_calculate, $quantity_in_cart, $product, $this ) ) : '',
 			'total_price_summary'       => wc_price( $quantity_to_calculate * $discount )
 		) );
-	}//end get_product_price()
+	}//end get_product_discount_price()
 
 	/**
 	 * Get how many quantities in cart
 	 *
-	 * @param WC_Product $product product obj.
+	 * @param WC_Product $product Product obj.
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function get_quantities_in_cart( $product ) {
 		$cart_items = WC()->cart->get_cart();
 		$quantity   = 0;
-		// For bulk discount, check cart item quantity and calculate discount
+		// For bulk discount, check cart item quantity and calculate discount.
 		if ( ! empty( $cart_items ) ) {
 			foreach ( $cart_items as $cart_item_key => $cart_item ) {
 				$cart_item_object = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
@@ -483,10 +490,13 @@ class Discount_Deals_Public {
 		}
 
 		return $quantity;
-	}
+	}//end get_quantities_in_cart()
+
 
 	/**
 	 * Show promotional message before add to cart button
+	 *
+	 * @return void
 	 */
 	public function show_promotional_message_before_add_to_cart() {
 		global $product;
@@ -500,6 +510,8 @@ class Discount_Deals_Public {
 
 	/**
 	 * Show promotional message after product summary
+	 *
+	 * @return void
 	 */
 	public function show_promotional_message_after_product_summary() {
 		global $product;
@@ -513,6 +525,8 @@ class Discount_Deals_Public {
 
 	/**
 	 * Show promotional message after add to cart button
+	 *
+	 * @return void
 	 */
 	public function show_promotional_message_after_add_to_cart() {
 		global $product;
@@ -537,7 +551,7 @@ class Discount_Deals_Public {
 	/**
 	 * Check the given cart s free or not.
 	 *
-	 * @param array $cart_item cart item details.
+	 * @param array $cart_item Cart item details.
 	 *
 	 * @return boolean
 	 */
@@ -548,6 +562,8 @@ class Discount_Deals_Public {
 
 	/**
 	 * Remove free product from the cart
+	 *
+	 * @return void
 	 */
 	public function remove_free_products_from_cart() {
 		remove_action( 'woocommerce_before_calculate_totals', array(
@@ -566,6 +582,8 @@ class Discount_Deals_Public {
 
 	/**
 	 * Add free product to the cart
+	 *
+	 * @return void
 	 */
 	public function add_free_products_to_cart() {
 		remove_action( 'woocommerce_before_calculate_totals', array( $this, 'add_free_products_to_cart' ), 99 );
@@ -576,7 +594,7 @@ class Discount_Deals_Public {
 						WC()->cart->add_to_cart( $gift['product_id'], $gift['quantity'], $gift['variation_id'], $gift['variation'], $gift['meta'] );
 					}
 				} catch ( Exception $exception ) {
-
+					// Maybe the out of stock.
 				}
 			}
 			self::$free_products = array();
@@ -588,8 +606,8 @@ class Discount_Deals_Public {
 	/**
 	 * Stop showing remove link for gifts
 	 *
-	 * @param string $remove_link link to remove cart item.
-	 * @param string $cart_item_key cart item key.
+	 * @param string $remove_link   Link to remove cart item.
+	 * @param string $cart_item_key Cart item key.
 	 *
 	 * @return string
 	 */
@@ -621,21 +639,21 @@ class Discount_Deals_Public {
 				$product->set_price( 0 );
 			}
 		}
-	}//end hide_cart_item_remove_link()
+	}//end set_price_for_free_products()
 
 
 	/**
 	 * Stop showing remove link for gifts
 	 *
-	 * @param array $cart_item cart item.
-	 * @param string $cart_item_key cart item key.
+	 * @param array  $cart_item     Cart item.
+	 * @param string $cart_item_key Cart item key.
 	 *
 	 * @return void
 	 */
 	public function highlight_free_gifts( $cart_item, $cart_item_key ) {
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			$message = Discount_Deals_Settings::get_settings( 'bogo_discount_highlight_message' );
-			echo '<p class="dd-bogo-text" style="color: green;">' . $message . '</p>';
+			echo wp_kses_post('<p class="dd-bogo-text" style="color: green;">' . $message . '</p>');
 		}
 	}//end highlight_free_gifts()
 
@@ -643,9 +661,9 @@ class Discount_Deals_Public {
 	/**
 	 * Stop showing quantity update for gifts
 	 *
-	 * @param string $update_field link to remove cart item.
-	 * @param string $cart_item_key cart item key.
-	 * @param array $cart_item cart item.
+	 * @param string $update_field  Link to remove cart item.
+	 * @param string $cart_item_key Cart item key.
+	 * @param array  $cart_item     Cart item.
 	 *
 	 * @return string
 	 */
@@ -661,8 +679,8 @@ class Discount_Deals_Public {
 	/**
 	 * What is the free product for particular cart item
 	 *
-	 * @param string $actual_cart_item_key Check that the cart item has free product?
-	 * @param array $cart_items all cart items.
+	 * @param string $actual_cart_item_key Check that the cart item has free product.
+	 * @param array  $cart_items           All cart items.
 	 *
 	 * @return false|integer|string
 	 */
@@ -682,8 +700,8 @@ class Discount_Deals_Public {
 	/**
 	 * Check that cart item has wrong free item.
 	 *
-	 * @param array $free_cart_item free cart item.
-	 * @param array $actual_discount actual discount for the product.
+	 * @param array $free_cart_item  Free cart item.
+	 * @param array $actual_discount Actual discount for the product.
 	 *
 	 * @return boolean
 	 */
@@ -720,7 +738,7 @@ class Discount_Deals_Public {
 					}
 					$free_product_cart_key = $this->get_free_product_of_cart_item( $cart_item_key, $cart_items );
 					$discount_details      = discount_deals_get_bogo_discount( $cart_item_object, $cart_item['quantity'] );
-					// has no discount but the free product for this item is found in cart. maybe it was previously added one.
+					// Has no discount but the free product for this item is found in cart. maybe it was previously added one.
 					if ( empty( $discount_details ) && $free_product_cart_key ) {
 						// Remove it. We don't need anymore.
 						self::$remove_products[] = $free_product_cart_key;
@@ -803,11 +821,11 @@ class Discount_Deals_Public {
 
 						// IF the discount is flat or percentage, then do calculations accordingly.
 						if ( $quantity_in_cart < $discount_quantity ) {
-							// If free quantity is greater than cart item quantity, set discount as discount for individual product
+							// If free quantity is greater than cart item quantity, set discount as discount for individual product.
 							$discount_per_item = $actual_discount['discount'];
 							$discount_quantity = $quantity_in_cart;
 						} else {
-							// else, take total quantity and calculate accordingly.
+							// Else, take total quantity and calculate accordingly.
 							$total_discounted_price = ( $item_price * $discount_quantity ) - $actual_discount['total'];
 							if ( 0 >= $total_discounted_price ) {
 								$total_discounted_price = ( $item_price * $discount_quantity );
@@ -845,6 +863,8 @@ class Discount_Deals_Public {
 
 	/**
 	 * Show eligible message to the customer
+	 *
+	 * @return void
 	 */
 	public function show_bxgy_eligible_notices() {
 		if ( ! empty( self::$eligible_bxgy_products ) ) {
@@ -871,8 +891,8 @@ class Discount_Deals_Public {
 	/**
 	 * Check the cart has eligible BXGY item
 	 *
-	 * @param array $cart_items all cart items.
-	 * @param array $discount_item discount item.
+	 * @param array $cart_items    All cart items.
+	 * @param array $discount_item Discount item.
 	 *
 	 * @return false|integer|string
 	 */
@@ -894,12 +914,14 @@ class Discount_Deals_Public {
 	/**
 	 * Add timestamp to session when 1st product is added to cart.
 	 *
-	 * @param string $cart_item_key cart item key.
-	 * @param integer $product_id product id.
-	 * @param integer $quantity item quantity.
-	 * @param integer $variation_id variation id.
-	 * @param array $variation variation details.
-	 * @param array $cart_item_data cart item details.
+	 * @param string  $cart_item_key  Cart item key.
+	 * @param integer $product_id     Product id.
+	 * @param integer $quantity       Item quantity.
+	 * @param integer $variation_id   Variation id.
+	 * @param array   $variation      Variation details.
+	 * @param array   $cart_item_data Cart item details.
+	 *
+	 * @return void
 	 */
 	public function item_added_to_cart( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
 		$created_time = WC()->session->get( 'discount_deals_cart_created_time', false );
@@ -940,18 +962,22 @@ class Discount_Deals_Public {
 	/**
 	 * Show strikeout for each product
 	 *
-	 * @param string $item_price price html.
-	 * @param array $cart_item cart item details.
-	 * @param string $cart_item_key cart item hash.
+	 * @param string $item_price    Price html.
+	 * @param array  $cart_item     Cart item details.
+	 * @param string $cart_item_key Cart item hash.
+	 *
+	 * @return string
 	 */
 	public function show_price_strikeout( $item_price, $cart_item, $cart_item_key ) {
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			return $item_price;
 		}
 		$product = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
 		/*
 		 * @var WC_Product $product product.
 		 */
+
 		$sale_price          = $product->get_price();
 		$show_strikeout_from = apply_filters( 'discount_deals_cart_item_show_strikeout_from', 'regular_price', $item_price, $cart_item, $cart_item_key );
 		$regular_price       = $product->get_regular_price();
@@ -979,9 +1005,11 @@ class Discount_Deals_Public {
 	/**
 	 * Show strikeout for each product which has bogo
 	 *
-	 * @param string $item_price price html.
-	 * @param array $cart_item cart item details.
-	 * @param string $cart_item_key cart item hash.
+	 * @param string $item_price    Price html.
+	 * @param array  $cart_item     Cart item details.
+	 * @param string $cart_item_key Cart item hash.
+	 *
+	 * @return string
 	 */
 	public function show_price_strikeout_for_bogo( $item_price, $cart_item, $cart_item_key ) {
 		if ( empty( self::$priced_bogo_products ) ) {
@@ -1022,9 +1050,11 @@ class Discount_Deals_Public {
 	/**
 	 * Show you saved for each cart item
 	 *
-	 * @param string $item_subtotal price html.
-	 * @param array $cart_item cart item details.
-	 * @param string $cart_item_key cart item hash.
+	 * @param string $item_subtotal Price html.
+	 * @param array  $cart_item     Cart item details.
+	 * @param string $cart_item_key Cart item hash.
+	 *
+	 * @return string
 	 */
 	public function show_you_saved_text( $item_subtotal, $cart_item, $cart_item_key ) {
 		if ( $this->is_free_cart_item( $cart_item ) ) {
@@ -1036,16 +1066,19 @@ class Discount_Deals_Public {
 		}
 		$you_save_text = Discount_Deals_Settings::get_settings( 'you_saved_text' );
 		$product       = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
-		// Return previously calculated discount
+		// Return previously calculated discount.
 		if ( isset( self::$cart_item_discounts[ $cart_item_key ] ) && self::$cart_item_discounts[ $cart_item_key ] > 0 ) {
 			$saved_price = $this->calculate_tax_for_cart_item( $product, self::$cart_item_discounts[ $cart_item_key ], $quantity );
 			$message     = str_replace( '{{discount}}', wc_price( $saved_price ), $you_save_text );
 
 			return $item_subtotal . '<p class="dd-you-save-text" style="color: green;">' . $message . '</p>';
 		}
+
 		/*
-		 * @var WC_Product $product product.
+		 * Variable declaration
+		 * @var WC_Product $product Product.
 		 */
+
 		$sale_price    = $product->get_sale_price();
 		$regular_price = $product->get_regular_price();
 		if ( is_numeric( $regular_price ) && is_numeric( $sale_price ) ) {
@@ -1064,7 +1097,9 @@ class Discount_Deals_Public {
 	/**
 	 * Show you saved for each cart item
 	 *
-	 * @param string $cart_total price html.
+	 * @param string $cart_total Price html.
+	 *
+	 * @return string
 	 */
 	public function show_you_saved_text_in_cart_total( $cart_total ) {
 
@@ -1089,6 +1124,7 @@ class Discount_Deals_Public {
 				/*
 				 * @var WC_Product $product product.
 				 */
+
 				$sale_price    = $product->get_sale_price();
 				$regular_price = $product->get_regular_price();
 				if ( is_numeric( $regular_price ) && is_numeric( $sale_price ) ) {
@@ -1100,7 +1136,7 @@ class Discount_Deals_Public {
 				}
 			}
 		}
-		// Return previously calculated discount
+		// Return previously calculated discount.
 		if ( $total_discount > 0 ) {
 			$message = str_replace( '{{discount}}', wc_price( $total_discount ), $you_save_text );
 
@@ -1114,7 +1150,7 @@ class Discount_Deals_Public {
 	/**
 	 * Set woocommerce product price as per simple discount.
 	 *
-	 * @param float $price Product price.
+	 * @param float      $price   Product price.
 	 * @param WC_Product $product Product object.
 	 *
 	 * @return float
@@ -1132,12 +1168,11 @@ class Discount_Deals_Public {
 		}
 		$product_id = $product->get_id();
 		// Getting price from cache causes some issue. So, here it is passes to again recalculate it.
-		//if ( array_key_exists( $product_id, self::$product_discounts ) && ! $this->force_fetch_price ) {
-		//	if ( self::$product_discounts[ $product_id ]['quantity_while_calculation'] == $quantity ) {
-		//		return self::$product_discounts[ $product_id ]['discounted_price'];
-		//	}
-		//}
-
+		// if ( array_key_exists( $product_id, self::$product_discounts ) && ! $this->force_fetch_price ) {
+		// if ( self::$product_discounts[ $product_id ]['quantity_while_calculation'] == $quantity ) {
+		// return self::$product_discounts[ $product_id ]['discounted_price'];
+		// }
+		// }.
 		$discounted_price = discount_deals_get_product_discount( $price, $product, $quantity );
 
 		if ( ! array_key_exists( $product_id, self::$product_discounts ) || $this->force_fetch_price ) {
@@ -1148,13 +1183,13 @@ class Discount_Deals_Public {
 			);
 		}
 
-		//self::$product_discounts[ $product_id ] = array(
-		//	'discounted_price'           => $discounted_price,
-		//	'price_before_discount'      => $price,
-		//	'quantity_while_calculation' => $quantity,
-		//);
-
-		//Reset to force fetch false;
+		// Temporary hide
+		// self::$product_discounts[ $product_id ] = array(
+		// 'discounted_price'           => $discounted_price,
+		// 'price_before_discount'      => $price,
+		// 'quantity_while_calculation' => $quantity,
+		// );
+		// Reset to force fetch false;.
 		$this->force_fetch_price = false;
 
 		return $discounted_price;
@@ -1163,10 +1198,10 @@ class Discount_Deals_Public {
 	/**
 	 * Set woocommerce product sale price.
 	 *
-	 * @param $price
-	 * @param $product
+	 * @param float      $price   Product price.
+	 * @param WC_Product $product Product object.
 	 *
-	 * @return mixed|string
+	 * @return float
 	 */
 	public function get_sale_price( $price, $product ) {
 		$sale_price = ( is_a( $product, 'WC_Product' ) ) ? $product->get_price() : '';
@@ -1181,9 +1216,9 @@ class Discount_Deals_Public {
 	/**
 	 * Get variation prices.
 	 *
-	 * @param array $transient_cached_prices_array Cached prices array
-	 * @param WC_Product $product Product.
-	 * @param boolean $for_display true | false
+	 * @param array      $transient_cached_prices_array Cached prices array.
+	 * @param WC_Product $product                       Product.
+	 * @param boolean    $for_display                   True | false.
 	 *
 	 * @return array
 	 */
@@ -1270,7 +1305,7 @@ class Discount_Deals_Public {
 	/**
 	 * Set coupon amount.
 	 *
-	 * @param float $amount Amount.
+	 * @param float     $amount Amount.
 	 * @param WC_Coupon $coupon Coupon object.
 	 *
 	 * @return float
@@ -1296,8 +1331,8 @@ class Discount_Deals_Public {
 	/**
 	 * Set coupon type.
 	 *
-	 * @param string $discount_type Type.
-	 * @param WC_Coupon $coupon Coupon object.
+	 * @param string    $discount_type Type.
+	 * @param WC_Coupon $coupon        Coupon object.
 	 *
 	 * @return string
 	 */
@@ -1315,9 +1350,9 @@ class Discount_Deals_Public {
 	/**
 	 * Hide remove option in applied coupon.
 	 *
-	 * @param string $coupon_html Coupon html.
-	 * @param WC_Coupon $coupon Coupon object.
-	 * @param string $discount_amount_html Amount html.
+	 * @param string    $coupon_html          Coupon html.
+	 * @param WC_Coupon $coupon               Coupon object.
+	 * @param string    $discount_amount_html Amount html.
 	 *
 	 * @return string
 	 */
@@ -1334,7 +1369,9 @@ class Discount_Deals_Public {
 
 
 	/**
-	 * Show the free shipping
+	 * Show the free shipping.
+	 *
+	 * @return void
 	 */
 	public function mayHaveFreeShipping() {
 		new Discount_Deals_Free_Shipping();
@@ -1370,9 +1407,9 @@ class Discount_Deals_Public {
 	/**
 	 * Calculate tax for products
 	 *
-	 * @param WC_Product $product Product object
-	 * @param float $price
-	 * @param $quantity
+	 * @param WC_Product $product  Product object.
+	 * @param float      $price    Product price.
+	 * @param integer    $quantity Product quantity.
 	 *
 	 * @return float
 	 */
@@ -1390,7 +1427,7 @@ class Discount_Deals_Public {
 		}
 
 		return apply_filters( 'discount_deals_calculate_tax_for_cart_item', $price_with_price, $product, $price, $quantity );
-	}
+	}//end calculate_tax_for_cart_item()
 
 
 }//end class

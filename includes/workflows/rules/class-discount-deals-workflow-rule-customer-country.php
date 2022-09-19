@@ -22,6 +22,8 @@ class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workf
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	function init() {
 		parent::init();

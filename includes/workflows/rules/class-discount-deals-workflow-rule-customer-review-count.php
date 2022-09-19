@@ -31,6 +31,8 @@ class Discount_Deals_Workflow_Rule_Customer_Review_Count extends Discount_Deals_
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	function init() {
 		$this->title = __( 'Customer - Review Count', 'discount-deals' );

@@ -29,6 +29,8 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 
 	/**
 	 * Init the rule
+	 *
+	 * @return void
 	 */
 	function init() {
 		parent::init();
@@ -51,9 +53,9 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 	/**
 	 * Validate the cart item has given categories
 	 *
-	 * @param WC_Cart $data_item data item.
-	 * @param string $compare_type compare operator.
-	 * @param array $value list of values.
+	 * @param WC_Cart $data_item    Data item.
+	 * @param string  $compare_type Compare operator.
+	 * @param array   $value        List of values.
 	 *
 	 * @return boolean
 	 */

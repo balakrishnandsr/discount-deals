@@ -8,11 +8,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /*
  * Variable declaration
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
+
 $workflow = $this->get_workflow();
 ?>
 <table class="discount-deals-table">
@@ -41,7 +43,7 @@ $workflow = $this->get_workflow();
 		)
 	);
 	if ( $workflow ) {
-		echo $workflow->get_discount()->load_fields();
+		echo $workflow->get_discount()->load_fields(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */
 	}
 	?>
 	</tbody>

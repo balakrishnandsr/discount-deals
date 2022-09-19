@@ -23,6 +23,8 @@ class Discount_Deals_Workflow_Rule_Customer_City extends Discount_Deals_Workflow
 
 	/**
 	 * Init the rule.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		$this->title = __( 'Customer - City', 'discount-deals' );

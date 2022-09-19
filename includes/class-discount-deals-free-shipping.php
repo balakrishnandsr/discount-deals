@@ -33,11 +33,13 @@ if ( ! class_exists( 'Discount_Deals_Free_Shipping' ) ) {
 
 		/**
 		 * Initialize Wdr free shipping.
+		 *
+		 * @return void
 		 */
 		function init() {
 			// Load the settings.
 			$this->init_settings();
-			// Save settings in admin if you have any defined
+			// Save settings in admin if you have any defined.
 			add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
 		}//end init()
 
@@ -49,6 +51,7 @@ if ( ! class_exists( 'Discount_Deals_Free_Shipping' ) ) {
 		 *
 		 * @uses WC_Shipping_Method::add_rate()
 		 *
+		 * @return void
 		 */
 		public function calculate_shipping( $package = array() ) {
 			$this->add_rate(

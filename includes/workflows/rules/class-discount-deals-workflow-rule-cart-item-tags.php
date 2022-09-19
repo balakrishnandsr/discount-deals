@@ -51,9 +51,9 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Tags extends Discount_Deals_Workflo
 	/**
 	 * Validate the cart item has given tags
 	 *
-	 * @param WC_Cart $data_item    data item.
-	 * @param string  $compare_type compare operator.
-	 * @param array   $value        list of values.
+	 * @param WC_Cart $data_item    Data item.
+	 * @param string  $compare_type Compare operator.
+	 * @param array   $value        List of values.
 	 *
 	 * @return boolean
 	 */

@@ -31,6 +31,8 @@ class Discount_Deals_Workflow_Rule_Customer_Total_Spent extends Discount_Deals_W
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	function init() {
 		$this->title = __( 'Customer - Total Spent', 'discount-deals' );

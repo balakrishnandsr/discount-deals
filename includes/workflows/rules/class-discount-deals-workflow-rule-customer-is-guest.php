@@ -22,6 +22,8 @@ class Discount_Deals_Workflow_Rule_Customer_Is_Guest extends Discount_Deals_Work
 
 	/**
 	 * Init.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		$this->title = __( 'Customer - Is Guest', 'discount-deals' );

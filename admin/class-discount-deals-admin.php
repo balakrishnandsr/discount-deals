@@ -39,7 +39,7 @@ class Discount_Deals_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of this plugin.
-	 * @param string $version The version of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -84,7 +84,7 @@ class Discount_Deals_Admin {
 	/**
 	 * Build index for the workflow.
 	 *
-	 * @param array $rule_groups rule groups.
+	 * @param array $rule_groups Rule groups.
 	 *
 	 * @return array
 	 */
@@ -202,7 +202,7 @@ class Discount_Deals_Admin {
 	/**
 	 * Add our own screen ids to woocommerce screen.
 	 *
-	 * @param array $screen_ids all woocommerce screen ids.
+	 * @param array $screen_ids All woocommerce screen ids.
 	 *
 	 * @return array
 	 */
@@ -213,7 +213,8 @@ class Discount_Deals_Admin {
 		}
 
 		return $screen_ids;
-	}
+	}//end add_screen_ids()
+
 
 
 	/**
@@ -289,10 +290,12 @@ class Discount_Deals_Admin {
 						continue;
 					}
 					if ( 'object' == $rule_object->type ) {
-						/*
-						 * Preload the selected values
-						 * @var Discount_Deals_Workflow_Rule_Searchable_Select_Abstract $rule_object searchable select.
-						 */
+
+                        /*
+                         * Preload the selected values
+                         * @var Discount_Deals_Workflow_Rule_Searchable_Select_Abstract $rule_object searchable select.
+                         */
+
 						if ( $rule_object->is_multi ) {
 							foreach ( (array) $rule['value'] as $item ) {
 								$rule['selected'][] = $rule_object->get_object_display_value( $item );
@@ -338,7 +341,7 @@ class Discount_Deals_Admin {
 	/**
 	 * Get discount data
 	 *
-	 * @param Discount_Deals_Workflow_Discount $discount discount of the workflow.
+	 * @param Discount_Deals_Workflow_Discount $discount Discount of the workflow.
 	 *
 	 * @return array|false
 	 */
@@ -476,6 +479,7 @@ class Discount_Deals_Admin {
 		 *
 		 * @since 1.0.0
 		 */
+
 		do_action( 'add_meta_boxes', 'discount_deals_workflows', null );
 
 		// Enqueue WordPress' script for handling the meta boxes.

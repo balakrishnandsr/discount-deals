@@ -25,6 +25,8 @@ class Discount_Deals_Workflow_Rule_Customer_State_Text_Match extends Discount_De
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	function init() {
 		$this->title = __( 'Customer - State - Text Match', 'discount-deals' );

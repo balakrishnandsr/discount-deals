@@ -137,14 +137,15 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 		);
 
 		return ob_get_clean();
-	}
+	}//end load_promotion_fields()
+
 
 	/**
 	 * Calculate discount for the product
 	 *
 	 * @param mixed $data_item Calculate discount for which data item.
-	 * @param float $price Calculate discount subsequently.
-	 * @param array $extra Extra details for calculate discount.
+	 * @param float $price     Calculate discount subsequently.
+	 * @param array $extra     Extra details for calculate discount.
 	 *
 	 * @return integer
 	 */

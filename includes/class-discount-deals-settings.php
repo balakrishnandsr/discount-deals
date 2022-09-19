@@ -66,7 +66,7 @@ class Discount_Deals_Settings {
 
 	/**
 	 * @param $key - what configuration need to get
-	 * @param string $default - default value if config value not found
+	 * @param string                               $default - default value if config value not found
 	 *
 	 * @return string - configuration value
 	 */

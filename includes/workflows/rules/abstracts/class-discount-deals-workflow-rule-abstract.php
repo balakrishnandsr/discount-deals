@@ -84,6 +84,8 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	abstract public function init();
 
@@ -128,6 +130,8 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	 * @param mixed $value Value.
 	 *
 	 * @throws UnexpectedValueException When the value is not valid.
+	 *
+	 * @return bool
 	 */
 	public function validate_value( $value ) {
 		// Override this method in child classes.
@@ -180,6 +184,8 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	 * Set workflow
 	 *
 	 * @param Discount_Deals_Workflow $workflow Workflow.
+	 *
+	 * @return void
 	 */
 	public function set_workflow( $workflow ) {
 		$this->workflow = $workflow;
@@ -351,7 +357,7 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 			return false;
 		}
 
-		// look for at least one item that validates the text match.
+		// Look for at least one item that validates the text match.
 		foreach ( $actual_values as $coupon_code ) {
 			if ( $this->validate_string( $coupon_code, $compare_type, $expected_value ) ) {
 				return true;
@@ -376,7 +382,7 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 		$actual_value   = (string) $actual_value;
 		$expected_value = (string) $expected_value;
 
-		// most comparisons are case in-sensitive.
+		// Most comparisons are case in-sensitive.
 		$actual_value_lowercase   = strtolower( $actual_value );
 		$expected_value_lowercase = strtolower( $expected_value );
 
@@ -484,7 +490,7 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 				return $actual_value < $expected_value;
 		}
 
-		// validate 'multiple of' compares, only accept integers.
+		// Validate 'multiple of' compares, only accept integers.
 		if ( ! $this->is_whole_number( $actual_value ) || ! $this->is_whole_number( $expected_value ) ) {
 			return false;
 		}

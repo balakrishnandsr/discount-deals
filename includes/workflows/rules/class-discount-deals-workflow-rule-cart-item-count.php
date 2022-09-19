@@ -38,9 +38,9 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Count extends Discount_Deals_Workfl
 	/**
 	 * Validate the Cart items count with given value
 	 *
-	 * @param WC_Cart                  $data_item    data item.
-	 * @param string                   $compare_type compare operator.
-	 * @param array int list of values.
+	 * @param WC_Cart $data_item    Data item.
+	 * @param string  $compare_type Compare operator.
+	 * @param array   $value        int list of values.
 	 *
 	 * @return boolean
 	 */

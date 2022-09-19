@@ -35,9 +35,9 @@ class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_
 	/**
 	 * Validate the product rule
 	 *
-	 * @param WC_Product|WC_Product_Variation $data_item    data item.
-	 * @param string                          $compare_type compare operator.
-	 * @param array                           $value        list of values.
+	 * @param WC_Product|WC_Product_Variation $data_item    Data item.
+	 * @param string                          $compare_type Compare operator.
+	 * @param array                           $value        List of values.
 	 *
 	 * @return boolean
 	 */

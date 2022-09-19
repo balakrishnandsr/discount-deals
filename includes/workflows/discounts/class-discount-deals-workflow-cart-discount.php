@@ -63,7 +63,7 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Cart $data_item Cart object.
-	 * @param array $extra Extra details for calculate discount.
+	 * @param array   $extra     Extra details for calculate discount.
 	 *
 	 * @return integer
 	 */

@@ -8,11 +8,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /*
  * Variable declaration
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
+
 $workflow = $this->get_workflow();
 ?>
 <table class="discount-deals-table">

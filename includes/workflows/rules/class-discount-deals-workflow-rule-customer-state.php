@@ -24,6 +24,8 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	function init() {
 		parent::init();

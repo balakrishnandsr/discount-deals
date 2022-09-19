@@ -198,8 +198,8 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	/**
 	 * Return default value for the workflow
 	 *
-	 * @param array|object $item Workflow details.
-	 * @param string $column_name column name.
+	 * @param array|object $item        Workflow details.
+	 * @param string       $column_name Column name.
 	 *
 	 * @return boolean|mixed|string|void
 	 */
@@ -218,7 +218,7 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	/**
 	 * Format created at time to site's time format
 	 *
-	 * @param array $item workflow details.
+	 * @param array $item Workflow details.
 	 *
 	 * @return string
 	 */
@@ -230,7 +230,7 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 	/**
 	 * Format updated at time to site's time format
 	 *
-	 * @param array $item workflow details.
+	 * @param array $item Workflow details.
 	 *
 	 * @return string
 	 */

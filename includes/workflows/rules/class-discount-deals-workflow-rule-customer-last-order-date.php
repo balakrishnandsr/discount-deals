@@ -35,6 +35,8 @@ class Discount_Deals_Workflow_Rule_Customer_Last_Order_Date extends Discount_Dea
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	public function init() {
 		$this->title = __( 'Customer - Last Paid Order Date', 'discount-deals' );
@@ -52,7 +54,7 @@ class Discount_Deals_Workflow_Rule_Customer_Last_Order_Date extends Discount_Dea
 	 */
 	public function validate( $data_item, $compare_type, $value = null ) {
 		return false;
-		// return $this->validate_date( $compare_type, $value, $data_item->get_date_last_purchased() );.
+		// Return $this->validate_date( $compare_type, $value, $data_item->get_date_last_purchased() );.
 	}//end validate()
 
 }//end class

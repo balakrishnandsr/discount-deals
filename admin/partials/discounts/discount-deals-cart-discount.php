@@ -8,11 +8,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /*
  * Variable declaration
  *
  * @var array $discount_details Discount details.
  */
+
 if ( empty( $discount_details ) ) {
 	$discount_details = array(
 		array(
@@ -29,11 +31,11 @@ if ( empty( $discount_details ) ) {
 <table class="cart-discount-details-table discount-deals-fw-table">
     <thead class="discount-deals-text-left">
     <tr>
-        <th><?php echo __( "Min Subtotal", "discount-deals" ); ?></th>
-        <th><?php echo __( "Max Subtotal", "discount-deals" ); ?></th>
-        <th><?php echo __( "Discount Type", "discount-deals" ); ?></th>
-        <th><?php echo __( "Discount Value", "discount-deals" ); ?></th>
-        <th><?php echo __( "Max Discount", "discount-deals" ); ?></th>
+        <th><?php esc_html_e( "Min Subtotal", "discount-deals" ); ?></th>
+        <th><?php esc_html_e( "Max Subtotal", "discount-deals" ); ?></th>
+        <th><?php esc_html_e( "Discount Type", "discount-deals" ); ?></th>
+        <th><?php esc_html_e( "Discount Value", "discount-deals" ); ?></th>
+        <th><?php esc_html_e( "Max Discount", "discount-deals" ); ?></th>
         <th></th>
     </tr>
     </thead>
@@ -46,39 +48,39 @@ if ( empty( $discount_details ) ) {
             <td>
                 <div class="discount-deals-input-group suffix">
                     <input type="number"
-                           value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'min_subtotal', '' ); ?>"
+                           value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'min_subtotal', '' )); ?>"
                            required step="0.1"
-                           name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][min_subtotal]"
+                           name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][min_subtotal]"
                            data-name="discount_deals_workflow[dd_discounts][--rule_id--][min_subtotal]"
-                           placeholder="<?php echo __( "E.g. 5000.00", "discount-deals" ) ?>">
-                    <span class="input-group-addon "><?php echo get_woocommerce_currency_symbol(); ?></span>
+                           placeholder="<?php esc_html_e( "E.g. 5000.00", "discount-deals" ) ?>">
+                    <span class="input-group-addon "><?php echo esc_attr(get_woocommerce_currency_symbol()); ?></span>
                 </div>
             </td>
             <td>
                 <div class="discount-deals-input-group suffix">
                     <input type="number"
-                           value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'max_subtotal', '' ); ?>"
+                           value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'max_subtotal', '' )); ?>"
                            required step="0.1"
-                           name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][max_subtotal]"
+                           name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][max_subtotal]"
                            data-name="discount_deals_workflow[dd_discounts][--rule_id--][max_subtotal]"
-                           placeholder="<?php echo __( "E.g. 8000.00", "discount-deals" ) ?>">
-                    <span class="input-group-addon "><?php echo get_woocommerce_currency_symbol(); ?></span>
+                           placeholder="<?php esc_html_e( "E.g. 8000.00", "discount-deals" ) ?>">
+                    <span class="input-group-addon "><?php echo esc_attr(get_woocommerce_currency_symbol()); ?></span>
                 </div>
             </td>
             <td>
-                <select name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][type]"
+                <select name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][type]"
                         class="discount-deals-w150 cart-discount-type"
                         data-default-val="free_shipping"
                         data-name="discount_deals_workflow[dd_discounts][--rule_id--][type]">
                     <option value="free_shipping" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free_shipping' ) {
 						echo ' selected';
-					} ?>><?php echo __( "Free Shipping", "discount-deals" ) ?></option>
+					} ?>><?php esc_html_e( "Free Shipping", "discount-deals" ) ?></option>
                     <option value="flat" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
 						echo ' selected';
-					} ?>><?php echo __( "Fixed Discount", "discount-deals" ) ?></option>
+					} ?>><?php esc_html_e( "Fixed Discount", "discount-deals" ) ?></option>
                     <option value="percent" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'percent' ) {
 						echo ' selected';
-					} ?>><?php echo __( "Percentage Discount", "discount-deals" ) ?></option>
+					} ?>><?php esc_html_e( "Percentage Discount", "discount-deals" ) ?></option>
                 </select>
             </td>
             <td>
@@ -87,16 +89,16 @@ if ( empty( $discount_details ) ) {
 						<?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free_shipping' ) {
 							echo ' disabled ';
 						} ?>
-                           value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'value', '' ); ?>"
+                           value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'value', '' )); ?>"
                            class="cart-discount-value" required step="0.1"
-                           name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][value]"
+                           name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][value]"
                            data-name="discount_deals_workflow[dd_discounts][--rule_id--][value]"
-                           placeholder="<?php echo __( "E.g. 50", "discount-deals" ) ?>"
+                           placeholder="<?php esc_html_e( "E.g. 50", "discount-deals" ) ?>"
                            class="discount-value-symbol">
                     <span class="input-group-addon discount-value-symbol"
-                          data-currency="<?php echo get_woocommerce_currency_symbol() ?>"><?php
+                          data-currency="<?php echo esc_attr(get_woocommerce_currency_symbol()) ?>"><?php
 						if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
-							echo get_woocommerce_currency_symbol();
+							echo esc_attr(get_woocommerce_currency_symbol());
 						} else if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'percent' ) {
 							echo '%';
 						}
@@ -110,12 +112,12 @@ if ( empty( $discount_details ) ) {
 						<?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free_shipping' || discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
 							echo ' disabled ';
 						} ?>
-                           value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'max_discount', '' ); ?>"
+                           value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'max_discount', '' )); ?>"
                            class="cart-discount-value cart-max-discount" step="0.1"
-                           name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][max_discount]"
+                           name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][max_discount]"
                            data-name="discount_deals_workflow[dd_discounts][--rule_id--][max_discount]"
-                           placeholder="<?php echo __( "E.g. 20.00", "discount-deals" ) ?>">
-                    <span class="input-group-addon "><?php echo get_woocommerce_currency_symbol(); ?></span>
+                           placeholder="<?php esc_html_e( "E.g. 20.00", "discount-deals" ) ?>">
+                    <span class="input-group-addon "><?php echo esc_attr(get_woocommerce_currency_symbol()); ?></span>
                 </div>
             </td>
             <td>
@@ -136,20 +138,20 @@ if ( empty( $discount_details ) ) {
     <tr>
         <td colspan="6" class="discount-deals-text-right">
             <button type="button" class="discount-deals-add-cart-discount button button-primary button-large">
-				<?php echo __( '+ Add Discount Group', 'discount-deals' ) ?>
+				<?php esc_html_e( '+ Add Discount Group', 'discount-deals' ) ?>
             </button>
         </td>
     </tr>
     <tr>
         <td colspan="6" class="discount-deals-text-left">
             <p>
-                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' Create multiple discount groups by specifying the minimum cart subtotal, maximum cart subtotal, and discount details. If the cart subtotal matches one of the discount groups, the discount will be applied to that cart accordingly. In the settings you can specify the mode for applying the discount. By default, the discount is applied as a fee. However, we recommend you to change the mode to Coupon.', 'discount-deals' ) ?>
+                <b><?php esc_html_e( 'How it Works?', 'discount-deals' ) ?></b><?php esc_html_e( ' Create multiple discount groups by specifying the minimum cart subtotal, maximum cart subtotal, and discount details. If the cart subtotal matches one of the discount groups, the discount will be applied to that cart accordingly. In the settings you can specify the mode for applying the discount. By default, the discount is applied as a fee. However, we recommend you to change the mode to Coupon.', 'discount-deals' ) ?>
             </p>
-            <b><?php echo __( 'Example: ', 'discount-deals' ) ?></b>
+            <b><?php esc_html_e( 'Example: ', 'discount-deals' ) ?></b>
             <ol>
-                <li><?php echo __( 'You can give free shipping for the cart whose subtotal is between 100$ and 500$. ', 'discount-deals' ) ?></li>
-                <li><?php echo __( 'You can give a fixed discount of 20$ for the shopping cart if the subtotal of the shopping cart is between 500$ and 1000$. ', 'discount-deals' ) ?></li>
-                <li><?php echo __( 'You can also apply a 25% discount to the cart if the cart subtotal is over $1500. You can also limit the discount on products by entering the maximum discount value. ', 'discount-deals' ) ?></li>
+                <li><?php esc_html_e( 'You can give free shipping for the cart whose subtotal is between 100$ and 500$. ', 'discount-deals' ) ?></li>
+                <li><?php esc_html_e( 'You can give a fixed discount of 20$ for the shopping cart if the subtotal of the shopping cart is between 500$ and 1000$. ', 'discount-deals' ) ?></li>
+                <li><?php esc_html_e( 'You can also apply a 25% discount to the cart if the cart subtotal is over $1500. You can also limit the discount on products by entering the maximum discount value. ', 'discount-deals' ) ?></li>
             </ol>
         </td>
     </tr>

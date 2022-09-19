@@ -8,11 +8,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /*
  * Variable declaration
  *
  * @var array $discount_details Discount details.
  */
+
 if ( empty( $discount_details ) ) {
 	$discount_details = array(
 		array(
@@ -44,24 +46,24 @@ $discount_types = array(
 <table class="cart-discount-details-table discount-deals-fw-table">
     <thead class="discount-deals-text-left">
     <tr>
-        <th class="discount-deals-w100"><?php echo __( "Min Qty.", "discount-deals" ); ?></th>
-        <th class="discount-deals-w100"><?php echo __( "Max Qty.", "discount-deals" ); ?></th>
+        <th class="discount-deals-w100"><?php esc_html_e( "Min Qty.", "discount-deals" ); ?></th>
+        <th class="discount-deals-w100"><?php esc_html_e( "Max Qty.", "discount-deals" ); ?></th>
         <th colspan="4">
             <div class="discount-deals-grid">
                 <div class="discount-deals-col-3">
-					<?php echo __( "Discount", "discount-deals" ); ?>
+					<?php esc_html_e( "Discount", "discount-deals" ); ?>
                 </div>
                 <div class="discount-deals-col-2">
-					<?php echo __( "Discount Qty.", "discount-deals" ); ?>
+					<?php esc_html_e( "Discount Qty.", "discount-deals" ); ?>
                 </div>
                 <div class="discount-deals-col-3">
-					<?php echo __( "Discount Type", "discount-deals" ); ?>
+					<?php esc_html_e( "Discount Type", "discount-deals" ); ?>
                 </div>
                 <div class="discount-deals-col-2">
-					<?php echo __( "Discount Value", "discount-deals" ); ?>
+					<?php esc_html_e( "Discount Value", "discount-deals" ); ?>
                 </div>
                 <div class="discount-deals-col-2">
-					<?php echo __( "Discount Limit", "discount-deals" ); ?>
+					<?php esc_html_e( "Discount Limit", "discount-deals" ); ?>
                 </div>
             </div>
         </th>
@@ -77,36 +79,36 @@ $discount_types = array(
             <td>
                 <div class="discount-deals-input-group suffix">
                     <input type="number"
-                           value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'min_quantity', '' ); ?>"
-                           required name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][min_quantity]"
+                           value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'min_quantity', '' )); ?>"
+                           required name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][min_quantity]"
                            data-name="discount_deals_workflow[dd_discounts][--rule_id--][min_quantity]"
-                           placeholder="<?php echo __( "E.g. 1", "discount-deals" ) ?>">
+                           placeholder="<?php esc_html_e( "E.g. 1", "discount-deals" ) ?>">
                     <span class="input-group-addon "></span>
                 </div>
             </td>
             <td>
                 <div class="discount-deals-input-group suffix">
                     <input type="number"
-                           value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'max_quantity', '' ); ?>"
-                           required name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][max_quantity]"
+                           value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'max_quantity', '' )); ?>"
+                           required name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][max_quantity]"
                            data-name="discount_deals_workflow[dd_discounts][--rule_id--][max_quantity]"
-                           placeholder="<?php echo __( "E.g. 10", "discount-deals" ) ?>">
+                           placeholder="<?php esc_html_e( "E.g. 10", "discount-deals" ) ?>">
                     <span class="input-group-addon "></span>
                 </div>
             </td>
             <td colspan="4">
                 <div class="discount-deals-grid">
                     <div class="discount-deals-col-3">
-                        <select name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][free_product_type]"
+                        <select name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][free_product_type]"
                                 class="discount-deals-w150 discount-deals-free-type"
                                 data-default-val="cheapest_in_cart"
                                 data-name="discount_deals_workflow[dd_discounts][--rule_id--][free_product_type]">
 							<?php
 							foreach ( $discount_types as $key => $value ) {
 								?>
-                                <option value="<?php echo $key; ?>" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'free_product_type', '' ) == $key ) {
+                                <option value="<?php echo esc_attr($key); ?>" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'free_product_type', '' ) == $key ) {
 									echo ' selected';
-								} ?>><?php echo $value ?></option>
+								} ?>><?php echo esc_attr($value) ?></option>
 								<?php
 							}
 							?>
@@ -115,28 +117,28 @@ $discount_types = array(
                     <div class="discount-deals-col-2">
                         <div class="discount-deals-input-group suffix">
                             <input type="number"
-                                   value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'free_quantity', '' ); ?>"
+                                   value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'free_quantity', '' )); ?>"
                                    required
-                                   name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][free_quantity]"
+                                   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][free_quantity]"
                                    data-name="discount_deals_workflow[dd_discounts][--rule_id--][free_quantity]"
-                                   placeholder="<?php echo __( "E.g. 1", "discount-deals" ) ?>">
+                                   placeholder="<?php esc_html_e( "E.g. 1", "discount-deals" ) ?>">
                             <span class="input-group-addon "></span>
                         </div>
                     </div>
                     <div class="discount-deals-col-3">
-                        <select name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][type]"
+                        <select name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][type]"
                                 class="discount-deals-w150 cart-discount-type"
                                 data-default-val="free"
                                 data-name="discount_deals_workflow[dd_discounts][--rule_id--][type]">
                             <option value="free" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free' ) {
 								echo ' selected';
-							} ?>><?php echo __( "Free", "discount-deals" ) ?></option>
+							} ?>><?php esc_html_e( "Free", "discount-deals" ) ?></option>
                             <option value="flat" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
 								echo ' selected';
-							} ?>><?php echo __( "Fixed Discount", "discount-deals" ) ?></option>
+							} ?>><?php esc_html_e( "Fixed Discount", "discount-deals" ) ?></option>
                             <option value="percent" <?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'percent' ) {
 								echo ' selected';
-							} ?>><?php echo __( "Percentage Discount", "discount-deals" ) ?></option>
+							} ?>><?php esc_html_e( "Percentage Discount", "discount-deals" ) ?></option>
                         </select>
                     </div>
                     <div class="discount-deals-col-2">
@@ -145,15 +147,15 @@ $discount_types = array(
 								<?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free' ) {
 									echo ' disabled ';
 								} ?>
-                                   value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'value', '' ); ?>"
+                                   value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'value', '' )); ?>"
                                    class="cart-discount-value" required step="0.1"
-                                   name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][value]"
+                                   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][value]"
                                    data-name="discount_deals_workflow[dd_discounts][--rule_id--][value]"
-                                   placeholder="<?php echo __( "E.g. 50", "discount-deals" ) ?>">
+                                   placeholder="<?php esc_html_e( "E.g. 50", "discount-deals" ) ?>">
                             <span class="input-group-addon discount-value-symbol"
-                                  data-currency="<?php echo get_woocommerce_currency_symbol() ?>"><?php
+                                  data-currency="<?php echo esc_attr(get_woocommerce_currency_symbol()) ?>"><?php
 								if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
-									echo get_woocommerce_currency_symbol();
+									echo esc_attr(get_woocommerce_currency_symbol());
 								} else if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'percent' ) {
 									echo '%';
 								}
@@ -166,12 +168,12 @@ $discount_types = array(
 								<?php if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' || discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free' ) {
 									echo ' disabled ';
 								} ?>
-                                   value="<?php echo discount_deals_get_value_from_array( $discount_detail, 'max_discount', '' ); ?>"
+                                   value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'max_discount', '' )); ?>"
                                    class="cart-discount-value cart-max-discount" step="0.1"
-                                   name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][max_discount]"
+                                   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][max_discount]"
                                    data-name="discount_deals_workflow[dd_discounts][--rule_id--][max_discount]"
-                                   placeholder="<?php echo __( "E.g. 20.00", "discount-deals" ) ?>">
-                            <span class="input-group-addon "><?php echo get_woocommerce_currency_symbol(); ?></span>
+                                   placeholder="<?php esc_html_e( "E.g. 20.00", "discount-deals" ) ?>">
+                            <span class="input-group-addon "><?php echo esc_attr(get_woocommerce_currency_symbol()); ?></span>
                         </div>
                     </div>
                 </div>
@@ -181,13 +183,13 @@ $discount_types = array(
 				}
 				?>">
                     <p>
-                        <b><?php echo __( 'Select category to pick free product', 'discount-deals' ); ?></b>
+                        <b><?php esc_html_e( 'Select category to pick free product', 'discount-deals' ); ?></b>
                     </p>
                     <div class="bxgy-category-select-container">
-                        <select name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][free_category][]"
+                        <select name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][free_category][]"
                                 data-name="discount_deals_workflow[dd_discounts][--rule_id--][free_category][]"
                                 class="discount-deals-field discount-deals-rule-value-field wc-category-search discount-deals-bxgy-category-select"
-                                data-placeholder="<?php echo __( 'Search category...', 'discount-deals' ); ?>"
+                                data-placeholder="<?php esc_html_e( 'Search category...', 'discount-deals' ); ?>"
                                 data-return_id="id" multiple="multiple"
                                 data-action="woocommerce_json_search_categories">
 							<?php
@@ -198,8 +200,8 @@ $discount_types = array(
 									$category = get_term_by( 'id', $value, 'product_cat' );
 									if ( $category ) {
 										?>
-                                        <option value="<?php echo $value; ?>"
-                                                selected><?php echo $category->name ?></option>
+                                        <option value="<?php echo esc_attr($value); ?>"
+                                                selected><?php echo esc_attr($category->name) ?></option>
 										<?php
 									}
 								}
@@ -214,13 +216,13 @@ $discount_types = array(
 				}
 				?>">
                     <p>
-                        <b><?php echo __( 'Select free products', 'discount-deals' ); ?></b>
+                        <b><?php esc_html_e( 'Select free products', 'discount-deals' ); ?></b>
                     </p>
                     <div class="bxgy-product-select-container">
-                        <select name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][free_product]"
+                        <select name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][free_product]"
                                 data-name="discount_deals_workflow[dd_discounts][--rule_id--][free_product]"
                                 class="discount-deals-field discount-deals-rule-value-field wc-product-search discount-deals-bxgy-products-select"
-                                data-placeholder="<?php echo __( 'Search products...', 'discount-deals' ); ?>"
+                                data-placeholder="<?php esc_html_e( 'Search products...', 'discount-deals' ); ?>"
                                 data-action="woocommerce_json_search_products_and_variations">
 							<?php
 							$product_id = discount_deals_get_value_from_array( $discount_detail, 'free_product', false );
@@ -229,8 +231,8 @@ $discount_types = array(
 								$product = wc_get_product( $value );
 								if ( $product ) {
 									?>
-                                    <option value="<?php echo $value; ?>"
-                                            selected><?php echo $product->get_formatted_name() ?></option>
+                                    <option value="<?php echo esc_attr($value); ?>"
+                                            selected><?php echo esc_attr($product->get_formatted_name()) ?></option>
 									<?php
 								}
 							}
@@ -243,8 +245,8 @@ $discount_types = array(
 								echo "checked";
 							} ?>
                                value="yes"
-                               name="discount_deals_workflow[dd_discounts][<?php echo $count; ?>][show_eligible_message]"
-                               data-name="discount_deals_workflow[dd_discounts][--rule_id--][show_eligible_message]"> <?php echo __( 'Would you like to show "Eligible for discount" message, if the above product not found in cart? ', 'discount-deals' ); ?>
+                               name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][show_eligible_message]"
+                               data-name="discount_deals_workflow[dd_discounts][--rule_id--][show_eligible_message]"> <?php esc_html_e( 'Would you like to show "Eligible for discount" message, if the above product not found in cart? ', 'discount-deals' ); ?>
                     </p>
                 </div>
             </td>
@@ -266,19 +268,19 @@ $discount_types = array(
     <tr>
         <td colspan="7" class="discount-deals-text-right">
             <button type="button" class="discount-deals-add-cart-discount button button-primary button-large">
-				<?php echo __( '+ Add Discount Group', 'discount-deals' ) ?>
+				<?php esc_html_e( '+ Add Discount Group', 'discount-deals' ) ?>
             </button>
         </td>
     </tr>
     <tr>
         <td colspan="7" class="discount-deals-text-left">
             <p>
-                <b><?php echo __( 'How it Works?', 'discount-deals' ) ?></b><?php echo __( ' Create multiple discount groups by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount groups, the discount will be applied to that product accordingly. ', 'discount-deals' ) ?>
+                <b><?php esc_html_e( 'How it Works?', 'discount-deals' ) ?></b><?php esc_html_e( ' Create multiple discount groups by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount groups, the discount will be applied to that product accordingly. ', 'discount-deals' ) ?>
             </p>
-            <b><?php echo __( 'Example: ', 'discount-deals' ) ?></b>
+            <b><?php esc_html_e( 'Example: ', 'discount-deals' ) ?></b>
             <ol>
-                <li><?php echo __( 'Buy two or more t-shirts and get one cap for free as a discount.', 'discount-deals' ) ?></li>
-                <li><?php echo __( 'Give a 50% discount on a quantity of product Y if the customer buys product X in five or more quantities. ', 'discount-deals' ) ?></li>
+                <li><?php esc_html_e( 'Buy two or more t-shirts and get one cap for free as a discount.', 'discount-deals' ) ?></li>
+                <li><?php esc_html_e( 'Give a 50% discount on a quantity of product Y if the customer buys product X in five or more quantities. ', 'discount-deals' ) ?></li>
             </ol>
         </td>
     </tr>
@@ -287,14 +289,14 @@ $discount_types = array(
 <script type="text/template" id="temp-free-products-select">
     <select data-name="discount_deals_workflow[dd_discounts][--rule_id--][free_product]"
             class="discount-deals-field discount-deals-rule-value-field wc-product-search discount-deals-bxgy-products-select"
-            data-placeholder="<?php echo __( 'Search products...', 'discount-deals' ); ?>"
+            data-placeholder="<?php esc_html_e( 'Search products...', 'discount-deals' ); ?>"
             data-action="woocommerce_json_search_products_and_variations">
     </select>
 </script>
 <script type="text/template" id="temp-free-category-select">
     <select data-name="discount_deals_workflow[dd_discounts][--rule_id--][free_category][]"
             class="discount-deals-field discount-deals-rule-value-field wc-category-search discount-deals-bxgy-category-select"
-            data-placeholder="<?php echo __( 'Search category...', 'discount-deals' ); ?>"
+            data-placeholder="<?php esc_html_e( 'Search category...', 'discount-deals' ); ?>"
             data-return_id="id" multiple="multiple"
             data-action="woocommerce_json_search_categories">
     </select>

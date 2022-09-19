@@ -8,11 +8,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /*
  * Variable declaration
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
+
 $workflow = $this->get_workflow();
 ?>
 <div class="submitbox" id="submitpost">
