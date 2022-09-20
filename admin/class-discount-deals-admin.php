@@ -39,7 +39,7 @@ class Discount_Deals_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of this plugin.
-	 * @param string $version The version of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -84,7 +84,7 @@ class Discount_Deals_Admin {
 	/**
 	 * Build index for the workflow.
 	 *
-	 * @param array $rule_groups rule groups.
+	 * @param array $rule_groups Rule groups.
 	 *
 	 * @return array
 	 */
@@ -168,7 +168,7 @@ class Discount_Deals_Admin {
 					}
 				}
 				$redirect_url = menu_page_url( 'discount-deals', false );
-				if ( "save" == $save_workflow ) {
+				if ( 'save' == $save_workflow ) {
 					$redirect_url = add_query_arg(
 						array(
 							'workflow' => $id,
@@ -202,7 +202,7 @@ class Discount_Deals_Admin {
 	/**
 	 * Add our own screen ids to woocommerce screen.
 	 *
-	 * @param array $screen_ids all woocommerce screen ids.
+	 * @param array $screen_ids All woocommerce screen ids.
 	 *
 	 * @return array
 	 */
@@ -213,7 +213,8 @@ class Discount_Deals_Admin {
 		}
 
 		return $screen_ids;
-	}
+	}//end add_screen_ids()
+
 
 
 	/**
@@ -225,7 +226,7 @@ class Discount_Deals_Admin {
 		$action = discount_deals_get_data( 'action', 'list' );
 		$page   = discount_deals_get_data( 'page', '' );
 		$tab    = discount_deals_get_data( 'tab', '' );
-		if ( 'wc-settings' == $page && 'discount_deals_settings' == $tab ) {
+		if ( 'wc-settings' == $page && 'discount-deals-settings' == $tab ) {
 			wp_enqueue_script( $this->plugin_slug . '-settings', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-settings.js', array( 'jquery' ), $this->version );
 
 			return;
@@ -293,6 +294,7 @@ class Discount_Deals_Admin {
 						 * Preload the selected values
 						 * @var Discount_Deals_Workflow_Rule_Searchable_Select_Abstract $rule_object searchable select.
 						 */
+
 						if ( $rule_object->is_multi ) {
 							foreach ( (array) $rule['value'] as $item ) {
 								$rule['selected'][] = $rule_object->get_object_display_value( $item );
@@ -309,6 +311,7 @@ class Discount_Deals_Admin {
 						 * Preload the selected values
 						 * @var Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract $rule_object searchable select.
 						 */
+
 						$rule_object->get_select_choices();
 					}
 				}
@@ -338,7 +341,7 @@ class Discount_Deals_Admin {
 	/**
 	 * Get discount data
 	 *
-	 * @param Discount_Deals_Workflow_Discount $discount discount of the workflow.
+	 * @param Discount_Deals_Workflow_Discount $discount Discount of the workflow.
 	 *
 	 * @return array|false
 	 */
@@ -446,11 +449,11 @@ class Discount_Deals_Admin {
 			return;
 		}
 		?>
-        <script>
-            jQuery(document).ready(function () {
-                postboxes.add_postbox_toggles(pagenow);
-            });
-        </script>
+		<script>
+			jQuery(document).ready(function () {
+				postboxes.add_postbox_toggles(pagenow);
+			});
+		</script>
 		<?php
 	}//end print_script_in_footer()
 
@@ -471,7 +474,7 @@ class Discount_Deals_Admin {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_filter( 'screen_options_show_screen', array( $this, 'remove_screen_options' ) );
 
-		/*
+		/**
 		 * Trigger the add_meta_boxes hooks to allow meta boxes to be added.
 		 *
 		 * @since 1.0.0

@@ -33,6 +33,8 @@ class Discount_Deals_Workflow_Rule_Customer_Account_Created_Date extends Discoun
 
 	/**
 	 * Init.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		$this->title = __( 'Customer - Account Created Date', 'discount-deals' );

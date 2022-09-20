@@ -14,10 +14,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals_Workflow_Rule_Abstract {
 
-	/** @var string */
+	/**
+	 * Rule type
+	 *
+	 * @var string
+	 */
 	public $type = 'meta';
 
-	/** @var boolean */
+	/**
+	 * Has multiple value fields?
+	 *
+	 * @var boolean
+	 */
 	public $has_multiple_value_fields = true;
 
 	/**
@@ -33,14 +41,14 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	/**
 	 * Validate a meta value.
 	 *
-	 * @param mixed  $actual_value
-	 * @param string $compare_type
-	 * @param mixed  $expected_value
+	 * @param mixed  $actual_value   Actual value.
+	 * @param string $compare_type   Compare type.
+	 * @param mixed  $expected_value Expected value.
 	 * @return boolean
 	 */
 	public function validate_meta( $actual_value, $compare_type, $expected_value ) {
 		// Meta compares are a mix of string and number comparisons.
-		// Validate as a number for numeric comparisons (greater/less/multiples) and for is/is not ONLY with numeric values
+		// Validate as a number for numeric comparisons (greater/less/multiples) and for is/is not ONLY with numeric values.
 		if ( $this->is_numeric_meta_field( $compare_type, $expected_value ) ) {
 			return $this->validate_number( $actual_value, $compare_type, $expected_value );
 		} else {
@@ -55,10 +63,8 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	 * This can facilitate better comparisons (for example, "5" = "5.0" in numeric comparisons,
 	 * but not in string comparisons).
 	 *
-	 * @since 5.1.0
-	 *
-	 * @param string $compare_type
-	 * @param mixed  $value
+	 * @param string $compare_type Compare type.
+	 * @param mixed  $value        Compare value.
 	 *
 	 * @return boolean True if the meta field is determined to be numeric.
 	 */
@@ -74,7 +80,7 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 	/**
 	 * Return an associative array with 'key' and 'value' elements.
 	 *
-	 * @param mixed $value
+	 * @param mixed $value Value.
 	 * @return array|false
 	 */
 	public function prepare_value_data( $value ) {

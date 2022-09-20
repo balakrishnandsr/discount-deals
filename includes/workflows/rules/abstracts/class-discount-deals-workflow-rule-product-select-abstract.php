@@ -22,6 +22,8 @@ abstract class Discount_Deals_Workflow_Rule_Product_Select_Abstract extends Disc
 
 	/**
 	 * Init.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		parent::init();

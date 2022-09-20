@@ -19,10 +19,11 @@ class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Ru
 	 *
 	 * @var string
 	 */
-	public $data_item = "cart";
+	public $data_item = 'cart';
 
 	/**
 	 * Supports float values or not?
+	 *
 	 * @var boolean
 	 */
 	public $support_floats = true;
@@ -30,23 +31,31 @@ class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Ru
 	/**
 	 * Init the rule
 	 */
-	function init() {
+	public function init() {
 		$this->title = __( 'Cart - Sub total', 'discount-deals' );
 	}//end init()
-
 
 
 	/**
 	 * Validate the cart subtotal with the given value
 	 *
-	 * @param WC_Cart       $data_item    data item.
-	 * @param string        $compare_type compare operator.
-	 * @param integer|float $value        list of values.
+	 * @param WC_Cart       $data_item    Data item.
+	 * @param string        $compare_type Compare operator.
+	 * @param integer|float $value        List of values.
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
-		return $this->validate_number( $data_item->get_subtotal(), $compare_type, $value );
+	public function validate( $data_item, $compare_type, $value ) {
+		$subtotal      = WC()->cart->get_subtotal();
+		$subtotal_tax  = WC()->cart->get_subtotal_tax();
+		/**
+		 * Filter to modify cart subtotal.
+		 *
+		 * @since 1.0.0
+		 */
+		$cart_subtotal = apply_filters( 'discount_deals_cart_subtotal', ( $subtotal + $subtotal_tax ), $subtotal, $subtotal_tax );
+
+		return $this->validate_number( $cart_subtotal, $compare_type, $value );
 	}//end validate()
 
 

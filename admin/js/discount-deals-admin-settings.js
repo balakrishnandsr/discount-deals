@@ -56,10 +56,27 @@
     $(document).on('change', '#wc_settings_tab_discount_deals_where_display_saving_text', function () {
         you_saved_text($(this).val())
     })
+
+    function general_show_promotion_message(value) {
+        console.log(value)
+        if (value == "yes") {
+            $('#wc_settings_tab_discount_deals_applied_discount_message').closest('tr').show();
+            $('input[type="radio"][name="wc_settings_tab_discount_deals_combine_applied_discounts_message"]').closest('tr').show();
+        } else {
+            $('#wc_settings_tab_discount_deals_applied_discount_message').closest('tr').hide();
+            $('input[type="radio"][name="wc_settings_tab_discount_deals_combine_applied_discounts_message"]').closest('tr').hide();
+        }
+    }
+
+    $(document).on('change', 'input[name=wc_settings_tab_discount_deals_show_applied_discounts_message]', function () {
+        general_show_promotion_message($('input[type="radio"][name="wc_settings_tab_discount_deals_show_applied_discounts_message"]:checked').val())
+    })
+
     $(function () {
         product_apply_discount_to($('#wc_settings_tab_discount_deals_apply_product_discount_to').val())
         cart_apply_discount_to($('#wc_settings_tab_discount_deals_apply_cart_discount_to').val())
         cart_apply_mode($('input[type="radio"][name="wc_settings_tab_discount_deals_apply_cart_discount_as"]:checked').val())
         you_saved_text($('#wc_settings_tab_discount_deals_where_display_saving_text').val())
+        general_show_promotion_message($('input[type="radio"][name="wc_settings_tab_discount_deals_show_applied_discounts_message"]:checked').val());
     });
 })(jQuery);

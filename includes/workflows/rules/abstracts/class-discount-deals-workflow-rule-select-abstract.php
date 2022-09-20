@@ -36,6 +36,8 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 
 	/**
 	 * Init rule.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		if ( $this->is_multi ) {
@@ -50,9 +52,9 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 	/**
 	 * Validate select rule, but case insensitive.
 	 *
-	 * @param array|string $actual Will be an array when is_multi prop is true.
-	 * @param string $compare_type Compare type.
-	 * @param array|string $expected Expected value.
+	 * @param array|string $actual       Will be an array when is_multi prop is true.
+	 * @param string       $compare_type Compare type.
+	 * @param array|string $expected     Expected value.
 	 *
 	 * @return boolean
 	 */
@@ -71,19 +73,19 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 	/**
 	 * Validate a select rule.
 	 *
-	 * @param string|array $actual Will be an array when is_multi prop is true.
-	 * @param string $compare_type Compare type.
-	 * @param array|string $expected Expected type.
+	 * @param string|array $actual       Will be an array when is_multi prop is true.
+	 * @param string       $compare_type Compare type.
+	 * @param array|string $expected     Expected type.
 	 *
 	 * @return boolean
 	 */
 	public function validate_select( $actual, $compare_type, $expected ) {
 		if ( $this->is_multi ) {
-			// actual can be empty.
+			// Actual can be empty.
 			if ( ! $actual ) {
 				$actual = array();
 			}
-			// expected must have a value.
+			// Expected must have a value.
 			if ( ! $expected ) {
 				return false;
 			}
@@ -98,7 +100,7 @@ abstract class Discount_Deals_Workflow_Rule_Select_Abstract extends Discount_Dea
 					return count( array_intersect( $expected, $actual ) ) >= 1;
 			}
 		} else {
-			// actual must be scalar, but expected could be multiple values.
+			// Actual must be scalar, but expected could be multiple values.
 			if ( ! is_scalar( $actual ) ) {
 				return false;
 			}

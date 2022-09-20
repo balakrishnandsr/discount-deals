@@ -19,7 +19,7 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	 *
 	 * @var string
 	 */
-	public $data_item = "cart";
+	public $data_item = 'cart';
 
 	/**
 	 * The CSS class to use on the search field.
@@ -30,6 +30,8 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	public function init() {
 		$this->is_multi = true;
@@ -52,9 +54,9 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	/**
 	 * Validate the cart coupons rule.
 	 *
-	 * @param WC_Cart $data_item Cart object.
-	 * @param string $compare_type Compare operation.
-	 * @param array $value Expected output.
+	 * @param WC_Cart $data_item    Cart object.
+	 * @param string  $compare_type Compare operation.
+	 * @param array   $value        Expected output.
 	 *
 	 * @return boolean
 	 */

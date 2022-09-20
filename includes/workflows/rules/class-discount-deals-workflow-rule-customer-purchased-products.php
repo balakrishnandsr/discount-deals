@@ -21,10 +21,12 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 	 *
 	 * @var string
 	 */
-	public $data_item = "customer";
+	public $data_item = 'customer';
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	public function init() {
 		$this->title = __( 'Customer - Purchased Products - All Time', 'discount-deals' );

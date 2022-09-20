@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Customer country rule
+ *
  * @class Discount_Deals_Workflow_Rule_Customer_Country
  */
 class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
@@ -22,8 +24,10 @@ class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workf
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
-	function init() {
+	public function init() {
 		parent::init();
 		$this->title    = __( 'Customer - Country', 'discount-deals' );
 	}//end init()
@@ -33,7 +37,7 @@ class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workf
 	 *
 	 * @return array
 	 */
-	function load_select_choices() {
+	public function load_select_choices() {
 		return WC()->countries->get_allowed_countries();
 	}//end load_select_choices()
 
@@ -46,7 +50,7 @@ class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workf
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_select( $data_item->get_billing_country(), $compare_type, $value );
 	}//end validate()
 

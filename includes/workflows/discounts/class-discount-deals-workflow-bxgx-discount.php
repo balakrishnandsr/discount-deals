@@ -20,7 +20,7 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 	public function __construct() {
 		parent::__construct();
 		$this->set_supplied_data_items();
-		$this->set_title( __( 'Buy X and Get X', 'discount-deals' ) );
+		$this->set_title( __( 'Buy X and Get X discount', 'discount-deals' ) );
 		$this->set_description( __( 'If the customer buys product X, then give some quantities as discounts on the same product.', 'discount-deals' ) );
 	}//end __construct()
 
@@ -92,6 +92,7 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 				$total_discount = $free_quantity * $discount;
 				if ( 0 < floatval( $max_discount ) && 'percent' == $type ) {
 					$total_discount = min( $max_discount, $total_discount );
+					$discount = $total_discount / $free_quantity;
 				}
 				if ( 0 >= $discount ) {
 					return array();

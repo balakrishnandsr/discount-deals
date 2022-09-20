@@ -35,6 +35,8 @@ class Discount_Deals_Workflow_Rule_Customer_Last_Review_Date extends Discount_De
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	public function init() {
 		$this->title = __( 'Customer - Last Review Date', 'discount-deals' );

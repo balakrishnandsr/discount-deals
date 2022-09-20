@@ -25,7 +25,7 @@ class Discount_Deals_Workflow_Rule_Customer_First_Order_Date extends Discount_De
 	public $data_item = 'customer';
 
 	/**
-	 * class Discount_Deals_Workflow_Rule_Customer_First_Order_Date constructor.
+	 * Class Discount_Deals_Workflow_Rule_Customer_First_Order_Date constructor.
 	 */
 	public function __construct() {
 		$this->has_is_past_comparison = true;
@@ -35,6 +35,8 @@ class Discount_Deals_Workflow_Rule_Customer_First_Order_Date extends Discount_De
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
 	public function init() {
 		$this->title = __( 'Customer - First Paid Order Date', 'discount-deals' );
@@ -52,7 +54,7 @@ class Discount_Deals_Workflow_Rule_Customer_First_Order_Date extends Discount_De
 	 */
 	public function validate( $data_item, $compare_type, $value = null ) {
 		return false;
-		// return $this->validate_date( $compare_type, $value, $data_item->get_firs() );.
+		// Return $this->validate_date( $compare_type, $value, $data_item->get_firs() );.
 	}//end validate()
 
 }//end class

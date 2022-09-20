@@ -21,12 +21,14 @@ class Discount_Deals_Workflow_Rule_Customer_Postcode extends Discount_Deals_Work
 	 *
 	 * @var string
 	 */
-	public $data_item = "customer";
+	public $data_item = 'customer';
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
-	function init() {
+	public function init() {
 		$this->title = __( 'Customer - Postcode', 'discount-deals' );
 	}//end init()
 
@@ -39,7 +41,7 @@ class Discount_Deals_Workflow_Rule_Customer_Postcode extends Discount_Deals_Work
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_string( $data_item->get_billing_postcode(), $compare_type, $value );
 	}//end validate()
 

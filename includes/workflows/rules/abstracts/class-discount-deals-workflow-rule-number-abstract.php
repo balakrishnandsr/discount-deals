@@ -23,12 +23,11 @@ abstract class Discount_Deals_Workflow_Rule_Number_Abstract extends Discount_Dea
 	public $support_floats = true;
 
 
-	function __construct() {
+	public function __construct() {
 
 		if ( $this->support_floats ) {
 			$this->compare_types = $this->get_float_compare_types();
-		}
-		else {
+		} else {
 			$this->compare_types = $this->get_integer_compare_types();
 		}
 

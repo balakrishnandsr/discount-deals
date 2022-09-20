@@ -19,10 +19,11 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Count extends Discount_Deals_Workfl
 	 *
 	 * @var string
 	 */
-	public $data_item = "cart";
+	public $data_item = 'cart';
 
 	/**
 	 * Supports float value or not?
+	 *
 	 * @var boolean
 	 */
 	public $support_floats = false;
@@ -30,7 +31,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Count extends Discount_Deals_Workfl
 	/**
 	 * Init the rule
 	 */
-	function init() {
+	public function init() {
 		$this->title = __( 'Cart - Item Count', 'discount-deals' );
 	}//end init()
 
@@ -38,13 +39,13 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Count extends Discount_Deals_Workfl
 	/**
 	 * Validate the Cart items count with given value
 	 *
-	 * @param WC_Cart                  $data_item    data item.
-	 * @param string                   $compare_type compare operator.
-	 * @param array int list of values.
+	 * @param WC_Cart $data_item    Data item.
+	 * @param string  $compare_type Compare operator.
+	 * @param array   $value        int list of values.
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_number( count( $data_item->get_cart_contents() ), $compare_type, $value );
 	}//end validate()
 

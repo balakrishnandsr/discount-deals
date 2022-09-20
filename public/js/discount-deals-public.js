@@ -7,6 +7,19 @@
 (function ($) {
     'use strict';
     var timeout = false;
+
+    function refresh_cart() {
+        $('body').trigger('update_checkout');
+    }
+
+    $(document).on('change', 'input[name="payment_method"],input[name="billing_city"],input[name="billing_company"],input[name="billing_postcode"],input[name="billing_phone"]', function () {
+        refresh_cart();
+    });
+
+    // Refresh cart when Email changed
+    $(document).on('blur', 'input[name="billing_email"], select#billing_state', function () {
+        refresh_cart();
+    });
     $(document).on('change', '[name="quantity"]', function () {
         if (timeout) {
             clearTimeout(timeout);
@@ -54,12 +67,15 @@
                             $price_place.html(response.original_price_html)
                         }
                     }
+                    $('.dd-bulk-table-summary-quantity').html(response.quantity_price_summary);
+                    $('.dd-bulk-table-summary-quantity-in-cart').html(response.existing_quantity_summary);
+                    $('.dd-bulk-table-summary-total').html(response.total_price_summary);
                 },
                 error: function (response) {
                     $price_place.html("")
                 }
             });
-        }, 1500)
+        }, 1000)
     });
 
 })(jQuery);

@@ -85,8 +85,9 @@ abstract class Discount_Deals_DB {
 
 		$query  = "INSERT INTO {$this->get_table_name()} ({$fields_str}) VALUES ";
 		$query .= implode( ', ', $place_holders );
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$sql    = $wpdb->prepare( $query, $values );
-
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		if ( $wpdb->query( $sql ) ) {
 			return true;
 		} else {
@@ -126,11 +127,11 @@ abstract class Discount_Deals_DB {
 	 * @param array   $output    Output.
 	 * @param boolean $use_cache Use_cache.
 	 *
-	 * @return false|mixed
+	 * @return array|object|stdClass|null
 	 */
 	public function get( $row_id = 0, $output = ARRAY_A, $use_cache = false ) {
 		global $wpdb;
-
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$query = $wpdb->prepare( "SELECT * FROM {$this->get_table_name()} WHERE {$this->get_primary_key()} = %s LIMIT 1;", $row_id );
 
 		return $wpdb->get_row( $query, $output );
@@ -206,7 +207,7 @@ abstract class Discount_Deals_DB {
 		if ( ! empty( $where ) ) {
 			$query .= " WHERE $where";
 		}
-
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->get_results( $query, $output );
 	}//end get_by_conditions()
 
@@ -226,14 +227,17 @@ abstract class Discount_Deals_DB {
 		$column = esc_sql( $column );
 
 		if ( $row_id ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$query = $wpdb->prepare( "SELECT $column FROM {$this->get_table_name()} WHERE {$this->get_primary_key()} = %s LIMIT 1;", $row_id );
 		} else {
 			$query = "SELECT $column FROM {$this->get_table_name()}";
 		}
 
 		if ( $row_id ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$result = $wpdb->get_var( $query );
 		} else {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$result = $wpdb->get_col( $query );
 		}
 
@@ -260,14 +264,18 @@ abstract class Discount_Deals_DB {
 		$column = esc_sql( $column );
 
 		if ( $only_one ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$query = $wpdb->prepare( "SELECT $column FROM {$this->get_table_name()} WHERE $column_where = %s LIMIT 1;", $column_value );
 		} else {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$query = $wpdb->prepare( "SELECT $column FROM {$this->get_table_name()} WHERE $column_where = %s;", $column_value );
 		}
 
 		if ( $only_one ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$result = $wpdb->get_var( $query );
 		} else {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$result = $wpdb->get_col( $query );
 		}
 
@@ -293,7 +301,7 @@ abstract class Discount_Deals_DB {
 		if ( ! empty( $where ) ) {
 			$query .= " WHERE $where";
 		}
-
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->get_col( $query );
 	}//end get_column_by_condition()
 
@@ -408,7 +416,7 @@ abstract class Discount_Deals_DB {
 		if ( empty( $row_id ) ) {
 			return false;
 		}
-
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$where = $wpdb->prepare( "{$this->get_primary_key()} = %d", $row_id );
 
 		if ( false === $this->delete_by_condition( $where ) ) {
@@ -432,8 +440,8 @@ abstract class Discount_Deals_DB {
 		if ( empty( $where ) ) {
 			return false;
 		}
-
-		if ( false === $wpdb->query( "DELETE FROM {$this->get_table_name()} WHERE $where" ) ) {
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		if ( false === $wpdb->query( "DELETE FROM {$this->get_table_name()} WHERE $where" ) ) {// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			return false;
 		}
 
@@ -527,7 +535,7 @@ abstract class Discount_Deals_DB {
 			$query .= " WHERE $where";
 		}
 
-		return $wpdb->get_var( $query );
+		return $wpdb->get_var( $query );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	}//end count()
 
 
@@ -602,9 +610,9 @@ abstract class Discount_Deals_DB {
 
 			$query  = "INSERT INTO {$this->get_table_name()} ({$fields_str}) VALUES ";
 			$query .= implode( ', ', $place_holders );
-			$sql    = $wpdb->prepare( $query, $final_values );
+			$sql    = $wpdb->prepare( $query, $final_values ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
-			if ( ! $wpdb->query( $sql ) ) {
+			if ( ! $wpdb->query( $sql ) ) { // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$error_flag = true;
 			} else {
 				$start_id = $wpdb->insert_id;
@@ -696,7 +704,7 @@ abstract class Discount_Deals_DB {
 			$query .= " WHERE $where";
 		}
 
-		return $wpdb->get_results( $query, $output );
+		return $wpdb->get_results( $query, $output ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	}//end get_columns_by_condition()
 
 }//end class

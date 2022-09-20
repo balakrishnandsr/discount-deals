@@ -19,12 +19,12 @@ class Discount_Deals_Workflow_Rule_Cart_Items extends Discount_Deals_Workflow_Ru
 	 *
 	 * @var string
 	 */
-	public $data_item = "cart";
+	public $data_item = 'cart';
 
 	/**
 	 * Init the rule
 	 */
-	function init() {
+	public function init() {
 		$this->title = __( 'Cart - Items', 'discount-deals' );
 		parent::init();
 	}//end init()
@@ -34,13 +34,13 @@ class Discount_Deals_Workflow_Rule_Cart_Items extends Discount_Deals_Workflow_Ru
 	/**
 	 * Validate the cart item has given products
 	 *
-	 * @param WC_Cart $data_item    data item.
-	 * @param string  $compare_type compare operator.
-	 * @param array   $value        list of values.
+	 * @param WC_Cart $data_item    Data item.
+	 * @param string  $compare_type Compare operator.
+	 * @param array   $value        List of values.
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		if ( empty( $value ) || ! is_array( $value ) ) {
 			return false;
 		}

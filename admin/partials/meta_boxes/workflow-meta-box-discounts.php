@@ -8,11 +8,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /*
  * Variable declaration
  *
  * @var Discount_Deals_Admin $this Class variable.
  */
+
 $workflow = $this->get_workflow();
 ?>
 <table class="discount-deals-table">
@@ -24,7 +26,12 @@ $workflow = $this->get_workflow();
 	);
 	foreach ( $all_discount_types as $name => $discount_type ) {
 		$discount_obj                      = new $discount_type();
-		$all_valid_discount_types[ $name ] = $discount_obj->get_title();
+		$short_title                      = $discount_obj->get_short_title();
+		$title                      = $discount_obj->get_title();
+        if (!empty($short_title)){
+            $title .= "( $short_title )";
+        }
+		$all_valid_discount_types[ $name ] = $title;
 	}
 	discount_deals_select(
 		array(
@@ -41,7 +48,7 @@ $workflow = $this->get_workflow();
 		)
 	);
 	if ( $workflow ) {
-		echo $workflow->get_discount()->load_fields();
+		echo $workflow->get_discount()->load_fields();// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 	?>
 	</tbody>

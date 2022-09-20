@@ -20,12 +20,14 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 	 *
 	 * @var string
 	 */
-	public $data_item = "customer";
+	public $data_item = 'customer';
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
-	function init() {
+	public function init() {
 		parent::init();
 
 		$this->title = __( 'Customer - State', 'discount-deals' );
@@ -37,7 +39,7 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 	 *
 	 * @return array
 	 */
-	function load_select_choices() {
+	public function load_select_choices() {
 		$return = [];
 
 		foreach ( WC()->countries->get_states() as $country_code => $states ) {
@@ -58,7 +60,7 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		$state   = $data_item->get_billing_state();
 		$country = $data_item->get_billing_country();
 

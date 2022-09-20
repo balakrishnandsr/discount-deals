@@ -25,14 +25,17 @@ class Discount_Deals_Workflow_Rule_Customer_Total_Spent extends Discount_Deals_W
 
 	/**
 	 * Supports float values or not?
+	 *
 	 * @var boolean
 	 */
 	public $support_floats = true;
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
-	function init() {
+	public function init() {
 		$this->title = __( 'Customer - Total Spent', 'discount-deals' );
 	}//end init()
 	
@@ -45,7 +48,7 @@ class Discount_Deals_Workflow_Rule_Customer_Total_Spent extends Discount_Deals_W
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_number( $data_item->get_total_spent(), $compare_type, $value );
 	}//end validate()
 

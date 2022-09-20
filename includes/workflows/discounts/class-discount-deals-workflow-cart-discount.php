@@ -20,13 +20,16 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	public function __construct() {
 		parent::__construct();
 		$this->set_supplied_data_items();
-		$this->set_title( __( 'Cart Subtotal Based Discount', 'discount-deals' ) );
+		$this->set_title( __( 'Cart subtotal based discount', 'discount-deals' ) );
+		$this->set_short_title( __( 'Cart discount', 'discount-deals' ) );
 		$this->set_description( __( 'Give discounts on shopping cart subtotal with coupons and fees.', 'discount-deals' ) );
 	}//end __construct()
 
 
 	/**
 	 * Set valid data items type of the discount
+  *
+  * @return void
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop' );
@@ -63,7 +66,8 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Cart $data_item Cart object.
-	 * @param array $extra Extra details for calculate discount.
+  * @param float   $price     Price.
+	 * @param array   $extra     Extra details for calculate discount.
 	 *
 	 * @return integer
 	 */

@@ -21,12 +21,14 @@ class Discount_Deals_Workflow_Rule_Customer_State_Text_Match extends Discount_De
 	 *
 	 * @var string
 	 */
-	public $data_item = "customer";
+	public $data_item = 'customer';
 
 	/**
 	 * Init the rule.
+	 * 
+	 * @return void
 	 */
-	function init() {
+	public function init() {
 		$this->title = __( 'Customer - State - Text Match', 'discount-deals' );
 	}//end init()
 
@@ -39,7 +41,7 @@ class Discount_Deals_Workflow_Rule_Customer_State_Text_Match extends Discount_De
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		$state   = $data_item->get_billing_state();
 		$country = $data_item->get_billing_country();
 		if ( empty( $state ) || empty( $country ) ) {

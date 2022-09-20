@@ -176,7 +176,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * Create index for products having discount
 	 *
-	 * @param array $index Index details
+	 * @param array $index Index details.
+	 *
+	 * @return void
 	 */
 	public function set_index( $index ) {
 		$this->index = $index;
@@ -196,7 +198,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set promotion details
 	 *
-	 * @param array $promotion Promotion details
+	 * @param array $promotion Promotion details.
+	 *
+	 * @return void
 	 */
 	public function set_promotion( $promotion ) {
 		$this->promotion = $promotion;
@@ -270,8 +274,8 @@ class Discount_Deals_Workflow {
 	/**
 	 * Set workflow data layer.
 	 *
-	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer Data layer.
-	 * @param boolean $reset_workflow_data Reset workflow data.
+	 * @param array|Discount_Deals_Workflow_Data_Layer $data_layer          Data layer.
+	 * @param boolean                                  $reset_workflow_data Reset workflow data.
 	 *
 	 * @return void
 	 */
@@ -600,9 +604,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * May have product discount.
 	 *
-	 * @param object $product Product.
+	 * @param object  $product  Product.
+	 * @param float   $price    Price used for when enable subsequent.
 	 * @param integer $quantity Product quantity.
-	 * @param float $price Price used for when enable subsequent.
 	 *
 	 * @return integer
 	 */
@@ -644,9 +648,9 @@ class Discount_Deals_Workflow {
 	/**
 	 * May have BOGO discount.
 	 *
-	 * @param WC_Product $product Product.
-	 * @param float $price Product price.
-	 * @param integer $quantity Product quantity.
+	 * @param WC_Product $product  Product.
+	 * @param float      $price    Product price.
+	 * @param integer    $quantity Product quantity.
 	 *
 	 * @return array
 	 */
@@ -662,8 +666,8 @@ class Discount_Deals_Workflow {
 	/**
 	 * Check cart has discount.
 	 *
-	 * @param WC_Cart $cart Actual cart object.
-	 * @param float $subtotal Calculated cart subtotal.
+	 * @param WC_Cart $cart     Actual cart object.
+	 * @param float   $subtotal Calculated cart subtotal.
 	 *
 	 * @return string | number
 	 */
@@ -677,9 +681,9 @@ class Discount_Deals_Workflow {
 	}//end may_have_cart_discount()
 
 	/**
-	 * Chek that the product in the index or not
+	 * Check that the product in the index or not
 	 *
-	 * @param string $validate_for product object.
+	 * @param string $validate_for Product object.
 	 *
 	 * @return boolean
 	 */
@@ -694,6 +698,7 @@ class Discount_Deals_Workflow {
 			 *
 			 * @var WC_Product $data_item product object
 			 */
+
 			$index = $this->get_index();
 			if ( empty( $index ) || ! is_array( $index ) ) {
 				return true;
@@ -724,7 +729,7 @@ class Discount_Deals_Workflow {
 	/**
 	 * Get the promotional to show on product message
 	 *
-	 * @param string $position position to show the promotional message.
+	 * @param string $position Position to show the promotional message.
 	 *
 	 * @return array|null
 	 */
@@ -738,7 +743,7 @@ class Discount_Deals_Workflow {
 			return null;
 		}
 
-		if ( $position != discount_deals_get_value_from_array( $promotion_details, 'where_to_show', '' ) ) {
+		if ( discount_deals_get_value_from_array( $promotion_details, 'where_to_show', '' ) != $position ) {
 			return null;
 		}
 		$promotion = array( 'bulk_promotion' => array(), 'promotion_message' => null );

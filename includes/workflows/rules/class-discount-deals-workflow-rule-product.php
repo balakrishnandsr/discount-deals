@@ -16,6 +16,7 @@ class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_
 
 	/**
 	 * What data item should pass in to validate the rule?
+	 *
 	 * @var string
 	 */
 	public $data_item = 'product';
@@ -23,7 +24,7 @@ class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_
 	/**
 	 * Init the rule
 	 */
-	function init() {
+	public function init() {
 		parent::init();
 
 		$this->title         = __( 'Product - Product', 'discount-deals' );
@@ -35,13 +36,13 @@ class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_
 	/**
 	 * Validate the product rule
 	 *
-	 * @param WC_Product|WC_Product_Variation $data_item    data item.
-	 * @param string                          $compare_type compare operator.
-	 * @param array                           $value        list of values.
+	 * @param WC_Product|WC_Product_Variation $data_item    Data item.
+	 * @param string                          $compare_type Compare operator.
+	 * @param array                           $value        List of values.
 	 *
 	 * @return boolean
 	 */
-	function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		if ( ! is_array( $value ) ) {
 			return false;
 		}

@@ -19,6 +19,13 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * @var string $title discount title
 	 */
 	public $title = '';
+
+	/**
+	 * Title for the discount type
+	 *
+	 * @var string $short_title discount short title
+	 */
+	public $short_title = '';
 	/**
 	 * Description for the discount type
 	 *
@@ -34,9 +41,14 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Discount details
 	 *
-	 * @var array $discount_details Discount details
+	 * @var array $discount_details Discount details.
 	 */
 	public $discount_details = array();
+	/**
+	 * Promotion details
+	 *
+	 * @var array $promotion_details Promotion details.
+	 */
 	public $promotion_details = array();
 	/**
 	 * Data items of the discount
@@ -65,6 +77,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Set discount details to the class
 	 *
 	 * @param array $discount_details Discount details.
+  * @return void
 	 */
 	public function set_discount_details( $discount_details ) {
 		$this->discount_details = $discount_details;
@@ -92,6 +105,26 @@ abstract class Discount_Deals_Workflow_Discount {
 	}//end set_title()
 
 	/**
+	 * Get short tile of the discount
+	 *
+	 * @return string
+	 */
+	public function get_short_title() {
+		return $this->short_title;
+	}//end get_title()
+
+	/**
+	 * Set short title for the discount
+	 *
+	 * @param string $title Title for the discount type.
+	 *
+	 * @return void
+	 */
+	public function set_short_title( $title ) {
+		$this->short_title = $title;
+	}//end set_title()
+
+	/**
 	 * Get description of the discount
 	 *
 	 * @return string
@@ -104,6 +137,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Discount description
 	 *
 	 * @param string $description Description of the discount.
+  * @return void
 	 */
 	public function set_description( $description ) {
 		$this->description = $description;
@@ -130,7 +164,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	}//end set_name()
 
 	/**
-	 * Valid data items for discount
+	 * Valid data items for discount.
 	 *
 	 * @return array
 	 */
@@ -139,11 +173,11 @@ abstract class Discount_Deals_Workflow_Discount {
 	}//end get_supplied_data_items()
 
 	/**
-	 * Set supplied data items for discount
+	 * Set supplied data items for discount.
 	 *
 	 * @return void
 	 */
-	abstract public function set_supplied_data_items();// end set_name()
+	abstract public function set_supplied_data_items();// End set_name().
 
 	/**
 	 * Admin discount fields
@@ -182,9 +216,9 @@ abstract class Discount_Deals_Workflow_Discount {
 				'value'    => discount_deals_get_value_from_array( $discount_details, 'when_to_show', 'all_time' ),
 				'label'    => __( 'When to show this promotional message?', 'discount-deals' ),
 				'options'  => array(
-					'before_rule' => __( 'Before all rules are passed', 'discount-deals' ),
-					'after_rule'  => __( 'After all rules are passed', 'discount-deals' ),
-					'all_time'    => __( 'All time', 'discount-deals' ),
+					'before_rule' => __( 'Before all workflow rules are passed', 'discount-deals' ),
+					'after_rule'  => __( 'After all workflow rules are passed', 'discount-deals' ),
+					'all_time'    => __( 'All time (Not checked against all rules)', 'discount-deals' ),
 				),
 				'required' => true,
 			)
@@ -197,8 +231,8 @@ abstract class Discount_Deals_Workflow_Discount {
 				'value'    => discount_deals_get_value_from_array( $discount_details, 'where_to_show', 'all_time' ),
 				'label'    => __( 'Where to show this promotional message?', 'discount-deals' ),
 				'options'  => array(
-					'before_add_to_cart_button'    => __( 'Before "Add to cart" button', 'discount-deals' ),
-					'after_add_to_cart_button'     => __( 'After "Add to cart" button', 'discount-deals' ),
+					'before_add_to_cart_button'    => __( 'Before "Add to cart" form', 'discount-deals' ),
+					'after_add_to_cart_button'     => __( 'After "Add to cart" form', 'discount-deals' ),
 					'after_single_product_summary' => __( 'Before product additional information', 'discount-deals' ),
 				),
 				'required' => true,
@@ -231,7 +265,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Set promotion details for the discount
 	 *
-	 * @param array $promotion_details promotion details.
+	 * @param array $promotion_details Promotion details.
+  * @return void
 	 */
 	public function set_promotion_details( $promotion_details ) {
 		$this->promotion_details = $promotion_details;
@@ -242,7 +277,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
-	 * @param mixed $price Price.
+  * @param array $extra     Extra.
+	 * @param mixed $price     Price.
 	 *
 	 * @return mixed
 	 */
@@ -251,14 +287,14 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Calculate discount amount.
 	 *
-	 * @param string $type Discount type.
-	 * @param float $price Price.
-	 * @param float $discount_value discount value.
+	 * @param string $type           Discount type.
+	 * @param float  $price          Price.
+	 * @param float  $discount_value Discount value.
 	 *
 	 * @return float|integer|mixed
 	 */
 	public function calculate_discount_amount( $type = '', $price = 0, $discount_value = 0 ) {
-
+		$price = floatval($price);
 		$discount = 0;
 		if ( empty( $type ) ) {
 			return $discount;

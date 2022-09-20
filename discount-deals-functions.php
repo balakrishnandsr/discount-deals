@@ -13,20 +13,22 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	/**
 	 * Get data from the GET request
 	 *
-	 * @param string $key Key of the array.
-	 * @param mixed $default If there is no data then return default value.
-	 * @param boolean $clean Need to clean the output.
+	 * @param string  $key     Key of the array.
+	 * @param mixed   $default If there is no data then return default value.
+	 * @param boolean $clean   Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
 	function discount_deals_get_data( $key, $default = null, $clean = true ) {
+		if (empty($key)) {
+			wc_clean( wp_unslash( $_GET ) );
+		}
 		if ( isset( $_GET[ $key ] ) ) {
-			$data = wp_unslash( $_GET[ $key ] );
 			if ( $clean ) {
-				return wc_clean( $data );
+				return wc_clean( wp_unslash( $_GET[ $key ] ) );
 			}
-
-			return $data;
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			return $_GET[ $key ];
 		}
 
 		return $default;
@@ -38,20 +40,22 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	/**
 	 * Get data from the REQUEST
 	 *
-	 * @param string $key Key of the array.
-	 * @param mixed $default If there is no data then return default value.
-	 * @param boolean $clean Need to clean the output.
+	 * @param string  $key     Key of the array.
+	 * @param mixed   $default If there is no data then return default value.
+	 * @param boolean $clean   Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
 	function discount_deals_get_request_data( $key, $default = null, $clean = true ) {
+		if (empty($key)) {
+			wc_clean( wp_unslash( $_REQUEST ) );
+		}
 		if ( isset( $_REQUEST[ $key ] ) ) {
-			$data = wp_unslash( $_REQUEST[ $key ] );
 			if ( $clean ) {
-				return wc_clean( $data );
+				return wc_clean( wp_unslash( $_REQUEST[ $key ] ) );
 			}
-
-			return $data;
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			return $_REQUEST[ $key ];
 		}
 
 		return $default;
@@ -62,20 +66,22 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	/**
 	 * Get data from the POST request
 	 *
-	 * @param string $key Key of the array.
-	 * @param mixed $default If there is no data then return default value.
-	 * @param boolean $clean Need to clean the output.
+	 * @param string  $key     Key of the array.
+	 * @param mixed   $default If there is no data then return default value.
+	 * @param boolean $clean   Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
 	function discount_deals_get_post_data( $key, $default = null, $clean = true ) {
-		if ( isset( $_REQUEST[ $key ] ) ) {
-			$data = wp_unslash( $_REQUEST[ $key ] );
+		if (empty($key)) {
+			wc_clean( wp_unslash( $_POST ) );
+		}
+		if ( isset( $_POST[ $key ] ) ) {
 			if ( $clean ) {
-				return wc_clean( $data );
+				return wc_clean( wp_unslash( $_POST[ $key ] ) );
 			}
-
-			return $data;
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			return $_POST[ $key ];
 		}
 
 		return $default;
@@ -160,15 +166,20 @@ if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
 	/**
 	 * Calculate the discount for the product.
 	 *
-	 * @param WC_Product $product Product object.
-	 * @param float $price Product price.
-	 * @param integer $quantity Product quantity.
-	 * @param bool $validate_against_rules need to validate against rules.
+	 * @param float      $price                  Product price.
+	 * @param WC_Product $product                Product object.
+	 * @param integer    $quantity               Product quantity.
+	 * @param boolean    $validate_against_rules Need to validate against rules.
 	 *
 	 * @return float|integer
 	 */
 	function discount_deals_get_product_discount( $price, $product, $quantity = 1, $validate_against_rules = true ) {
-		return Discount_Deals_Workflows::calculate_product_discount( $price, $product, $quantity, $validate_against_rules );
+		$discounted_price = Discount_Deals_Workflows::calculate_product_discount( $price, $product, $quantity, $validate_against_rules );
+		if ( 0 >= $discounted_price ) {
+			$discounted_price = 0;
+		}
+
+		return $discounted_price;
 	}//end discount_deals_get_product_discount()
 }
 
@@ -176,8 +187,8 @@ if ( ! function_exists( 'discount_deals_get_bogo_discount' ) ) {
 	/**
 	 * Calculate the discount for the product.
 	 *
-	 * @param WC_Product $product Product object.
-	 * @param integer $quantity Product quantity.
+	 * @param WC_Product $product  Product object.
+	 * @param integer    $quantity Product quantity.
 	 *
 	 * @return array
 	 */
@@ -191,20 +202,20 @@ if ( ! function_exists( 'discount_deals_get_value_from_array' ) ) {
 	/**
 	 * Get value from array
 	 *
-	 * @param array $array Array.
-	 * @param string $key Array key.
-	 * @param mixed $default_value What value should return when the key is not found.
-	 * @param boolean $clean Do we need to clean the output?
+	 * @param array   $array         Array.
+	 * @param string  $key           Array key.
+	 * @param mixed   $default_value What value should return when the key is not found.
+	 * @param boolean $clean         Do we need to clean the output.
 	 *
 	 * @return mixed
 	 */
 	function discount_deals_get_value_from_array( $array, $key, $default_value = null, $clean = true ) {
 		if ( is_array( $array ) && array_key_exists( $key, $array ) ) {
-			if ( ! $clean ) {
-				return $array[ $key ];
+			if ( $clean ) {
+				return wc_clean( wp_unslash( $array[ $key ] ) );
 			}
 
-			return wc_clean( $array[ $key ] );
+			return $array[ $key ];
 		}
 
 		return $default_value;
@@ -221,6 +232,29 @@ if ( ! function_exists( 'discount_deals_get_cart_discount' ) ) {
 		return Discount_Deals_Workflows::calculate_cart_discount();
 	}//end discount_deals_get_cart_discount()
 
+}
+
+if ( ! function_exists( 'discount_deals_get_applied_workflows' ) ) {
+	/**
+	 * Get applied workflows
+	 *
+	 * @return Discount_Deals_Workflow[]
+	 */
+	function discount_deals_get_applied_workflows() {
+		return Discount_Deals_Workflows::get_applied_workflows();
+	}//end discount_deals_get_applied_workflows()
+
+}
+
+if ( ! function_exists( 'discount_deals_get_applied_workflow_discounts' ) ) {
+	/**
+	 * Get applied workflows
+	 *
+	 * @return array
+	 */
+	function discount_deals_get_applied_workflow_discounts() {
+		return Discount_Deals_Workflows::get_applied_workflow_discounts();
+	}//end discount_deals_get_applied_workflow_discounts()
 }
 
 if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {
@@ -273,6 +307,9 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	/**
 	 * Search coupons
 	 *
+  * @param string  $term                 Term.
+  * @param boolean $exclude_personalized Exclude personalized.
+  *
 	 * @return array
 	 */
 	function discount_deals_search_coupons( $term, $exclude_personalized ) {
@@ -303,7 +340,7 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	}//end discount_deals_search_coupons()
 
 }
-if ( ! function_exists( "discount_deals_get_counted_order_statuses" ) ) {
+if ( ! function_exists( 'discount_deals_get_counted_order_statuses' ) ) {
 	/**
 	 * Get counted order statuses
 	 *
@@ -313,6 +350,11 @@ if ( ! function_exists( "discount_deals_get_counted_order_statuses" ) ) {
 	 */
 	function discount_deals_get_counted_order_statuses( $include_prefix = true ) {
 		$default_statuses = array_merge( wc_get_is_paid_statuses(), [ 'on-hold' ] );
+		/**
+		 * Filter to modify counted order statuses.
+		 *
+		 * @since 1.0.0
+		 */
 		$statuses         = array_filter( apply_filters( 'discount_deals_counted_order_statuses', $default_statuses ) );
 
 		if ( ! $statuses ) {
@@ -327,7 +369,7 @@ if ( ! function_exists( "discount_deals_get_counted_order_statuses" ) ) {
 	}//end discount_deals_get_counted_order_statuses()
 
 }
-if ( ! function_exists( "discount_deals_add_order_status_prefix" ) ) {
+if ( ! function_exists( 'discount_deals_add_order_status_prefix' ) ) {
 	/**
 	 * Add prifix to order status
 	 *
@@ -345,7 +387,7 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	/**
 	 * Get the country name for country code
 	 *
-	 * @param string $country_code country code.
+	 * @param string $country_code Country code.
 	 *
 	 * @return false|mixed
 	 */
@@ -370,25 +412,31 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 		if ( ! is_a( $customer, 'WC_Customer' ) ) {
 			return array();
 		}
-		// TODO: remove transient after order place
+		if ( 0 >= $customer->get_id() ) {
+			return array();
+		}
 		$transient_name = 'discount_deals_cpp_' . $customer->get_id();
 		$products       = get_transient( $transient_name );
-		if ( $products === false ) {
+		if ( false === $products ) {
 			$customer_data = [ $customer->get_email(), $customer->get_id() ];
 			$customer_data = array_map( 'esc_sql', array_filter( $customer_data ) );
 			$statuses      = array_map( 'esc_sql', discount_deals_get_counted_order_statuses( true ) );
 
-			$result   = $wpdb->get_col( "
+			$query   =  "
 				SELECT im.meta_value FROM {$wpdb->posts} AS p
 				INNER JOIN {$wpdb->postmeta} AS pm ON p.ID = pm.post_id
 				INNER JOIN {$wpdb->prefix}woocommerce_order_items AS i ON p.ID = i.order_id
 				INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS im ON i.order_item_id = im.order_item_id
-				WHERE p.post_status IN ( '" . implode( "','", $statuses ) . "' )
+				WHERE p.post_status IN ( %s )
 				AND pm.meta_key IN ( '_billing_email', '_customer_user' )
 				AND im.meta_key IN ( '_product_id', '_variation_id' )
 				AND im.meta_value != 0
-				AND pm.meta_value IN ( '" . implode( "','", $customer_data ) . "' )
-			" );
+				AND pm.meta_value IN ( %s )
+			";
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$query   = $wpdb->prepare( $query, array(implode( "','", $statuses ),implode( "','", $customer_data )) );
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$result = $wpdb->get_col($query);
 			$products = array_unique( array_map( 'absint', $result ) );
 
 			set_transient( $transient_name, $result, DAY_IN_SECONDS * 7 );
@@ -403,7 +451,7 @@ if ( ! function_exists( 'discount_deals_get_state_name' ) ) {
 	 * Get the state name for the text
 	 *
 	 * @param string $country_code Country code.
-	 * @param string $state_code State code.
+	 * @param string $state_code   State code.
 	 *
 	 * @return false|mixed
 	 */
@@ -440,10 +488,10 @@ if ( ! function_exists( 'discount_deals_arrange_discounts_by_quantity_range' ) )
 	/**
 	 * Re-order discount ranges by quantities
 	 *
-	 * @param array $range_1 discount range 1.
-	 * @param array $range_2 discount range 2.
+	 * @param array $range_1 Discount range 1.
+	 * @param array $range_2 Discount range 2.
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	function discount_deals_arrange_discounts_by_quantity_range( $range_1, $range_2 ) {
 		if ( empty( $range_1 ) || empty( $range_2 ) || ! isset( $range_1['min_quantity'] ) || ! isset( $range_2['min_quantity'] ) ) {
@@ -458,5 +506,6 @@ if ( ! function_exists( 'discount_deals_arrange_discounts_by_quantity_range' ) )
 		} else {
 			return 0;
 		}
-	}
+	}//end discount_deals_arrange_discounts_by_quantity_range()
+
 }

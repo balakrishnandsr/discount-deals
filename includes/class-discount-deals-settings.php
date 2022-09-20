@@ -9,47 +9,57 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
+/**
+ * Class for handling Settings
+ */
 class Discount_Deals_Settings {
 	/**
-	 * settings constant
+	 * Settings constant
 	 *
 	 * @var string
 	 */
 	const DISCOUNT_DEALS_OPTION_KEY = 'discount-deals-settings';
 	/**
-	 * Contains all the configuration details
+	 * Contains all the configuration details.
 	 *
 	 * @var array
 	 */
 	private static $config = array();
 
+	/**
+	 * Contains default configuration details.
+	 *
+	 * @var array
+	 */
 	private static $default_config = array(
-
-		// Product
-		'calculate_discount_from'          => 'regular_price',
-		'apply_product_discount_to'        => 'lowest_matched',
-		'apply_discount_subsequently'      => 'no',
-		// Cart
-		'apply_cart_discount_to'           => 'lowest_with_free_shipping',
-		'apply_cart_discount_subsequently' => 'no',
-		'show_strikeout_price_in_cart'     => 'yes',
-		'you_saved_text'                   => 'You saved {{discount}}',
-		'where_display_saving_text'        => 'disabled',// on_each_line_item,after_total,both_line_item_and_after_total
-		'apply_cart_discount_as'           => 'fee',
-		'apply_coupon_title'               => '',
-		'apply_fee_title'                  => 'You discount',
-		// Free Shipping
-		'free_shipping_title'              => 'free shipping',
-		// BOGO
-		'apply_bogo_discount_to'           => 'lowest_matched',
-		'bogo_discount_highlight_message'  => 'Free',
+		// General.
+		'show_applied_discounts_message'    => 'yes',
+		'combine_applied_discounts_message' => 'yes',
+		'applied_discount_message'          => 'Discount <strong>{{workflow_title}}</strong> has been applied to your cart.',
+		// Product.
+		'calculate_discount_from'           => 'regular_price',
+		'apply_product_discount_to'         => 'all_matched',
+		'apply_discount_subsequently'       => 'no',
+		// Cart.
+		'apply_cart_discount_to'            => 'lowest_with_free_shipping',
+		'apply_cart_discount_subsequently'  => 'no',
+		'show_strikeout_price_in_cart'      => 'yes',
+		'you_saved_text'                    => 'You saved {{discount}}',
+		'where_display_saving_text'         => 'on_each_line_item',
+		'apply_cart_discount_as'            => 'fee',
+		'apply_coupon_title'                => '',
+		'apply_fee_title'                   => 'Your discount',
+		// Free Shipping.
+		'free_shipping_title'               => 'free shipping',
+		// BOGO.
+		'apply_bogo_discount_to'            => 'lowest_matched',
+		'bogo_discount_highlight_message'   => 'Free',
 	);
 
 	/**
 	 * Save the configuration
 	 *
-	 * @param $data
+	 * @param array $data Data.
 	 *
 	 * @return boolean
 	 */
@@ -62,10 +72,12 @@ class Discount_Deals_Settings {
 
 
 	/**
-	 * @param $key - what configuration need to get
-	 * @param string                               $default - default value if config value not found
+	 * Get settings.
 	 *
-	 * @return string - configuration value
+	 * @param string $key     What configuration need to get.
+	 * @param string $default Default value if config value not found.
+	 *
+	 * @return string - Configuration value.
 	 */
 	public static function get_settings( $key, $default = '' ) {
 		if ( empty( self::$config ) ) {

@@ -205,7 +205,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 			return $this->validate_logical_empty_date( $compare );
 		}
 
-		// normalize date even though it should already be a Discount_Deals_Date_Time instance.
+		// Normalize date even though it should already be a Discount_Deals_Date_Time instance.
 		$date = discount_deals_normalize_date( $date );
 
 		// Validate && sanitize values.
@@ -250,8 +250,8 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 
 			if ( 'is_after' === $compare ) {
 				$comparative = 'after';
-				// exclude the current day from after comparisons.
-				// $rule_date->set_time_to_day_end();
+				// Exclude the current day from after comparisons.
+				// Comment $rule_date->set_time_to_day_end();
 			}
 
 			// Because this date value is set in the admin it is logically in site's timezone
@@ -289,14 +289,14 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 		// Handle between validation.
 		// This validation is inclusive meaning it starts at 00:00:00 on the 'from date' and ends at 23:59:59 on the 'to date'.
 		if ( $this->is_between_dates_validation( $compare ) ) {
-			// require at least a from or a to date, if one isn't set it can default to now.
+			// Require at least a from or a to date, if one isn't set it can default to now.
 			if ( ! $rule_from && ! $rule_to ) {
 				return false;
 			}
 			$from = new Discount_Deals_Date_Time( $rule_from );
 			$to   = new Discount_Deals_Date_Time( $rule_to );
-			// include the full 'to' day in the date range.
-			// $to->set_time_to_day_end();
+			// Include the full 'to' day in the date range.
+			// Comment $to->set_time_to_day_end();.
 			if ( $from > $to ) {
 				return false;
 			}
@@ -465,7 +465,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	 *
 	 * @param Discount_Deals_Date_Time $date1      Is date1 before/after.
 	 * @param Discount_Deals_Date_Time $date2      Date2?.
-	 * @param string                   $comparison after/before.
+	 * @param string                   $comparison After/before.
 	 *
 	 * @return boolean
 	 */
@@ -534,7 +534,7 @@ abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals
 	 * @throws Exception Throws exception.
 	 */
 	private function validate_is_day_of_week( $date, $days_of_week ) {
-		// days of the week must be compared in the site's timezone.
+		// Days of the week must be compared in the site's timezone.
 		$date->convert_to_site_time();
 
 		$days_of_week = array_map( 'absint', $days_of_week );

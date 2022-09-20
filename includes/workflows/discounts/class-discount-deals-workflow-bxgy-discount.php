@@ -20,7 +20,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	public function __construct() {
 		parent::__construct();
 		$this->set_supplied_data_items();
-		$this->set_title( __( 'Buy X and Get Y', 'discount-deals' ) );
+		$this->set_title( __( 'Buy X and Get Y discount', 'discount-deals' ) );
 		$this->set_description( __( 'If the customer buys product X, then give some quantities as discounts of product Y.', 'discount-deals' ) );
 	}//end __construct()
 
@@ -62,12 +62,13 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Pick the free item frm cart
 	 *
-	 * @param string $which Which discount should apply to the cart?
+	 * @param WC_Cart $cart  Cart object.
+	 * @param string  $which Which discount should apply to the cart.
 	 *
 	 * @return array|mixed
 	 */
-	public function pick_item_from_cart( $which = "lowest" ) {
-		$cart_items = WC()->cart->get_cart();
+	public function pick_item_from_cart( $cart, $which = 'lowest' ) {
+		$cart_items = $cart->get_cart();
 		if ( empty( $cart_items ) ) {
 			return array();
 		}
@@ -76,31 +77,32 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 			if ( ! empty( $cart_item['discount_deals_free_gift'] ) ) {
 				continue;
 			}
-			$item_details   = array(
+			$all_products[] = array(
 				'product_id'    => $cart_item['product_id'],
 				'variation_id'  => $cart_item['variation_id'],
 				'variation'     => $cart_item['variation'],
-				'price'         => $cart_item['data']->get_sale_price(),
+				'price'         => $cart_item['data']->get_price(),
 				'cart_item_key' => $cart_item_key,
 			);
-			$all_products[] = $item_details;
 		}
+		$totals_column = array_column( $all_products, 'price' );
 		if ( 'lowest' == $which ) {
-			return $all_products[ array_search( min( $totals = array_column( $all_products, 'price' ) ), $totals ) ];
+			$workflow_id = array_search( min( $totals_column ), $totals_column );
 		} else {
-			return $all_products[ array_search( max( $totals = array_column( $all_products, 'price' ) ), $totals ) ];
+			$workflow_id = array_search( max( $totals_column ), $totals_column );
 		}
+		return $all_products[ $workflow_id ];
 	}//end pick_item_from_cart()
 
 
 	/**
 	 * Pick the free item frm cart
 	 *
-	 * @param string $which Which discount should apply to the cart?
+	 * @param string $which Which discount should apply to the cart?.
 	 *
 	 * @return array
 	 */
-	public function pick_item_from_store( $which = "lowest" ) {
+	public function pick_item_from_store( $which = 'lowest' ) {
 		$args          = array(
 			'posts_per_page' => 1,
 			'post_type'      => 'product',
@@ -136,7 +138,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Pick the free item frm cart
 	 *
-	 * @param integer $product_id product that was given to customers.
+	 * @param integer $product_id Product that was given to customers.
 	 *
 	 * @return array
 	 */
@@ -170,8 +172,8 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Product $data_item Calculate discount for which data item.
-	 * @param float $price Calculate discount subsequently.
-	 * @param array $extra Extra details for calculate discount.
+	 * @param float      $price     Calculate discount subsequently.
+	 * @param array      $extra     Extra details for calculate discount.
 	 *
 	 * @return array
 	 */
@@ -184,6 +186,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 		if ( $product_quantity <= 0 ) {
 			$product_quantity = 1;
 		}
+		$cart = WC()->cart;
 		foreach ( $discount_details as $discount_detail ) {
 			$free_quantity = discount_deals_get_value_from_array( $discount_detail, 'free_quantity', 1 );
 			if ( 0 >= $free_quantity ) {
@@ -200,19 +203,19 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 				$show_eligible_message = discount_deals_get_value_from_array( $discount_detail, 'show_eligible_message', '' );
 				switch ( $free_product_type ) {
 					default:
-					case "cheapest_in_cart":
-						$discount_products = $this->pick_item_from_cart();
+					case 'cheapest_in_cart':
+						$discount_products = $this->pick_item_from_cart( $cart );
 						break;
-					case "biggest_in_cart":
-						$discount_products = $this->pick_item_from_cart( 'biggest' );
+					case 'biggest_in_cart':
+						$discount_products = $this->pick_item_from_cart( $cart, 'biggest' );
 						break;
-					case "cheapest_in_store":
-						$discount_products = $this->pick_item_from_store();
+					case 'cheapest_in_store':
+						$discount_products = $this->pick_item_from_store( $cart );
 						break;
-					case "biggest_in_store":
-						$discount_products = $this->pick_item_from_store( 'biggest' );
+					case 'biggest_in_store':
+						$discount_products = $this->pick_item_from_store( $cart, 'biggest' );
 						break;
-					case "products":
+					case 'products':
 						$discount_products = $this->format_picked_items( $free_product );
 						break;
 				}
@@ -224,6 +227,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 				$total_discount = $free_quantity * $discount;
 				if ( 0 < floatval( $max_discount ) && 'percent' == $type ) {
 					$total_discount = min( $max_discount, $total_discount );
+					$discount       = $total_discount / $free_quantity;
 				}
 				if ( 0 >= $discount ) {
 					return array();
