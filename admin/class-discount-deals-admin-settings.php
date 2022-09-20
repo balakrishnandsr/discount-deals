@@ -22,8 +22,8 @@ class Discount_Deals_Admin_Settings {
 
 	/**
 	 * Init the settings
-  *
-  * @return void
+	 *
+	 * @return void
 	 */
 	public static function init() {
 		add_filter( 'woocommerce_settings_tabs_array', array( __CLASS__, 'add_settings_tab' ), 50 );
@@ -34,8 +34,8 @@ class Discount_Deals_Admin_Settings {
 
 	/**
 	 * Add settings sections
-  *
-  * @return void
+	 *
+	 * @return void
 	 */
 	public static function add_sections() {
 		$sections        = array(
@@ -48,7 +48,7 @@ class Discount_Deals_Admin_Settings {
 		echo '<ul class="subsubsub">';
 		$array_keys = array_keys( $sections );
 		foreach ( $sections as $id => $label ) {
-			echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=' . self::$tab_id . '&section=' . sanitize_title( $id ) ) ) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . esc_html($label) . '</a> ' . ( end( $array_keys ) == $id ? '' : '|' ) . ' </li>';
+			echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=' . self::$tab_id . '&section=' . sanitize_title( $id ) ) ) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . esc_html( $label ) . '</a> ' . ( end( $array_keys ) == $id ? '' : '|' ) . ' </li>';
 		}
 		echo '</ul><br class="clear">';
 	}//end add_sections()
@@ -73,6 +73,10 @@ class Discount_Deals_Admin_Settings {
 	 * @return void
 	 */
 	public static function save_settings() {
+		$nonce = discount_deals_get_request_data( '_wpnonce', '' );
+		if ( ! wp_verify_nonce( $nonce, 'woocommerce-settings' ) ) {
+			return;
+		}
 		if ( discount_deals_get_value_from_array( $_POST, 'save', false ) ) {
 			$actual_Settings = array();
 			foreach ( $_POST as $key => $value ) {
@@ -88,8 +92,8 @@ class Discount_Deals_Admin_Settings {
 
 	/**
 	 * Add settings fields
-  *
-  * @return void
+	 *
+	 * @return void
 	 */
 	public static function add_settings() {
 		woocommerce_admin_fields( self::get_settings_fields() );
@@ -104,13 +108,13 @@ class Discount_Deals_Admin_Settings {
 		$current_section = discount_deals_get_data( 'section', 'general' );
 		if ( 'general' == $current_section ) {
 			return array(
-				'general_section_title'          => array(
+				'general_section_title'             => array(
 					'name' => __( 'General', 'discount-deals' ),
 					'type' => 'title',
 					'desc' => '',
 					'id'   => 'wc_settings_tab_discount_deals_general_settings',
 				),
-				'show_applied_discounts_message' => array(
+				'show_applied_discounts_message'    => array(
 					'name'    => __( 'Would you like to inform your customers about all applied discounts in their shopping cart?', 'discount-deals' ),
 					'type'    => 'radio',
 					'options' => array(
@@ -130,26 +134,26 @@ class Discount_Deals_Admin_Settings {
 					'value'   => Discount_Deals_Settings::get_settings( 'combine_applied_discounts_message' ),
 					'id'      => 'wc_settings_tab_discount_deals_combine_applied_discounts_message',
 				),
-				'applied_discount_message'       => array(
+				'applied_discount_message'          => array(
 					'name'  => __( 'Message to be displayed to your customers on the shopping cart page?', 'discount-deals' ),
 					'type'  => 'text',
 					'value' => Discount_Deals_Settings::get_settings( 'applied_discount_message' ),
 					'id'    => 'wc_settings_tab_discount_deals_applied_discount_message',
 				),
-				'general_section_end'            => array(
+				'general_section_end'               => array(
 					'type' => 'sectionend',
 					'id'   => 'wc_settings_tab_discount_deals_general_settings_end',
 				)
 			);
 		} elseif ( 'product-price-and-quantity-discount' == $current_section ) {
 			return array(
-				'product_section_title'       => array(
+				'product_section_title'        => array(
 					'name' => __( 'Product discount', 'discount-deals' ),
 					'type' => 'title',
 					'desc' => '',
 					'id'   => 'wc_settings_tab_discount_deals_product_settings',
 				),
-				'calculate_discount_from'     => array(
+				'calculate_discount_from'      => array(
 					'name'    => __( 'Calculate the discount from ', 'discount-deals' ),
 					'type'    => 'select',
 					'desc'    => sprintf( '%s <br/> %s', __( 'For what price do you want to calculate the discount for the product?', 'discount-deals' ), __( 'Example: the regular price of product A is $50, and the retail price is $45. Which price should be taken into account when calculating the discount?', 'discount-deals' ) ),
@@ -160,7 +164,7 @@ class Discount_Deals_Admin_Settings {
 					'value'   => Discount_Deals_Settings::get_settings( 'calculate_discount_from' ),
 					'id'      => 'wc_settings_tab_discount_deals_calculate_discount_from',
 				),
-				'apply_product_discount_to'   => array(
+				'apply_product_discount_to'    => array(
 					'name'    => __( 'Apply discount to', 'discount-deals' ),
 					'type'    => 'select',
 					'desc'    => sprintf( '%s <br/> %s', __( 'If one or more workflows are applied to the product, which workflow should be used to apply the discount?', 'discount-deals' ), __( 'Note: If you select "All matching workflows", all discounts will be applied to the product.', 'discount-deals' ) ),
@@ -173,7 +177,7 @@ class Discount_Deals_Admin_Settings {
 					'value'   => Discount_Deals_Settings::get_settings( 'apply_product_discount_to' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_product_discount_to',
 				),
-				'apply_discount_subsequently' => array(
+				'apply_discount_subsequently'  => array(
 					'name'    => __( 'Calculate discount subsequently?', 'discount-deals' ),
 					'type'    => 'radio',
 					'options' => array(
@@ -184,7 +188,7 @@ class Discount_Deals_Admin_Settings {
 					'value'   => Discount_Deals_Settings::get_settings( 'apply_discount_subsequently' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_discount_subsequently',
 				),
-				'show_strikeout_price_in_cart'     => array(
+				'show_strikeout_price_in_cart' => array(
 					'name'    => __( 'Show strikeout on cart?', 'discount-deals' ),
 					'desc'    => __( 'Would you like to cross out the prices of each item to highlight the discount?', 'discount-deals' ),
 					'type'    => 'radio',
@@ -195,7 +199,7 @@ class Discount_Deals_Admin_Settings {
 					'value'   => Discount_Deals_Settings::get_settings( 'show_strikeout_price_in_cart' ),
 					'id'      => 'wc_settings_tab_discount_deals_show_strikeout_price_in_cart',
 				),
-				'where_display_saving_text'        => array(
+				'where_display_saving_text'    => array(
 					'name'    => __( 'Display you saved text', 'discount-deals' ),
 					'desc'    => __( 'Do you want to display the message "How much was saved on a customer\'s purchase?" If yes, where should the message be displayed?', 'discount-deals' ),
 					'type'    => 'select',
@@ -208,14 +212,14 @@ class Discount_Deals_Admin_Settings {
 					'value'   => Discount_Deals_Settings::get_settings( 'where_display_saving_text' ),
 					'id'      => 'wc_settings_tab_discount_deals_where_display_saving_text',
 				),
-				'you_saved_text'                   => array(
+				'you_saved_text'               => array(
 					'name'  => __( 'You saved text', 'discount-deals' ),
 					'desc'  => sprintf( '%s <br/> %s <code>%s</code> %s', __( 'The message to highlight the customer\'s savings.', 'discount-deals' ), __( 'Use the ', 'discount-deals' ), '{{discount}}', __( ' shortcode to display the discount amount.', 'discount-deals' ) ),
 					'type'  => 'text',
 					'value' => Discount_Deals_Settings::get_settings( 'you_saved_text' ),
 					'id'    => 'wc_settings_tab_discount_deals_you_saved_text',
 				),
-				'product_section_end'         => array(
+				'product_section_end'          => array(
 					'type' => 'sectionend',
 					'id'   => 'wc_settings_tab_discount_deals_product_settings_end',
 				)

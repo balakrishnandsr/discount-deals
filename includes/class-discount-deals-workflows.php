@@ -171,8 +171,8 @@ class Discount_Deals_Workflows {
 	public static function get_all_discounts() {
 		return array(
 			'simple_discount' => 'Discount_Deals_Workflow_Simple_Discount',
-			'cart_discount'   => 'Discount_Deals_Workflow_Cart_Discount',
 			'bulk_discount'   => 'Discount_Deals_Workflow_Bulk_Discount',
+			'cart_discount'   => 'Discount_Deals_Workflow_Cart_Discount',
 			'bxgx_discount'   => 'Discount_Deals_Workflow_Bxgx_Discount',
 			'bxgy_discount'   => 'Discount_Deals_Workflow_Bxgy_Discount',
 		);

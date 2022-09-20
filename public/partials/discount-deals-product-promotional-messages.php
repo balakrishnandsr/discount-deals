@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var WC_Product $product product object.
  * @var string $position product object.
  * @var array $product_discounts product object.
- * @var Discount_Deals_Public $this public class.
+ * @var Discount_Deals_Public $public_class public class.
  */
 
 if ( ! empty( $all_promotions ) ) {
@@ -28,8 +28,8 @@ if ( ! empty( $all_promotions ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		$show_table_summary = apply_filters( 'discount_deals_show_bulk_table_summary', true, $product, $this );
-		$items_in_cart      = $this->get_quantities_in_cart( $product );
+		$show_table_summary = apply_filters( 'discount_deals_show_bulk_table_summary', true, $product, $public_class );
+		$items_in_cart      = $public_class->get_quantities_in_cart( $product );
 		$bulk_promotions    = $all_promotions['bulk_promotions'];
 		usort( $bulk_promotions, 'discount_deals_arrange_discounts_by_quantity_range' );
 		$calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
@@ -104,7 +104,7 @@ if ( ! empty( $all_promotions ) ) {
 								 *
 								 * @since 1.0.0
 								 */
-								$items_in_cart_summary = apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( '%s %d %s %d %s', __( 'Of', 'discount-deals' ), $new_quantity, __( 'quantities, ', 'discount-deals' ), $items_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $new_quantity, $items_in_cart, $product, $this );
+								$items_in_cart_summary = apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( '%s %d %s %d %s', __( 'Of', 'discount-deals' ), $new_quantity, __( 'quantities, ', 'discount-deals' ), $items_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $new_quantity, $items_in_cart, $product, $public_class );
 								echo wp_kses_post( $items_in_cart_summary );
 							}
 							?>

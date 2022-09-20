@@ -20,7 +20,8 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	public function __construct() {
 		parent::__construct();
 		$this->set_supplied_data_items();
-		$this->set_title( __( 'Product quantity based Discount', 'discount-deals' ) );
+		$this->set_title( __( 'Product quantity based discount', 'discount-deals' ) );
+		$this->set_short_title( __( 'Bulk discount', 'discount-deals' ) );
 		$this->set_description( __( 'Give dynamic discounts on products when customers buy the products in large quantities.', 'discount-deals' ) );
 	}//end __construct()
 

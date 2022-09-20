@@ -20,7 +20,8 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 	public function __construct() {
 		parent::__construct();
 		$this->set_supplied_data_items();
-		$this->set_title( __( 'Product Price based Discount', 'discount-deals' ) );
+		$this->set_title( __( 'Product price based discount', 'discount-deals' ) );
+		$this->set_short_title( __( 'Simple discount', 'discount-deals' ) );
 		$this->set_description( __( 'Give dynamic discounts to all products in your store.', 'discount-deals' ) );
 	}//end __construct()
 

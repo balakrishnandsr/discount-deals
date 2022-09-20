@@ -535,7 +535,13 @@ class Discount_Deals_Public {
 		 * @since 1.0.0
 		 */
 		apply_filters( 'discount_deals_show_promotional_message_before_add_to_cart', $all_promotions, $product );
-		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
+		wc_get_template( 'discount-deals-product-promotional-messages.php', array(
+			'product'=>$product,
+			'position'=> $position,
+			'all_promotions'=>$all_promotions,
+			'product_discounts' =>$product_discounts,
+			'public_class'=>$this
+		), '', DISCOUNT_DEALS_ABSPATH . '/public/partials/' );
 	}//end show_promotional_message_before_add_to_cart()
 
 
@@ -555,7 +561,13 @@ class Discount_Deals_Public {
 		 * @since 1.0.0
 		 */
 		apply_filters( 'discount_deals_show_promotional_message_after_product_summary', $all_promotions, $product );
-		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
+		wc_get_template( 'discount-deals-product-promotional-messages.php', array(
+			'product'=>$product,
+			'position'=> $position,
+			'all_promotions'=>$all_promotions,
+			'product_discounts' =>$product_discounts,
+			'public_class'=>$this
+		), '', DISCOUNT_DEALS_ABSPATH . '/public/partials/' );
 	}//end show_promotional_message_after_product_summary()
 
 
@@ -575,7 +587,13 @@ class Discount_Deals_Public {
 		 * @since 1.0.0
 		 */
 		apply_filters( 'discount_deals_show_promotional_message_after_add_to_cart', $all_promotions, $product );
-		include DISCOUNT_DEALS_ABSPATH . '/public/partials/discount-deals-product-promotional-messages.php';
+		wc_get_template( 'discount-deals-product-promotional-messages.php', array(
+			'product'=>$product,
+			'position'=> $position,
+			'all_promotions'=>$all_promotions,
+			'product_discounts' =>$product_discounts,
+			'public_class'=>$this
+		), '', DISCOUNT_DEALS_ABSPATH . '/public/partials/' );
 	}//end show_promotional_message_after_add_to_cart()
 
 

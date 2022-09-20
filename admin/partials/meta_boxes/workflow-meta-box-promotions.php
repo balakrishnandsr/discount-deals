@@ -21,7 +21,7 @@ $workflow = $this->get_workflow();
 	<tbody>
 	<?php
 	if ( $workflow ) {
-		echo $workflow->get_discount()->load_promotion_fields();
+		echo $workflow->get_discount()->load_promotion_fields(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 	?>
 	</tbody>

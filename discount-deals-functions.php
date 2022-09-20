@@ -20,11 +20,14 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	 * @return mixed|string
 	 */
 	function discount_deals_get_data( $key, $default = null, $clean = true ) {
+		if (empty($key)) {
+			wc_clean( wp_unslash( $_GET ) );
+		}
 		if ( isset( $_GET[ $key ] ) ) {
 			if ( $clean ) {
 				return wc_clean( wp_unslash( $_GET[ $key ] ) );
 			}
-
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			return $_GET[ $key ];
 		}
 
@@ -44,11 +47,14 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	 * @return mixed|string
 	 */
 	function discount_deals_get_request_data( $key, $default = null, $clean = true ) {
+		if (empty($key)) {
+			wc_clean( wp_unslash( $_REQUEST ) );
+		}
 		if ( isset( $_REQUEST[ $key ] ) ) {
 			if ( $clean ) {
 				return wc_clean( wp_unslash( $_REQUEST[ $key ] ) );
 			}
-
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			return $_REQUEST[ $key ];
 		}
 
@@ -67,12 +73,15 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	 * @return mixed|string
 	 */
 	function discount_deals_get_post_data( $key, $default = null, $clean = true ) {
-		if ( isset( $_REQUEST[ $key ] ) ) {
+		if (empty($key)) {
+			wc_clean( wp_unslash( $_POST ) );
+		}
+		if ( isset( $_POST[ $key ] ) ) {
 			if ( $clean ) {
-				return wc_clean( wp_unslash( $_REQUEST[ $key ] ) );
+				return wc_clean( wp_unslash( $_POST[ $key ] ) );
 			}
-
-			return $_REQUEST[ $key ];
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			return $_POST[ $key ];
 		}
 
 		return $default;
@@ -424,7 +433,9 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 				AND im.meta_value != 0
 				AND pm.meta_value IN ( %s )
 			";
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$query   = $wpdb->prepare( $query, array(implode( "','", $statuses ),implode( "','", $customer_data )) );
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$result = $wpdb->get_col($query);
 			$products = array_unique( array_map( 'absint', $result ) );
 
