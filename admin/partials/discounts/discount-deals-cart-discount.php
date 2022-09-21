@@ -185,7 +185,7 @@ if ( empty( $discount_details ) ) {
 			<p>
 				<b><?php esc_html_e( 'How it Works?', 'discount-deals' ); ?></b><?php esc_html_e( ' Create multiple discount ranges by specifying the minimum cart subtotal, maximum cart subtotal, and discount details. If the cart subtotal matches one of the discount ranges, the discount will be applied to that cart accordingly. In the settings you can specify the mode for applying the discount. By default, the discount is applied as a fee. However, we recommend you to change the mode to Coupon.', 'discount-deals' ); ?>
 			</p>
-			<b><?php esc_html_e( 'Example: ', 'discount-deals' ); ?></b>
+			<b><?php esc_html_e( 'Use cases: ', 'discount-deals' ); ?></b>
 			<ol>
 				<li><?php esc_html_e( 'You can give free shipping for the cart whose subtotal is between 100$ and 500$. ', 'discount-deals' ); ?></li>
 				<li><?php esc_html_e( 'You can give a fixed discount of 20$ for the shopping cart if the subtotal of the shopping cart is between 500$ and 1000$. ', 'discount-deals' ); ?></li>

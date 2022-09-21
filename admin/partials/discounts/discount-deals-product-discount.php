@@ -177,7 +177,7 @@ if ( empty( $discount_details ) ) {
 			<p>
 				<b><?php esc_html_e( 'How it Works?', 'discount-deals' ); ?></b><?php esc_html_e( ' Create multiple discount ranges by specifying the minimum product price, maximum product price, and discount details. If the product price matches one of the discount ranges, the discount will be applied to that product accordingly. ', 'discount-deals' ); ?>
 			</p>
-			<b><?php esc_html_e( 'Example: ', 'discount-deals' ); ?></b>
+			<b><?php esc_html_e( 'Use cases: ', 'discount-deals' ); ?></b>
 			<ol>
 				<li><?php esc_html_e( 'You can give a fixed discount of 2$ on products whose price is between 5$ and 20$.', 'discount-deals' ); ?></li>
 				<li><?php esc_html_e( 'You can also give a 25% discount on products priced between $50 and $150. You can also limit the discount by entering the maximum discount value. ', 'discount-deals' ); ?></li>

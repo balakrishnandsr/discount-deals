@@ -326,7 +326,7 @@ $discount_types = array(
 			<p>
 				<b><?php esc_html_e( 'How it Works?', 'discount-deals' ); ?></b><?php esc_html_e( ' Create multiple discount ranges by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount ranges, the discount will be applied to that product accordingly. ', 'discount-deals' ); ?>
 			</p>
-			<b><?php esc_html_e( 'Example: ', 'discount-deals' ); ?></b>
+			<b><?php esc_html_e( 'Use cases: ', 'discount-deals' ); ?></b>
 			<ol>
 				<li><?php esc_html_e( 'Buy two or more t-shirts and get one cap for free as a discount.', 'discount-deals' ); ?></li>
 				<li><?php esc_html_e( 'Give a 50% discount on a quantity of product Y if the customer buys product X in five or more quantities. ', 'discount-deals' ); ?></li>
