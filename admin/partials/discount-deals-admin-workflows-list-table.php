@@ -32,10 +32,12 @@ $all_workflows_count = $workflows_db->count();
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'Workflows', 'discount-deals' ); ?></h1>
 		<a href="?page=<?php echo esc_attr( discount_deals_get_data( 'page', '' ) ); ?>&action=new"
 		   class="page-title-action"><?php esc_html_e( 'Add Workflow', 'discount-deals' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=discount-deals-settings&section=general' ) ); ?>"
+		   class="page-title-action"><?php echo esc_html__( 'Settings', 'discount-deals' ); ?></a>
 		<hr class="wp-header-end">
 		<ul class="subsubsub">
 			<li>
-				<a href="<?php echo esc_url(admin_url( 'admin.php?page=discount-deals&tab=all' )); ?>"
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=discount-deals&tab=all' ) ); ?>"
 				   class="<?php echo( 'all' == $current_discount ? 'current' : '' ); ?>"><?php esc_html_e( 'All', 'discount-deals' ); ?></a><span
 						class="count">(<?php echo intval( $all_workflows_count ); ?>)</span>
 			</li>&nbsp;|&nbsp;
@@ -45,11 +47,11 @@ $all_workflows_count = $workflows_db->count();
 			foreach ( $all_discount_types as $name => $discount_type ) {
 				$discount_obj = new $discount_type();
 				$count        = $workflows_db->count( "dd_type='$name'" );
-				$workflow_id           = str_replace( '_', '-', $name );
+				$workflow_id  = str_replace( '_', '-', $name );
 				?>
 				<li>
-					<a href="<?php echo esc_url(admin_url( 'admin.php?page=discount-deals&tab=' . sanitize_title( $workflow_id ) )); ?>"
-					   class="<?php echo( $current_discount == $workflow_id ? 'current' : '' ); ?>"><?php echo wp_kses_post($discount_obj->get_title()); ?></a><span
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=discount-deals&tab=' . sanitize_title( $workflow_id ) ) ); ?>"
+					   class="<?php echo( $current_discount == $workflow_id ? 'current' : '' ); ?>"><?php echo wp_kses_post( $discount_obj->get_title() ); ?></a><span
 							class="count">(<?php echo intval( $count ); ?>)</span>
 				</li>
 				<?php

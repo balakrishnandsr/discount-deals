@@ -39,11 +39,6 @@
     top: 6px;
 }
 
-.discount-deals-remove-rule:hover{
-    background: #ff5454 !important;
-    color: #ffffff !important;
-}
-
 .discount-deals-input-group input {
     width: 100%;
     padding-right: 18px;
@@ -249,10 +244,10 @@ input[type="radio"] {
     margin: 1em 0;
 }
 
-.discount-deals-rule__remove {
-    background-color: red;
-    color: white;
-    border-color: red;
+.discount-deals-rule__remove,.discount-deals-cart-discount__remove {
+    background-color: #ff5454 !important;
+    color: white !important;
+    border-color: #ff5454 !important;
 }
 
 .discount-deals-switch {
@@ -402,4 +397,11 @@ input.discount-deals-rule-value-field[placeholder="key"], input.discount-deals-r
         height: 72px;
         opacity: 0;
     }
+}
+
+.discount-deals-notice{
+    background: #00A5E3;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
 }
