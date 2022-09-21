@@ -1,4 +1,4 @@
-=== Discount Deals ===
+=== Discount Deals - Dynamic product pricing and discount rules ===
 Contributors: discountdeals
 Tags: woocommerce, coupons, discounts, dynamic pricing, Buy One Get One Free, pricing deals, bulk discount, discount
 Requires at least: 4.4.1
