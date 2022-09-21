@@ -37,7 +37,7 @@ if ( empty( $discount_details ) ) {
 		<th><?php esc_html_e( 'Discount Qty.', 'discount-deals' ); ?></th>
 		<th><?php esc_html_e( 'Discount Type', 'discount-deals' ); ?></th>
 		<th><?php esc_html_e( 'Discount Value', 'discount-deals' ); ?></th>
-		<th><?php esc_html_e( 'Max Discount', 'discount-deals' ); ?></th>
+		<th><?php esc_html_e( 'Discount Limit', 'discount-deals' ); ?></th>
 		<th></th>
 	</tr>
 	</thead>
@@ -168,14 +168,31 @@ if ( empty( $discount_details ) ) {
 	<tr>
 		<td colspan="6" class="discount-deals-text-right">
 			<button type="button" class="discount-deals-add-cart-discount button button-primary button-large">
-				<?php esc_html_e( '+ Add Discount Group', 'discount-deals' ); ?>
+				<?php esc_html_e( '+ Add Discount Range', 'discount-deals' ); ?>
 			</button>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6">
+			<div class="discount-deals-notice">
+				<div>
+					<strong><?php esc_html_e( 'Important notes:', 'discount-deals' ); ?></strong>
+				</div>
+				<ol>
+					<li>
+						<?php esc_html_e( 'When calculating the discount, the quantity details of the respective item in the shopping cart are taken into account and compared with the "discount ranges" you have created.', 'discount-deals' ); ?>
+					</li>
+					<li>
+						<?php esc_html_e( 'If your discount type is "Percentage Discount", then you can limit the discount for that product to a certain amount. Here, the "discount quantity" of the range will be taken into account to limit the discount.', 'discount-deals' ); ?>
+					</li>
+				</ol>
+			</div>
 		</td>
 	</tr>
 	<tr>
 		<td colspan="6" class="discount-deals-text-left">
 			<p>
-				<b><?php esc_html_e( 'How it Works?', 'discount-deals' ); ?></b><?php esc_html_e( ' Create multiple discount groups by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount groups, the discount will be applied to that product accordingly. ', 'discount-deals' ); ?>
+				<b><?php esc_html_e( 'How it Works?', 'discount-deals' ); ?></b><?php esc_html_e( ' Create multiple discount ranges by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount ranges, the discount will be applied to that product accordingly. ', 'discount-deals' ); ?>
 			</p>
 			<b><?php esc_html_e( 'Example: ', 'discount-deals' ); ?></b>
 			<ol>

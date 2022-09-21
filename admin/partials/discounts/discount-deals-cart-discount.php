@@ -35,7 +35,7 @@ if ( empty( $discount_details ) ) {
 		<th><?php esc_html_e( 'Max Subtotal', 'discount-deals' ); ?></th>
 		<th><?php esc_html_e( 'Discount Type', 'discount-deals' ); ?></th>
 		<th><?php esc_html_e( 'Discount Value', 'discount-deals' ); ?></th>
-		<th><?php esc_html_e( 'Max Discount', 'discount-deals' ); ?></th>
+		<th><?php esc_html_e( 'Discount Limit', 'discount-deals' ); ?></th>
 		<th></th>
 	</tr>
 	</thead>
@@ -159,14 +159,31 @@ if ( empty( $discount_details ) ) {
 	<tr>
 		<td colspan="6" class="discount-deals-text-right">
 			<button type="button" class="discount-deals-add-cart-discount button button-primary button-large">
-				<?php esc_html_e( '+ Add Discount Group', 'discount-deals' ); ?>
+				<?php esc_html_e( '+ Add Discount Range', 'discount-deals' ); ?>
 			</button>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6">
+			<div class="discount-deals-notice">
+				<div>
+					<strong><?php esc_html_e( 'Important notes:', 'discount-deals' ); ?></strong>
+				</div>
+				<ol>
+					<li>
+						<?php esc_html_e( 'When calculating the discount, the subtotal of the shopping cart will be taken into account in order to compare it with the "discount ranges" given above.', 'discount-deals' ); ?>
+					</li>
+					<li>
+						<?php esc_html_e( 'If your discount type is "Percentage Discount", then you can limit the discount for that cart to a certain amount.', 'discount-deals' ); ?>
+					</li>
+				</ol>
+			</div>
 		</td>
 	</tr>
 	<tr>
 		<td colspan="6" class="discount-deals-text-left">
 			<p>
-				<b><?php esc_html_e( 'How it Works?', 'discount-deals' ); ?></b><?php esc_html_e( ' Create multiple discount groups by specifying the minimum cart subtotal, maximum cart subtotal, and discount details. If the cart subtotal matches one of the discount groups, the discount will be applied to that cart accordingly. In the settings you can specify the mode for applying the discount. By default, the discount is applied as a fee. However, we recommend you to change the mode to Coupon.', 'discount-deals' ); ?>
+				<b><?php esc_html_e( 'How it Works?', 'discount-deals' ); ?></b><?php esc_html_e( ' Create multiple discount ranges by specifying the minimum cart subtotal, maximum cart subtotal, and discount details. If the cart subtotal matches one of the discount ranges, the discount will be applied to that cart accordingly. In the settings you can specify the mode for applying the discount. By default, the discount is applied as a fee. However, we recommend you to change the mode to Coupon.', 'discount-deals' ); ?>
 			</p>
 			<b><?php esc_html_e( 'Example: ', 'discount-deals' ); ?></b>
 			<ol>
