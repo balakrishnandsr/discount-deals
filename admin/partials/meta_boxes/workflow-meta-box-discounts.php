@@ -28,9 +28,9 @@ $workflow = $this->get_workflow();
 		$discount_obj                      = new $discount_type();
 		$short_title                      = $discount_obj->get_short_title();
 		$title                      = $discount_obj->get_title();
-        if (!empty($short_title)){
-            $title .= "( $short_title )";
-        }
+		if (!empty($short_title)) {
+			$title .= "( $short_title )";
+		}
 		$all_valid_discount_types[ $name ] = $title;
 	}
 	discount_deals_select(

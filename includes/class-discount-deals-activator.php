@@ -25,7 +25,28 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 		 * @return void
 		 */
 		public static function activate() {
-			self::create_tables();
+			global $wpdb, $blog_id;
+
+			// For multisite table prefix.
+			if ( is_multisite() ) {
+				$blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}", 0 ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			} else {
+				$blog_ids = array( $blog_id );
+			}
+
+			foreach ( $blog_ids as $id ) {
+
+				if (is_multisite()) {
+					switch_to_blog($id);
+				}
+
+				self::create_tables();
+
+				if (is_multisite()) {
+					restore_current_blog();
+				}
+			}
+
 			add_option( 'discount_deals_do_activation_redirect', true );
 			add_option( 'discount_deals_db_version', '1.0.0', '', 'no' );
 		}//end activate()
