@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Discount Deals - Dynamic product pricing & cart discounts
+ * Plugin Name:       Discount Deals - Dynamic product pricing and discount rules
  * Plugin URI:        https://dynamicdiscount.deals
  * Description:       Create simple to complex dynamic product pricing and discounts. A simple, flexible and powerful extension for dynamic discounts.
  * Version:           1.0.0
