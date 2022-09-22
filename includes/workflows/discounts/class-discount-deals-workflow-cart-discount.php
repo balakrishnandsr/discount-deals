@@ -67,7 +67,7 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Cart $data_item Cart object.
-     * @param float   $price     Price.
+	 * @param float   $price     Price.
 	 * @param array   $extra     Extra details for calculate discount.
 	 *
 	 * @return float | integer
@@ -83,14 +83,14 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 			$max_subtotal = discount_deals_get_value_from_array( $discount_detail, 'max_subtotal', 999999999 );
 			$value        = discount_deals_get_value_from_array( $discount_detail, 'value', 0 );
 			$max_discount = discount_deals_get_value_from_array( $discount_detail, 'max_discount', 0 );
-            if ( ! empty( $type ) && $price >= $min_subtotal && $price <= $max_subtotal ) {
+			if ( ! empty( $type ) && $price >= $min_subtotal && $price <= $max_subtotal ) {
 				//Free shipping returns -1, otherwise return discounted value.
-                if ( 'free_shipping' == $type ) {
+				if ( 'free_shipping' == $type ) {
 					return -1;
 				} else {
-                    if( empty( $value ) ){
-                        return 0;
-                    }
+					if ( empty( $value ) ) {
+						return 0;
+					}
 					$discount = $this->calculate_discount_amount( $type, $price, $value );
 					if ( ! empty( $max_discount ) ) {
 						$discount = min( $max_discount, $discount );

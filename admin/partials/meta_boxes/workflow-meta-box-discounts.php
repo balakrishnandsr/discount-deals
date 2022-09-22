@@ -27,12 +27,12 @@ $workflow = $this->get_workflow();
 	foreach ( $all_discount_types as $name => $discount_type ) {
 		$discount_obj          = new $discount_type();
 		$short_title           = $discount_obj->get_short_title();
-		$title                 = $discount_obj->get_title();
+		$discount_title        = $discount_obj->get_title();
 		$group                 = $discount_obj->get_category();
 		if (!empty($short_title)) {
-			$title .= " ( $short_title )";
+			$discount_title .= " ( $short_title )";
 		}
-		$all_valid_discount_types[$group][ $name ] = $title;
+		$all_valid_discount_types[$group][ $name ] = $discount_title;
 	}
 	discount_deals_select(
 		array(
