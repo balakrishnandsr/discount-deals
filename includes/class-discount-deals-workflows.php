@@ -752,9 +752,9 @@ class Discount_Deals_Workflows {
 
 				if ( $workflow->validate_rules() ) {
 					$processed_discount = $workflow->may_have_cart_discount( WC()->cart, $subsequent_subtotal );
-					if ( 'discount_deals_free_shipping' == $processed_discount ) {
+                    if (  0 > $processed_discount ) {
 						$free_shipping[ $workflow_id ] = $processed_discount;
-					} else {
+					} elseif( 0 < $processed_discount ) {
 						$applied_discount[ $workflow_id ] = $processed_discount;
 					}
 				}
