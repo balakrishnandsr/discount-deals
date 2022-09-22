@@ -40,9 +40,9 @@ class Discount_Deals_Admin_Settings {
 	public static function add_sections() {
 		$sections        = array(
 			'general'                             => __( 'General', 'discount-deals' ),
-			'product-price-and-quantity-discount' => __( 'Product price and quantity based discount', 'discount-deals' ),
-			'cart-discount'                       => __( 'Cart subtotal based discount', 'discount-deals' ),
-			'bogo-discount'                       => __( 'Buy one Get one discount', 'discount-deals' ),
+			'product-price-and-quantity-discount' => __( 'Product discount', 'discount-deals' ),
+			'cart-discount'                       => __( 'Cart discount', 'discount-deals' ),
+			'bogo-discount'                       => __( 'BOGO discount', 'discount-deals' ),
 		);
 		$current_section = esc_attr( discount_deals_get_data( 'section', 'general' ) );
 		echo '<ul class="subsubsub">';

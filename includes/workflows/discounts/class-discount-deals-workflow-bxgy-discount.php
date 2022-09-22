@@ -21,6 +21,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Buy X and Get Y discount', 'discount-deals' ) );
+		$this->set_category( __( 'BOGO discount', 'discount-deals' ) );
 		$this->set_description( __( 'If the customer buys product X, then give some quantities as discounts of product Y.', 'discount-deals' ) );
 	}//end __construct()
 

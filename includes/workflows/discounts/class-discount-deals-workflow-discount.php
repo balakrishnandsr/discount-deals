@@ -26,6 +26,14 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * @var string $short_title discount short title
 	 */
 	public $short_title = '';
+
+	/**
+	 * Category for the discount type
+	 *
+	 * @var string $category discount category
+	 */
+	public $category = '';
+
 	/**
 	 * Description for the discount type
 	 *
@@ -111,7 +119,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function get_short_title() {
 		return $this->short_title;
-	}//end get_title()
+	}//end get_short_title()
 
 	/**
 	 * Set short title for the discount
@@ -122,7 +130,27 @@ abstract class Discount_Deals_Workflow_Discount {
 	 */
 	public function set_short_title( $title ) {
 		$this->short_title = $title;
-	}//end set_title()
+	}//end set_short_title()
+
+	/**
+	 * Get category of the discount
+	 *
+	 * @return string
+	 */
+	public function get_category() {
+		return $this->category;
+	}//end get_category()
+
+	/**
+	 * Set category for the discount
+	 *
+	 * @param string $category category for the discount type.
+	 *
+	 * @return void
+	 */
+	public function set_category( $category ) {
+		$this->category = $category;
+	}//end set_category()
 
 	/**
 	 * Get description of the discount

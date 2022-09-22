@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-21T15:39:52+00:00\n"
+"POT-Creation-Date: 2022-09-22T15:00:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: discount-deals\n"
@@ -44,16 +44,24 @@ msgid "General"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:43
-msgid "Product price and quantity based discount"
+#: admin/class-discount-deals-admin-settings.php:151
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:25
+#: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:25
+msgid "Product discount"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:44
-#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:23
-msgid "Cart subtotal based discount"
+#: admin/class-discount-deals-admin-settings.php:231
+#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:24
+#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:25
+msgid "Cart discount"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:45
-msgid "Buy one Get one discount"
+#: admin/class-discount-deals-admin-settings.php:298
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:24
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:24
+msgid "BOGO discount"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:118
@@ -65,9 +73,9 @@ msgstr ""
 #: admin/class-discount-deals-admin-settings.php:184
 #: admin/class-discount-deals-admin-settings.php:196
 #: admin/class-discount-deals-admin-settings.php:255
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:79
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:123
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:206
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:80
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:124
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:234
 #: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php:35
 msgid "Yes"
 msgstr ""
@@ -77,9 +85,9 @@ msgstr ""
 #: admin/class-discount-deals-admin-settings.php:185
 #: admin/class-discount-deals-admin-settings.php:197
 #: admin/class-discount-deals-admin-settings.php:256
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:80
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:124
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:207
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:81
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:125
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:235
 #: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php:36
 msgid "No"
 msgstr ""
@@ -90,10 +98,6 @@ msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:138
 msgid "Message to be displayed to your customers on the shopping cart page?"
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:151
-msgid "Product discount"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:157
@@ -202,11 +206,6 @@ msgstr ""
 msgid " shortcode to display the discount amount."
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:231
-#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:24
-msgid "Cart discount"
-msgstr ""
-
 #: admin/class-discount-deals-admin-settings.php:240
 msgid "Biggest one from matched workflows and free shipping together"
 msgstr ""
@@ -281,10 +280,6 @@ msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:285
 msgid "The label for the discount that was charged as a fee."
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:298
-msgid "BOGO discount"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:304
@@ -836,11 +831,11 @@ msgstr ""
 msgid "[ Select ]"
 msgstr ""
 
-#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:41
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:42
 msgid "Workflow type"
 msgstr ""
 
-#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:47
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:48
 msgid "What type of discount that you are planning to create for your customers."
 msgstr ""
 
@@ -924,69 +919,69 @@ msgstr ""
 msgid "Bulk discount"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:25
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:26
 msgid "Give dynamic discounts on products when customers buy the products in large quantities."
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:54
-#: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:53
-#: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:53
-#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:55
-#: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:54
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:55
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:54
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:54
+#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:56
+#: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:55
 msgid "Configure the discount you want to give to your customers"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:77
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:204
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:78
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:232
 msgid "Would you like to display promotional message in the storefront?"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:90
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:217
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:91
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:245
 msgid "When to show this promotional message?"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:92
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:219
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:93
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:247
 msgid "Before all workflow rules are passed"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:93
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:220
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:94
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:248
 msgid "After all workflow rules are passed"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:94
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:221
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:95
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:249
 msgid "All time (Not checked against all rules)"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:105
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:232
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:106
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:260
 msgid "Where to show this promotional message?"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:107
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:234
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:108
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:262
 msgid "Before \"Add to cart\" form"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:108
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:235
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:109
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:263
 msgid "After \"Add to cart\" form"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:109
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:236
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:110
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:264
 msgid "Before product additional information"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:121
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:122
 msgid "Do you want to show bulk table in product detail page?"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:135
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:247
+#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:136
+#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:275
 msgid "Enter the promotional message that will be displayed to the customer"
 msgstr ""
 
@@ -994,7 +989,7 @@ msgstr ""
 msgid "Buy X and Get X discount"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:24
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:25
 msgid "If the customer buys product X, then give some quantities as discounts on the same product."
 msgstr ""
 
@@ -1002,11 +997,15 @@ msgstr ""
 msgid "Buy X and Get Y discount"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:24
+#: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:25
 msgid "If the customer buys product X, then give some quantities as discounts of product Y."
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:25
+#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:23
+msgid "Cart subtotal based discount"
+msgstr ""
+
+#: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:26
 msgid "Give discounts on shopping cart subtotal with coupons and fees."
 msgstr ""
 
@@ -1018,7 +1017,7 @@ msgstr ""
 msgid "Simple discount"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:25
+#: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:26
 msgid "Give dynamic discounts to all products in your store."
 msgstr ""
 

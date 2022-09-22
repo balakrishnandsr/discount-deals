@@ -60,7 +60,19 @@ function discount_deals_select( $field ) {
 			<select <?php echo wc_implode_html_attributes( $field_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 				<?php
 				foreach ( $field['options'] as $key => $value ) {
-					echo '<option value="' . esc_attr( $key ) . '"' . wc_selected( $key, $field['value'] ) . '>' . esc_html( $value ) . '</option>';
+					if ( is_array( $value ) ) {
+						?>
+						<optgroup label="<?php echo esc_attr( $key ); ?>">
+							<?php
+							foreach ( $value as $option_key => $option_value ) {
+								echo '<option value="' . esc_attr( $option_key ) . '"' . wc_selected( $option_key, $field['value'] ) . '>' . esc_html( $option_value ) . '</option>';
+							}
+							?>
+						</optgroup>
+						<?php
+					} else {
+						echo '<option value="' . esc_attr( $key ) . '"' . wc_selected( $key, $field['value'] ) . '>' . esc_html( $value ) . '</option>';
+					}
 				}
 				?>
 			</select>
