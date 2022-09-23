@@ -36,20 +36,6 @@ $workflow = $this->get_workflow();
 					'has_value_description' => false,
 				)
 			);
-			discount_deals_radio(
-				array(
-					'id'                    => 'discount_deals_workflow_exclusive',
-					'name'                  => 'discount_deals_workflow[dd_exclusive]',
-					'value'                 => ( $workflow ) ? $workflow->get_exclusive() ? 1 : 0 : '0',
-					'label'                 => __( 'Is Exclusive', 'discount-deals' ),
-					'options'               => array(
-						'1' => __( 'Yes', 'discount-deals' ),
-						'0' => __( 'No', 'discount-deals' ),
-					),
-					'desc_tip'              => false,
-					'has_value_description' => false,
-				)
-			);
 			?>
 			</tbody>
 		</table>

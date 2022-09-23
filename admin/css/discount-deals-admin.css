@@ -405,3 +405,7 @@ input.discount-deals-rule-value-field[placeholder="key"], input.discount-deals-r
 	padding: 10px;
 	border-radius: 5px;
 }
+
+.bxgy-product-select-container .select2-container{
+	width: 100% !important;
+}

@@ -48,14 +48,17 @@
 				if (value === "free_shipping" || value === "free") {
 					$row.find( '.cart-discount-value' ).attr( 'disabled', true ).val( '' );
 					$row.find( '.discount-value-symbol' ).html( '' );
+					$row.find( '.bxgy-show-promotion-for-y' ).addClass( 'discount-deals-hidden' );
 				} else if (value === "flat") {
 					$row.find( '.cart-discount-value' ).attr( 'disabled', false );
 					$row.find( '.cart-max-discount' ).attr( 'disabled', true );
 					let symbol = $row.find( '.discount-value-symbol' ).data( 'currency' );
 					$row.find( '.discount-value-symbol' ).html( symbol );
+					$row.find( '.bxgy-show-promotion-for-y' ).removeClass( 'discount-deals-hidden' );
 				} else {
 					$row.find( '.cart-discount-value' ).attr( 'disabled', false );
 					$row.find( '.discount-value-symbol' ).html( '%' );
+					$row.find( '.bxgy-show-promotion-for-y' ).removeClass( 'discount-deals-hidden' );
 				}
 			}
 		);
@@ -108,7 +111,7 @@
 			function () {
 				let discount_type = $( this ).val();
 				discount_meta_box.find( 'tr.discount-options-field-container' ).remove();
-				promotion_meta_box.find( 'table tbody tr' ).remove();
+				promotion_meta_box.find( 'table #discount-deals-promotion-details-container tr' ).remove();
 				promotion_meta_box.find( 'table tfoot' ).removeClass( 'discount-deals-hidden' );
 				if (discount_type) {
 					$( ".discount-deals-fp-loader" ).removeClass( 'discount-deals-hidden' );
@@ -120,21 +123,12 @@
 							}
 							promotion_meta_box.find( 'table tfoot' ).addClass( 'discount-deals-hidden' );
 							discount_meta_box.find( 'tbody' ).append( response.data.fields );
-							promotion_meta_box.find( 'table tbody' ).append( response.data.promotional_fields );
+							promotion_meta_box.find( 'table #discount-deals-promotion-details-container' ).append( response.data.promotional_fields );
 							discount_deals.workflow.set( 'discount_type', response.data.discount_details );
 							discount_deals.rules.clear_incompatible_rules();
-							tinymce.execCommand( 'mceRemoveEditor', true, 'editor_discount_deals_workflow_promotion_message' );
-							var init = tinymce.extend( {}, tinyMCEPreInit.mceInit['editor_discount_deals_workflow_promotion_message'] );
-							try {
-								tinymce.init( init );
-							} catch (e) {
-							}
-							setTimeout(
-								function () {
+							setTimeout(function () {
 									$( 'input[name="discount_deals_workflow[dd_promotion][enable]"]' ).trigger( 'change' )
-								},
-								100
-							)
+							}, 100)
 						}
 					);
 				} else {

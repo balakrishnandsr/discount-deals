@@ -115,6 +115,7 @@ function discount_deals_editor( $field ) {
 
 	$wrapper_attributes = array(
 		'class' => 'discount-deals-table__row',
+		'style' => $field['style'],
 	);
 
 	$label_attributes = array(
