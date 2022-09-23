@@ -25,7 +25,7 @@ class Discount_Deals_Workflow_Rule_Customer_Company extends Discount_Deals_Workf
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {

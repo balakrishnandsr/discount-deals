@@ -29,10 +29,10 @@ $workflow = $this->get_workflow();
 		$short_title           = $discount_obj->get_short_title();
 		$discount_title        = $discount_obj->get_title();
 		$group                 = $discount_obj->get_category();
-		if (!empty($short_title)) {
+		if ( ! empty( $short_title ) ) {
 			$discount_title .= " ( $short_title )";
 		}
-		$all_valid_discount_types[$group][ $name ] = $discount_title;
+		$all_valid_discount_types[ $group ][ $name ] = $discount_title;
 	}
 	discount_deals_select(
 		array(

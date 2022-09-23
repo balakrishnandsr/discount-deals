@@ -26,10 +26,10 @@ $workflow = $this->get_workflow();
 	?>
 	</tbody>
 	<tfoot class="
-	<?php 
+	<?php
 	if ( $workflow ) {
 		echo 'discount-deals-hidden';
-	} 
+	}
 	?>
 	">
 	<tr>

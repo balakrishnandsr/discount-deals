@@ -23,7 +23,7 @@ if ( empty( $discount_details ) ) {
 			'type'         => 'flat',
 			'value'        => '',
 			'max_discount' => '',
-		)
+		),
 	);
 }
 
@@ -48,42 +48,42 @@ if ( empty( $discount_details ) ) {
 			<td>
 				<div class="discount-deals-input-group suffix">
 					<input type="number"
-						   value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'min_price', '' )); ?>"
+						   value="<?php echo esc_attr( discount_deals_get_value_from_array( $discount_detail, 'min_price', '' ) ); ?>"
 						   required step="0.1"
-						   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][min_price]"
+						   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr( $count ); ?>][min_price]"
 						   data-name="discount_deals_workflow[dd_discounts][--rule_id--][min_price]"
 						   placeholder="<?php esc_html_e( 'E.g. 5000.00', 'discount-deals' ); ?>">
-					<span class="input-group-addon "><?php echo esc_attr(get_woocommerce_currency_symbol()); ?></span>
+					<span class="input-group-addon "><?php echo esc_attr( get_woocommerce_currency_symbol() ); ?></span>
 				</div>
 			</td>
 			<td>
 				<div class="discount-deals-input-group suffix">
 					<input type="number"
-						   value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'max_price', '' )); ?>"
+						   value="<?php echo esc_attr( discount_deals_get_value_from_array( $discount_detail, 'max_price', '' ) ); ?>"
 						   required step="0.1"
-						   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][max_price]"
+						   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr( $count ); ?>][max_price]"
 						   data-name="discount_deals_workflow[dd_discounts][--rule_id--][max_price]"
 						   placeholder="<?php esc_html_e( 'E.g. 8000.00', 'discount-deals' ); ?>">
-					<span class="input-group-addon "><?php echo esc_attr(get_woocommerce_currency_symbol()); ?></span>
+					<span class="input-group-addon "><?php echo esc_attr( get_woocommerce_currency_symbol() ); ?></span>
 				</div>
 			</td>
 			<td>
-				<select name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][type]"
+				<select name="discount_deals_workflow[dd_discounts][<?php echo esc_attr( $count ); ?>][type]"
 						class="discount-deals-w150 cart-discount-type"
 						data-default-val="flat"
 						data-name="discount_deals_workflow[dd_discounts][--rule_id--][type]">
 					<option value="flat" 
-					<?php 
+					<?php
 					if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
 						echo ' selected';
-					} 
+					}
 					?>
 					><?php esc_html_e( 'Fixed Discount', 'discount-deals' ); ?></option>
 					<option value="percent" 
-					<?php 
+					<?php
 					if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'percent' ) {
 						echo ' selected';
-					} 
+					}
 					?>
 					><?php esc_html_e( 'Percentage Discount', 'discount-deals' ); ?></option>
 				</select>
@@ -91,21 +91,21 @@ if ( empty( $discount_details ) ) {
 			<td>
 				<div class="discount-deals-input-group suffix">
 					<input type="number"
-						<?php 
+						<?php
 						if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free_shipping' ) {
 							echo ' disabled ';
-						} 
+						}
 						?>
-						   value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'value', '' )); ?>"
+						   value="<?php echo esc_attr( discount_deals_get_value_from_array( $discount_detail, 'value', '' ) ); ?>"
 						   class="cart-discount-value" required step="0.1"
-						   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][value]"
+						   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr( $count ); ?>][value]"
 						   data-name="discount_deals_workflow[dd_discounts][--rule_id--][value]"
 						   placeholder="<?php esc_html_e( 'E.g. 50', 'discount-deals' ); ?>">
 					<span class="input-group-addon discount-value-symbol"
-						  data-currency="<?php echo esc_attr(get_woocommerce_currency_symbol()); ?>">
+						  data-currency="<?php echo esc_attr( get_woocommerce_currency_symbol() ); ?>">
 													<?php
 													if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
-														echo esc_attr(get_woocommerce_currency_symbol());
+														echo esc_attr( get_woocommerce_currency_symbol() );
 													} else if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'percent' ) {
 														echo '%';
 													}
@@ -116,26 +116,26 @@ if ( empty( $discount_details ) ) {
 			<td>
 				<div class="discount-deals-input-group suffix">
 					<input type="number"
-						<?php 
+						<?php
 						if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free_shipping' || discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
 							echo ' disabled ';
-						} 
+						}
 						?>
-						   value="<?php echo esc_attr(discount_deals_get_value_from_array( $discount_detail, 'max_discount', '' )); ?>"
+						   value="<?php echo esc_attr( discount_deals_get_value_from_array( $discount_detail, 'max_discount', '' ) ); ?>"
 						   class="cart-discount-value cart-max-discount" step="0.1"
-						   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr($count); ?>][max_discount]"
+						   name="discount_deals_workflow[dd_discounts][<?php echo esc_attr( $count ); ?>][max_discount]"
 						   data-name="discount_deals_workflow[dd_discounts][--rule_id--][max_discount]"
 						   placeholder="<?php esc_html_e( 'E.g. 20.00', 'discount-deals' ); ?>">
-					<span class="input-group-addon "><?php echo esc_attr(get_woocommerce_currency_symbol()); ?></span>
+					<span class="input-group-addon "><?php echo esc_attr( get_woocommerce_currency_symbol() ); ?></span>
 				</div>
 			</td>
 			<td>
 				<button type="button"
 						class="discount-deals-remove-cart-discount button discount-deals-cart-discount__remove 
-						<?php 
+						<?php
 						if ( $count <= 1 ) {
 							echo 'discount-deals-hidden';
-						} 
+						}
 						?>
 						">
 					X

@@ -346,7 +346,7 @@ class Discount_Deals_Workflows {
 				'id'       => $product->get_id(),
 				'quantity' => $quantity,
 				'apply_as' => $apply_as,
-				'price'    => $price
+				'price'    => $price,
 			);
 			$valid_discounts_totals = array_column( $valid_discounts, 'total' );
 			switch ( $apply_as ) {
@@ -388,7 +388,7 @@ class Discount_Deals_Workflows {
 			'bulk_promotions'    => array(),
 			'promotion_messages' => array(),
 			'bxgx_promotions'    => array(),
-			'bxgy_promotions'    => array()
+			'bxgy_promotions'    => array(),
 		);
 		if ( ! empty( $active_workflows['all_active'] ) ) {
 			foreach ( $active_workflows['all_active'] as $workflow ) {
@@ -492,10 +492,12 @@ class Discount_Deals_Workflows {
 		$calculate_discount_from = Discount_Deals_Settings::get_settings( 'calculate_discount_from', 'sale_price' );
 
 		if ( 'regular_price' === $calculate_discount_from ) {
-			$price = ( is_object( $product ) && is_callable( array(
+			$price = ( is_object( $product ) && is_callable(
+				array(
 					$product,
 					'get_regular_price',
-				) ) ) ? $product->get_regular_price() : 0;
+				)
+			) ) ? $product->get_regular_price() : 0;
 		}
 
 		$apply_as         = Discount_Deals_Settings::get_settings( 'apply_product_discount_to', 'lowest_matched' );
@@ -574,7 +576,7 @@ class Discount_Deals_Workflows {
 
 	/**
 	 * Get matched Discount
-  *
+	 *
 	 * @param array      $valid_discounts Discounts.
 	 * @param WC_Product $product         Product object.
 	 * @param float      $price           Product price.
@@ -589,7 +591,7 @@ class Discount_Deals_Workflows {
 			'id'       => $product->get_id(),
 			'quantity' => $quantity,
 			'apply_as' => $apply_as,
-			'price'    => $price
+			'price'    => $price,
 		);
 		if ( ! empty( $valid_discounts ) ) {
 			switch ( $apply_as ) {
@@ -634,7 +636,7 @@ class Discount_Deals_Workflows {
 		self::$_applied_workflow_discounts[] = array(
 			'workflow_id'          => $workflow_id,
 			'discount_information' => $discount,
-			'extra_information'    => $extra
+			'extra_information'    => $extra,
 		);
 	}//end set_applied_workflows()
 
@@ -739,7 +741,7 @@ class Discount_Deals_Workflows {
 		 *
 		 * @since 1.0.0
 		 */
-		$subsequent_subtotal = apply_filters('discount_deals_cart_subtotal', ( $subtotal + $subtotal_tax ), $subtotal, $subtotal_tax );
+		$subsequent_subtotal = apply_filters( 'discount_deals_cart_subtotal', ( $subtotal + $subtotal_tax ), $subtotal, $subtotal_tax );
 		foreach ( $workflows as $workflow ) {
 			$workflow_id = $workflow->get_id();
 			if ( 'cart_discount' == $workflow->get_type() ) {
@@ -752,7 +754,7 @@ class Discount_Deals_Workflows {
 
 				if ( $workflow->validate_rules() ) {
 					$processed_discount = $workflow->may_have_cart_discount( WC()->cart, $subsequent_subtotal );
-					if (  0 > $processed_discount ) {
+					if ( 0 > $processed_discount ) {
 						$free_shipping[ $workflow_id ] = $processed_discount;
 					} elseif ( 0 < $processed_discount ) {
 						$applied_discount[ $workflow_id ] = $processed_discount;
@@ -782,7 +784,7 @@ class Discount_Deals_Workflows {
 		$extra_information    = array(
 			'type'       => 'cart',
 			'apply_as'   => $apply_as,
-			'apply_type' => $type
+			'apply_type' => $type,
 		);
 		if ( ! empty( $valid_discounts ) ) {
 			switch ( $apply_as ) {

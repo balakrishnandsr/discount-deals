@@ -36,13 +36,13 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 
 			foreach ( $blog_ids as $id ) {
 
-				if (is_multisite()) {
-					switch_to_blog($id);
+				if ( is_multisite() ) {
+					switch_to_blog( $id );
 				}
 
 				self::create_tables();
 
-				if (is_multisite()) {
+				if ( is_multisite() ) {
 					restore_current_blog();
 				}
 			}

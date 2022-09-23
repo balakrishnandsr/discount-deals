@@ -32,7 +32,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -64,9 +64,9 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 		if ( empty( $value ) ) {
 			return false;
 		}
-		$category_ids = [];
+		$category_ids = array();
 		foreach ( discount_deals_get_customer_purchased_products( $data_item ) as $id ) {
-			$terms        = wp_get_object_terms( $id, 'product_cat', [ 'fields' => 'ids' ] );
+			$terms        = wp_get_object_terms( $id, 'product_cat', array( 'fields' => 'ids' ) );
 			$category_ids = array_merge( $category_ids, $terms );
 		}
 		$category_ids = array_filter( $category_ids );

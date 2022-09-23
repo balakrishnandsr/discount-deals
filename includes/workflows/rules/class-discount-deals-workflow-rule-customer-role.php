@@ -25,7 +25,7 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -42,7 +42,7 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 	 */
 	public function load_select_choices() {
 		global $wp_roles;
-		$choices = [];
+		$choices = array();
 
 		foreach ( $wp_roles->roles as $key => $role ) {
 			$choices[ $key ] = $role['name'];

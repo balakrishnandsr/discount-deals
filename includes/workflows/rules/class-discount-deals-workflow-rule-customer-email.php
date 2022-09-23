@@ -25,7 +25,7 @@ class Discount_Deals_Workflow_Rule_Customer_Email extends Discount_Deals_Workflo
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {

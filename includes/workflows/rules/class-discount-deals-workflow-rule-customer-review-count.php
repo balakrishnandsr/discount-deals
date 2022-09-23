@@ -32,7 +32,7 @@ class Discount_Deals_Workflow_Rule_Customer_Review_Count extends Discount_Deals_
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {

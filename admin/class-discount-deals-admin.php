@@ -236,11 +236,15 @@ class Discount_Deals_Admin {
 		}
 		if ( 'new' != $action && 'edit' != $action ) {
 			wp_enqueue_script( $this->plugin_slug . '-workflows', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-workflows.js', array( 'jquery' ), $this->version );
-			wp_localize_script( $this->plugin_slug . '-workflows', 'discount_deals_workflows_localize_script', array(
-				'nonce' => array(
-					'change_column_status' => wp_create_nonce( 'discount_deals_change_workflow_column_status' )
+			wp_localize_script(
+				$this->plugin_slug . '-workflows',
+				'discount_deals_workflows_localize_script',
+				array(
+					'nonce' => array(
+						'change_column_status' => wp_create_nonce( 'discount_deals_change_workflow_column_status' ),
+					),
 				)
-			) );
+			);
 
 			// Don't load meta boxes if it is not an add/edit workflow screen.
 			return;

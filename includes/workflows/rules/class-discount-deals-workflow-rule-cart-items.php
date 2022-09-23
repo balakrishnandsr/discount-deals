@@ -50,7 +50,7 @@ class Discount_Deals_Workflow_Rule_Cart_Items extends Discount_Deals_Workflow_Ru
 		if ( empty( $cart_items ) ) {
 			return false;
 		}
-		$all_ids = [];
+		$all_ids = array();
 		foreach ( $cart_items as $item ) {
 			array_push( $all_ids, $item['variation_id'], $item['product_id'] );
 		}

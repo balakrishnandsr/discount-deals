@@ -35,7 +35,7 @@ class Discount_Deals_Workflow_Rule_Customer_Last_Order_Date extends Discount_Dea
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {

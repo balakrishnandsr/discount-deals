@@ -47,9 +47,9 @@ class Discount_Deals_Workflow_Rule_Shop_Date_Time extends Discount_Deals_Workflo
 	/**
 	 * Validate rule against order items
 	 *
-	 * @param Discount_Deals_Workflow_Data_Item_Shop $data_item WC Order.
-	 * @param string $compare_type Compare type.
-	 * @param array $value Rule value.
+	 * @param Discount_Deals_Workflow_Data_Item_Shop $data_item    WC Order.
+	 * @param string                                 $compare_type Compare type.
+	 * @param array                                  $value        Rule value.
 	 *
 	 * @return boolean
 	 */

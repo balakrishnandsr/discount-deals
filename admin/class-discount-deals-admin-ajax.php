@@ -16,15 +16,15 @@ class Discount_Deals_Admin_Ajax {
 
 	/**
 	 * Hook in methods
-  *
-  * @return void
+	 *
+	 * @return void
 	 */
 	public static function init() {
 		$ajax_events = array(
 			'fill_discount_fields',
 			'update_workflow_column_value',
 			'json_search_coupons',
-			'get_rule_select_choices'
+			'get_rule_select_choices',
 		);
 
 		foreach ( $ajax_events as $ajax_event ) {
@@ -43,15 +43,17 @@ class Discount_Deals_Admin_Ajax {
 			die;
 		}
 		$rule_name = discount_deals_get_request_data( 'rule_name' );
-		if ( empty($rule_name)  ) {
+		if ( empty( $rule_name ) ) {
 			die;
 		}
 		$rule_object = Discount_Deals_Workflows::get_rule_type( $rule_name );
 
 		if ( 'select' === $rule_object->type ) {
-			wp_send_json_success( [
-				'select_choices' => $rule_object->get_select_choices()
-			] );
+			wp_send_json_success(
+				array(
+					'select_choices' => $rule_object->get_select_choices(),
+				)
+			);
 		}
 
 		die;
@@ -87,15 +89,20 @@ class Discount_Deals_Admin_Ajax {
 			$column       = discount_deals_get_post_data( 'column' );
 			$column_value = discount_deals_get_post_data( 'column_value', 0 );
 			$workflow     = discount_deals_get_post_data( 'workflow' );
-			if ( $workflow && $column && in_array( $column, array(
+			if ( $workflow && $column && in_array(
+				$column,
+				array(
 					'exclusive',
-					'status'
-				) ) && in_array( $column_value, array( 0, 1 ) ) ) {
+					'status',
+				)
+			) && in_array( $column_value, array( 0, 1 ) ) ) {
 				$workflow_db = new Discount_Deals_Workflow_DB();
 				$workflow_db->update( $workflow, array( 'dd_' . $column => $column_value ) );
-				wp_send_json_success( array(
-					'message' => __( 'Action done successfully!!!', 'discount-deals' )
-				) );
+				wp_send_json_success(
+					array(
+						'message' => __( 'Action done successfully!!!', 'discount-deals' ),
+					)
+				);
 			}
 		}
 		die( - 1 );

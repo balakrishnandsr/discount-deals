@@ -122,7 +122,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<# } #>
 									<# if ( data.rule.object.has_days_of_the_week === true ) { #>
 										<div class="discount-deals-hidden" data-discount-deals-compare="days_of_the_week">
-											<select name="{{ data.field_name_base }}[value][dow][]" multiple required class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-dow wc-enhanced-select" data-placeholder="<?php echo esc_attr( __('Select days...', 'discount-deals') ); ?>">
+											<select name="{{ data.field_name_base }}[value][dow][]" multiple required class="discount-deals-field discount-deals-rule-value-field discount-deals-rule-value-dow wc-enhanced-select" data-placeholder="<?php echo esc_attr( __( 'Select days...', 'discount-deals' ) ); ?>">
 												<?php for ( $day = 1; $day <= 7; $day++ ) : ?>
 													<option value="<?php echo esc_attr( $day ); ?>"><?php echo esc_attr( discount_deals_get_weekday( $day ) ); ?></option>
 												<?php endfor; ?>

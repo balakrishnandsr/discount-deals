@@ -746,7 +746,10 @@ class Discount_Deals_Workflow {
 		if ( discount_deals_get_value_from_array( $promotion_details, 'where_to_show', '' ) != $position ) {
 			return null;
 		}
-		$promotion = array( 'bulk_promotion' => array(), 'promotion_message' => null );
+		$promotion = array(
+			'bulk_promotion' => array(),
+			'promotion_message' => null,
+		);
 		if ( 'bulk_discount' == $this->get_type() ) {
 			if ( 'yes' == discount_deals_get_value_from_array( $promotion_details, 'show_bulk_table', 'yes' ) ) {
 				$promotion['bulk_promotion'] = $this->get_discount()->get_discount_details();

@@ -30,7 +30,7 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 	/**
 	 * Set valid data items type of the discount
 	 *
-  * @return void
+	 * @return void
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop', 'product' );

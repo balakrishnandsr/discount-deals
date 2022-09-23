@@ -34,7 +34,7 @@ class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Work
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {

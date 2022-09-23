@@ -121,18 +121,22 @@ function discount_deals_editor( $field ) {
 		</td>
 		<td class="discount-deals-table__col discount-deals-table__col--field">
 			<?php
-			wp_editor( $field['value'], 'editor_' . $field['id'], array(
-				'media_buttons' => true,
-				'textarea_rows' => 8,
-				'tabindex'      => 4,
-				'textarea_name' => $field['name']
-			) );
+			wp_editor(
+				$field['value'],
+				'editor_' . $field['id'],
+				array(
+					'media_buttons' => true,
+					'textarea_rows' => 8,
+					'tabindex'      => 4,
+					'textarea_name' => $field['name'],
+				)
+			);
 			if ( ! empty( $field['description'] ) ) {
 				?>
 				<div class="<?php echo esc_attr( $field['id'] ); ?>_description">
 					<p><?php echo wp_kses_post( $field['description'] ); ?></p>
 				</div>
-			<?php 
+				<?php
 			}
 			?>
 		</td>
@@ -161,7 +165,7 @@ function discount_deals_radio( $field ) {
 		)
 	);
 
-	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'], );
+	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'] );
 
 	$label_attributes = array(
 		'for' => $field['id'],
@@ -222,7 +226,7 @@ function discount_deals_html( $field ) {
 		)
 	);
 
-	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'], );
+	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'] );
 
 	$label_attributes = array(
 		'for' => $field['id'],
@@ -266,7 +270,7 @@ function discount_deals_text_input( $field ) {
 		)
 	);
 
-	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'], );
+	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'] );
 
 	$label_attributes = array(
 		'for' => $field['id'],

@@ -25,7 +25,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -48,7 +48,6 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 			return false;
 		}
 		$all_ids = discount_deals_get_customer_purchased_products( $data_item );
-
 
 		return $this->validate_select( $all_ids, $compare_type, $value );
 	}//end validate()

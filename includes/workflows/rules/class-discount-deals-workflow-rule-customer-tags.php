@@ -31,7 +31,7 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -62,11 +62,15 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 	public function validate( $data_item, $compare_type, $value ) {
 
 		if ( $data_item->get_id() > 0 ) {
-			$tags = wp_get_object_terms( $data_item->get_id(), 'user_tag', [
-				'fields' => 'ids'
-			] );
+			$tags = wp_get_object_terms(
+				$data_item->get_id(),
+				'user_tag',
+				array(
+					'fields' => 'ids',
+				)
+			);
 		} else {
-			$tags = [];
+			$tags = array();
 		}
 
 		return $this->validate_select( $tags, $compare_type, $value );

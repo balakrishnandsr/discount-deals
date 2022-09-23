@@ -32,7 +32,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Count extends Discount_Deals_W
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {

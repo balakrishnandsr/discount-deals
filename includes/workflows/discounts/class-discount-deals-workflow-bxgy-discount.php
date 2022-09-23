@@ -110,7 +110,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 			'post_status'    => 'publish',
 			'orderby'        => 'meta_value_num',
 			'meta_key'       => '_price',
-			'order'          => 'lowest' == $which ? 'asc' : 'desc'
+			'order'          => 'lowest' == $which ? 'asc' : 'desc',
 		);
 		$the_query     = new WP_Query( $args );
 		$product_posts = $the_query->get_posts();
@@ -241,7 +241,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 					'is_free'               => 'free' == $type,
 					'discount_on_same'      => false,
 					'show_eligible_message' => ! empty( $show_eligible_message ),
-					'discount_product'      => $discount_products
+					'discount_product'      => $discount_products,
 				);
 			}
 		}

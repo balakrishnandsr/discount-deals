@@ -143,7 +143,7 @@ class Discount_Deals_Admin_Settings {
 				'general_section_end'               => array(
 					'type' => 'sectionend',
 					'id'   => 'wc_settings_tab_discount_deals_general_settings_end',
-				)
+				),
 			);
 		} elseif ( 'product-price-and-quantity-discount' == $current_section ) {
 			return array(
@@ -222,7 +222,7 @@ class Discount_Deals_Admin_Settings {
 				'product_section_end'          => array(
 					'type' => 'sectionend',
 					'id'   => 'wc_settings_tab_discount_deals_product_settings_end',
-				)
+				),
 			);
 		} elseif ( 'cart-discount' == $current_section ) {
 			return array(
@@ -306,7 +306,7 @@ class Discount_Deals_Admin_Settings {
 					'desc'    => __( 'If one or more workflows are applied to the product, which workflow should be used to provide the discount?', 'discount-deals' ),
 					'options' => array(
 						'lowest_matched'  => __( 'Lowest one from matched workflows', 'discount-deals' ),
-						'biggest_matched' => __( 'Biggest one from matched workflows', 'discount-deals' )
+						'biggest_matched' => __( 'Biggest one from matched workflows', 'discount-deals' ),
 					),
 					'value'   => Discount_Deals_Settings::get_settings( 'lowest_matched' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_bogo_discount_to',

@@ -90,10 +90,10 @@ abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals
 			return false;
 		}
 
-		return [
+		return array(
 			'key'   => trim( $value[0] ),
 			'value' => isset( $value[1] ) ? $value[1] : false,
-		];
+		);
 	}//end prepare_value_data()
 
 }//end class

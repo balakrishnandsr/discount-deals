@@ -104,7 +104,7 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 					'discount'          => $discount,
 					'total'             => $total_discount,
 					'is_free'           => 'free' == $type,
-					'discount_on_same'  => true
+					'discount_on_same'  => true,
 				);
 			}
 		}

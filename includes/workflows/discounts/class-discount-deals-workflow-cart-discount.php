@@ -29,8 +29,8 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 
 	/**
 	 * Set valid data items type of the discount
-  *
-  * @return void
+	 *
+	 * @return void
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop' );
@@ -84,7 +84,7 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 			$value        = discount_deals_get_value_from_array( $discount_detail, 'value', 0 );
 			$max_discount = discount_deals_get_value_from_array( $discount_detail, 'max_discount', 0 );
 			if ( ! empty( $type ) && $price >= $min_subtotal && $price <= $max_subtotal ) {
-				//Free shipping returns -1, otherwise return discounted value.
+				// Free shipping returns -1, otherwise return discounted value.
 				if ( 'free_shipping' == $type ) {
 					return -1;
 				} else {

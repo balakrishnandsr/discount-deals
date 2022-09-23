@@ -139,21 +139,36 @@ class Discount_Deals_Public {
 		$save_text_position = Discount_Deals_Settings::get_settings( 'where_display_saving_text', 'disabled' );
 		if ( 'disabled' != $save_text_position ) {
 			if ( 'both_line_item_and_after_total' == $save_text_position || 'after_total' == $save_text_position ) {
-				add_filter( 'woocommerce_cart_totals_order_total_html', array(
-					$this,
-					'show_you_saved_text_in_cart_total'
-				), 99, 3 );
-				add_filter( 'woocommerce_get_formatted_order_total', array(
-					$this,
-					'order_formatted_subtotal'
-				), 99, 3 );
+				add_filter(
+					'woocommerce_cart_totals_order_total_html',
+					array(
+						$this,
+						'show_you_saved_text_in_cart_total',
+					),
+					99,
+					3
+				);
+				add_filter(
+					'woocommerce_get_formatted_order_total',
+					array(
+						$this,
+						'order_formatted_subtotal',
+					),
+					99,
+					3
+				);
 			}
 			if ( 'both_line_item_and_after_total' == $save_text_position || 'on_each_line_item' == $save_text_position ) {
 				add_filter( 'woocommerce_cart_item_subtotal', array( $this, 'show_you_saved_text' ), 99, 3 );
-				add_filter( 'woocommerce_order_formatted_line_subtotal', array(
-					$this,
-					'order_formatted_line_subtotal'
-				), 99, 3 );
+				add_filter(
+					'woocommerce_order_formatted_line_subtotal',
+					array(
+						$this,
+						'order_formatted_line_subtotal',
+					),
+					99,
+					3
+				);
 			}
 		}
 		$cart_discount_type = Discount_Deals_Settings::get_settings( 'apply_cart_discount_as', 'coupon' );
@@ -167,10 +182,13 @@ class Discount_Deals_Public {
 		}
 		// Free shipping.
 		add_filter( 'woocommerce_shipping_methods', array( $this, 'register_free_shipping_method' ) );
-		add_filter( 'woocommerce_shipping_discount_deals_free_shipping_is_available', array(
-			$this,
-			'is_free_shipping_available'
-		) );
+		add_filter(
+			'woocommerce_shipping_discount_deals_free_shipping_is_available',
+			array(
+				$this,
+				'is_free_shipping_available',
+			)
+		);
 		// BOGO.
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_and_add_bogo_discount' ), 97 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'remove_free_products_from_cart' ), 98 );
@@ -182,37 +200,57 @@ class Discount_Deals_Public {
 		add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout_for_bogo' ), 99, 3 );
 		add_filter( 'woocommerce_before_cart', array( $this, 'show_bxgy_eligible_notices' ), 99 );
 		// Promotional messages.
-		add_action( 'woocommerce_before_add_to_cart_form', array(
-			$this,
-			'show_promotional_message_before_add_to_cart'
-		) );
-		add_action( 'woocommerce_after_add_to_cart_form', array(
-			$this,
-			'show_promotional_message_after_add_to_cart'
-		) );
-		add_action( 'woocommerce_after_single_product_summary', array(
-			$this,
-			'show_promotional_message_after_product_summary'
-		) );
+		add_action(
+			'woocommerce_before_add_to_cart_form',
+			array(
+				$this,
+				'show_promotional_message_before_add_to_cart',
+			)
+		);
+		add_action(
+			'woocommerce_after_add_to_cart_form',
+			array(
+				$this,
+				'show_promotional_message_after_add_to_cart',
+			)
+		);
+		add_action(
+			'woocommerce_after_single_product_summary',
+			array(
+				$this,
+				'show_promotional_message_after_product_summary',
+			)
+		);
 		// Get product price by ajax.
-		add_action( 'wp_ajax_nopriv_discount_deals_get_product_discount_price', array(
-			$this,
-			'get_product_discount_price'
-		) );
-		add_action( 'wp_ajax_discount_deals_get_product_discount_price', array(
-			$this,
-			'get_product_discount_price'
-		) );
+		add_action(
+			'wp_ajax_nopriv_discount_deals_get_product_discount_price',
+			array(
+				$this,
+				'get_product_discount_price',
+			)
+		);
+		add_action(
+			'wp_ajax_discount_deals_get_product_discount_price',
+			array(
+				$this,
+				'get_product_discount_price',
+			)
+		);
 		// Remove unwanted stuffs after order placed.
 		add_action( 'woocommerce_new_order', array( $this, 'on_after_new_order' ), 99 );
 		// Show applied discounts.
 		add_action( 'woocommerce_before_cart', array( $this, 'show_applied_workflow_notices' ), 98 );
 		// Save discount information for orders.
 		add_action( 'woocommerce_checkout_create_order', array( $this, 'before_checkout_create_order' ), 99, 2 );
-		add_action( 'woocommerce_checkout_create_order_line_item', array(
-			$this,
-			'before_checkout_create_order_line_item'
-		), 99, 4 );
+		add_action(
+			'woocommerce_checkout_create_order_line_item',
+			array(
+				$this,
+				'before_checkout_create_order_line_item',
+			),
+			99,
+			4
+		);
 		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'update_order_review' ), 9 );
 	}//end init_public_hooks()
 
@@ -229,16 +267,18 @@ class Discount_Deals_Public {
 		}
 		$post = array();
 		wp_parse_str( $post_data, $post );
-		WC()->customer->set_props( array(
-			'billing_first_name'  => discount_deals_get_value_from_array( $post, 'billing_first_name' ),
-			'billing_last_name'   => discount_deals_get_value_from_array( $post, 'billing_last_name' ),
-			'billing_company'     => discount_deals_get_value_from_array( $post, 'billing_company' ),
-			'billing_email'       => discount_deals_get_value_from_array( $post, 'billing_email' ),
-			'billing_phone'       => discount_deals_get_value_from_array( $post, 'billing_phone' ),
-			'shipping_company'    => discount_deals_get_value_from_array( $post, 'billing_phone' ),
-			'shipping_first_name' => discount_deals_get_value_from_array( $post, 'billing_phone' ),
-			'shipping_last_name'  => discount_deals_get_value_from_array( $post, 'billing_phone' ),
-		) );
+		WC()->customer->set_props(
+			array(
+				'billing_first_name'  => discount_deals_get_value_from_array( $post, 'billing_first_name' ),
+				'billing_last_name'   => discount_deals_get_value_from_array( $post, 'billing_last_name' ),
+				'billing_company'     => discount_deals_get_value_from_array( $post, 'billing_company' ),
+				'billing_email'       => discount_deals_get_value_from_array( $post, 'billing_email' ),
+				'billing_phone'       => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+				'shipping_company'    => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+				'shipping_first_name' => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+				'shipping_last_name'  => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+			)
+		);
 		// By default, price will be fetched from cache. Here we need to recalculate once again.
 		// So we are using this flag.
 		$this->force_fetch_price = true;
@@ -278,7 +318,7 @@ class Discount_Deals_Public {
 			return;
 		}
 		$props = array(
-			'dd_saved_amount' => $this->calculate_tax_for_cart_item( $product, $total_discount )
+			'dd_saved_amount' => $this->calculate_tax_for_cart_item( $product, $total_discount ),
 		);
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			$props['dd_type'] = 'free';
@@ -346,7 +386,6 @@ class Discount_Deals_Public {
 				return $total . ' <br /><p class="dd-you-save-text" style="color: green;">' . $message . '</p>';
 			}
 		}
-
 
 		return $total;
 	}//end order_formatted_subtotal()
@@ -476,16 +515,18 @@ class Discount_Deals_Public {
 		 * @since 1.0.0
 		 */
 		$items_in_cart_summary = 0 < $quantity_in_cart ? wp_kses_post( apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( '%s %d %s %d %s', __( 'Of', 'discount-deals' ), $quantity_to_calculate, __( 'quantities, ', 'discount-deals' ), $quantity_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $quantity_to_calculate, $quantity_in_cart, $product, $this ) ) : '';
-		wp_send_json( array(
-			'success'                   => true,
-			'price_html'                => wc_format_sale_price( $product->get_regular_price(), $discount ),
-			'new_quantity'              => $product_qty,
-			'quantity_in_cart'          => $quantity_in_cart,
-			'discount'                  => wc_price( $discount ),
-			'quantity_price_summary'    => $quantity_to_calculate . ' &times; ' . wc_price( $discount ),
-			'existing_quantity_summary' => $items_in_cart_summary,
-			'total_price_summary'       => wc_price( $quantity_to_calculate * $discount )
-		) );
+		wp_send_json(
+			array(
+				'success'                   => true,
+				'price_html'                => wc_format_sale_price( $product->get_regular_price(), $discount ),
+				'new_quantity'              => $product_qty,
+				'quantity_in_cart'          => $quantity_in_cart,
+				'discount'                  => wc_price( $discount ),
+				'quantity_price_summary'    => $quantity_to_calculate . ' &times; ' . wc_price( $discount ),
+				'existing_quantity_summary' => $items_in_cart_summary,
+				'total_price_summary'       => wc_price( $quantity_to_calculate * $discount ),
+			)
+		);
 	}//end get_product_discount_price()
 
 	/**
@@ -535,13 +576,18 @@ class Discount_Deals_Public {
 		 * @since 1.0.0
 		 */
 		apply_filters( 'discount_deals_show_promotional_message_before_add_to_cart', $all_promotions, $product );
-		wc_get_template( 'discount-deals-product-promotional-messages.php', array(
-			'product'=>$product,
-			'position'=> $position,
-			'all_promotions'=>$all_promotions,
-			'product_discounts' =>$product_discounts,
-			'public_class'=>$this
-		), '', DISCOUNT_DEALS_ABSPATH . '/public/partials/' );
+		wc_get_template(
+			'discount-deals-product-promotional-messages.php',
+			array(
+				'product' => $product,
+				'position' => $position,
+				'all_promotions' => $all_promotions,
+				'product_discounts' => $product_discounts,
+				'public_class' => $this,
+			),
+			'',
+			DISCOUNT_DEALS_ABSPATH . '/public/partials/'
+		);
 	}//end show_promotional_message_before_add_to_cart()
 
 
@@ -561,13 +607,18 @@ class Discount_Deals_Public {
 		 * @since 1.0.0
 		 */
 		apply_filters( 'discount_deals_show_promotional_message_after_product_summary', $all_promotions, $product );
-		wc_get_template( 'discount-deals-product-promotional-messages.php', array(
-			'product'=>$product,
-			'position'=> $position,
-			'all_promotions'=>$all_promotions,
-			'product_discounts' =>$product_discounts,
-			'public_class'=>$this
-		), '', DISCOUNT_DEALS_ABSPATH . '/public/partials/' );
+		wc_get_template(
+			'discount-deals-product-promotional-messages.php',
+			array(
+				'product' => $product,
+				'position' => $position,
+				'all_promotions' => $all_promotions,
+				'product_discounts' => $product_discounts,
+				'public_class' => $this,
+			),
+			'',
+			DISCOUNT_DEALS_ABSPATH . '/public/partials/'
+		);
 	}//end show_promotional_message_after_product_summary()
 
 
@@ -587,13 +638,18 @@ class Discount_Deals_Public {
 		 * @since 1.0.0
 		 */
 		apply_filters( 'discount_deals_show_promotional_message_after_add_to_cart', $all_promotions, $product );
-		wc_get_template( 'discount-deals-product-promotional-messages.php', array(
-			'product'=>$product,
-			'position'=> $position,
-			'all_promotions'=>$all_promotions,
-			'product_discounts' =>$product_discounts,
-			'public_class'=>$this
-		), '', DISCOUNT_DEALS_ABSPATH . '/public/partials/' );
+		wc_get_template(
+			'discount-deals-product-promotional-messages.php',
+			array(
+				'product' => $product,
+				'position' => $position,
+				'all_promotions' => $all_promotions,
+				'product_discounts' => $product_discounts,
+				'public_class' => $this,
+			),
+			'',
+			DISCOUNT_DEALS_ABSPATH . '/public/partials/'
+		);
 	}//end show_promotional_message_after_add_to_cart()
 
 
@@ -625,10 +681,14 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function remove_free_products_from_cart() {
-		remove_action( 'woocommerce_before_calculate_totals', array(
-			$this,
-			'remove_free_products_from_cart'
-		), 98 );
+		remove_action(
+			'woocommerce_before_calculate_totals',
+			array(
+				$this,
+				'remove_free_products_from_cart',
+			),
+			98
+		);
 		if ( ! empty( self::$remove_products ) && is_array( self::$remove_products ) ) {
 			foreach ( self::$remove_products as $cart_item_key ) {
 				WC()->cart->remove_cart_item( $cart_item_key );
@@ -718,7 +778,7 @@ class Discount_Deals_Public {
 	public function highlight_free_gifts( $cart_item, $cart_item_key ) {
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			$message = Discount_Deals_Settings::get_settings( 'bogo_discount_highlight_message' );
-			echo wp_kses_post('<p class="dd-bogo-text" style="color: green;">' . $message . '</p>');
+			echo wp_kses_post( '<p class="dd-bogo-text" style="color: green;">' . $message . '</p>' );
 		}
 	}//end highlight_free_gifts()
 
@@ -836,8 +896,8 @@ class Discount_Deals_Public {
 								'variation'    => $cart_item['variation'],
 								'meta'         => array(
 									$this->_free_cart_item_key          => $cart_item_key,
-									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0]
-								)
+									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0],
+								),
 							);
 						} else {
 							$free_product_detail = array(
@@ -847,8 +907,8 @@ class Discount_Deals_Public {
 								'variation'    => $actual_discount['discount_product']['variation'],
 								'meta'         => array(
 									$this->_free_cart_item_key          => $cart_item_key,
-									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0]
-								)
+									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0],
+								),
 							);
 						}
 						self::$free_products[] = $free_product_detail;
@@ -1531,12 +1591,24 @@ class Discount_Deals_Public {
 			return $price;
 		}
 		if ( get_option( 'woocommerce_tax_display_cart' ) === 'excl' ) {
-			$price_with_price = wc_get_price_excluding_tax( $product, array( 'qty' => $quantity, 'price' => $price ) );
+			$price_with_price = wc_get_price_excluding_tax(
+				$product,
+				array(
+					'qty' => $quantity,
+					'price' => $price,
+				)
+			);
 		} else {
-			$price_with_price = wc_get_price_including_tax( $product, array( 'qty' => $quantity, 'price' => $price ) );
+			$price_with_price = wc_get_price_including_tax(
+				$product,
+				array(
+					'qty' => $quantity,
+					'price' => $price,
+				)
+			);
 		}
 		/**
-		 * Caculate tax for given product and quantity.
+		 * Calculate tax for given product and quantity.
 		 *
 		 * @since 1.0.0
 		 */

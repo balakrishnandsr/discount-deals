@@ -68,9 +68,9 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Tags extends Discount_Deals_Workflo
 		if ( empty( $cart_items ) ) {
 			return false;
 		}
-		$tag_ids = [];
+		$tag_ids = array();
 		foreach ( $cart_items as $item ) {
-			$terms   = wp_get_object_terms( $item['product_id'], 'product_tag', [ 'fields' => 'ids' ] );
+			$terms   = wp_get_object_terms( $item['product_id'], 'product_tag', array( 'fields' => 'ids' ) );
 			$tag_ids = array_merge( $tag_ids, $terms );
 		}
 		$tag_ids = array_filter( $tag_ids );

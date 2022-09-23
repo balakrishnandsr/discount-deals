@@ -25,7 +25,7 @@ class Discount_Deals_Workflow_Rule_Customer_Postcode extends Discount_Deals_Work
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {

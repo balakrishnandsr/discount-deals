@@ -108,7 +108,6 @@ if ( ! class_exists( 'Discount_Deals' ) ) {
 			require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-workflows.php';
 			require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals-date-time.php';
 
-
 			/*
 			 * Include I18N related files.
 			 */
