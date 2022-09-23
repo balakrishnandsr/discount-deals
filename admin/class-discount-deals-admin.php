@@ -63,11 +63,63 @@ class Discount_Deals_Admin {
 		);
 		add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
 		add_action( 'admin_init', array( $this, 'maybe_save_workflow' ) );
+		add_action( 'wp_kses_allowed_html', array( $this, 'kses_allowed_html' ), 10, 2 );
 
 		Discount_Deals_Admin_Settings::init();
 		Discount_Deals_Admin_Ajax::init();
 
 	}//end __construct()
+
+	/**
+	 * Modify the allowed html tags to our requirements.
+	 *
+	 * @param array $allowed_html Html that be allowed to prent in pages.
+	 * @param string $context Which type of tags can be allowed.
+	 *
+	 * @return array
+	 */
+	public function kses_allowed_html( $allowed_html, $context) {
+		global $allowedposttags;
+		if ('discount_deals' == $context) {
+			$allowed_html = $allowedposttags;
+			$allowed_html['input'] = array(
+				'id'          => true,
+				'name'        => true,
+				'class'       => true,
+				'placeholder' => true,
+				'type'        => true,
+				'value'       => true,
+				'required'    => true,
+				'disabled'    => true,
+				'checked'     => true,
+				'step'        => true,
+				'data-*'   => true,
+				'selected' => true,
+			);
+			$allowed_html['select'] = array(
+				'id'               => true,
+				'name'             => true,
+				'class'            => true,
+				'required'         => true,
+				'disabled'         => true,
+				'data-*' => true,
+			);
+			$allowed_html['option'] = array(
+				'value'    => true,
+				'selected' => true,
+			);
+			$allowed_html['form'] = array(
+				'action'         => true,
+				'accept'         => true,
+				'accept-charset' => true,
+				'enctype'        => true,
+				'method'         => true,
+				'name'           => true,
+				'target'         => true,
+			);
+		}
+		return $allowed_html;
+	}
 
 	/**
 	 * Include required files of the admin

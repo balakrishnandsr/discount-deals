@@ -8,6 +8,16 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+/**
+ * Implode and escape HTML attributes for output.
+ *
+ * @param array $raw_attributes Attribute name value pairs.
+ */
+function discount_deals_implode_html_attributes( $raw_attributes ) {
+	foreach ( $raw_attributes as $name => $value ) {
+		echo esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
+	}
+}
 
 /**
  * Output a select input box.
@@ -49,15 +59,15 @@ function discount_deals_select( $field ) {
 		$field_attributes['required'] = 'required';
 	}
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
 		</td>
 		<td class="discount-deals-table__col discount-deals-table__col--field">
-			<select <?php echo wc_implode_html_attributes( $field_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+			<select <?php discount_deals_implode_html_attributes( $field_attributes ); ?>>
 				<?php
 				foreach ( $field['options'] as $key => $value ) {
 					if ( is_array( $value ) ) {
@@ -112,9 +122,9 @@ function discount_deals_editor( $field ) {
 	);
 
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes );// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
@@ -171,9 +181,9 @@ function discount_deals_radio( $field ) {
 		'for' => $field['id'],
 	);
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
@@ -232,16 +242,16 @@ function discount_deals_html( $field ) {
 		'for' => $field['id'],
 	);
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes );// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
 		</td>
 		<td class="discount-deals-table__col discount-deals-table__col--field">
 			<?php
-			echo $field['html']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo wp_kses( $field['html'], wp_kses_allowed_html('discount_deals') );
 			?>
 		</td>
 	</tr>
@@ -301,16 +311,16 @@ function discount_deals_text_input( $field ) {
 	}
 	$required_text = $field['required'] ? 'required="required"' : '';
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
 		</td>
 		<td class="discount-deals-table__col discount-deals-table__col--field">
 			<?php
-			echo '<input type="' . esc_attr( $field['type'] ) . '" ' . $required_text . ' class="' . esc_attr( $field['class'] ) . '" style="' . esc_attr( $field['style'] ) . '" name="' . esc_attr( $field['name'] ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['value'] ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . implode( ' ', $field['custom_attributes'] ) . ' /> '; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<input type="' . esc_attr( $field['type'] ) . '" ' . esc_attr( $required_text ) . ' class="' . esc_attr( $field['class'] ) . '" style="' . esc_attr( $field['style'] ) . '" name="' . esc_attr( $field['name'] ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['value'] ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . esc_attr( implode( ' ', $field['custom_attributes'] ) ) . ' /> ';
 			if ( ! empty( $field['description'] ) ) {
 				?>
 				<div class="<?php echo esc_attr( $field['id'] ); ?>_description">

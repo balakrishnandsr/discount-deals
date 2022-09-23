@@ -29,8 +29,8 @@ $workflow = $this->get_workflow();
 					'value'                 => ( $workflow ) ? $workflow->get_status() : '1',
 					'label'                 => __( 'Status', 'discount-deals' ),
 					'options'               => array(
-						'1' => __( 'Publish', 'discount_deals' ),
-						'0' => __( 'Draft', 'discount_deals' ),
+						'1' => __( 'Publish', 'discount-deals' ),
+						'0' => __( 'Draft', 'discount-deals' ),
 					),
 					'desc_tip'              => false,
 					'has_value_description' => false,
@@ -43,8 +43,8 @@ $workflow = $this->get_workflow();
 					'value'                 => ( $workflow ) ? $workflow->get_exclusive() ? 1 : 0 : '0',
 					'label'                 => __( 'Is Exclusive', 'discount-deals' ),
 					'options'               => array(
-						'1' => __( 'Yes', 'discount_deals' ),
-						'0' => __( 'No', 'discount_deals' ),
+						'1' => __( 'Yes', 'discount-deals' ),
+						'0' => __( 'No', 'discount-deals' ),
 					),
 					'desc_tip'              => false,
 					'has_value_description' => false,
