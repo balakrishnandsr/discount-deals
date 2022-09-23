@@ -15,20 +15,15 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	 *
 	 * @param string  $key     Key of the array.
 	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_data( $key, $default = null, $clean = true ) {
+	function discount_deals_get_data( $key, $default = null ) {
 		if ( empty( $key ) ) {
 			wc_clean( wp_unslash( $_GET ) );
 		}
 		if ( isset( $_GET[ $key ] ) ) {
-			if ( $clean ) {
-				return wc_clean( wp_unslash( $_GET[ $key ] ) );
-			}
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			return $_GET[ $key ];
+			return wc_clean( wp_unslash( $_GET[ $key ] ) );
 		}
 
 		return $default;
@@ -42,20 +37,15 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	 *
 	 * @param string  $key     Key of the array.
 	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_request_data( $key, $default = null, $clean = true ) {
+	function discount_deals_get_request_data( $key, $default = null ) {
 		if ( empty( $key ) ) {
 			wc_clean( wp_unslash( $_REQUEST ) );
 		}
 		if ( isset( $_REQUEST[ $key ] ) ) {
-			if ( $clean ) {
-				return wc_clean( wp_unslash( $_REQUEST[ $key ] ) );
-			}
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			return $_REQUEST[ $key ];
+			return wc_clean( wp_unslash( $_REQUEST[ $key ] ) );
 		}
 
 		return $default;
@@ -68,23 +58,11 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	 *
 	 * @param string  $key     Key of the array.
 	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_post_data( $key, $default = null, $clean = true ) {
-		if ( empty( $key ) ) {
-			wc_clean( wp_unslash( $_POST ) );
-		}
-		if ( isset( $_POST[ $key ] ) ) {
-			if ( $clean ) {
-				return wc_clean( wp_unslash( $_POST[ $key ] ) );
-			}
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			return $_POST[ $key ];
-		}
-
-		return $default;
+	function discount_deals_get_post_data( $key, $default = null ) {
+		return wc_get_post_data_by_key($key, $default);
 	}//end discount_deals_get_post_data()
 }
 
