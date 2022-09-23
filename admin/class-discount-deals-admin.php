@@ -117,6 +117,10 @@ class Discount_Deals_Admin {
 				'name'           => true,
 				'target'         => true,
 			);
+			$allowed_html['script'] = array(
+				'id'   => true,
+				'type' => 'text/template'
+			);
 		}
 		return $allowed_html;
 	}

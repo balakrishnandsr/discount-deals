@@ -108,7 +108,6 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'cb'            => '<input type="checkbox" />',
 			'dd_title'      => __( 'Title', 'discount-deals' ),
 			'dd_type'       => __( 'Discount Type', 'discount-deals' ),
-			'dd_exclusive'  => __( 'Is Exclusive', 'discount-deals' ),
 			'dd_created_at' => __( 'Created At', 'discount-deals' ),
 			'dd_updated_at' => __( 'Updated At', 'discount-deals' ),
 			'dd_status'     => __( 'Status', 'discount-deals' ),
@@ -182,8 +181,6 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'delete'        => __( 'Delete', 'discount-deals' ),
 			'enable'        => __( 'Enable', 'discount-deals' ),
 			'disable'       => __( 'Disable', 'discount-deals' ),
-			'exclusive'     => __( 'Mark as Exclusive', 'discount-deals' ),
-			'not_exclusive' => __( 'Mark as Not-Exclusive', 'discount-deals' ),
 		);
 	}//end get_bulk_actions()
 

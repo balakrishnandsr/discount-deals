@@ -265,7 +265,11 @@ $discount_types = array(
 							?>
 						</select>
 					</div>
-					<p>
+					<p class="bxgy-show-promotion-for-y <?php
+					if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free' ) {
+						echo ' discount-deals-hidden';
+					}
+					?>">
 						<input type="checkbox"
 							<?php
 							if ( ! empty( discount_deals_get_value_from_array( $discount_detail, 'show_eligible_message', '' ) ) ) {
@@ -335,7 +339,7 @@ $discount_types = array(
 	</tr>
 	</tfoot>
 </table>
-<script type="text/template" id="temp-free-products-select">
+<script type="text/template" id="temp-free-products-select" class="discount-deals-hidden">
 	<select data-name="discount_deals_workflow[dd_discounts][--rule_id--][free_product]"
 			class="discount-deals-field discount-deals-rule-value-field wc-product-search discount-deals-bxgy-products-select"
 			data-placeholder="<?php esc_html_e( 'Search products...', 'discount-deals' ); ?>"
