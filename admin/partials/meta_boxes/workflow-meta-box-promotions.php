@@ -27,22 +27,22 @@ $workflow = $this->get_workflow();
 	?>
 	</tbody>
 	<tbody>
-    <?php
-        $discount_details = array();
-        if ( $workflow ) {
-	        $discount_details = $workflow->get_discount()->get_promotion_details();
-        }
-        discount_deals_editor(
-	        array(
-		        'id'       => 'discount_deals_workflow_promotion_message',
-		        'name'     => 'discount_deals_workflow[dd_promotion][message]',
-		        'value'    => discount_deals_get_value_from_array( $discount_details, 'message', '<p><b>Special Price</b> Purchase above 500$ and get extra 5% off. </p>', false ),
-		        'label'    => __( 'Enter the promotional message that will be displayed to the customer', 'discount-deals' ),
-		        'required' => true,
-                'style'    => 'display:none;'
-	        )
-        );
-    ?>
+	<?php
+		$discount_details = array();
+	if ( $workflow ) {
+		$discount_details = $workflow->get_discount()->get_promotion_details();
+	}
+		discount_deals_editor(
+			array(
+				'id'       => 'discount_deals_workflow_promotion_message',
+				'name'     => 'discount_deals_workflow[dd_promotion][message]',
+				'value'    => discount_deals_get_value_from_array( $discount_details, 'message', '<p><b>Special Price</b> Purchase above 500$ and get extra 5% off. </p>', false ),
+				'label'    => __( 'Enter the promotional message that will be displayed to the customer', 'discount-deals' ),
+				'required' => true,
+				'style'    => 'display:none;'
+			)
+		);
+		?>
 	</tbody>
 	<tfoot class="
 	<?php

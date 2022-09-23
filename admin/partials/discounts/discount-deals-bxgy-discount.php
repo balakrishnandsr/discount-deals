@@ -265,11 +265,13 @@ $discount_types = array(
 							?>
 						</select>
 					</div>
-					<p class="bxgy-show-promotion-for-y <?php
+					<p class="bxgy-show-promotion-for-y 
+					<?php
 					if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'free' ) {
 						echo ' discount-deals-hidden';
 					}
-					?>">
+					?>
+					">
 						<input type="checkbox"
 							<?php
 							if ( ! empty( discount_deals_get_value_from_array( $discount_detail, 'show_eligible_message', '' ) ) ) {
