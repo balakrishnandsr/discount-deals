@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Data for workflow validation and discount
+ *
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Data_Layer {
 	/**

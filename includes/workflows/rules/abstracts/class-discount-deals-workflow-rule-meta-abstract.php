@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Select rule
+ *
+ * @credit Inspired by AutomateWoo
  */
 abstract class Discount_Deals_Workflow_Rule_Meta_Abstract extends Discount_Deals_Workflow_Rule_Abstract {
 

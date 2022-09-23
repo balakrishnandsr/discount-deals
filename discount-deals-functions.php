@@ -118,7 +118,7 @@ if ( ! function_exists( 'discount_deals_get_weekday' ) ) {
 }
 if ( ! function_exists( 'discount_deals_normalize_date' ) ) {
 	/**
-	 * Convert a date object to an instance of AutomateWoo\DateTime.
+	 * Convert a date object to an instance of Discount_Deals_Date_Time.
 	 *
 	 * WC_Datetime objects are converted to UTC timezone.
 	 *

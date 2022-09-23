@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer postcode rule
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Postcode
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Postcode extends Discount_Deals_Workflow_Rule_String_Abstract {
 	/**

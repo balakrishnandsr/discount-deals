@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer total spent rule
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Total_Spent
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Total_Spent extends Discount_Deals_Workflow_Rule_Number_Abstract {
 	/**

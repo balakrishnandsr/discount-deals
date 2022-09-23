@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer state name check
  *
- * @class Discount_Deals_Workflow_Rule_Customer_State_Text_Match
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_State_Text_Match extends Discount_Deals_Workflow_Rule_String_Abstract {
 	/**

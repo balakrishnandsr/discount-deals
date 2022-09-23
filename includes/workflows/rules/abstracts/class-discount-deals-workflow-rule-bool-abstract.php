@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Bool rule abstract
+ *
+ * @credit Inspired by AutomateWoo
  */
 abstract class Discount_Deals_Workflow_Rule_Bool_Abstract extends Discount_Deals_Workflow_Rule_Abstract {
 	/**

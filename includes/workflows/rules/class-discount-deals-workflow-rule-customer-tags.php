@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer tags rules
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Tags
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
 	/**

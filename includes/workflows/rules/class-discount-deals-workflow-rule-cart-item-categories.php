@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Discount_Deals_Workflow_Rule_Cart_Item_Categories
+ *
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
 	/**

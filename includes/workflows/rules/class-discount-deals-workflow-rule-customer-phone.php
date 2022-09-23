@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer phone rule
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Phone
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Phone extends Discount_Deals_Workflow_Rule_String_Abstract {
 	/**

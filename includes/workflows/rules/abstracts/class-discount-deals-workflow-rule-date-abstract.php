@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class to handle all the discounts of products and cart
+ *
+ * @credit Inspired by AutomateWoo
  */
 abstract class Discount_Deals_Workflow_Rule_Date_Abstract extends Discount_Deals_Workflow_Rule_Abstract {
 	/**

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer last review date rule.
  *
- * @Class Discount_Deals_Workflow_Rule_Customer_Last_Review_Date
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Last_Review_Date extends Discount_Deals_Workflow_Rule_Date_Abstract {
 

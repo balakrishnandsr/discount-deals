@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer meta
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Meta
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Meta extends Discount_Deals_Workflow_Rule_Meta_Abstract {
 

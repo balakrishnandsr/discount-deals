@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer reviews count rule
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Review_Count
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Review_Count extends Discount_Deals_Workflow_Rule_Number_Abstract {
 	/**

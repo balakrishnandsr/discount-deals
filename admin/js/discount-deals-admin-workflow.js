@@ -110,7 +110,9 @@
                                 tinymce.init(init);
                             } catch (e) {
                             }
-                            $('input[name="discount_deals_workflow[dd_promotion][enable]"]').trigger('change')
+                            setTimeout(function () {
+                                $('input[name="discount_deals_workflow[dd_promotion][enable]"]').trigger('change')
+                            },100)
                         }
                     );
                 } else {

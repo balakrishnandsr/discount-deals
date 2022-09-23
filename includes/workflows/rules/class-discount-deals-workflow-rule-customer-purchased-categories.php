@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer purchased categories -all time rule
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
 	/**

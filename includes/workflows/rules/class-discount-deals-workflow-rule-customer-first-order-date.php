@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer first order date rule.
  *
- * @Class Discount_Deals_Workflow_Rule_Customer_First_Order_Date
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_First_Order_Date extends Discount_Deals_Workflow_Rule_Date_Abstract {
 
