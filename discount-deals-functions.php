@@ -418,9 +418,7 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 			$customer_data = array( $customer->get_email(), $customer->get_id() );
 			$customer_data = array_map( 'esc_sql', array_filter( $customer_data ) );
 			$statuses      = array_map( 'esc_sql', discount_deals_get_counted_order_statuses( true ) );
-
-			$query   = "
-				SELECT im.meta_value FROM {$wpdb->posts} AS p
+			$result = $wpdb->get_col( $wpdb->prepare( "SELECT im.meta_value FROM {$wpdb->posts} AS p
 				INNER JOIN {$wpdb->postmeta} AS pm ON p.ID = pm.post_id
 				INNER JOIN {$wpdb->prefix}woocommerce_order_items AS i ON p.ID = i.order_id
 				INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS im ON i.order_item_id = im.order_item_id
@@ -428,12 +426,7 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 				AND pm.meta_key IN ( '_billing_email', '_customer_user' )
 				AND im.meta_key IN ( '_product_id', '_variation_id' )
 				AND im.meta_value != 0
-				AND pm.meta_value IN ( %s )
-			";
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			$query   = $wpdb->prepare( $query, array( implode( "','", $statuses ), implode( "','", $customer_data ) ) );
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			$result = $wpdb->get_col( $query );
+				AND pm.meta_value IN ( %s )", array( implode( "','", $statuses ), implode( "','", $customer_data ) ) ) );
 			$products = array_unique( array_map( 'absint', $result ) );
 
 			set_transient( $transient_name, $result, DAY_IN_SECONDS * 7 );

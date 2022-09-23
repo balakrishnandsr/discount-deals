@@ -452,7 +452,7 @@ class Discount_Deals_Workflows {
 		}
 		self::$_active_workflows = array();
 		$workflows_db            = new Discount_Deals_Workflow_DB();
-		$workflows               = $workflows_db->get_by_conditions( 'dd_status = 1', 'object' );
+		$workflows               = $workflows_db->get_active_workflows();
 		if ( ! empty( $workflows ) ) {
 			$data_items = array(
 				'customer' => WC()->customer,

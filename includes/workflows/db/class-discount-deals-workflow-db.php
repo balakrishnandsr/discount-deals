@@ -77,23 +77,17 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Get workflows by id
 	 *
-	 * @param integer $id     Workflow.
-	 * @param string  $output Output format.
+	 * @param integer $id Workflow.
 	 *
 	 * @return array|object|null
 	 */
-	public function get_workflow_by_id( $id, $output ) {
+	public function get_workflow_by_id( $id ) {
+		global $wpdb;
 		if ( empty( $id ) ) {
 			return null;
 		}
 
-		$workflows = $this->get_by_conditions( " dd_id = $id", $output );
-
-		if ( ! empty( $workflows ) && 1 == count( $workflows ) ) {
-			return $workflows[0];
-		}
-
-		return null;
+		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE dd_id = %d", $id ) );
 	}//end get_workflow_by_id()
 
 
@@ -125,8 +119,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Update Workflow
 	 *
-	 * @param integer $workflow_id   Workflow ID.
-	 * @param array   $workflow_data Workflow data.
+	 * @param integer $workflow_id Workflow ID.
+	 * @param array $workflow_data Workflow data.
 	 *
 	 * @return boolean|void
 	 */
@@ -142,6 +136,112 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 
 		return $this->update( $workflow_id, $workflow_data );
 	}//end update_workflow()
+
+	/**
+	 * Get total count.
+	 *
+	 * @param string $type Type.
+	 *
+	 * @return string|null
+	 */
+	public function count( $type = '' ) {
+		global $wpdb;
+		if ( empty( $type ) ) {
+			return $wpdb->get_var( "SELECT count(*) FROM `{$wpdb->prefix}dd_workflows`" );
+		}
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT count(*) FROM `{$wpdb->prefix}dd_workflows` WHERE dd_type=%s", $type ) );
+	}
+
+	/**
+	 * Delete a row by primary key.
+	 *
+	 * @param integer $row_id Row_id.
+	 *
+	 * @return boolean
+	 */
+	public function delete( $row_id = 0 ) {
+		global $wpdb;
+		$row_id = absint( $row_id );
+		if ( empty( $row_id ) ) {
+			return false;
+		}
+
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->prefix}dd_workflows` WHERE dd_id = %d", $row_id ) );
+	}
+
+
+	/**
+	 * Get all active workflows.
+	 *
+	 * @return array
+	 */
+	public function get_active_workflows() {
+		global $wpdb;
+
+		return $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE dd_status = 1" );
+	}
+
+	/**
+	 * Get the table of workflows by condition.
+	 *
+	 * @param string $order_by Order by.
+	 * @param integer $limit Limit.
+	 * @param integer $offset Offset value.
+	 * @param string $type Discount type.
+	 * @param string $search Search keyword.
+	 *
+	 * @return array|object|stdClass[]|null
+	 */
+	public function get_by_conditions( $order_by, $order, $limit, $offset, $type = '', $search = '' ) {
+		$order = strtolower($order);
+		$order_type = "{$order_by}_$order";
+		global $wpdb;
+		$search = "%{$wpdb->esc_like($search)}%";
+		if ( !empty( $type ) ) {
+			switch ( $order_type ) {
+				case 'dd_status_asc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_status ASC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
+				case 'dd_status_desc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_status DESC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
+				case 'dd_updated_at_asc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_updated_at ASC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
+				case 'dd_updated_at_desc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_updated_at DESC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
+				case 'dd_created_at_asc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_created_at ASC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
+				case 'dd_created_at_desc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_created_at DESC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
+				case 'dd_title_asc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_title ASC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
+				case 'dd_title_desc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_title DESC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
+				default:
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_id DESC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
+			}
+		} else {
+			switch ( $order_type ) {
+				case 'dd_status_asc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s  ORDER BY dd_status ASC LIMIT %d OFFSET %d", $search, $limit, $offset ), ARRAY_A );
+				case 'dd_status_desc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s  ORDER BY dd_status DESC LIMIT %d OFFSET %d", $search, $limit, $offset ), ARRAY_A );
+				case 'dd_updated_at_asc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s  ORDER BY dd_updated_at ASC LIMIT %d OFFSET %d", $search, $limit, $offset ), ARRAY_A );
+				case 'dd_updated_at_desc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s  ORDER BY dd_updated_at DESC LIMIT %d OFFSET %d", $search, $limit, $offset ), ARRAY_A );
+				case 'dd_created_at_asc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s  ORDER BY dd_created_at ASC LIMIT %d OFFSET %d", $search, $limit, $offset ), ARRAY_A );
+				case 'dd_created_at_desc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s  ORDER BY dd_created_at DESC LIMIT %d OFFSET %d", $search, $limit, $offset ), ARRAY_A );
+				case 'dd_title_asc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s  ORDER BY dd_title ASC LIMIT %d OFFSET %d", $search, $limit, $offset ), ARRAY_A );
+				case 'dd_title_desc':
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s  ORDER BY dd_title DESC LIMIT %d OFFSET %d", $search, $limit, $offset ), ARRAY_A );
+				default:
+					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s  ORDER BY dd_id DESC LIMIT %d OFFSET %d", $search, $limit, $offset ), ARRAY_A );
+			}
+		}
+	}//end get_by_conditions()
 
 
 }//end class

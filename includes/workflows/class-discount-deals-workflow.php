@@ -154,7 +154,7 @@ class Discount_Deals_Workflow {
 			return false;
 		}
 		$workflow_db = new Discount_Deals_Workflow_DB();
-		$workflow    = $workflow_db->get_workflow_by_id( $workflow_id, 'object' );
+		$workflow    = $workflow_db->get_workflow_by_id( $workflow_id );
 
 		if ( ! $workflow ) {
 			return false;

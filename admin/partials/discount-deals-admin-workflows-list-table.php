@@ -46,7 +46,7 @@ $all_workflows_count = $workflows_db->count();
 			$i                  = count( $all_discount_types );
 			foreach ( $all_discount_types as $name => $discount_type ) {
 				$discount_obj = new $discount_type();
-				$count        = $workflows_db->count( "dd_type='$name'" );
+				$count        = $workflows_db->count( $name );
 				$workflow_id  = str_replace( '_', '-', $name );
 				?>
 				<li>
