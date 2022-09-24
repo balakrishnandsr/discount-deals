@@ -275,13 +275,3 @@ Navigate to WooCommerce - > Discount Deals - > Add New Workflow. Select Buy X an
 4. Discounted price is applied in the Cart
 5. Creating a Buy X and Get Y discount
 6. Free product auto added in cart
-
-== Changelog ==
-
-2022-09-24 - version 1.0.0
-* New: First Release
-
-
-== Upgrade notice ==
-
-* No upgrade required
