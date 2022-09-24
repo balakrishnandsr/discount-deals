@@ -1334,17 +1334,11 @@ class Discount_Deals_Public {
 			return $price;
 		}
 		if ( ! $this->calculate_discount ) {
+			$this->calculate_discount = true;
 			return $price;
 		}
 		$product_id = $product->get_id();
-		// Getting price from cache causes some issue. So, here it is passes to again recalculate it.
-		// if ( array_key_exists( $product_id, self::$product_discounts ) && ! $this->force_fetch_price ) {
-		// if ( self::$product_discounts[ $product_id ]['quantity_while_calculation'] == $quantity ) {
-		// return self::$product_discounts[ $product_id ]['discounted_price'];
-		// }
-		// }.
 		$discounted_price = discount_deals_get_product_discount( $price, $product, $quantity );
-
 		if ( ! array_key_exists( $product_id, self::$product_discounts ) || $this->force_fetch_price ) {
 			self::$product_discounts[ $product_id ] = array(
 				'discounted_price'           => $discounted_price,
@@ -1352,14 +1346,6 @@ class Discount_Deals_Public {
 				'quantity_while_calculation' => $quantity,
 			);
 		}
-
-		// Temporary hide
-		// self::$product_discounts[ $product_id ] = array(
-		// 'discounted_price'           => $discounted_price,
-		// 'price_before_discount'      => $price,
-		// 'quantity_while_calculation' => $quantity,
-		// );
-		// Reset to force fetch false;.
 		$this->force_fetch_price = false;
 
 		return $discounted_price;
