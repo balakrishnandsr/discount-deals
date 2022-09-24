@@ -69,7 +69,7 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		// Add discount type in where query.
 		$discount_type = discount_deals_get_data( 'tab', '' );
 		$discount_type = str_replace( '-', '_', $discount_type );
-		if ( !empty( $discount_type ) && 'all' == $discount_type ) {
+		if ( ! empty( $discount_type ) && 'all' == $discount_type ) {
 			$discount_type = '';
 		}
 

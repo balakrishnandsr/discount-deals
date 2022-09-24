@@ -98,14 +98,28 @@ if ( ! class_exists( 'Discount_Deals_Activator' ) ) {
 			$is_default_workflows_created = get_option( 'discount_deals_auto_workflows_created', 'no' );
 			if ( 'no' == $is_default_workflows_created ) {
 				$current_time = current_time( 'mysql', true );
-				$wpdb->query( $wpdb->prepare( "
+				$wpdb->query(
+					$wpdb->prepare(
+						"
 					INSERT INTO `{$wpdb->prefix}dd_workflows` (`dd_title`, `dd_rules`, `dd_type`, `dd_discounts`, `dd_index`, `dd_promotion`, `dd_meta`, `dd_exclusive`, `dd_status`, `dd_user_id`, `dd_language`, `dd_created_at`, `dd_updated_at`) VALUES
 					('10 percentage discount for all products in shop', 'a:0:{}', 'simple_discount', 'a:1:{i:1;a:5:{s:9:\"min_price\";s:1:\"0\";s:9:\"max_price\";s:6:\"999999\";s:4:\"type\";s:7:\"percent\";s:5:\"value\";s:2:\"10\";s:12:\"max_discount\";s:0:\"\";}}', 'a:0:{}', 'a:0:{}', 'a:0:{}', 0, 0, 0, NULL, %s, %s),
 					('Bulk/tiered discount for all products', 'a:0:{}', 'bulk_discount', 'a:2:{i:1;a:5:{s:12:\"min_quantity\";s:2:\"10\";s:12:\"max_quantity\";s:2:\"15\";s:4:\"type\";s:7:\"percent\";s:5:\"value\";s:2:\"10\";s:12:\"max_discount\";s:0:\"\";}i:2;a:5:{s:12:\"min_quantity\";s:2:\"16\";s:12:\"max_quantity\";s:4:\"9999\";s:4:\"type\";s:7:\"percent\";s:5:\"value\";s:2:\"25\";s:12:\"max_discount\";s:0:\"\";}}', 'a:0:{}', 'a:0:{}', 'a:0:{}', 0, 0, 1, NULL, %s, %s),
 					('Purchase over 500 and get 10 percentage discount on subtotal', 'a:0:{}', 'cart_discount', 'a:1:{i:1;a:5:{s:12:\"min_subtotal\";s:3:\"500\";s:12:\"max_subtotal\";s:4:\"5000\";s:4:\"type\";s:7:\"percent\";s:5:\"value\";s:2:\"10\";s:12:\"max_discount\";s:0:\"\";}}', 'a:0:{}', 'a:0:{}', 'a:0:{}', 0, 0, 0, NULL, %s, %s),
 					('Buy 5 and get 1 free on same product', 'a:0:{}', 'bxgx_discount', 'a:1:{i:1;a:4:{s:12:\"min_quantity\";s:1:\"5\";s:12:\"max_quantity\";s:1:\"5\";s:13:\"free_quantity\";s:1:\"1\";s:4:\"type\";s:4:\"free\";}}', 'a:0:{}', 'a:0:{}', 'a:0:{}', 0, 0, 1, NULL, %s, %s),
 					('Buy 3 and get 1 free on cheapest item in cart', 'a:0:{}', 'bxgy_discount', 'a:1:{i:1;a:5:{s:12:\"min_quantity\";s:1:\"3\";s:12:\"max_quantity\";s:1:\"3\";s:17:\"free_product_type\";s:16:\"cheapest_in_cart\";s:13:\"free_quantity\";s:1:\"1\";s:4:\"type\";s:4:\"free\";}}', 'a:0:{}', 'a:0:{}', 'a:0:{}', 0, 0, 0, NULL, %s, %s);
-				", $current_time, $current_time, $current_time, $current_time, $current_time, $current_time, $current_time, $current_time, $current_time, $current_time ) );
+				",
+						$current_time,
+						$current_time,
+						$current_time,
+						$current_time,
+						$current_time,
+						$current_time,
+						$current_time,
+						$current_time,
+						$current_time,
+						$current_time
+					)
+				);
 				update_option( 'discount_deals_auto_workflows_created', 'yes' );
 			}
 		}//end create_tables()

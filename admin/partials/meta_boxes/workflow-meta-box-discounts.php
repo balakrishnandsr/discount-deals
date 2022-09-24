@@ -49,7 +49,7 @@ $workflow = $this->get_workflow();
 		)
 	);
 	if ( $workflow ) {
-		echo wp_kses( $workflow->get_discount()->load_fields(), wp_kses_allowed_html('discount_deals') );
+		echo wp_kses( $workflow->get_discount()->load_fields(), wp_kses_allowed_html( 'discount_deals' ) );
 	}
 	?>
 	</tbody>

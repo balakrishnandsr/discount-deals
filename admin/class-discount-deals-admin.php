@@ -81,14 +81,14 @@ class Discount_Deals_Admin {
 	/**
 	 * Modify the allowed html tags to our requirements.
 	 *
-	 * @param array $allowed_html Html that be allowed to prent in pages.
+	 * @param array  $allowed_html Html that be allowed to prent in pages.
 	 * @param string $context Which type of tags can be allowed.
 	 *
 	 * @return array
 	 */
-	public function kses_allowed_html( $allowed_html, $context) {
+	public function kses_allowed_html( $allowed_html, $context ) {
 		global $allowedposttags;
-		if ('discount_deals' == $context) {
+		if ( 'discount_deals' == $context ) {
 			$allowed_html = $allowedposttags;
 			$allowed_html['input'] = array(
 				'id'          => true,
@@ -127,7 +127,7 @@ class Discount_Deals_Admin {
 			);
 			$allowed_html['script'] = array(
 				'id'   => true,
-				'type' => 'text/template'
+				'type' => 'text/template',
 			);
 		}
 		return $allowed_html;
@@ -187,7 +187,7 @@ class Discount_Deals_Admin {
 	 *
 	 * @param string $notice Message to shown to the users.
 	 * @param string $type Which type of notice is this.
-	 * @param bool $dismissible Can we dismiss the message.
+	 * @param bool   $dismissible Can we dismiss the message.
 	 *
 	 * @return bool
 	 */
@@ -200,7 +200,7 @@ class Discount_Deals_Admin {
 		$notices[]        = array(
 			'notice'      => $notice,
 			'type'        => $type,
-			'dismissible' => $dismissible_text
+			'dismissible' => $dismissible_text,
 		);
 
 		update_option( $this->_flash_notice_key, $notices );
@@ -239,7 +239,7 @@ class Discount_Deals_Admin {
 			if ( ! wp_verify_nonce( $workflow_nonce, 'discount-deals-workflow' ) ) {
 				return false;
 			}
-			$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array());
+			$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array() );
 			$rules       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'rule_options', array() ) );
 			$discounts   = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_discounts', array() ) );
 			$promotions  = discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array() );
@@ -248,7 +248,7 @@ class Discount_Deals_Admin {
 			$title       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_title', '' ) );
 			$index       = $this->build_workflow_index( $rules );
 
-			$promotions['message'] = !empty($_POST['discount_deals_workflow']['dd_promotion']['message']) ? wp_kses_post( $_POST['discount_deals_workflow']['dd_promotion']['message'] ) : '';
+			$promotions['message'] = ! empty( $_POST['discount_deals_workflow']['dd_promotion']['message'] ) ? wp_kses_post( $_POST['discount_deals_workflow']['dd_promotion']['message'] ) : '';
 
 			if ( ! empty( $type ) ) {
 				$workflow_data = array(
@@ -271,7 +271,7 @@ class Discount_Deals_Admin {
 					if ( $workflow ) {
 						$workflow_updated = $workflow_db->update_workflow( $id, $workflow_data );
 						if ( ! $workflow_updated ) {
-							$this->set_flash_notice( __('Your workflow could not be saved. Please try again later.', 'discount-deals'), 'error', true );
+							$this->set_flash_notice( __( 'Your workflow could not be saved. Please try again later.', 'discount-deals' ), 'error', true );
 							// Return false if update failed.
 							return false;
 						}
@@ -287,19 +287,19 @@ class Discount_Deals_Admin {
 						$redirect_url
 					);
 				}
-				$this->set_flash_notice( __('Your workflow has been saved successfully.', 'discount-deals'), 'success', true );
+				$this->set_flash_notice( __( 'Your workflow has been saved successfully.', 'discount-deals' ), 'success', true );
 				remove_action( 'admin_notices', array( $this, 'display_flash_notices' ), 99 );
 				wp_safe_redirect( $redirect_url );
 
 				return $id;
 			}
 
-			$this->set_flash_notice( __('Your workflow could not be saved. Please try again later.', 'discount-deals'), 'error', true );
+			$this->set_flash_notice( __( 'Your workflow could not be saved. Please try again later.', 'discount-deals' ), 'error', true );
 
 			return false;
 		}
 
-		$this->set_flash_notice( __('You do not have access to add/edit workflows. Please ask the administrator to get access.', 'discount-deals'), 'error', true );
+		$this->set_flash_notice( __( 'You do not have access to add/edit workflows. Please ask the administrator to get access.', 'discount-deals' ), 'error', true );
 		return false;
 	}//end maybe_save_workflow()
 
@@ -359,8 +359,8 @@ class Discount_Deals_Admin {
 					),
 					'i18n'  => array(
 						'alert_bulk_delete' => __( 'Are you sure you want to delete multiple workflows? This action cannot be undone later.', 'discount-deals' ),
-						'alert_delete'      => __( 'Are you sure you want to delete workflow? This action cannot be undone later.', 'discount-deals' )
-					)
+						'alert_delete'      => __( 'Are you sure you want to delete workflow? This action cannot be undone later.', 'discount-deals' ),
+					),
 				)
 			);
 
