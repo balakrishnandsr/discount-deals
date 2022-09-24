@@ -64,11 +64,15 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Load promotional message fields
 	 *
-	 * @return string
+	 * @param bool $return Need to return the html.
+	 *
+	 * @return string|void
 	 */
-	public function load_promotion_fields() {
+	public function load_promotion_fields( $return = true ) {
 		$discount_details = $this->get_promotion_details();
-		ob_start();
+		if ( $return ) {
+			ob_start();
+		}
 		discount_deals_radio(
 			array(
 				'wrapper_class' => 'discount-options-field-container',
@@ -128,7 +132,9 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 			)
 		);
 
-		return ob_get_clean();
+		if ( $return ) {
+			return ob_get_clean();
+		}
 	}//end load_promotion_fields()
 
 

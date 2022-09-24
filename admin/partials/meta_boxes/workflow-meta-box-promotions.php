@@ -21,7 +21,7 @@ $workflow = $this->get_workflow();
 	<tbody id="discount-deals-promotion-details-container">
 	<?php
 	if ( $workflow ) {
-		echo wp_kses( $workflow->get_discount()->load_promotion_fields(), wp_kses_allowed_html( 'discount_deals' ) );
+		$workflow->get_discount()->load_promotion_fields( false );
 	}
 	?>
 	</tbody>

@@ -140,7 +140,9 @@ class Discount_Deals_Admin_Settings {
 					'value' => Discount_Deals_Settings::get_settings( 'applied_discount_message' ),
 					'desc'  => sprintf(
 							// translators: %s workflow title.
-							__('Use %s placeholder to show workflow tittle in your message.', 'discount-deals' ) , '{{workflow_title}}'),
+						__( 'Use %s placeholder to show workflow tittle in your message.', 'discount-deals' ),
+						'{{workflow_title}}'
+					),
 					'id'    => 'wc_settings_tab_discount_deals_applied_discount_message',
 				),
 				'general_section_end'               => array(

@@ -481,3 +481,25 @@ if ( ! function_exists( 'discount_deals_arrange_discounts_by_quantity_range' ) )
 		}
 	}//end discount_deals_arrange_discounts_by_quantity_range()
 }
+
+if ( ! function_exists( 'discount_deals_get_cart_subtotal' ) ) {
+	/**
+	 * Get subtotal of the cart.
+	 *
+	 * @return float
+	 */
+	function discount_deals_get_cart_subtotal() {
+		$subtotal = WC()->cart->get_subtotal();
+		$subtotal_tax = WC()->cart->get_subtotal_tax();
+		if ( get_option( 'woocommerce_tax_display_cart' ) != 'excl' ) {
+			$subtotal += $subtotal_tax;
+		}
+
+		/**
+		 * Filter to modify cart subtotal.
+		 *
+		 * @since 1.0.0
+		 */
+		return apply_filters( 'discount_deals_cart_subtotal', $subtotal, $subtotal, $subtotal_tax );
+	}
+}

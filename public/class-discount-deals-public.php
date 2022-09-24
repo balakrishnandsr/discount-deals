@@ -1576,7 +1576,7 @@ class Discount_Deals_Public {
 		if ( empty( $product ) || empty( $price ) || empty( $quantity ) ) {
 			return $price;
 		}
-		if ( get_option( 'woocommerce_tax_display_cart' ) === 'excl' ) {
+		if ( get_option( 'woocommerce_tax_display_cart' ) == 'excl' ) {
 			$price_with_price = wc_get_price_excluding_tax(
 				$product,
 				array(
