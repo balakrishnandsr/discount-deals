@@ -101,20 +101,24 @@ class Discount_Deals_Admin {
 				'disabled'    => true,
 				'checked'     => true,
 				'step'        => true,
-				'data-*'   => true,
-				'selected' => true,
+				'data-*'      => true,
+				'selected'    => true,
 			);
 			$allowed_html['select'] = array(
-				'id'               => true,
-				'name'             => true,
-				'class'            => true,
-				'required'         => true,
-				'disabled'         => true,
-				'data-*' => true,
+				'id'       => true,
+				'name'     => true,
+				'class'    => true,
+				'required' => true,
+				'disabled' => true,
+				'data-*'   => true,
+				'style'    => true,
 			);
 			$allowed_html['option'] = array(
 				'value'    => true,
 				'selected' => true,
+			);
+			$allowed_html['optgroup'] = array(
+				'label' => true,
 			);
 			$allowed_html['form'] = array(
 				'action'         => true,

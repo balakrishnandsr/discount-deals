@@ -85,6 +85,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Set discount details to the class
 	 *
 	 * @param array $discount_details Discount details.
+	 *
 	 * @return void
 	 */
 	public function set_discount_details( $discount_details ) {
@@ -165,6 +166,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Discount description
 	 *
 	 * @param string $description Description of the discount.
+	 *
 	 * @return void
 	 */
 	public function set_description( $description ) {
@@ -218,11 +220,15 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Load promotional message fields
 	 *
-	 * @return string
+	 * @param bool $return Need to return the html.
+	 *
+	 * @return string|void
 	 */
-	public function load_promotion_fields() {
+	public function load_promotion_fields( $return = true ) {
 		$discount_details = $this->get_promotion_details();
-		ob_start();
+		if ( $return ) {
+			ob_start();
+		}
 		discount_deals_radio(
 			array(
 				'wrapper_class' => 'discount-options-field-container',
@@ -266,8 +272,9 @@ abstract class Discount_Deals_Workflow_Discount {
 				'required' => true,
 			)
 		);
-
-		return ob_get_clean();
+		if ( $return ) {
+			return ob_get_clean();
+		}
 	}//end load_promotion_fields()
 
 
@@ -284,6 +291,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Set promotion details for the discount
 	 *
 	 * @param array $promotion_details Promotion details.
+	 *
 	 * @return void
 	 */
 	public function set_promotion_details( $promotion_details ) {
@@ -295,8 +303,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
-	 * @param array $extra     Extra.
-	 * @param mixed $price     Price.
+	 * @param array $extra Extra.
+	 * @param mixed $price Price.
 	 *
 	 * @return mixed
 	 */
@@ -305,14 +313,14 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Calculate discount amount.
 	 *
-	 * @param string $type           Discount type.
-	 * @param float  $price          Price.
+	 * @param string $type Discount type.
+	 * @param float  $price Price.
 	 * @param float  $discount_value Discount value.
 	 *
 	 * @return float|integer|mixed
 	 */
 	public function calculate_discount_amount( $type = '', $price = 0, $discount_value = 0 ) {
-		$price = floatval( $price );
+		$price    = floatval( $price );
 		$discount = 0;
 		if ( empty( $type ) ) {
 			return $discount;
