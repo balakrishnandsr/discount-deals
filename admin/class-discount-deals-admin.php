@@ -36,6 +36,13 @@ class Discount_Deals_Admin {
 	private $_workflow;
 
 	/**
+	 * Key to save the notices that should have shown to the users.
+	 *
+	 * @var  string $_flash_notice_key Key to save the flash notices.
+	 */
+	private $_flash_notice_key = 'discount_deals_flash_notices';
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of this plugin.
@@ -64,6 +71,7 @@ class Discount_Deals_Admin {
 		add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
 		add_action( 'admin_init', array( $this, 'maybe_save_workflow' ) );
 		add_action( 'wp_kses_allowed_html', array( $this, 'kses_allowed_html' ), 10, 2 );
+		add_action( 'admin_notices', array( $this, 'display_flash_notices' ), 99 );
 
 		Discount_Deals_Admin_Settings::init();
 		Discount_Deals_Admin_Ajax::init();
@@ -175,6 +183,48 @@ class Discount_Deals_Admin {
 
 
 	/**
+	 * Set temporary notices
+	 *
+	 * @param string $notice Message to shown to the users.
+	 * @param string $type Which type of notice is this.
+	 * @param bool $dismissible Can we dismiss the message.
+	 *
+	 * @return bool
+	 */
+	public function set_flash_notice( $notice = '', $type = 'warning', $dismissible = true ) {
+		if ( empty( $notice ) ) {
+			return false;
+		}
+		$dismissible_text = ( $dismissible ) ? 'is-dismissible' : '';
+		$notices          = get_option( $this->_flash_notice_key, array() );
+		$notices[]        = array(
+			'notice'      => $notice,
+			'type'        => $type,
+			'dismissible' => $dismissible_text
+		);
+
+		update_option( $this->_flash_notice_key, $notices );
+
+		return true;
+	}
+
+	/**
+	 * Here we check if there are notices on our database and display them, after that, we remove the option to prevent notices being displayed forever.
+	 *
+	 * @return void
+	 */
+	public function display_flash_notices() {
+		$notices = get_option( $this->_flash_notice_key, array() );
+		if ( empty( $notices ) ) {
+			return;
+		}
+		foreach ( $notices as $notice ) {
+			printf( '<div class="notice notice-%1$s %2$s"><p>%3$s</p></div>', esc_html( $notice['type'] ), esc_html( $notice['dismissible'] ), esc_html( $notice['notice'] ) );
+		}
+		delete_option( $this->_flash_notice_key );
+	}
+
+	/**
 	 * Save the Workflow into DB
 	 *
 	 * @return array|false|integer|string
@@ -193,11 +243,13 @@ class Discount_Deals_Admin {
 			$rules       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'rule_options', array() ) );
 			$discounts   = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_discounts', array() ) );
 			$promotions  = discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array() );
-			$promotions['message'] = !empty($_POST['discount_deals_workflow']['dd_promotion']['message']) ? wp_kses_post( $_POST['discount_deals_workflow']['dd_promotion']['message'] ) : '';
 			$id          = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_id', 0 ) );
 			$type        = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_type', '' ) );
 			$title       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_title', '' ) );
 			$index       = $this->build_workflow_index( $rules );
+
+			$promotions['message'] = !empty($_POST['discount_deals_workflow']['dd_promotion']['message']) ? wp_kses_post( $_POST['discount_deals_workflow']['dd_promotion']['message'] ) : '';
+
 			if ( ! empty( $type ) ) {
 				$workflow_data = array(
 					'dd_title'     => $title,
@@ -219,6 +271,7 @@ class Discount_Deals_Admin {
 					if ( $workflow ) {
 						$workflow_updated = $workflow_db->update_workflow( $id, $workflow_data );
 						if ( ! $workflow_updated ) {
+							$this->set_flash_notice( __('Your workflow could not be saved. Please try again later.', 'discount-deals'), 'error', true );
 							// Return false if update failed.
 							return false;
 						}
@@ -234,14 +287,19 @@ class Discount_Deals_Admin {
 						$redirect_url
 					);
 				}
+				$this->set_flash_notice( __('Your workflow has been saved successfully.', 'discount-deals'), 'success', true );
+				remove_action( 'admin_notices', array( $this, 'display_flash_notices' ), 99 );
 				wp_safe_redirect( $redirect_url );
 
 				return $id;
 			}
 
+			$this->set_flash_notice( __('Your workflow could not be saved. Please try again later.', 'discount-deals'), 'error', true );
+
 			return false;
 		}
 
+		$this->set_flash_notice( __('You do not have access to add/edit workflows. Please ask the administrator to get access.', 'discount-deals'), 'error', true );
 		return false;
 	}//end maybe_save_workflow()
 
@@ -273,7 +331,6 @@ class Discount_Deals_Admin {
 	}//end add_screen_ids()
 
 
-
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
@@ -300,6 +357,10 @@ class Discount_Deals_Admin {
 					'nonce' => array(
 						'change_column_status' => wp_create_nonce( 'discount_deals_change_workflow_column_status' ),
 					),
+					'i18n'  => array(
+						'alert_bulk_delete' => __( 'Are you sure you want to delete multiple workflows? This action cannot be undone later.', 'discount-deals' ),
+						'alert_delete'      => __( 'Are you sure you want to delete workflow? This action cannot be undone later.', 'discount-deals' )
+					)
 				)
 			);
 

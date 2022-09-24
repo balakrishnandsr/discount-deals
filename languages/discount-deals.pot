@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-22T15:00:38+00:00\n"
+"POT-Creation-Date: 2022-09-24T04:55:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: discount-deals\n"
@@ -29,12 +29,12 @@ msgstr ""
 
 #. Author of the plugin
 #: admin/class-discount-deals-admin-settings.php:65
-#: admin/class-discount-deals-admin.php:393
-#: admin/class-discount-deals-admin.php:394
+#: admin/class-discount-deals-admin.php:515
+#: admin/class-discount-deals-admin.php:516
 msgid "Discount Deals"
 msgstr ""
 
-#: admin/class-discount-deals-admin-ajax.php:97
+#: admin/class-discount-deals-admin-ajax.php:103
 msgid "Action done successfully!!!"
 msgstr ""
 
@@ -76,7 +76,7 @@ msgstr ""
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:80
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:124
 #: includes/workflows/discounts/class-discount-deals-workflow-discount.php:234
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php:35
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php:37
 msgid "Yes"
 msgstr ""
 
@@ -88,7 +88,7 @@ msgstr ""
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:81
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:125
 #: includes/workflows/discounts/class-discount-deals-workflow-discount.php:235
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php:36
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-bool-abstract.php:38
 msgid "No"
 msgstr ""
 
@@ -144,7 +144,6 @@ msgid "Biggest one from matched workflows"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:175
-#: admin/class-discount-deals-admin-settings.php:245
 msgid "All matching workflows"
 msgstr ""
 
@@ -207,23 +206,27 @@ msgid " shortcode to display the discount amount."
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:240
-msgid "Biggest one from matched workflows and free shipping together"
+msgid "Biggest one from matched workflows and matched free shipping together"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:241
-msgid "Biggest one from matched workflows and ignore free shipping"
+msgid "Biggest one from matched workflows and ignore matched free shipping"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:242
-msgid "Lowest one from matched workflows and free shipping together"
+msgid "Lowest one from matched workflows and matched free shipping together"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:243
-msgid "Lowest one from matched workflows and ignore free shipping"
+msgid "Lowest one from matched workflows and ignore matched free shipping"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:244
-msgid "Free shipping only"
+msgid "Matched free shipping only and ignore other matched workflows"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:245
+msgid "All matched workflows"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:247
@@ -310,11 +313,11 @@ msgstr ""
 msgid "workflows"
 msgstr ""
 
-#: admin/class-discount-deals-admin-workflows-list-table.php:115
+#: admin/class-discount-deals-admin-workflows-list-table.php:109
 msgid "Title"
 msgstr ""
 
-#: admin/class-discount-deals-admin-workflows-list-table.php:116
+#: admin/class-discount-deals-admin-workflows-list-table.php:110
 #: admin/partials/discounts/discount-deals-bulk-discount.php:36
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:38
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:60
@@ -323,90 +326,98 @@ msgstr ""
 msgid "Discount Type"
 msgstr ""
 
-#: admin/class-discount-deals-admin-workflows-list-table.php:117
-#: admin/partials/meta_boxes/workflow-meta-box-save.php:44
-msgid "Is Exclusive"
-msgstr ""
-
-#: admin/class-discount-deals-admin-workflows-list-table.php:118
+#: admin/class-discount-deals-admin-workflows-list-table.php:111
 msgid "Created At"
 msgstr ""
 
-#: admin/class-discount-deals-admin-workflows-list-table.php:119
+#: admin/class-discount-deals-admin-workflows-list-table.php:112
 msgid "Updated At"
 msgstr ""
 
-#: admin/class-discount-deals-admin-workflows-list-table.php:120
+#: admin/class-discount-deals-admin-workflows-list-table.php:113
 #: admin/partials/meta_boxes/workflow-meta-box-save.php:30
 msgid "Status"
 msgstr ""
 
-#: admin/class-discount-deals-admin-workflows-list-table.php:189
-#: admin/class-discount-deals-admin-workflows-list-table.php:252
-#: admin/partials/meta_boxes/workflow-meta-box-save.php:64
+#: admin/class-discount-deals-admin-workflows-list-table.php:181
+#: admin/class-discount-deals-admin-workflows-list-table.php:242
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:50
 msgid "Delete"
 msgstr ""
 
-#: admin/class-discount-deals-admin-workflows-list-table.php:190
+#: admin/class-discount-deals-admin-workflows-list-table.php:182
 msgid "Enable"
 msgstr ""
 
-#: admin/class-discount-deals-admin-workflows-list-table.php:191
+#: admin/class-discount-deals-admin-workflows-list-table.php:183
 msgid "Disable"
 msgstr ""
 
-#: admin/class-discount-deals-admin-workflows-list-table.php:192
-msgid "Mark as Exclusive"
-msgstr ""
-
-#: admin/class-discount-deals-admin-workflows-list-table.php:193
-msgid "Mark as Not-Exclusive"
-msgstr ""
-
-#: admin/class-discount-deals-admin-workflows-list-table.php:251
+#: admin/class-discount-deals-admin-workflows-list-table.php:241
 msgid "Edit"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:408
-#: admin/class-discount-deals-admin.php:409
+#: admin/class-discount-deals-admin.php:274
+#: admin/class-discount-deals-admin.php:297
+msgid "Your workflow could not be saved. Please try again later."
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:290
+msgid "Your workflow has been saved successfully."
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:302
+msgid "You do not have access to add/edit workflows. Please ask the administrator to get access."
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:361
+msgid "Are you sure you want to delete multiple workflows? This action cannot be undone later."
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:362
+msgid "Are you sure you want to delete workflow? This action cannot be undone later."
+msgstr ""
+
+#: admin/class-discount-deals-admin.php:530
+#: admin/class-discount-deals-admin.php:531
 msgid "Getting Started"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:506
+#: admin/class-discount-deals-admin.php:628
 msgid "Discounts"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:518
+#: admin/class-discount-deals-admin.php:640
 msgid "Rules (Optional)"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:529
+#: admin/class-discount-deals-admin.php:651
 msgid "Promotion (Optional)"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:541
-#: admin/partials/meta_boxes/workflow-meta-box-save.php:76
+#: admin/class-discount-deals-admin.php:663
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:62
 msgid "Save"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:633
+#: admin/class-discount-deals-admin.php:755
 msgid "Getting started"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:634
+#: admin/class-discount-deals-admin.php:756
 #: admin/partials/discount-deals-admin-workflows-list-table.php:36
 msgid "Settings"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:635
+#: admin/class-discount-deals-admin.php:757
 msgid "Docs"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:636
+#: admin/class-discount-deals-admin.php:758
 msgid "Support"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:637
+#: admin/class-discount-deals-admin.php:759
 msgid "Review"
 msgstr ""
 
@@ -418,7 +429,11 @@ msgstr ""
 msgid " Edit Workflow"
 msgstr ""
 
-#: admin/partials/discount-deals-admin-workflow-add-or-edit.php:57
+#: admin/partials/discount-deals-admin-workflow-add-or-edit.php:34
+msgid "Back"
+msgstr ""
+
+#: admin/partials/discount-deals-admin-workflow-add-or-edit.php:58
 msgid "Add title"
 msgstr ""
 
@@ -625,7 +640,7 @@ msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:147
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:171
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:303
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:309
 #: admin/partials/discounts/discount-deals-cart-discount.php:162
 #: admin/partials/discounts/discount-deals-product-discount.php:154
 msgid "+ Add Discount Range"
@@ -633,7 +648,7 @@ msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:155
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:179
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:311
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:317
 #: admin/partials/discounts/discount-deals-cart-discount.php:170
 #: admin/partials/discounts/discount-deals-product-discount.php:162
 msgid "Important notes:"
@@ -650,7 +665,7 @@ msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:171
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:195
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:327
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:333
 #: admin/partials/discounts/discount-deals-cart-discount.php:186
 #: admin/partials/discounts/discount-deals-product-discount.php:178
 msgid "How it Works?"
@@ -662,7 +677,7 @@ msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:173
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:197
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:329
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:335
 #: admin/partials/discounts/discount-deals-cart-discount.php:188
 #: admin/partials/discounts/discount-deals-product-discount.php:180
 msgid "Use cases: "
@@ -687,17 +702,17 @@ msgid "Free"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:183
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:315
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:321
 msgid "When calculating the discount, the quantity details of the respective item in the shopping cart are taken into account and compared with the \"discount ranges\" you have created."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:186
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:318
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:324
 msgid "If your discount type is \"Percentage Discount\", then you can limit the discount for that product to a certain amount. Here, the \"discount quantity\" of the range will be taken into account to limit the discount."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:195
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:327
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:333
 msgid " Create multiple discount ranges by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount ranges, the discount will be applied to that product accordingly. "
 msgstr ""
 
@@ -731,7 +746,7 @@ msgid "Select category to pick free product"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:216
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:348
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:354
 msgid "Search category..."
 msgstr ""
 
@@ -740,20 +755,20 @@ msgid "Select free products"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:251
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:341
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-product-select-abstract.php:32
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:347
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-product-select-abstract.php:34
 msgid "Search products..."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:277
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:283
 msgid "Would you like to show \"Eligible for discount\" message, if the above product not found in cart? "
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:331
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:337
 msgid "Buy two or more t-shirts and get one cap for free as a discount."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:332
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:338
 msgid "Give a 50% discount on a quantity of product Y if the customer buys product X in five or more quantities. "
 msgstr ""
 
@@ -839,7 +854,11 @@ msgstr ""
 msgid "What type of discount that you are planning to create for your customers."
 msgstr ""
 
-#: admin/partials/meta_boxes/workflow-meta-box-promotions.php:37
+#: admin/partials/meta_boxes/workflow-meta-box-promotions.php:40
+msgid "Enter the promotional message that will be displayed to the customer"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-promotions.php:56
 msgid "Promotions can be used to entice customers to buy from your store with more discounts."
 msgstr ""
 
@@ -895,7 +914,15 @@ msgstr ""
 msgid "or"
 msgstr ""
 
-#: admin/partials/meta_boxes/workflow-meta-box-save.php:72
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:32
+msgid "Publish"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:33
+msgid "Draft"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-save.php:58
 msgid "Save & Close"
 msgstr ""
 
@@ -980,11 +1007,6 @@ msgstr ""
 msgid "Do you want to show bulk table in product detail page?"
 msgstr ""
 
-#: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:136
-#: includes/workflows/discounts/class-discount-deals-workflow-discount.php:275
-msgid "Enter the promotional message that will be displayed to the customer"
-msgstr ""
-
 #: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:23
 msgid "Buy X and Get X discount"
 msgstr ""
@@ -1021,216 +1043,216 @@ msgstr ""
 msgid "Give dynamic discounts to all products in your store."
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:110
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:112
 msgid "Other"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:202
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:204
 msgid "any contains"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:203
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:205
 msgid "any matches exactly"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:204
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:206
 msgid "any starts with"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:205
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:207
 msgid "any ends with"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:217
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:219
 msgid "matches all"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:218
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:220
 msgid "matches any"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:219
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:221
 msgid "matches none"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:231
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:233
 msgid "includes in list"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:232
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:234
 msgid "does not include in list"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:256
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:258
 msgid "contains"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:257
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:259
 msgid "does not contain"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:258
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:314
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:260
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:316
 msgid "is"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:259
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:315
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:261
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:317
 msgid "is not"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:260
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:262
 msgid "starts with"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:261
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:263
 msgid "ends with"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:262
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:264
 msgid "is blank"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:263
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:265
 msgid "is not blank"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:264
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:266
 msgid "matches regex"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:288
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:290
 msgid "is a multiple of"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:289
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:291
 msgid "is not a multiple of"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:301
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:303
 msgid "is greater than"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:302
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:304
 msgid "is less than"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:133
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:135
 msgid "Is in the next"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:134
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:136
 msgid "Is not in the next"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:138
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:140
 msgid "Is in the last"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:139
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:141
 msgid "Is not in the last"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:144
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:146
 msgid "Is after"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:149
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:151
 msgid "Is before"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:154
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:156
 msgid "Is on"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:159
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:161
 msgid "Is not on"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:163
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:165
 msgid "Is on day/s of the week"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:167
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:169
 msgid "Is in the range"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:171
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:173
 msgid "Is not set"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:175
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:177
 msgid "Is set"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:179
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:181
 msgid "Hours"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:180
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-date-abstract.php:182
 msgid "Days"
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-searchable-select-abstract.php:50
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-searchable-select-abstract.php:52
 msgid "Search..."
 msgstr ""
 
-#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-select-abstract.php:48
+#: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-select-abstract.php:50
 msgid "Select..."
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-coupons.php:39
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-coupons.php:41
 msgid "Cart - Coupons"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-coupons.php:40
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-coupons.php:42
 msgid "Search and Select Coupons..."
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-created-date.php:39
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-created-date.php:41
 msgid "Cart - Created Date"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-categories.php:38
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-categories.php:40
 #: includes/workflows/rules/class-discount-deals-workflow-rule-customer-purchased-categories.php:42
-#: includes/workflows/rules/class-discount-deals-workflow-rule-product-categories.php:38
+#: includes/workflows/rules/class-discount-deals-workflow-rule-product-categories.php:40
 msgid "Select categories..."
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-categories.php:39
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-categories.php:41
 msgid "Cart - Item Categories"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-count.php:35
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-count.php:37
 msgid "Cart - Item Count"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-tags.php:36
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-tags.php:38
 msgid "Cart - Item Tags"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-tags.php:37
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-item-tags.php:39
 #: includes/workflows/rules/class-discount-deals-workflow-rule-customer-tags.php:41
 msgid "Select tags..."
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-items.php:28
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-items.php:30
 msgid "Cart - Items"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-total.php:35
+#: includes/workflows/rules/class-discount-deals-workflow-rule-cart-total.php:37
 msgid "Cart - Sub total"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-account-created-date.php:40
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-account-created-date.php:42
 msgid "Customer - Account Created Date"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-city.php:30
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-city.php:32
 msgid "Customer - City"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-company.php:30
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-company.php:32
 msgid "Customer - Company"
 msgstr ""
 
@@ -1246,7 +1268,7 @@ msgstr ""
 msgid "Customer - First Paid Order Date"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-is-guest.php:29
+#: includes/workflows/rules/class-discount-deals-workflow-rule-customer-is-guest.php:31
 msgid "Customer - Is Guest"
 msgstr ""
 
@@ -1326,33 +1348,33 @@ msgstr ""
 msgid "Customer - Total Spent"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-product-categories.php:37
+#: includes/workflows/rules/class-discount-deals-workflow-rule-product-categories.php:39
 msgid "Product - Categories"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-product.php:30
+#: includes/workflows/rules/class-discount-deals-workflow-rule-product.php:32
 msgid "Product - Product"
 msgstr ""
 
-#: includes/workflows/rules/class-discount-deals-workflow-rule-shop-date-time.php:42
+#: includes/workflows/rules/class-discount-deals-workflow-rule-shop-date-time.php:43
 msgid "Shop - Current Date/Time"
 msgstr ""
 
-#: public/class-discount-deals-public.php:401
+#: public/class-discount-deals-public.php:440
 msgid " and "
 msgstr ""
 
-#: public/class-discount-deals-public.php:478
+#: public/class-discount-deals-public.php:517
 #: public/partials/discount-deals-product-promotional-messages.php:107
 msgid "Of"
 msgstr ""
 
-#: public/class-discount-deals-public.php:478
+#: public/class-discount-deals-public.php:517
 #: public/partials/discount-deals-product-promotional-messages.php:107
 msgid "quantities, "
 msgstr ""
 
-#: public/class-discount-deals-public.php:478
+#: public/class-discount-deals-public.php:517
 #: public/partials/discount-deals-product-promotional-messages.php:107
 msgid "quantities were already in the shopping cart."
 msgstr ""

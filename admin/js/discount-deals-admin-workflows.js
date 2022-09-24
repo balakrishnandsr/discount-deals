@@ -9,6 +9,32 @@
 	$(
 		function () {
 			$( document ).on(
+				'submit',
+				'form',
+				function (e) {
+					var $form = $(this);
+					var bulk_action = $form.find('select[name="action"]').val();
+					if (bulk_action == "delete") {
+						if (confirm(discount_deals_workflows_localize_script.i18n.alert_bulk_delete)) {
+							return true;
+						} else {
+							e.preventDefault();
+						}
+					}
+				}
+			);
+			$( document ).on(
+				'click',
+				'.row-actions .delete a',
+				function (e) {
+					if (confirm(discount_deals_workflows_localize_script.i18n.alert_delete)) {
+						return true;
+					} else {
+						e.preventDefault();
+					}
+				}
+			);
+			$( document ).on(
 				'change',
 				'.discount-deals-workflow-switch',
 				function () {
