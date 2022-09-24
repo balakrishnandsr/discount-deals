@@ -141,7 +141,7 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		}
 		$current_action = $this->current_action();
 		if ( in_array( $current_action, array_keys( $this->get_bulk_actions() ) ) ) {
-			$workflow_ids = discount_deals_get_request_data( 'workflow', array(), false );
+			$workflow_ids = discount_deals_get_request_data( 'workflow', array() );
 			if ( ! is_array( $workflow_ids ) ) {
 				$workflow_ids = array( $workflow_ids );
 			}

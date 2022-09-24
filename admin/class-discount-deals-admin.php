@@ -189,10 +189,11 @@ class Discount_Deals_Admin {
 			if ( ! wp_verify_nonce( $workflow_nonce, 'discount-deals-workflow' ) ) {
 				return false;
 			}
-			$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array(), false );
+			$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array());
 			$rules       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'rule_options', array() ) );
 			$discounts   = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_discounts', array() ) );
-			$promotions  = discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array(), false );
+			$promotions  = discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array() );
+			$promotions['message'] = !empty($_POST['discount_deals_workflow']['dd_promotion']['message']) ? wp_kses_post( $_POST['discount_deals_workflow']['dd_promotion']['message'] ) : '';
 			$id          = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_id', 0 ) );
 			$type        = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_type', '' ) );
 			$title       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_title', '' ) );
