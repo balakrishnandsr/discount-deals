@@ -38,9 +38,9 @@ abstract class Discount_Deals_DB {
 	/**
 	 * Prepare data for operation.
 	 *
-	 * @param array $data Data.
-	 * @param array $column_formats Column Formats.
-	 * @param array $column_defaults Column_defaults.
+	 * @param array   $data Data.
+	 * @param array   $column_formats Column Formats.
+	 * @param array   $column_defaults Column_defaults.
 	 * @param boolean $insert Insert.
 	 *
 	 * @return array
@@ -116,7 +116,7 @@ abstract class Discount_Deals_DB {
 	/**
 	 * Insert a new row.
 	 *
-	 * @param array $data Data.
+	 * @param array  $data Data.
 	 * @param string $type Type.
 	 *
 	 * @return integer
@@ -164,8 +164,8 @@ abstract class Discount_Deals_DB {
 	 * Update a specific row.
 	 *
 	 * @param integer $row_id Row_id.
-	 * @param array $data Data.
-	 * @param string $where Where.
+	 * @param array   $data Data.
+	 * @param string  $where Where.
 	 *
 	 * @return boolean
 	 */

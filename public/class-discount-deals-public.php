@@ -1144,7 +1144,7 @@ class Discount_Deals_Public {
 				if ( ! isset( self::$cart_item_discounts[ $cart_item_key ] ) ) {
 					self::$cart_item_discounts[ $cart_item_key ] = $regular_price - $sale_price;
 				}
-				$item_price = wc_format_sale_price( $this->calculate_tax_for_cart_item( $product, $regular_price, $cart_item['quantity'] ), $this->calculate_tax_for_cart_item( $product, $sale_price, $cart_item['quantity'] ) );
+				$item_price = wc_format_sale_price( $this->calculate_tax_for_cart_item( $product, $regular_price ), $this->calculate_tax_for_cart_item( $product, $sale_price ) );
 			}
 		}
 

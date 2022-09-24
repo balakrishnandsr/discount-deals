@@ -252,7 +252,7 @@ function discount_deals_html( $field ) {
 		</td>
 		<td class="discount-deals-table__col discount-deals-table__col--field">
 			<?php
-			echo wp_kses( $field['html'], wp_kses_allowed_html('discount_deals') );
+			echo wp_kses( $field['html'], wp_kses_allowed_html( 'discount_deals' ) );
 			?>
 		</td>
 	</tr>

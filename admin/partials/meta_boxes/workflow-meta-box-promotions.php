@@ -21,8 +21,7 @@ $workflow = $this->get_workflow();
 	<tbody id="discount-deals-promotion-details-container">
 	<?php
 	if ( $workflow ) {
-		echo wp_kses( $workflow->get_discount()->load_promotion_fields(), wp_kses_allowed_html('discount_deals') );
-		// Uncomment echo $workflow->get_discount()->load_promotion_fields();.
+		echo wp_kses( $workflow->get_discount()->load_promotion_fields(), wp_kses_allowed_html( 'discount_deals' ) );
 	}
 	?>
 	</tbody>
@@ -39,7 +38,7 @@ $workflow = $this->get_workflow();
 				'value'    => discount_deals_get_value_from_array( $discount_details, 'message', '<p><b>Special Price</b> Purchase above 500$ and get extra 5% off. </p>', false ),
 				'label'    => __( 'Enter the promotional message that will be displayed to the customer', 'discount-deals' ),
 				'required' => true,
-				'style'    => 'display:none;'
+				'style'    => 'display:none;',
 			)
 		);
 		?>

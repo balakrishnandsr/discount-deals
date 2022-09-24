@@ -29,9 +29,10 @@ if ( 'new' === $workflow_action ) {
 		<div class="discount-deals-fp-loader discount-deals-hidden">
 			<div class="discount-deals-lds-ripple"><div></div><div></div></div>
 		</div>
-		<h1 class="wp-heading-inline">
-			<?php echo esc_html( $workflow_title ); ?>
-		</h1>
+		<h1 class="wp-heading-inline"><?php echo esc_html( $workflow_title ); ?></h1>
+		<a href="?page=<?php echo esc_attr( discount_deals_get_data( 'page', '' ) ); ?>"
+		   class="page-title-action"><?php esc_html_e( 'Back', 'discount-deals' ); ?></a>
+		<hr class="wp-header-end">
 		<form class="mt-5" method="post" action="#">
 			<input type="hidden" id="discount_deals_workflow_dd_id" name="discount_deals_workflow[dd_id]"
 				   value="<?php echo ! empty( $workflow_id ) ? esc_attr( $workflow_id ) : ''; ?>">

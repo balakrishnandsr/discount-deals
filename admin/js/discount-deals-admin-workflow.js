@@ -126,9 +126,12 @@
 							promotion_meta_box.find( 'table #discount-deals-promotion-details-container' ).append( response.data.promotional_fields );
 							discount_deals.workflow.set( 'discount_type', response.data.discount_details );
 							discount_deals.rules.clear_incompatible_rules();
-							setTimeout(function () {
+							setTimeout(
+								function () {
 									$( 'input[name="discount_deals_workflow[dd_promotion][enable]"]' ).trigger( 'change' )
-							}, 100)
+								},
+								100
+							)
 						}
 					);
 				} else {

@@ -120,7 +120,7 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	 * Update Workflow
 	 *
 	 * @param integer $workflow_id Workflow ID.
-	 * @param array $workflow_data Workflow data.
+	 * @param array   $workflow_data Workflow data.
 	 *
 	 * @return boolean|void
 	 */
@@ -185,20 +185,20 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Get the table of workflows by condition.
 	 *
-	 * @param string $order_by Order by.
+	 * @param string  $order_by Order by.
 	 * @param integer $limit Limit.
 	 * @param integer $offset Offset value.
-	 * @param string $type Discount type.
-	 * @param string $search Search keyword.
+	 * @param string  $type Discount type.
+	 * @param string  $search Search keyword.
 	 *
 	 * @return array|object|stdClass[]|null
 	 */
 	public function get_by_conditions( $order_by, $order, $limit, $offset, $type = '', $search = '' ) {
-		$order = strtolower($order);
+		$order = strtolower( $order );
 		$order_type = "{$order_by}_$order";
 		global $wpdb;
 		$search = "%{$wpdb->esc_like($search)}%";
-		if ( !empty( $type ) ) {
+		if ( ! empty( $type ) ) {
 			switch ( $order_type ) {
 				case 'dd_status_asc':
 					return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE 1 = 1 AND dd_title like %s AND dd_type = %s ORDER BY dd_status ASC LIMIT %d OFFSET %d", $search, $type, $limit, $offset ), ARRAY_A );
