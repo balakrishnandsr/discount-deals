@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-24T15:01:37+00:00\n"
+"POT-Creation-Date: 2022-09-28T06:45:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: discount-deals\n"
@@ -29,8 +29,8 @@ msgstr ""
 
 #. Author of the plugin
 #: admin/class-discount-deals-admin-settings.php:65
-#: admin/class-discount-deals-admin.php:519
-#: admin/class-discount-deals-admin.php:520
+#: admin/class-discount-deals-admin.php:531
+#: admin/class-discount-deals-admin.php:532
 msgid "Discount Deals"
 msgstr ""
 
@@ -362,67 +362,67 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:278
-#: admin/class-discount-deals-admin.php:301
+#: admin/class-discount-deals-admin.php:290
+#: admin/class-discount-deals-admin.php:313
 msgid "Your workflow could not be saved. Please try again later."
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:294
+#: admin/class-discount-deals-admin.php:306
 msgid "Your workflow has been saved successfully."
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:306
+#: admin/class-discount-deals-admin.php:318
 msgid "You do not have access to add/edit workflows. Please ask the administrator to get access."
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:365
+#: admin/class-discount-deals-admin.php:377
 msgid "Are you sure you want to delete multiple workflows? This action cannot be undone later."
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:366
+#: admin/class-discount-deals-admin.php:378
 msgid "Are you sure you want to delete workflow? This action cannot be undone later."
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:534
-#: admin/class-discount-deals-admin.php:535
+#: admin/class-discount-deals-admin.php:546
+#: admin/class-discount-deals-admin.php:547
 msgid "Getting Started"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:632
+#: admin/class-discount-deals-admin.php:644
 msgid "Discounts"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:644
+#: admin/class-discount-deals-admin.php:656
 msgid "Rules (Optional)"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:655
+#: admin/class-discount-deals-admin.php:667
 msgid "Promotion (Optional)"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:667
+#: admin/class-discount-deals-admin.php:679
 #: admin/partials/meta_boxes/workflow-meta-box-save.php:62
 msgid "Save"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:759
+#: admin/class-discount-deals-admin.php:771
 msgid "Getting started"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:760
+#: admin/class-discount-deals-admin.php:772
 #: admin/partials/discount-deals-admin-workflows-list-table.php:36
 msgid "Settings"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:761
+#: admin/class-discount-deals-admin.php:773
 msgid "Docs"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:762
+#: admin/class-discount-deals-admin.php:774
 msgid "Support"
 msgstr ""
 
-#: admin/class-discount-deals-admin.php:763
+#: admin/class-discount-deals-admin.php:775
 msgid "Review"
 msgstr ""
 

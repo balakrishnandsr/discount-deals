@@ -196,6 +196,10 @@ class Discount_Deals_Admin {
 	 * @return bool
 	 */
 	public function set_flash_notice( $notice = '', $type = 'warning', $dismissible = true ) {
+		$page = discount_deals_get_data( 'page', '' );
+		if ( 'discount-deals' != $page ) {
+			return false;
+		}
 		if ( empty( $notice ) ) {
 			return false;
 		}
@@ -218,6 +222,10 @@ class Discount_Deals_Admin {
 	 * @return void
 	 */
 	public function display_flash_notices() {
+		$page = discount_deals_get_data( 'page', '' );
+		if ( 'discount-deals' != $page ) {
+			return;
+		}
 		$notices = get_option( $this->_flash_notice_key, array() );
 		if ( empty( $notices ) ) {
 			return;
@@ -234,6 +242,10 @@ class Discount_Deals_Admin {
 	 * @return array|false|integer|string
 	 */
 	public function maybe_save_workflow() {
+		$page = discount_deals_get_data( 'page', '' );
+		if ( 'discount-deals' != $page ) {
+			return false;
+		}
 		if ( current_user_can( 'manage_woocommerce' ) ) {
 			$save_workflow = discount_deals_get_request_data( 'save_discount_deals_workflow' );
 			if ( ! $save_workflow ) {
