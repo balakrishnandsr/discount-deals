@@ -119,7 +119,7 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 	/**
 	 * Update Workflow
 	 *
-	 * @param integer $workflow_id Workflow ID.
+	 * @param integer $workflow_id   Workflow ID.
 	 * @param array   $workflow_data Workflow data.
 	 *
 	 * @return boolean|void
@@ -151,7 +151,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		}
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT count(*) FROM `{$wpdb->prefix}dd_workflows` WHERE dd_type=%s", $type ) );
-	}
+	}//end count()
+
 
 	/**
 	 * Delete a row by primary key.
@@ -168,7 +169,8 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		}
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->prefix}dd_workflows` WHERE dd_id = %d", $row_id ) );
-	}
+	}//end delete()
+
 
 
 	/**
@@ -180,16 +182,17 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		global $wpdb;
 
 		return $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}dd_workflows` WHERE dd_status = 1" );
-	}
+	}//end get_active_workflows()
+
 
 	/**
 	 * Get the table of workflows by condition.
 	 *
 	 * @param string  $order_by Order by.
-	 * @param integer $limit Limit.
-	 * @param integer $offset Offset value.
-	 * @param string  $type Discount type.
-	 * @param string  $search Search keyword.
+	 * @param integer $limit    Limit.
+	 * @param integer $offset   Offset value.
+	 * @param string  $type     Discount type.
+	 * @param string  $search   Search keyword.
 	 *
 	 * @return array|object|stdClass[]|null
 	 */

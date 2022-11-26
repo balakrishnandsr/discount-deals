@@ -220,7 +220,7 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Load promotional message fields
 	 *
-	 * @param bool $return Need to return the html.
+	 * @param boolean $return Need to return the html.
 	 *
 	 * @return string|void
 	 */
@@ -303,8 +303,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	 * Calculate discount for given data item
 	 *
 	 * @param mixed $data_item Calculate for which data item.
-	 * @param array $extra Extra.
-	 * @param mixed $price Price.
+	 * @param array $extra     Extra.
+	 * @param mixed $price     Price.
 	 *
 	 * @return mixed
 	 */
@@ -313,8 +313,8 @@ abstract class Discount_Deals_Workflow_Discount {
 	/**
 	 * Calculate discount amount.
 	 *
-	 * @param string $type Discount type.
-	 * @param float  $price Price.
+	 * @param string $type           Discount type.
+	 * @param float  $price          Price.
 	 * @param float  $discount_value Discount value.
 	 *
 	 * @return float|integer|mixed

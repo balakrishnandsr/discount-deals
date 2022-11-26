@@ -17,7 +17,8 @@ function discount_deals_implode_html_attributes( $raw_attributes ) {
 	foreach ( $raw_attributes as $name => $value ) {
 		echo esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
 	}
-}
+}//end discount_deals_implode_html_attributes()
+
 
 /**
  * Output a select input box.
