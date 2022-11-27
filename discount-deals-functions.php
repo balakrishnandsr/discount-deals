@@ -328,6 +328,7 @@ if ( ! function_exists( 'discount_deals_get_counted_order_statuses' ) ) {
 	 */
 	function discount_deals_get_counted_order_statuses( $include_prefix = true ) {
 		$default_statuses = array_merge( wc_get_is_paid_statuses(), array( 'on-hold' ) );
+
 		/**
 		 * Filter to modify counted order statuses.
 		 *
@@ -501,5 +502,5 @@ if ( ! function_exists( 'discount_deals_get_cart_subtotal' ) ) {
 		 * @since 1.0.0
 		 */
 		return apply_filters( 'discount_deals_cart_subtotal', $subtotal, $subtotal, $subtotal_tax );
-	}
+	}//end discount_deals_get_cart_subtotal()
 }

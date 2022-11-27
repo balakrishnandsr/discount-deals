@@ -24,11 +24,11 @@ if ( ! defined( 'WPINC' ) ) {
 
 defined( 'DISCOUNT_DEALS_VERSION' ) || define( 'DISCOUNT_DEALS_VERSION', '1.0.0' );
 defined( 'DISCOUNT_DEALS_PLUGIN_FILE' ) || define( 'DISCOUNT_DEALS_PLUGIN_FILE', __FILE__ );
+defined( 'DISCOUNT_DEALS_PLUGIN_SLUG' ) || define( 'DISCOUNT_DEALS_PLUGIN_SLUG', 'discount-deals' );
 defined( 'DISCOUNT_DEALS_ABSPATH' ) || define( 'DISCOUNT_DEALS_ABSPATH', dirname( DISCOUNT_DEALS_PLUGIN_FILE ) . '/' );
 
 /**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-discount-deals-activator.php
+ * Do necessary things on plugin activation.
  *
  * @return void
  */
@@ -40,8 +40,7 @@ function activate_discount_deals() {
 register_activation_hook( __FILE__, 'activate_discount_deals' );
 
 /**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-discount-deals-deactivator.php
+ * Do necessary things on plugin de-activation.
  *
  * @return void
  */

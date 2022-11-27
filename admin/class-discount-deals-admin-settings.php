@@ -78,15 +78,15 @@ class Discount_Deals_Admin_Settings {
 			return;
 		}
 		if ( discount_deals_get_value_from_array( $_POST, 'save', false ) ) {
-			$actual_Settings = array();
+			$actual_settings = array();
 			foreach ( $_POST as $key => $value ) {
 				if ( str_starts_with( $key, 'wc_settings_tab_discount_deals_' ) ) {
 					$actual_key = str_replace( 'wc_settings_tab_discount_deals_', '', $key );
 
-					$actual_Settings[ $actual_key ] = wc_clean( $value );
+					$actual_settings[ $actual_key ] = wc_clean( $value );
 				}
 			}
-			Discount_Deals_Settings::save_settings( $actual_Settings );
+			Discount_Deals_Settings::save_settings( $actual_settings );
 		}
 	}//end save_settings()
 

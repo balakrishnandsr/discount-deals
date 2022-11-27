@@ -87,30 +87,10 @@ class Discount_Deals_Public {
 	public $_free_cart_item_workflow_key = 'discount_deals_free_gift_by';
 
 	/**
-	 * The ID of this plugin.
-	 *
-	 * @var      string $plugin_slug The ID of this plugin.
-	 */
-	private $plugin_slug;
-
-	/**
-	 * The version of this plugin.
-	 *
-	 * @var      string $version The current version of this plugin.
-	 */
-	private $version;
-
-	/**
 	 * Initialize the class and set its properties.
-	 *
-	 * @param string $plugin_name The name of the plugin.
-	 * @param string $version     The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
-
-		$this->plugin_slug = $plugin_name;
-		$this->version     = $version;
-		if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
+	public function __construct() {
+		if ( ! is_admin() || defined( 'DOING_AJAX' ) && ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
@@ -442,6 +422,7 @@ class Discount_Deals_Public {
 					}
 				}
 				$new_message = str_replace( '{{workflow_title}}', $titles, $message );
+
 				/**
 				 * Filter to modify applied workflows promotional messages.
 				 *
@@ -452,6 +433,7 @@ class Discount_Deals_Public {
 			} else {
 				foreach ( $applied_workflows as $workflow ) {
 					$new_message = str_replace( '{{workflow_title}}', $workflow->get_title(), $message );
+
 					/**
 					 * Filter to modify applied workflows promotional messages.
 					 *
@@ -509,6 +491,7 @@ class Discount_Deals_Public {
 		}
 
 		$discount = discount_deals_get_product_discount( $price, $product, $quantity_to_calculate, false );
+
 		/**
 		 * Filter to modify the bulk table item quantity count in cart.
 		 *
@@ -570,6 +553,7 @@ class Discount_Deals_Public {
 		$position          = 'before_add_to_cart_button';
 		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
 		$product_discounts = self::$product_discounts;
+
 		/**
 		 * Filter to modify promotional message that was shown before add to cart form.
 		 *
@@ -601,6 +585,7 @@ class Discount_Deals_Public {
 		$position          = 'after_single_product_summary';
 		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
 		$product_discounts = self::$product_discounts;
+
 		/**
 		 * Filter to modify promotional message that was shown after product summary.
 		 *
@@ -632,6 +617,7 @@ class Discount_Deals_Public {
 		$position          = 'after_add_to_cart_button';
 		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
 		$product_discounts = self::$product_discounts;
+
 		/**
 		 * Filter to modify applied workflows promotional message.
 		 *
@@ -946,6 +932,7 @@ class Discount_Deals_Public {
 						$quantity_in_cart            = $discounted_cart_item['quantity'];
 						$discount_quantity           = $actual_discount['discount_quantity'];
 						$original_price_quantity     = $quantity_in_cart - $discount_quantity;
+
 						/**
 						 * Filter to modify cart line item object.
 						 *
@@ -1013,6 +1000,7 @@ class Discount_Deals_Public {
 				if ( is_a( $product, 'WC_Product' ) ) {
 					$discount_price   = wc_price( $eligible_bxgy_product['total'] );
 					$discount_message = "You are now eligible to get $discount_price discount on {$product->get_title()}, would you like to <a href='{$product->add_to_cart_url()}'>grab this offer?</a>";
+
 					/**
 					 * Filter to modify Buy X Get Y product is not found in cart. This filter can be used to change promotion message.
 					 *
@@ -1079,7 +1067,7 @@ class Discount_Deals_Public {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/discount-deals-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( DISCOUNT_DEALS_PLUGIN_SLUG, plugin_dir_url( __FILE__ ) . 'css/discount-deals-public.css', array(), DISCOUNT_DEALS_VERSION, 'all' );
 
 	}//end enqueue_styles()
 
@@ -1090,12 +1078,12 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-public.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( DISCOUNT_DEALS_PLUGIN_SLUG, plugin_dir_url( __FILE__ ) . 'js/discount-deals-public.js', array( 'jquery' ), DISCOUNT_DEALS_VERSION, true );
 		$localize_params = array(
 			'ajax_url'            => admin_url( 'admin-ajax.php' ),
 			'product_price_nonce' => wp_create_nonce( 'discount-deals-bulk-discount' ),
 		);
-		wp_localize_script( $this->plugin_slug, 'discount_deals_params', $localize_params );
+		wp_localize_script( DISCOUNT_DEALS_PLUGIN_SLUG, 'discount_deals_params', $localize_params );
 
 	}//end enqueue_scripts()
 
@@ -1112,6 +1100,7 @@ class Discount_Deals_Public {
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			return $item_price;
 		}
+
 		/**
 		 * Filter to modify cart line item object.
 		 *
@@ -1124,6 +1113,7 @@ class Discount_Deals_Public {
 		 */
 
 		$sale_price          = $product->get_price();
+
 		/**
 		 * Filter to modify "From which price, we need to show strikeout for cart item".
 		 *
@@ -1167,12 +1157,14 @@ class Discount_Deals_Public {
 		}
 		if ( array_key_exists( $cart_item_key, self::$priced_bogo_products ) ) {
 			$discount_details = self::$priced_bogo_products[ $cart_item_key ];
+
 			/**
 			 * Filter to modify cart line item object.
 			 *
 			 * @since 1.0.0
 			 */
 			$product             = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
 			/**
 			 * Filter to modify "From which price, we need to show strikeout for cart item".
 			 *
@@ -1282,6 +1274,7 @@ class Discount_Deals_Public {
 			if ( $this->is_free_cart_item( $cart_item ) ) {
 				continue;
 			}
+
 			/**
 			 * Filter to modify cart line item object.
 			 *
@@ -1523,17 +1516,6 @@ class Discount_Deals_Public {
 		return $coupon_html;
 	}//end hide_remove_coupon()
 
-
-	/**
-	 * Show the free shipping.
-	 *
-	 * @return void
-	 */
-	public function mayHaveFreeShipping() {
-		new Discount_Deals_Free_Shipping();
-	}//end mayHaveFreeShipping()
-
-
 	/**
 	 * Register the discount deals free shipping method.
 	 *
@@ -1593,6 +1575,7 @@ class Discount_Deals_Public {
 				)
 			);
 		}
+
 		/**
 		 * Calculate tax for given product and quantity.
 		 *

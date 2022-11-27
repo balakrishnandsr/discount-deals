@@ -64,7 +64,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Load promotional message fields
 	 *
-	 * @param bool $return Need to return the html.
+	 * @param boolean $return Need to return the html.
 	 *
 	 * @return string|void
 	 */

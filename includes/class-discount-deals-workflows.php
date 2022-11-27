@@ -653,6 +653,7 @@ class Discount_Deals_Workflows {
 			$active_workflows = self::get_active_workflows();
 			if ( ! empty( $active_workflows['all_active'] ) ) {
 				foreach ( $active_workflows['all_active'] as $workflow ) {
+
 					/*
 					 * Variable declaration.
 					 * @var Discount_Deals_Workflow $workflow workflow object.
