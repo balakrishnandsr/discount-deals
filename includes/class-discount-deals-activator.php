@@ -70,7 +70,7 @@ class Discount_Deals_Activator {
 
 		$dd_workflows_table = "
 				CREATE TABLE IF NOT EXISTS {$wpdb->prefix}dd_workflows (
-				    dd_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				    dd_id bigint(20) NOT NULL AUTO_INCREMENT,
 					dd_title varchar(255) NOT NULL,
 					dd_type enum('simple_discount', 'bulk_discount', 'bxgx_discount', 'bxgy_discount', 'cart_discount') DEFAULT 'simple_discount',
 					dd_rules text DEFAULT NULL,
@@ -93,10 +93,10 @@ class Discount_Deals_Activator {
 		dbDelta( $dd_workflows_table );
 		$dd_analytics_table = "
 				CREATE TABLE {$wpdb->prefix}dd_analytics(
-				    dd_analytics_id BIGINT NOT NULL,
-				    dd_workflow_id BIGINT NOT NULL,
-				    dd_order_id BIGINT NOT NULL,
-				    dd_product_id BIGINT NULL DEFAULT NULL,
+				    dd_analytics_id bigint(20) NOT NULL AUTO_INCREMENT,
+				    dd_workflow_id bigint(20) NOT NULL,
+				    dd_order_id bigint(20) NOT NULL,
+				    dd_product_id bigint(20) NULL DEFAULT NULL,
 				    dd_regular_price FLOAT NULL DEFAULT NULL,
 				    dd_sale_price FLOAT NULL DEFAULT NULL,
 				    dd_quantity INT NULL DEFAULT NULL,

@@ -632,12 +632,22 @@ class Discount_Deals_Workflows {
 	 * @return void
 	 */
 	public static function set_applied_workflows( $workflow_id, $discount, $extra = array() ) {
-		self::$_applied_workflows[]          = $workflow_id;
-		self::$_applied_workflow_discounts[] = array(
+		self::$_applied_workflows[] = $workflow_id;
+		$discount_information       = array(
 			'workflow_id'          => $workflow_id,
 			'discount_information' => $discount,
 			'extra_information'    => $extra,
 		);
+		if ( ! empty( $extra['type'] ) ) {
+			if ( 'product' === $extra['type'] ) {
+				$key = "{$workflow_id}_p_{$extra['id']}";
+			} else {
+				$key = "{$workflow_id}_c";
+			}
+			self::$_applied_workflow_discounts[ $key ] = $discount_information;
+		} else {
+			self::$_applied_workflow_discounts[] = $discount_information;
+		}
 	}//end set_applied_workflows()
 
 

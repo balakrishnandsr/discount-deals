@@ -221,7 +221,7 @@ class Discount_Deals_Public {
 		// Show applied discounts.
 		add_action( 'woocommerce_before_cart', array( $this, 'show_applied_workflow_notices' ), 98 );
 		// Save discount information for orders.
-		add_action( 'woocommerce_checkout_create_order', array( $this, 'before_checkout_create_order' ), 99, 2 );
+		add_action( 'woocommerce_checkout_order_created', array( $this, 'checkout_order_created' ), 99 );
 		add_action(
 			'woocommerce_checkout_create_order_line_item',
 			array(
@@ -375,15 +375,54 @@ class Discount_Deals_Public {
 	 * Save important information before placing order.
 	 *
 	 * @param WC_Order $order Order object.
-	 * @param array    $data  Extra information.
 	 *
 	 * @return void
 	 */
-	public function before_checkout_create_order( $order, $data ) {
+	public function checkout_order_created( $order ) {
 		$applied_discounts = discount_deals_get_applied_workflow_discounts();
 		if ( ! empty( $applied_discounts ) ) {
-			$order->update_meta_data( '_discount_deals_has_discount', 'yes' );
-			$order->update_meta_data( '_discount_deals_discount_details', $applied_discounts );
+			$analytics_db = new Discount_Deals_Analytics_DB();
+			foreach ( $applied_discounts as $discount ) {
+				if ( 'product' === $discount['extra_information']['type'] ) {
+					if ( is_array( $discount['discount_information'] ) ) {
+						$discount_amount   = $discount['discount_information']['discount'];
+						$discount_quantity = $discount['discount_information']['discount_quantity'];
+						$regular_price     = $discount['discount_information']['total'];
+						$sale_price        = $regular_price - $discount['discount_information']['discount'];
+						if ( $discount['discount_information']['discount_on_same'] ) {
+							$product_id = $discount['extra_information']['id'];
+						} else {
+							$product_id = ! empty( $discount['discount_information']['discount_product']['variation_id'] ) ? $discount['discount_information']['discount_product']['variation_id'] : $discount['discount_information']['discount_product']['product_id'];
+						}
+					} else {
+						$discount_amount   = $discount['discount_information'];
+						$discount_quantity = $discount['extra_information']['quantity'];
+						$regular_price     = $discount['extra_information']['price'];
+						$sale_price        = $regular_price - $discount['discount_information'];
+						$product_id        = $discount['extra_information']['id'];
+					}
+					$data_to_store = array(
+						'dd_product_id'    => $product_id,
+						'dd_regular_price' => $regular_price,
+						'dd_sale_price'    => $sale_price,
+						'dd_quantity'      => $discount_quantity,
+						'dd_total'         => $discount_quantity * $sale_price,
+						'dd_discount'      => $discount_amount,
+					);
+				} else {
+					$data_to_store = array(
+						'dd_product_id'    => 0,
+						'dd_regular_price' => 0,
+						'dd_sale_price'    => 0,
+						'dd_quantity'      => 1,
+						'dd_total'         => $order->get_subtotal(),
+						'dd_discount'      => $discount['discount_information'],
+					);
+				}
+				$data_to_store['dd_workflow_id'] = $discount['workflow_id'];
+				$data_to_store['dd_order_id']    = $order->get_id();
+				$analytics_db->insert_analytics( $data_to_store );
+			}
 		}
 	}//end before_checkout_create_order()
 

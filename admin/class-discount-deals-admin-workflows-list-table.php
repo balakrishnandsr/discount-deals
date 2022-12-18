@@ -147,9 +147,11 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			}
 			if ( ! empty( $workflow_ids ) ) {
 				$workflow_db = new Discount_Deals_Workflow_DB();
+				$analytics_db = new Discount_Deals_Analytics_DB();
 				foreach ( $workflow_ids as $workflow_id ) {
 					switch ( $current_action ) {
 						case 'delete':
+							$analytics_db->delete_by_workflow( $workflow_id );
 							$workflow_db->delete( $workflow_id );
 							break;
 						case 'enable':

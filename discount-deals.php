@@ -18,6 +18,8 @@
  */
 
 // If this file is called directly, abort.
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
+
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
@@ -51,6 +53,16 @@ function deactivate_discount_deals() {
 
 register_deactivation_hook( __FILE__, 'deactivate_discount_deals' );
 
+
+/**
+ * Declare that the Discount Deals supported WooCommerce High Performance Order Storage.
+ */
+add_action( 'before_woocommerce_init', function () {
+	if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+		FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
+} );
+
 /**
  * Load Discount Deals only if woocommerce is activated
  *
@@ -59,6 +71,7 @@ register_deactivation_hook( __FILE__, 'deactivate_discount_deals' );
 function discount_deals() {
 	require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals.php';
 	require_once DISCOUNT_DEALS_ABSPATH . 'discount-deals-functions.php';
+
 	return Discount_Deals::run();
 }//end discount_deals()
 
