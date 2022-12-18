@@ -52,7 +52,7 @@ class Discount_Deals_Workflow_Rule_Customer_First_Order_Date extends Discount_De
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value = null ) {
+	public function validate( $data_item, $compare_type, $value = null, $rule = array() ) {
 		return false;
 		// Return $this->validate_date( $compare_type, $value, $data_item->get_firs() );.
 	}//end validate()

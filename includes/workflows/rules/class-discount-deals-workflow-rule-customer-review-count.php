@@ -48,7 +48,7 @@ class Discount_Deals_Workflow_Rule_Customer_Review_Count extends Discount_Deals_
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
 		return false;
 		// return $this->validate_number( $data_item->get_review_count(), $compare_type, $value );
 	}//end validate()

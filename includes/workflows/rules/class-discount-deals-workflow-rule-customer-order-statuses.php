@@ -61,7 +61,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
 		$last_order = $data_item->get_last_order();
 		if ( ! $last_order ) {
 			return false;

@@ -1,19 +1,19 @@
 <?php
-	/**
-	 * This class defines all code necessary to workflow rule
-	 *
-	 * @package    Discount_Deals
-	 */
+/**
+ * This class defines all code necessary to workflow rule
+ *
+ * @package    Discount_Deals
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-	/**
-	 * Class to handle all the discounts of products and cart
-	 *
-	 * @credit Inspired by AutomateWoo
-	 */
+/**
+ * Class to handle all the discounts of products and cart
+ *
+ * @credit Inspired by AutomateWoo
+ */
 abstract class Discount_Deals_Workflow_Rule_Abstract {
 	/**
 	 * Name of the rule
@@ -69,6 +69,19 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	 */
 	public $excluded_triggers = array();
 	/**
+	 * Has address comparison.
+	 *
+	 * @var boolean
+	 */
+	public $has_address_comparison = false;
+
+	/**
+	 * Address comparison types.
+	 *
+	 * @var boolean
+	 */
+	public $address_comparison_types = array();
+	/**
 	 * Workflow that the rule belongs to
 	 *
 	 * @var Discount_Deals_Workflow
@@ -118,22 +131,23 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	 * Validates that a given workflow data item passed the rule validation
 	 * based on the supplied $compare_type and $value.
 	 *
-	 * @param WC_Customer| WC_Cart | Discount_Deals_Workflow_Data_Item_Shop $data_item    A valid workflow data item e.g. an instance of `\WC_Order` for an order based rule.
-	 * @param string                                                        $compare_type The user selected compare type for the rule.
-	 * @param mixed                                                         $value        The user entered value for the rule. This value is validated by the validate_value() method beforehand.
+	 * @param WC_Customer| WC_Cart | Discount_Deals_Workflow_Data_Item_Shop $data_item A valid workflow data item e.g. an instance of `\WC_Order` for an order based rule.
+	 * @param string $compare_type The user selected compare type for the rule.
+	 * @param mixed $value The user entered value for the rule. This value is validated by the validate_value() method beforehand.
+	 * @param array $rule Admin configured rule.
 	 *
 	 * @return boolean
 	 */
-	abstract public function validate( $data_item, $compare_type, $value );
+	abstract public function validate( $data_item, $compare_type, $value, $rule );
 
 	/**
 	 * Validate the rule's user entered value.
 	 *
 	 * @param mixed $value Value.
 	 *
+	 * @return void
 	 * @throws UnexpectedValueException When the value is not valid.
 	 *
-	 * @return void
 	 */
 	public function validate_value( $value ) {
 		// Override this method in child classes.
@@ -209,11 +223,11 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	}//end get_multi_string_compare_types()
 
 
-		/**
-		 * Get multi-select match compare types.
-		 *
-		 * @return array
-		 */
+	/**
+	 * Get multi-select match compare types.
+	 *
+	 * @return array
+	 */
 	public function get_multi_select_compare_types() {
 		return array(
 			'matches_all'  => __( 'matches all', 'discount-deals' ),
@@ -223,11 +237,11 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	}//end get_multi_select_compare_types()
 
 
-		/**
-		 * Get includes or not includes compare types.
-		 *
-		 * @return array
-		 */
+	/**
+	 * Get includes or not includes compare types.
+	 *
+	 * @return array
+	 */
 	public function get_includes_or_not_compare_types() {
 		return array(
 			'includes'     => __( 'includes in list', 'discount-deals' ),
@@ -236,23 +250,23 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	}//end get_includes_or_not_compare_types()
 
 
-		/**
-		 * Check the comparison type
-		 *
-		 * @param string $compare_type Compare type.
-		 *
-		 * @return boolean
-		 */
+	/**
+	 * Check the comparison type
+	 *
+	 * @param string $compare_type Compare type.
+	 *
+	 * @return boolean
+	 */
 	public function is_string_compare_type( $compare_type ) {
 		return array_key_exists( $compare_type, $this->get_string_compare_types() );
 	}//end is_string_compare_type()
 
 
-		/**
-		 * Get the string comparison types
-		 *
-		 * @return array
-		 */
+	/**
+	 * Get the string comparison types
+	 *
+	 * @return array
+	 */
 	public function get_string_compare_types() {
 		return array(
 			'contains'     => __( 'contains', 'discount-deals' ),
@@ -268,49 +282,49 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	}//end get_string_compare_types()
 
 
-		/**
-		 * Check the comparison type
-		 *
-		 * @param string $compare_type Compare type.
-		 *
-		 * @return boolean
-		 */
+	/**
+	 * Check the comparison type
+	 *
+	 * @param string $compare_type Compare type.
+	 *
+	 * @return boolean
+	 */
 	public function is_integer_compare_type( $compare_type ) {
 		return array_key_exists( $compare_type, $this->get_integer_compare_types() );
 	}//end is_integer_compare_type()
 
 
-		/**
-		 * Get the integer comparison types
-		 *
-		 * @return array
-		 */
+	/**
+	 * Get the integer comparison types
+	 *
+	 * @return array
+	 */
 	public function get_integer_compare_types() {
 		return $this->get_float_compare_types() + array(
-			'multiple_of'     => __( 'is a multiple of', 'discount-deals' ),
-			'not_multiple_of' => __( 'is not a multiple of', 'discount-deals' ),
-		);
+				'multiple_of'     => __( 'is a multiple of', 'discount-deals' ),
+				'not_multiple_of' => __( 'is not a multiple of', 'discount-deals' ),
+			);
 	}//end get_integer_compare_types()
 
 
-		/**
-		 * Get the Float value comparison types
-		 *
-		 * @return array
-		 */
+	/**
+	 * Get the Float value comparison types
+	 *
+	 * @return array
+	 */
 	public function get_float_compare_types() {
 		return $this->get_is_or_not_compare_types() + array(
-			'greater_than' => __( 'is greater than', 'discount-deals' ),
-			'less_than'    => __( 'is less than', 'discount-deals' ),
-		);
+				'greater_than' => __( 'is greater than', 'discount-deals' ),
+				'less_than'    => __( 'is less than', 'discount-deals' ),
+			);
 	}//end get_float_compare_types()
 
 
-		/**
-		 * Get is/is not compare types.
-		 *
-		 * @return array
-		 */
+	/**
+	 * Get is/is not compare types.
+	 *
+	 * @return array
+	 */
 	public function get_is_or_not_compare_types() {
 		return array(
 			'is'     => __( 'is', 'discount-deals' ),
@@ -318,41 +332,52 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 		);
 	}//end get_is_or_not_compare_types()
 
+	/**
+	 * Get address compare types.
+	 *
+	 * @return array
+	 */
+	public function get_address_compare_types() {
+		return array(
+			'billing'  => __( 'billing address', 'discount-deals' ),
+			'shipping' => __( 'shipping address', 'discount-deals' ),
+		);
+	}//end get_is_or_not_compare_types()
 
-		/**
-		 * Check the comparison type
-		 *
-		 * @param string $compare_type Compare type.
-		 *
-		 * @return boolean
-		 */
+
+	/**
+	 * Check the comparison type
+	 *
+	 * @param string $compare_type Compare type.
+	 *
+	 * @return boolean
+	 */
 	public function is_float_compare_type( $compare_type ) {
 		return array_key_exists( $compare_type, $this->get_float_compare_types() );
 	}//end is_float_compare_type()
 
 
-
-		/**
-		 * Get the is/is not comparison type
-		 *
-		 * @param string $compare_type Compare type.
-		 *
-		 * @return boolean
-		 */
+	/**
+	 * Get the is/is not comparison type
+	 *
+	 * @param string $compare_type Compare type.
+	 *
+	 * @return boolean
+	 */
 	public function is_is_or_is_not_compare_type( $compare_type ) {
 		return array_key_exists( $compare_type, $this->get_is_or_not_compare_types() );
 	}//end is_is_or_is_not_compare_type()
 
 
-		/**
-		 * Only supports 'contains', 'is', 'starts_with', 'ends_with'
-		 *
-		 * @param array  $actual_values  Actual values for check.
-		 * @param string $compare_type   Compare type.
-		 * @param string $expected_value Expected value.
-		 *
-		 * @return boolean
-		 */
+	/**
+	 * Only supports 'contains', 'is', 'starts_with', 'ends_with'
+	 *
+	 * @param array $actual_values Actual values for check.
+	 * @param string $compare_type Compare type.
+	 * @param string $expected_value Expected value.
+	 *
+	 * @return boolean
+	 */
 	public function validate_string_multi( $actual_values, $compare_type, $expected_value ) {
 
 		if ( empty( $expected_value ) ) {
@@ -369,16 +394,15 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 		return false;
 	}//end validate_string_multi()
 
-
-		/**
-		 * Validate a string based rule value.
-		 *
-		 * @param string $actual_value   Actual value.
-		 * @param string $compare_type   Compare type.
-		 * @param string $expected_value Expected value.
-		 *
-		 * @return boolean
-		 */
+/**
+	 * Validate a string based rule value.
+	 *
+	 * @param string $actual_value Actual value.
+	 * @param string $compare_type Compare type.
+	 * @param string $expected_value Expected value.
+	 *
+	 * @return boolean
+	 */
 	public function validate_string( $actual_value, $compare_type, $expected_value ) {
 
 		$actual_value   = (string) $actual_value;
@@ -420,17 +444,16 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 		}
 
 		return false;
-	}//end validate_string()
+	}
 
-
-		/**
-		 * Validates string regex rule.
-		 *
-		 * @param string $string Input.
-		 * @param string $regex  Regular expression to check.
-		 *
-		 * @return boolean
-		 */
+/**
+	 * Validates string regex rule.
+	 *
+	 * @param string $string Input.
+	 * @param string $regex Regular expression to check.
+	 *
+	 * @return boolean
+	 */
 	protected function validate_string_regex( $string, $regex ) {
 		$regex = $this->remove_global_regex_modifier( trim( $regex ) );
 
@@ -446,16 +469,15 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 		}
 
 		return (bool) @preg_match( $regex, $string );
-	}//end validate_string_regex()
+	}//end validate_string()
 
-
-		/**
-		 * Remove the global regex modifier as it is not supported by PHP.
-		 *
-		 * @param string $regex Regular expression to check.
-		 *
-		 * @return string
-		 */
+/**
+	 * Remove the global regex modifier as it is not supported by PHP.
+	 *
+	 * @param string $regex Regular expression to check.
+	 *
+	 * @return string
+	 */
 	protected function remove_global_regex_modifier( $regex ) {
 		return preg_replace_callback(
 			'/(\/[a-z]+)$/',
@@ -464,18 +486,47 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 			},
 			$regex
 		);
+	}//end validate_string_regex()
+
+	/**
+	 * Get the value by sub comparison field.
+	 *
+	 * @param string $compare Compare operator.
+	 * @param string $field Field name.
+	 * @param WC_Cart | WC_Customer | WC_Order $data_item Data item.
+	 * @param mixed $default Any.
+	 *
+	 * @return mixed
+	 */
+	public function get_value_to_validate_by_sub_compare( $compare, $field, $data_item, $default = "" ) {
+		switch ( $compare ) {
+			case "shipping":
+				$method_name = "get_shipping_$field";
+				if ( is_callable( array( $data_item, $method_name ) ) ) {
+					return $data_item->$method_name();
+				}
+				break;
+			default:
+			case "billing":
+				$method_name = "get_billing_$field";
+				if ( is_callable( array( $data_item, $method_name ) ) ) {
+					return $data_item->$method_name();
+				}
+				break;
+		}
+
+		return $default;
 	}//end remove_global_regex_modifier()
 
-
-		/**
-		 * Check the given two numbers against the operator
-		 *
-		 * @param string $actual_value   Actual values for check.
-		 * @param string $compare_type   Compare type.
-		 * @param string $expected_value Expected value.
-		 *
-		 * @return boolean
-		 */
+/**
+	 * Check the given two numbers against the operator
+	 *
+	 * @param string $actual_value Actual values for check.
+	 * @param string $compare_type Compare type.
+	 * @param string $expected_value Expected value.
+	 *
+	 * @return boolean
+	 */
 	public function validate_number( $actual_value, $compare_type, $expected_value ) {
 
 		$actual_value   = (float) $actual_value;
@@ -511,14 +562,13 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	}//end validate_number()
 
 
-
-		/**
-		 * Check the given input is whole number or not
-		 *
-		 * @param integer $number Input number.
-		 *
-		 * @return boolean
-		 */
+	/**
+	 * Check the given input is whole number or not
+	 *
+	 * @param integer $number Input number.
+	 *
+	 * @return boolean
+	 */
 	public function is_whole_number( $number ) {
 		$number = (float) $number;
 
@@ -526,13 +576,13 @@ abstract class Discount_Deals_Workflow_Rule_Abstract {
 	}//end is_whole_number()
 
 
-		/**
-		 * Format the given value
-		 *
-		 * @param mixed $value Value to format.
-		 *
-		 * @return mixed
-		 */
+	/**
+	 * Format the given value
+	 *
+	 * @param mixed $value Value to format.
+	 *
+	 * @return mixed
+	 */
 	public function format_value( $value ) {
 		return $value;
 	}//end format_value()

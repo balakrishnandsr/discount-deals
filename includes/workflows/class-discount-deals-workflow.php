@@ -518,7 +518,7 @@ class Discount_Deals_Workflow {
 			return false;
 		}
 
-		return $rule_object->validate( $data_item, $rule_compare, $rule_value );
+		return $rule_object->validate( $data_item, $rule_compare, $rule_value, $rule );
 	}//end validate_rule()
 
 	/**

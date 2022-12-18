@@ -59,7 +59,7 @@ class Discount_Deals_Workflow_Rule_Customer_Tags extends Discount_Deals_Workflow
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
 
 		if ( $data_item->get_id() > 0 ) {
 			$tags = wp_get_object_terms(

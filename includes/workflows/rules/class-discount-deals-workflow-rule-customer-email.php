@@ -41,7 +41,7 @@ class Discount_Deals_Workflow_Rule_Customer_Email extends Discount_Deals_Workflo
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
 		return $this->validate_string( $data_item->get_billing_email(), $compare_type, $value );
 	}//end validate()
 

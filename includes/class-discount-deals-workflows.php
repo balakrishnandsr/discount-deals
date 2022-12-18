@@ -216,27 +216,27 @@ class Discount_Deals_Workflows {
 
 			// Customer.
 			'customer_is_guest'             => 'Discount_Deals_Workflow_Rule_Customer_Is_Guest',
+			'customer_role'                 => 'Discount_Deals_Workflow_Rule_Customer_Role',
 			'customer_account_created_date' => 'Discount_Deals_Workflow_Rule_Customer_Account_Created_Date',
 			'customer_city'                 => 'Discount_Deals_Workflow_Rule_Customer_City',
 			'customer_company'              => 'Discount_Deals_Workflow_Rule_Customer_Company',
+			'customer_postcode'             => 'Discount_Deals_Workflow_Rule_Customer_Postcode',
 			'customer_country'              => 'Discount_Deals_Workflow_Rule_Customer_Country',
+			'customer_state'                => 'Discount_Deals_Workflow_Rule_Customer_State',
+			'customer_state_text_match'     => 'Discount_Deals_Workflow_Rule_Customer_State_Text_Match',
 			'customer_email'                => 'Discount_Deals_Workflow_Rule_Customer_Email',
+			'customer_phone'                => 'Discount_Deals_Workflow_Rule_Customer_Phone',
 			// 'customer_first_order_date'     => 'Discount_Deals_Workflow_Rule_Customer_First_Order_Date',
 			// 'customer_last_order_date'      => 'Discount_Deals_Workflow_Rule_Customer_Last_Order_Date',
 			// 'customer_last_review_date'     => 'Discount_Deals_Workflow_Rule_Customer_Last_Review_Date',
 			'customer_meta'                 => 'Discount_Deals_Workflow_Rule_Customer_Meta',
+			'customer_total_spent'          => 'Discount_Deals_Workflow_Rule_Customer_Total_Spent',
 			'customer_order_count'          => 'Discount_Deals_Workflow_Rule_Customer_Order_Count',
 			'customer_order_statuses'       => 'Discount_Deals_Workflow_Rule_Customer_Order_Statuses',
-			'customer_phone'                => 'Discount_Deals_Workflow_Rule_Customer_Phone',
-			'customer_postcode'             => 'Discount_Deals_Workflow_Rule_Customer_Postcode',
 			'customer_purchased_categories' => 'Discount_Deals_Workflow_Rule_Customer_Purchased_Categories',
 			'customer_purchased_products'   => 'Discount_Deals_Workflow_Rule_Customer_Purchased_Products',
 			// 'customer_review_count'         => 'Discount_Deals_Workflow_Rule_Customer_Review_Count',
-			'customer_role'                 => 'Discount_Deals_Workflow_Rule_Customer_Role',
-			'customer_state'                => 'Discount_Deals_Workflow_Rule_Customer_State',
-			'customer_state_text_match'     => 'Discount_Deals_Workflow_Rule_Customer_State_Text_Match',
 			'customer_tags'                 => 'Discount_Deals_Workflow_Rule_Customer_Tags',
-			'customer_total_spent'          => 'Discount_Deals_Workflow_Rule_Customer_Total_Spent',
 		);
 		if ( count( self::$_rules ) < count( $valid_rules ) ) {
 			foreach ( $valid_rules as $rule_name => $class_name ) {

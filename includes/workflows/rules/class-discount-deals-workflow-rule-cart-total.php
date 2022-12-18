@@ -47,7 +47,7 @@ class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Ru
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
 		return $this->validate_number( discount_deals_get_cart_subtotal(), $compare_type, $value );
 	}//end validate()
 

@@ -42,7 +42,7 @@ class Discount_Deals_Workflow_Rule_Customer_Is_Guest extends Discount_Deals_Work
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
 		$is_guest = ! $data_item->get_id();
 
 		switch ( $value ) {

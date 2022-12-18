@@ -62,7 +62,7 @@ class Discount_Deals_Workflow_Rule_Cart_Coupons extends Discount_Deals_Workflow_
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
 		return $this->validate_select_case_insensitive( $data_item->get_applied_coupons(), $compare_type, $value );
 	}//end validate()
 

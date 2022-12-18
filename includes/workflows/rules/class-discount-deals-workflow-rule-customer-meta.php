@@ -42,7 +42,7 @@ class Discount_Deals_Workflow_Rule_Customer_Meta extends Discount_Deals_Workflow
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
 		$value_data = $this->prepare_value_data( $value );
 		if ( ! is_array( $value_data ) ) {
 			return false;

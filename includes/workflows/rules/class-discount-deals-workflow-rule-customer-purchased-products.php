@@ -43,7 +43,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value ) {
+	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
 		if ( empty( $value ) || ! is_array( $value ) ) {
 			return false;
 		}
