@@ -62,7 +62,7 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_select( $data_item->get_role(), $compare_type, $value );
 	}//end validate()
 

@@ -58,28 +58,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<# }) #>
 							</select>
 						</div>
-						<div class="discount-deals-rule-field-compare discount-deals-rule__field-container discount-deals-col-2" >
-                            <div class="discount-deals-flex">
-                                <# if ( data.rule.object.has_address_comparison === true ) { #>
-                                <select name="{{ data.field_name_base }}[sub_compare]" class="discount-deals-rule-sub-compare-field discount-deals-field" <#
-                                    if ( _.isEmpty( data.rule.object.address_comparison_types ) ) { #>disabled<# } #>>
-                                    <# _.each( data.rule.object.address_comparison_types, function( option, key ) { #>
-                                    <option value="{{ key }}">{{ option }}</option>
-                                    <# }) #>
-                                </select>
-                                <# } #>
-                                <select name="{{ data.field_name_base }}[compare]" class="discount-deals-rule-compare-field discount-deals-field" <#
-                                    if ( _.isEmpty( data.rule.object.compare_types ) ) { #>disabled<# } #>>
-                                    <# _.each( data.rule.object.compare_types, function( option, key ) { #>
-                                        <option value="{{ key }}">{{ option }}</option>
-                                    <# }) #>
-                                </select>
-                            </div>
+						<div class="discount-deals-rule-field-compare discount-deals-rule__field-container discount-deals-col-2">
+							<select name="{{ data.field_name_base }}[compare]" class="discount-deals-rule-compare-field discount-deals-field" <#
+								if ( _.isEmpty( data.rule.object.compare_types ) ) { #>disabled<# } #>>
+								<# _.each( data.rule.object.compare_types, function( option, key ) { #>
+									<option value="{{ key }}">{{ option }}</option>
+								<# }) #>
+							</select>
 						</div>
 						<div class="discount-deals-rule-field-value discount-deals-rule__field-container discount-deals-col-7 <# if ( data.rule.is_value_loading ) { #>discount-deals-loading<# } #>">
 							<# if ( data.rule.isValueLoading ) { #>
 								<div class="discount-deals-loader"></div>
 							<# } else { #>
+
 								<# if ( data.rule.object.type === 'number' ) { #>
 									<input name="{{ data.field_name_base }}[value]" placeholder="<?php esc_attr_e( 'Enter value here...', 'discount-deals' ); ?>" class="discount-deals-field discount-deals-rule-value-field" type="text" required>
 								<# } else if ( data.rule.object.type === 'object' ) { #>

@@ -51,7 +51,7 @@ class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Work
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value = null, $rule = array() ) {
+	public function validate( $data_item, $compare_type, $value = null ) {
 		$created_time = WC()->session->get( 'discount_deals_cart_created_time', false );
 		if ( $created_time ) {
 			try {

@@ -30,8 +30,6 @@ class Discount_Deals_Workflow_Rule_Customer_Company extends Discount_Deals_Workf
 	 */
 	public function init() {
 		$this->title = __( 'Customer - Company', 'discount-deals' );
-		$this->has_address_comparison = true;
-		$this->address_comparison_types = $this->get_address_compare_types();
 	}//end init()
 
 	/**
@@ -43,9 +41,8 @@ class Discount_Deals_Workflow_Rule_Customer_Company extends Discount_Deals_Workf
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
-		$actual_value = $this->get_value_to_validate_by_sub_compare( $rule['sub_compare'], 'company', $data_item, '' );
-		return $this->validate_string( $actual_value, $compare_type, $value );
+	public function validate( $data_item, $compare_type, $value ) {
+		return $this->validate_string( $data_item->get_billing_company(), $compare_type, $value );
 	}//end validate()
 
 

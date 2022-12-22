@@ -32,8 +32,6 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 
 		$this->title = __( 'Customer - State', 'discount-deals' );
 		$this->placeholder = __( 'Select state...', 'discount-deals' );
-		$this->has_address_comparison = true;
-		$this->address_comparison_types = $this->get_address_compare_types();
 	}//end init()
 
 	/**
@@ -62,9 +60,9 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
-		$state = $this->get_value_to_validate_by_sub_compare( $rule['sub_compare'], 'state', $data_item, '' );
-		$country = $this->get_value_to_validate_by_sub_compare( $rule['sub_compare'], 'country', $data_item, '' );
+	public function validate( $data_item, $compare_type, $value ) {
+		$state   = $data_item->get_billing_state();
+		$country = $data_item->get_billing_country();
 
 		if ( empty( $state ) || empty( $country ) ) {
 			return false;

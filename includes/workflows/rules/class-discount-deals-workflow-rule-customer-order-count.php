@@ -48,7 +48,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Count extends Discount_Deals_W
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_number( $data_item->get_order_count(), $compare_type, $value );
 	}//end validate()
 

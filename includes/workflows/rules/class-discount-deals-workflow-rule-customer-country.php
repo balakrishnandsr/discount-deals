@@ -30,8 +30,6 @@ class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workf
 	public function init() {
 		parent::init();
 		$this->title    = __( 'Customer - Country', 'discount-deals' );
-		$this->has_address_comparison = true;
-		$this->address_comparison_types = $this->get_address_compare_types();
 	}//end init()
 
 	/**
@@ -52,9 +50,8 @@ class Discount_Deals_Workflow_Rule_Customer_Country extends Discount_Deals_Workf
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
-		$actual_value = $this->get_value_to_validate_by_sub_compare( $rule['sub_compare'], 'country', $data_item, '' );
-		return $this->validate_select( $actual_value, $compare_type, $value );
+	public function validate( $data_item, $compare_type, $value ) {
+		return $this->validate_select( $data_item->get_billing_country(), $compare_type, $value );
 	}//end validate()
 
 }//end class

@@ -40,7 +40,7 @@ class Discount_Deals_Workflow_Rule_Customer_Phone extends Discount_Deals_Workflo
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_string( $data_item->get_billing_phone(), $compare_type, $value );
 	}//end validate()
 

@@ -53,7 +53,7 @@ class Discount_Deals_Workflow_Rule_Shop_Date_Time extends Discount_Deals_Workflo
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		try {
 			return $this->validate_date( $compare_type, $value, $data_item->get_current_datetime() );
 		} catch ( Exception $e ) {

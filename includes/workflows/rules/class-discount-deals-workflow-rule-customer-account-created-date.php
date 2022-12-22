@@ -53,7 +53,7 @@ class Discount_Deals_Workflow_Rule_Customer_Account_Created_Date extends Discoun
 	 * @return boolean
 	 * @throws Exception Throws Exception.
 	 */
-	public function validate( $data_item, $compare_type, $value = null, $rule = array() ) {
+	public function validate( $data_item, $compare_type, $value = null ) {
 		return $this->validate_date( $compare_type, $value, discount_deals_normalize_date( $data_item->get_date_created() ) );
 	}//end validate()
 

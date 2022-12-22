@@ -47,7 +47,7 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Count extends Discount_Deals_Workfl
 	 *
 	 * @return boolean
 	 */
-	public function validate( $data_item, $compare_type, $value, $rule = array() ) {
+	public function validate( $data_item, $compare_type, $value ) {
 		return $this->validate_number( count( $data_item->get_cart_contents() ), $compare_type, $value );
 	}//end validate()
 
