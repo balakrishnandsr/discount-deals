@@ -48,7 +48,7 @@ class Discount_Deals_Workflow_Rule_Customer_Account_Created_Date extends Discoun
 	 *
 	 * @param WC_Customer $data_item    The customer.
 	 * @param string      $compare_type What variables we're using to compare.
-	 * @param array|null  $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
+	 * @param array|null  $value        The values we have to compare. 
 	 *
 	 * @return boolean
 	 * @throws Exception Throws Exception.

@@ -93,6 +93,7 @@ class Discount_Deals_Workflows {
 			'cart_discount'   => 'Discount_Deals_Workflow_Cart_Discount',
 			'bxgx_discount'   => 'Discount_Deals_Workflow_Bxgx_Discount',
 			'bxgy_discount'   => 'Discount_Deals_Workflow_Bxgy_Discount',
+			'noc_discount'    => 'Discount_Deals_Workflow_Next_Order_Coupon_Discount',
 		);
 	}//end load_rules()
 
@@ -170,6 +171,7 @@ class Discount_Deals_Workflows {
 			'order_item_count'              => 'Discount_Deals_Workflow_Rule_Order_Item_Count',
 			'order_line_count'              => 'Discount_Deals_Workflow_Rule_Order_Line_Count',
 			'order_total'                   => 'Discount_Deals_Workflow_Rule_Order_Total',
+			'order_status'                  => 'Discount_Deals_Workflow_Rule_Order_Statuses',
 			'order_coupons'                 => 'Discount_Deals_Workflow_Rule_Order_Coupons',
 			'order_coupons_text_match'      => 'Discount_Deals_Workflow_Rule_Order_Coupons_Text_Match',
 			'order_coupon_count'            => 'Discount_Deals_Workflow_Rule_Order_Coupon_Count',
@@ -810,6 +812,7 @@ class Discount_Deals_Workflows {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/discounts/class-discount-deals-workflow-next-order-coupon-discount.php';
 	}//end calculate_cart_discount()
 
 	/**
@@ -881,6 +884,7 @@ class Discount_Deals_Workflows {
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-order-shipping-method-text.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-order-shipping-method.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-order-total.php';
+		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-order-statuses.php';
 
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-cart-coupons.php';
 		require_once DISCOUNT_DEALS_ABSPATH . 'includes/workflows/rules/class-discount-deals-workflow-rule-cart-created-date.php';

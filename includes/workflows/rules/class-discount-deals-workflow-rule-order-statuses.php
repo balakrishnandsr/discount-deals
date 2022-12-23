@@ -1,6 +1,6 @@
 <?php
 /**
- * Customer order statuses rule
+ * Order statuses rule
  *
  * @package     Discount_Deals
  */
@@ -11,17 +11,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * Customer order statuses rule
+ * Order statuses rule
  *
  * @credit Inspired by AutomateWoo
  */
-class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
+class Discount_Deals_Workflow_Rule_Order_Statuses extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
 	/**
 	 * What data item should pass in to validate the rule?
 	 *
 	 * @var string
 	 */
-	public $data_item = 'customer';
+	public $data_item = 'order';
 
 	/**
 	 * Supports multiple values or not?
@@ -38,7 +38,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 	public function init() {
 		parent::init();
 
-		$this->title = __( 'Customer - Last Order Status', 'discount-deals' );
+		$this->title       = __( 'Order - Status', 'discount-deals' );
 		$this->placeholder = __( 'Select order statuses...', 'discount-deals' );
 		unset( $this->compare_types['matches_all'] );
 	}//end init()
@@ -55,20 +55,14 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Statuses extends Discount_Deal
 	/**
 	 * Validates rule.
 	 *
-	 * @param WC_Customer $data_item    The customer.
-	 * @param string      $compare_type What variables we're using to compare.
-	 * @param array       $value        The values we have to compare. 
+	 * @param WC_Order $data_item The customer.
+	 * @param string $compare_type What variables we're using to compare.
+	 * @param array $value The values we have to compare. 
 	 *
 	 * @return boolean
 	 */
 	public function validate( $data_item, $compare_type, $value ) {
-		$last_order = $data_item->get_last_order();
-		if ( ! $last_order ) {
-			return false;
-		}
-		$statuses[] = 'wc-' . $last_order->get_status();
-
-		return $this->validate_select( $statuses, $compare_type, $value );
+		return $this->validate_select( 'wc-' . $data_item->get_status(), $compare_type, $value );
 	}//end validate()
 
 

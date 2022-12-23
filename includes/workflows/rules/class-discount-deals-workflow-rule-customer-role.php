@@ -58,7 +58,7 @@ class Discount_Deals_Workflow_Rule_Customer_Role extends Discount_Deals_Workflow
 	 *
 	 * @param WC_Customer $data_item    The customer.
 	 * @param string      $compare_type What variables we're using to compare.
-	 * @param array       $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
+	 * @param array       $value        The values we have to compare. 
 	 *
 	 * @return boolean
 	 */

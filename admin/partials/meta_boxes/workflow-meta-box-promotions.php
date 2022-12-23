@@ -18,42 +18,42 @@ if ( ! defined( 'ABSPATH' ) ) {
 $workflow = $this->get_workflow();
 ?>
 <table class="discount-deals-table">
-	<tbody id="discount-deals-promotion-details-container">
+    <tbody id="discount-deals-promotion-details-container">
 	<?php
 	if ( $workflow ) {
 		$workflow->get_discount()->load_promotion_fields( false );
 	}
 	?>
-	</tbody>
-	<tbody>
+    </tbody>
+    <tbody>
 	<?php
-		$discount_details = array();
+	$discount_details = array();
 	if ( $workflow ) {
 		$discount_details = $workflow->get_discount()->get_promotion_details();
 	}
-		discount_deals_editor(
-			array(
-				'id'       => 'discount_deals_workflow_promotion_message',
-				'name'     => 'discount_deals_workflow[dd_promotion][message]',
-				'value'    => discount_deals_get_value_from_array( $discount_details, 'message', '<p><b>Special Price</b> Purchase above 500$ and get extra 5% off. </p>', false ),
-				'label'    => __( 'Enter the promotional message that will be displayed to the customer', 'discount-deals' ),
-				'required' => true,
-				'style'    => 'display:none;',
-			)
-		);
-		?>
-	</tbody>
-	<tfoot class="
+	discount_deals_editor(
+		array(
+			'id'         => 'discount_deals_workflow_promotion_message',
+			'name'       => 'discount_deals_workflow[dd_promotion][message]',
+			'value'      => discount_deals_get_value_from_array( $discount_details, 'message', '<p><b>Special Price</b> Purchase above 500$ and get extra 5% off. </p>', false ),
+			'label'      => __( 'Enter the promotional message that will be displayed to the customer', 'discount-deals' ),
+			'required'   => true,
+			'row_hidden' => 'no' === discount_deals_get_value_from_array( $discount_details, 'enable', 'no' )
+		)
+	);
+	?>
+    </tbody>
+    <tfoot class="
 	<?php
 	if ( $workflow ) {
 		echo 'discount-deals-hidden';
 	}
 	?>
 	">
-	<tr>
-		<td colspan="2">
-			<p class="discount-deals-ph10"><?php esc_html_e( 'Promotions can be used to entice customers to buy from your store with more discounts.', 'discount-deals' ); ?></p>
-		</td>
-	</tr>
-	</tfoot>
+    <tr>
+        <td colspan="2">
+            <p class="discount-deals-ph10"><?php esc_html_e( 'Promotions can be used to entice customers to buy from your store with more discounts.', 'discount-deals' ); ?></p>
+        </td>
+    </tr>
+    </tfoot>
 </table>
