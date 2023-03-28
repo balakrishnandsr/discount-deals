@@ -43,6 +43,9 @@ class Discount_Deals_Workflow_Next_Order_Coupon_Discount extends Discount_Deals_
 	 */
 	public function load_fields() {
 		$discount_details = $this->get_discount_details();
+		ob_start();
+		require_once DISCOUNT_DEALS_ABSPATH . '/admin/partials/discounts/discount-deals-next-order-coupon-discount.php';
+		$discount_details_html = ob_get_clean();
 
 		ob_start();
 		discount_deals_html(
@@ -50,7 +53,7 @@ class Discount_Deals_Workflow_Next_Order_Coupon_Discount extends Discount_Deals_
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
 				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
-				'html'          => "hai",
+				'html'          => $discount_details_html,
 				'required'      => true,
 			)
 		);

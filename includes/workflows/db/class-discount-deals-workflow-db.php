@@ -43,7 +43,6 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 			'dd_promotion'  => '%s',
 			'dd_meta'       => '%s',
 			'dd_type'       => '%s',
-			'dd_language'   => '%s',
 			'dd_created_at' => '%s',
 			'dd_updated_at' => '%s',
 		);
@@ -59,7 +58,6 @@ class Discount_Deals_Workflow_DB extends Discount_Deals_DB {
 		return array(
 			'dd_name'       => null,
 			'dd_title'      => null,
-			'dd_language'   => null,
 			'dd_status'     => 1,
 			'dd_user_id'    => 0,
 			'dd_rules'      => '',

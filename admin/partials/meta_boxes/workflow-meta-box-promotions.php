@@ -18,14 +18,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 $workflow = $this->get_workflow();
 ?>
 <table class="discount-deals-table">
-    <tbody id="discount-deals-promotion-details-container">
+	<tbody id="discount-deals-promotion-details-container">
 	<?php
 	if ( $workflow ) {
 		$workflow->get_discount()->load_promotion_fields( false );
 	}
 	?>
-    </tbody>
-    <tbody>
+	</tbody>
+	<tbody>
 	<?php
 	$discount_details = array();
 	if ( $workflow ) {
@@ -42,18 +42,18 @@ $workflow = $this->get_workflow();
 		)
 	);
 	?>
-    </tbody>
-    <tfoot class="
+	</tbody>
+	<tfoot class="
 	<?php
 	if ( $workflow ) {
 		echo 'discount-deals-hidden';
 	}
 	?>
 	">
-    <tr>
-        <td colspan="2">
-            <p class="discount-deals-ph10"><?php esc_html_e( 'Promotions can be used to entice customers to buy from your store with more discounts.', 'discount-deals' ); ?></p>
-        </td>
-    </tr>
-    </tfoot>
+	<tr>
+		<td colspan="2">
+			<p class="discount-deals-ph10"><?php esc_html_e( 'Promotions can be used to entice customers to buy from your store with more discounts.', 'discount-deals' ); ?></p>
+		</td>
+	</tr>
+	</tfoot>
 </table>

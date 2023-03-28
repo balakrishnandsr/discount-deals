@@ -72,7 +72,7 @@ class Discount_Deals_Activator {
 				CREATE TABLE IF NOT EXISTS {$wpdb->prefix}dd_workflows (
 				    dd_id bigint(20) NOT NULL AUTO_INCREMENT,
 					dd_title varchar(255) NOT NULL,
-					dd_type enum('simple_discount', 'bulk_discount', 'bxgx_discount', 'bxgy_discount', 'cart_discount') DEFAULT 'simple_discount',
+					dd_type enum('simple_discount', 'bulk_discount', 'bxgx_discount', 'bxgy_discount', 'cart_discount', 'noc_discount') DEFAULT 'simple_discount',
 					dd_rules text DEFAULT NULL,
 					dd_discounts text NOT NULL,
 					dd_meta text DEFAULT NULL,
@@ -81,18 +81,16 @@ class Discount_Deals_Activator {
 					dd_exclusive tinyint(1) NOT NULL DEFAULT '1',
 					dd_status tinyint(1) NOT NULL DEFAULT '1',
 					dd_user_id int(11) NOT NULL,
-					dd_language varchar(255) DEFAULT NULL,
 					dd_created_at datetime NOT NULL,
 					dd_updated_at datetime NOT NULL, 
 					PRIMARY KEY  ( dd_id ),
-				    INDEX dd_language_index ( dd_language ),
                     INDEX dd_status_index ( dd_status )
 					) $collate;
 			";
 
 		dbDelta( $dd_workflows_table );
 		$dd_analytics_table = "
-				CREATE TABLE {$wpdb->prefix}dd_analytics(
+				CREATE TABLE IF NOT EXISTS {$wpdb->prefix}dd_analytics(
 				    dd_analytics_id bigint(20) NOT NULL AUTO_INCREMENT,
 				    dd_workflow_id bigint(20) NOT NULL,
 				    dd_order_id bigint(20) NOT NULL,
@@ -109,6 +107,26 @@ class Discount_Deals_Activator {
 			";
 
 		dbDelta( $dd_analytics_table );
+
+		$dd_coupons_table = "
+				CREATE TABLE IF NOT EXISTS {$wpdb->prefix}dd_coupons( 
+				    dd_coupon_id BIGINT(20) NOT NULL AUTO_INCREMENT,
+				    dd_order_id BIGINT(20) NULL DEFAULT NULL,
+				    dd_user_id BIGINT(20) NOT NULL DEFAULT '0',
+				    dd_masked_code VARCHAR(50) NOT NULL,
+				    dd_coupon_value FLOAT NOT NULL,
+				    dd_coupon_type ENUM('flat','percent') NOT NULL DEFAULT 'flat',
+				    dd_actual_code VARCHAR(255) NOT NULL,
+				    dd_coupon_extra TEXT NULL DEFAULT NULL,
+				    dd_is_coupon_used ENUM('yes','no') NOT NULL DEFAULT 'no',
+				    dd_coupon_expired_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				    dd_updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				    dd_created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				    PRIMARY KEY(dd_coupon_id)
+                ) $collate;
+			";
+
+		dbDelta( $dd_coupons_table );
 
 		$is_default_workflows_created = get_option( 'discount_deals_auto_workflows_created', 'no' );
 		if ( 'no' == $is_default_workflows_created ) {
