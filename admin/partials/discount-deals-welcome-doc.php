@@ -35,7 +35,7 @@ $plugin_data = Discount_Deals::get_plugin_data();
 				<h3><?php echo esc_html__( 'To get started', 'discount-deals' ); ?></h3>
 				<?php
 				echo sprintf(
-					/* translators: %s item name. */
+					// translators: %s item name.
 					esc_html__( 'Review and update your Discount Deals %s', 'discount-deals' ),
 					'<a target="_blank" href="' . esc_url(
 						add_query_arg(
@@ -51,7 +51,7 @@ $plugin_data = Discount_Deals::get_plugin_data();
 				<br>
 				<?php
 				echo sprintf(
-					/* translators: %s item name. */
+					// translators: %s item name.
 					esc_html__( 'Access Discount Deals %s.', 'discount-deals' ),
 					'<a target="_blank" href="' . esc_url(
 						add_query_arg(

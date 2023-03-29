@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer purchased products - all time
  *
- * @class  Discount_Deals_Workflow_Rule_Customer_Purchased_Products
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_Deals_Workflow_Rule_Product_Select_Abstract {
 	/**
@@ -25,7 +25,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -39,7 +39,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 	 *
 	 * @param WC_Customer $data_item    The customer.
 	 * @param string      $compare_type What variables we're using to compare.
-	 * @param array       $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
+	 * @param array       $value        The values we have to compare. 
 	 *
 	 * @return boolean
 	 */
@@ -48,7 +48,6 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Products extends Discount_
 			return false;
 		}
 		$all_ids = discount_deals_get_customer_purchased_products( $data_item );
-
 
 		return $this->validate_select( $all_ids, $compare_type, $value );
 	}//end validate()

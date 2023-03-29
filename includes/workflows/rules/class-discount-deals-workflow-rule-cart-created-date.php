@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Discount_Deals_Workflow_Rule_Cart_Created_Date.
+ *
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Workflow_Rule_Date_Abstract {
 
@@ -32,7 +34,7 @@ class Discount_Deals_Workflow_Rule_Cart_Created_Date extends Discount_Deals_Work
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {

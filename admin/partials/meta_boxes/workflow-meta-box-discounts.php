@@ -25,13 +25,14 @@ $workflow = $this->get_workflow();
 		'' => __( '[ Select ]', 'discount-deals' ),
 	);
 	foreach ( $all_discount_types as $name => $discount_type ) {
-		$discount_obj                      = new $discount_type();
-		$short_title                      = $discount_obj->get_short_title();
-		$title                      = $discount_obj->get_title();
-		if (!empty($short_title)) {
-			$title .= "( $short_title )";
+		$discount_obj          = new $discount_type();
+		$short_title           = $discount_obj->get_short_title();
+		$discount_title        = $discount_obj->get_title();
+		$group                 = $discount_obj->get_category();
+		if ( ! empty( $short_title ) ) {
+			$discount_title .= " ( $short_title )";
 		}
-		$all_valid_discount_types[ $name ] = $title;
+		$all_valid_discount_types[ $group ][ $name ] = $discount_title;
 	}
 	discount_deals_select(
 		array(
@@ -48,7 +49,7 @@ $workflow = $this->get_workflow();
 		)
 	);
 	if ( $workflow ) {
-		echo $workflow->get_discount()->load_fields();// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses( $workflow->get_discount()->load_fields(), wp_kses_allowed_html( 'discount_deals' ) );
 	}
 	?>
 	</tbody>

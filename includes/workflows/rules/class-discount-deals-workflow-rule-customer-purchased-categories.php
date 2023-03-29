@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer purchased categories -all time rule
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
 	/**
@@ -32,7 +32,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -56,7 +56,7 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 	 *
 	 * @param WC_Customer $data_item    The customer.
 	 * @param string      $compare_type What variables we're using to compare.
-	 * @param array       $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
+	 * @param array       $value        The values we have to compare. 
 	 *
 	 * @return boolean
 	 */
@@ -64,9 +64,9 @@ class Discount_Deals_Workflow_Rule_Customer_Purchased_Categories extends Discoun
 		if ( empty( $value ) ) {
 			return false;
 		}
-		$category_ids = [];
+		$category_ids = array();
 		foreach ( discount_deals_get_customer_purchased_products( $data_item ) as $id ) {
-			$terms        = wp_get_object_terms( $id, 'product_cat', [ 'fields' => 'ids' ] );
+			$terms        = wp_get_object_terms( $id, 'product_cat', array( 'fields' => 'ids' ) );
 			$category_ids = array_merge( $category_ids, $terms );
 		}
 		$category_ids = array_filter( $category_ids );

@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Discount_Deals_Workflow_Rule_Product_Categories
+ *
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
 
@@ -64,7 +66,7 @@ class Discount_Deals_Workflow_Rule_Product_Categories extends Discount_Deals_Wor
 		}
 
 		$product_id = $data_item->is_type( 'variation' ) ? $data_item->get_parent_id() : $data_item->get_id();
-		$categories = wp_get_object_terms( $product_id, 'product_cat', [ 'fields' => 'ids' ] );
+		$categories = wp_get_object_terms( $product_id, 'product_cat', array( 'fields' => 'ids' ) );
 
 		return $this->validate_select( $categories, $compare_type, $value );
 	}//end validate()

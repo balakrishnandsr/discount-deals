@@ -11,25 +11,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'Discount_Deals_Deactivator' ) ) {
 
 	/**
 	 * Class to handle installation of the plugin
 	 */
-	class Discount_Deals_Deactivator {
+class Discount_Deals_Deactivator {
 
-		/**
-		 * Function to handle uninstall process
-		 *
-		 * @return void
-		 */
-		public static function deactivate() {
+	/**
+	 * Function to handle uninstall process
+	 *
+	 * @return void
+	 */
+	public static function deactivate() {
 
-		}//end deactivate()
+	}//end deactivate()
 
-	}//end class
+}//end class
 
-}
 
 
 

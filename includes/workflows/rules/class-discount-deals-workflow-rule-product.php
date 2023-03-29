@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Discount_Deals_Workflow_Rule_Product
+ *
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Product extends Discount_Deals_Workflow_Rule_Product_Select_Abstract {
 

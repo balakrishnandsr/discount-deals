@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer Email Rule
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Email
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Email extends Discount_Deals_Workflow_Rule_String_Abstract {
 
@@ -25,7 +25,7 @@ class Discount_Deals_Workflow_Rule_Customer_Email extends Discount_Deals_Workflo
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -37,7 +37,7 @@ class Discount_Deals_Workflow_Rule_Customer_Email extends Discount_Deals_Workflo
 	 *
 	 * @param WC_Customer $data_item    The customer.
 	 * @param string      $compare_type What variables we're using to compare.
-	 * @param string      $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
+	 * @param string      $value        The values we have to compare. 
 	 *
 	 * @return boolean
 	 */

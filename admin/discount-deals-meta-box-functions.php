@@ -8,6 +8,17 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+/**
+ * Implode and escape HTML attributes for output.
+ *
+ * @param array $raw_attributes Attribute name value pairs.
+ */
+function discount_deals_implode_html_attributes( $raw_attributes ) {
+	foreach ( $raw_attributes as $name => $value ) {
+		echo esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
+	}
+}//end discount_deals_implode_html_attributes()
+
 
 /**
  * Output a select input box.
@@ -26,11 +37,12 @@ function discount_deals_select( $field ) {
 			'custom_attributes'     => array(),
 			'has_value_description' => false,
 			'value_description'     => '',
+			'row_hidden'            => false,
 		)
 	);
 
 	$wrapper_attributes = array(
-		'class'         => 'discount-deals-table__row',
+		'class'         => $field['row_hidden'] ? 'discount-deals-table__row discount-deals-hidden' : 'discount-deals-table__row',
 		'data-name'     => $field['id'],
 		'data-type'     => 'select',
 		'data-required' => $field['required'] ? 1 : 0,
@@ -49,18 +61,30 @@ function discount_deals_select( $field ) {
 		$field_attributes['required'] = 'required';
 	}
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
 		</td>
 		<td class="discount-deals-table__col discount-deals-table__col--field">
-			<select <?php echo wc_implode_html_attributes( $field_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+			<select <?php discount_deals_implode_html_attributes( $field_attributes ); ?>>
 				<?php
 				foreach ( $field['options'] as $key => $value ) {
-					echo '<option value="' . esc_attr( $key ) . '"' . wc_selected( $key, $field['value'] ) . '>' . esc_html( $value ) . '</option>';
+					if ( is_array( $value ) ) {
+						?>
+						<optgroup label="<?php echo esc_attr( $key ); ?>">
+							<?php
+							foreach ( $value as $option_key => $option_value ) {
+								echo '<option value="' . esc_attr( $option_key ) . '"' . wc_selected( $option_key, $field['value'] ) . '>' . esc_html( $option_value ) . '</option>';
+							}
+							?>
+						</optgroup>
+						<?php
+					} else {
+						echo '<option value="' . esc_attr( $key ) . '"' . wc_selected( $key, $field['value'] ) . '>' . esc_html( $value ) . '</option>';
+					}
 				}
 				?>
 			</select>
@@ -88,11 +112,13 @@ function discount_deals_editor( $field ) {
 			'name'              => $field['id'],
 			'required'          => false,
 			'custom_attributes' => array(),
+			'row_hidden'        => false,
 		)
 	);
 
 	$wrapper_attributes = array(
-		'class' => 'discount-deals-table__row',
+		'class' => $field['row_hidden'] ? 'discount-deals-table__row discount-deals-hidden' : 'discount-deals-table__row',
+		'style' => $field['style'],
 	);
 
 	$label_attributes = array(
@@ -100,27 +126,31 @@ function discount_deals_editor( $field ) {
 	);
 
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes );// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
 		</td>
 		<td class="discount-deals-table__col discount-deals-table__col--field">
 			<?php
-			wp_editor( $field['value'], 'editor_' . $field['id'], array(
-				'media_buttons' => true,
-				'textarea_rows' => 8,
-				'tabindex'      => 4,
-				'textarea_name' => $field['name']
-			) );
+			wp_editor(
+				$field['value'],
+				'editor_' . $field['id'],
+				array(
+					'media_buttons' => true,
+					'textarea_rows' => 8,
+					'tabindex'      => 4,
+					'textarea_name' => $field['name'],
+				)
+			);
 			if ( ! empty( $field['description'] ) ) {
 				?>
 				<div class="<?php echo esc_attr( $field['id'] ); ?>_description">
 					<p><?php echo wp_kses_post( $field['description'] ); ?></p>
 				</div>
-			<?php 
+				<?php
 			}
 			?>
 		</td>
@@ -146,18 +176,21 @@ function discount_deals_radio( $field ) {
 			'required'          => false,
 			'custom_attributes' => array(),
 			'options'           => array(),
+			'row_hidden'        => false,
 		)
 	);
 
-	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'], );
+	$wrapper_attributes = array(
+		'class' => $field['row_hidden'] ? 'discount-deals-table__row discount-deals-hidden ' . $field['wrapper_class'] : 'discount-deals-table__row ' . $field['wrapper_class'],
+	);
 
 	$label_attributes = array(
 		'for' => $field['id'],
 	);
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
@@ -210,22 +243,22 @@ function discount_deals_html( $field ) {
 		)
 	);
 
-	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'], );
+	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'] );
 
 	$label_attributes = array(
 		'for' => $field['id'],
 	);
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes );// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
 		</td>
 		<td class="discount-deals-table__col discount-deals-table__col--field">
 			<?php
-			echo $field['html']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo wp_kses( $field['html'], wp_kses_allowed_html( 'discount_deals' ) );
 			?>
 		</td>
 	</tr>
@@ -254,7 +287,7 @@ function discount_deals_text_input( $field ) {
 		)
 	);
 
-	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'], );
+	$wrapper_attributes = array( 'class' => 'discount-deals-table__row ' . $field['wrapper_class'] );
 
 	$label_attributes = array(
 		'for' => $field['id'],
@@ -285,16 +318,16 @@ function discount_deals_text_input( $field ) {
 	}
 	$required_text = $field['required'] ? 'required="required"' : '';
 	?>
-	<tr <?php echo wc_implode_html_attributes( $wrapper_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<tr <?php discount_deals_implode_html_attributes( $wrapper_attributes ); ?>>
 		<td class="discount-deals-table__col discount-deals-table__col--label">
-			<label <?php echo wc_implode_html_attributes( $label_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+			<label <?php discount_deals_implode_html_attributes( $label_attributes ); ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 			<?php if ( $field['required'] ) : ?>
 				<span class="required">*</span>
 			<?php endif; ?>
 		</td>
 		<td class="discount-deals-table__col discount-deals-table__col--field">
 			<?php
-			echo '<input type="' . esc_attr( $field['type'] ) . '" ' . $required_text . ' class="' . esc_attr( $field['class'] ) . '" style="' . esc_attr( $field['style'] ) . '" name="' . esc_attr( $field['name'] ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['value'] ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . implode( ' ', $field['custom_attributes'] ) . ' /> '; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<input type="' . esc_attr( $field['type'] ) . '" ' . esc_attr( $required_text ) . ' class="' . esc_attr( $field['class'] ) . '" style="' . esc_attr( $field['style'] ) . '" name="' . esc_attr( $field['name'] ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['value'] ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . esc_attr( implode( ' ', $field['custom_attributes'] ) ) . ' /> ';
 			if ( ! empty( $field['description'] ) ) {
 				?>
 				<div class="<?php echo esc_attr( $field['id'] ); ?>_description">

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer state check rule
  *
- * @class Discount_Deals_Workflow_Rule_Customer_State
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
 	/**
@@ -24,7 +24,7 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -40,11 +40,11 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 	 * @return array
 	 */
 	public function load_select_choices() {
-		$return = [];
+		$return = array();
 
 		foreach ( WC()->countries->get_states() as $country_code => $states ) {
 			foreach ( $states as $state_code => $state_name ) {
-				$return["$country_code|$state_code"] = discount_deals_get_country_name( $country_code ) . ' - ' . $state_name;
+				$return[ "$country_code|$state_code" ] = discount_deals_get_country_name( $country_code ) . ' - ' . $state_name;
 			}
 		}
 
@@ -56,7 +56,7 @@ class Discount_Deals_Workflow_Rule_Customer_State extends Discount_Deals_Workflo
 	 *
 	 * @param WC_Customer $data_item    The customer.
 	 * @param string      $compare_type What variables we're using to compare.
-	 * @param array       $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
+	 * @param array       $value        The values we have to compare. 
 	 *
 	 * @return boolean
 	 */

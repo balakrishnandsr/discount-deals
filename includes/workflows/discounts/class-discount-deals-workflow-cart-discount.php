@@ -22,14 +22,15 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Cart subtotal based discount', 'discount-deals' ) );
 		$this->set_short_title( __( 'Cart discount', 'discount-deals' ) );
+		$this->set_category( __( 'Cart discount', 'discount-deals' ) );
 		$this->set_description( __( 'Give discounts on shopping cart subtotal with coupons and fees.', 'discount-deals' ) );
 	}//end __construct()
 
 
 	/**
 	 * Set valid data items type of the discount
-  *
-  * @return void
+	 *
+	 * @return void
 	 */
 	public function set_supplied_data_items() {
 		$this->supplied_data_items = array( 'customer', 'cart', 'shop' );
@@ -66,10 +67,10 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param WC_Cart $data_item Cart object.
-  * @param float   $price     Price.
+	 * @param float   $price     Price.
 	 * @param array   $extra     Extra details for calculate discount.
 	 *
-	 * @return integer
+	 * @return float | integer
 	 */
 	public function calculate_discount( $data_item, $price, $extra = array() ) {
 		$discount_details = $this->get_discount_details();
@@ -82,10 +83,14 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 			$max_subtotal = discount_deals_get_value_from_array( $discount_detail, 'max_subtotal', 999999999 );
 			$value        = discount_deals_get_value_from_array( $discount_detail, 'value', 0 );
 			$max_discount = discount_deals_get_value_from_array( $discount_detail, 'max_discount', 0 );
-			if ( ! empty( $type ) && ! empty( $value ) && $price >= $min_subtotal && $price <= $max_subtotal ) {
+			if ( ! empty( $type ) && $price >= $min_subtotal && $price <= $max_subtotal ) {
+				// Free shipping returns -1, otherwise return discounted value.
 				if ( 'free_shipping' == $type ) {
-					return 'discount_deals_free_shipping';
+					return -1;
 				} else {
+					if ( empty( $value ) ) {
+						return 0;
+					}
 					$discount = $this->calculate_discount_amount( $type, $price, $value );
 					if ( ! empty( $max_discount ) ) {
 						$discount = min( $max_discount, $discount );

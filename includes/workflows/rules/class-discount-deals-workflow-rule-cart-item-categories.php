@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Discount_Deals_Workflow_Rule_Cart_Item_Categories
+ *
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract {
 	/**
@@ -67,9 +69,9 @@ class Discount_Deals_Workflow_Rule_Cart_Item_Categories extends Discount_Deals_W
 		if ( empty( $cart_items ) ) {
 			return false;
 		}
-		$category_ids = [];
+		$category_ids = array();
 		foreach ( $cart_items as $item ) {
-			$terms        = wp_get_object_terms( $item['product_id'], 'product_cat', [ 'fields' => 'ids' ] );
+			$terms        = wp_get_object_terms( $item['product_id'], 'product_cat', array( 'fields' => 'ids' ) );
 			$category_ids = array_merge( $category_ids, $terms );
 		}
 		$category_ids = array_filter( $category_ids );

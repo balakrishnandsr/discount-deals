@@ -40,9 +40,9 @@ class Discount_Deals_Admin_Settings {
 	public static function add_sections() {
 		$sections        = array(
 			'general'                             => __( 'General', 'discount-deals' ),
-			'product-price-and-quantity-discount' => __( 'Product price and quantity based discount', 'discount-deals' ),
-			'cart-discount'                       => __( 'Cart subtotal based discount', 'discount-deals' ),
-			'bogo-discount'                       => __( 'Buy one Get one discount', 'discount-deals' ),
+			'product-price-and-quantity-discount' => __( 'Product discount', 'discount-deals' ),
+			'cart-discount'                       => __( 'Cart discount', 'discount-deals' ),
+			'bogo-discount'                       => __( 'BOGO discount', 'discount-deals' ),
 		);
 		$current_section = esc_attr( discount_deals_get_data( 'section', 'general' ) );
 		echo '<ul class="subsubsub">';
@@ -78,15 +78,15 @@ class Discount_Deals_Admin_Settings {
 			return;
 		}
 		if ( discount_deals_get_value_from_array( $_POST, 'save', false ) ) {
-			$actual_Settings = array();
+			$actual_settings = array();
 			foreach ( $_POST as $key => $value ) {
 				if ( str_starts_with( $key, 'wc_settings_tab_discount_deals_' ) ) {
 					$actual_key = str_replace( 'wc_settings_tab_discount_deals_', '', $key );
 
-					$actual_Settings[ $actual_key ] = wc_clean( $value );
+					$actual_settings[ $actual_key ] = wc_clean( $value );
 				}
 			}
-			Discount_Deals_Settings::save_settings( $actual_Settings );
+			Discount_Deals_Settings::save_settings( $actual_settings );
 		}
 	}//end save_settings()
 
@@ -138,12 +138,17 @@ class Discount_Deals_Admin_Settings {
 					'name'  => __( 'Message to be displayed to your customers on the shopping cart page?', 'discount-deals' ),
 					'type'  => 'text',
 					'value' => Discount_Deals_Settings::get_settings( 'applied_discount_message' ),
+					'desc'  => sprintf(
+							// translators: %s workflow title.
+						__( 'Use %s placeholder to show workflow tittle in your message.', 'discount-deals' ),
+						'{{workflow_title}}'
+					),
 					'id'    => 'wc_settings_tab_discount_deals_applied_discount_message',
 				),
 				'general_section_end'               => array(
 					'type' => 'sectionend',
 					'id'   => 'wc_settings_tab_discount_deals_general_settings_end',
-				)
+				),
 			);
 		} elseif ( 'product-price-and-quantity-discount' == $current_section ) {
 			return array(
@@ -222,7 +227,7 @@ class Discount_Deals_Admin_Settings {
 				'product_section_end'          => array(
 					'type' => 'sectionend',
 					'id'   => 'wc_settings_tab_discount_deals_product_settings_end',
-				)
+				),
 			);
 		} elseif ( 'cart-discount' == $current_section ) {
 			return array(
@@ -237,12 +242,12 @@ class Discount_Deals_Admin_Settings {
 					'name'    => __( 'Apply discount to', 'discount-deals' ),
 					'type'    => 'select',
 					'options' => array(
-						'biggest_with_free_shipping'    => __( 'Biggest one from matched workflows and free shipping together', 'discount-deals' ),
-						'biggest_without_free_shipping' => __( 'Biggest one from matched workflows and ignore free shipping', 'discount-deals' ),
-						'lowest_with_free_shipping'     => __( 'Lowest one from matched workflows and free shipping together', 'discount-deals' ),
-						'lowest_without_free_shipping'  => __( 'Lowest one from matched workflows and ignore free shipping', 'discount-deals' ),
-						'free_shipping_only'            => __( 'Free shipping only', 'discount-deals' ),
-						'all_matched'                   => __( 'All matching workflows', 'discount-deals' ),
+						'biggest_with_free_shipping'    => __( 'Biggest one from matched workflows and matched free shipping together', 'discount-deals' ),
+						'biggest_without_free_shipping' => __( 'Biggest one from matched workflows and ignore matched free shipping', 'discount-deals' ),
+						'lowest_with_free_shipping'     => __( 'Lowest one from matched workflows and matched free shipping together', 'discount-deals' ),
+						'lowest_without_free_shipping'  => __( 'Lowest one from matched workflows and ignore matched free shipping', 'discount-deals' ),
+						'free_shipping_only'            => __( 'Matched free shipping only and ignore other matched workflows', 'discount-deals' ),
+						'all_matched'                   => __( 'All matched workflows', 'discount-deals' ),
 					),
 					'desc'    => sprintf( '%s <br/> %s', __( 'If one or more workflows are applied to the cart, which workflow should be used to apply the discount?', 'discount-deals' ), __( 'Note: If you select "All matching workflows", all discounts will be applied to the cart.', 'discount-deals' ) ),
 					'value'   => Discount_Deals_Settings::get_settings( 'apply_cart_discount_to' ),
@@ -306,7 +311,7 @@ class Discount_Deals_Admin_Settings {
 					'desc'    => __( 'If one or more workflows are applied to the product, which workflow should be used to provide the discount?', 'discount-deals' ),
 					'options' => array(
 						'lowest_matched'  => __( 'Lowest one from matched workflows', 'discount-deals' ),
-						'biggest_matched' => __( 'Biggest one from matched workflows', 'discount-deals' )
+						'biggest_matched' => __( 'Biggest one from matched workflows', 'discount-deals' ),
 					),
 					'value'   => Discount_Deals_Settings::get_settings( 'lowest_matched' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_bogo_discount_to',

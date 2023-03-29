@@ -19,8 +19,8 @@ class Discount_Deals_I18n {
 
 	/**
 	 * Load the plugin text domain for translation.
-  *
-  * @return void
+	 *
+	 * @return void
 	 */
 	public function load_plugin_text_domain() {
 

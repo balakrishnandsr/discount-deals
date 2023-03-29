@@ -58,40 +58,34 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$workflows_db          = new Discount_Deals_Workflow_DB();
 
-		$where = ' 1 ';
-
 		// Add search keyword in where query.
-		$search_keyword = discount_deals_get_post_data( 's', '' );
+		$search_keyword = discount_deals_get_request_data( 's', '' );
 		if ( ! empty( $search_keyword ) ) {
-			$where .= " AND dd_title like '%{$search_keyword}%' ";
+			$search_keyword = "$search_keyword";
+		} else {
+			$search_keyword = '';
 		}
 
 		// Add discount type in where query.
-		$discount_type = discount_deals_get_post_data( 'tab', '' );
+		$discount_type = discount_deals_get_data( 'tab', '' );
 		$discount_type = str_replace( '-', '_', $discount_type );
-		if ( ! empty( $discount_type ) && 'all' != $discount_type ) {
-			$where .= " AND dd_type = '$discount_type' ";
+		if ( ! empty( $discount_type ) && 'all' == $discount_type ) {
+			$discount_type = '';
 		}
 
 		// Set order by query in where.
 		$order_by   = discount_deals_get_data( 'orderby', 'dd_id' );
 		$order      = strtolower( discount_deals_get_data( 'order', 'desc' ) );
-		$db_columns = $workflows_db->get_columns();
-		if ( array_key_exists( $order_by, $db_columns ) && in_array( $order, array( 'asc', 'desc' ) ) ) {
-			$where .= " ORDER BY $order_by $order";
-		}
 
-		$per_page     = 20;
+		$per_page     = 50;
 		$current_page = $this->get_pagenum();
 		$offset       = ( $current_page - 1 ) * $per_page;
-
-		$where .= " LIMIT $per_page OFFSET $offset";
 
 		// Get total rows in DB.
 		$total_items = $workflows_db->count();
 
 		// Get rows by condition.
-		$items = $workflows_db->get_by_conditions( $where );
+		$items = $workflows_db->get_by_conditions( $order_by, $order, $per_page, $offset, $discount_type, $search_keyword );
 
 		$this->set_pagination_args(
 			array(
@@ -114,7 +108,6 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'cb'            => '<input type="checkbox" />',
 			'dd_title'      => __( 'Title', 'discount-deals' ),
 			'dd_type'       => __( 'Discount Type', 'discount-deals' ),
-			'dd_exclusive'  => __( 'Is Exclusive', 'discount-deals' ),
 			'dd_created_at' => __( 'Created At', 'discount-deals' ),
 			'dd_updated_at' => __( 'Updated At', 'discount-deals' ),
 			'dd_status'     => __( 'Status', 'discount-deals' ),
@@ -133,7 +126,6 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'dd_created_at' => array( 'dd_created_at', false ),
 			'dd_updated_at' => array( 'dd_updated_at', false ),
 			'dd_status'     => array( 'dd_status', false ),
-			'dd_exclusive'  => array( 'dd_exclusive', false ),
 		);
 	}//end get_sortable_columns()
 
@@ -149,15 +141,17 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 		}
 		$current_action = $this->current_action();
 		if ( in_array( $current_action, array_keys( $this->get_bulk_actions() ) ) ) {
-			$workflow_ids = discount_deals_get_post_data( 'workflow', array(), false );
+			$workflow_ids = discount_deals_get_request_data( 'workflow', array() );
 			if ( ! is_array( $workflow_ids ) ) {
 				$workflow_ids = array( $workflow_ids );
 			}
 			if ( ! empty( $workflow_ids ) ) {
 				$workflow_db = new Discount_Deals_Workflow_DB();
+				$analytics_db = new Discount_Deals_Analytics_DB();
 				foreach ( $workflow_ids as $workflow_id ) {
 					switch ( $current_action ) {
 						case 'delete':
+							$analytics_db->delete_by_workflow( $workflow_id );
 							$workflow_db->delete( $workflow_id );
 							break;
 						case 'enable':
@@ -189,8 +183,6 @@ class Discount_Deals_Admin_Workflows_List_Table extends WP_List_Table {
 			'delete'        => __( 'Delete', 'discount-deals' ),
 			'enable'        => __( 'Enable', 'discount-deals' ),
 			'disable'       => __( 'Disable', 'discount-deals' ),
-			'exclusive'     => __( 'Mark as Exclusive', 'discount-deals' ),
-			'not_exclusive' => __( 'Mark as Not-Exclusive', 'discount-deals' ),
 		);
 	}//end get_bulk_actions()
 

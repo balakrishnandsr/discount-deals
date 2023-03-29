@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Customer order count
  *
- * @class Discount_Deals_Workflow_Rule_Customer_Order_Count
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Customer_Order_Count extends Discount_Deals_Workflow_Rule_Number_Abstract {
 	/**
@@ -32,7 +32,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Count extends Discount_Deals_W
 
 	/**
 	 * Init the rule.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -44,7 +44,7 @@ class Discount_Deals_Workflow_Rule_Customer_Order_Count extends Discount_Deals_W
 	 *
 	 * @param WC_Customer $data_item    The customer.
 	 * @param string      $compare_type What variables we're using to compare.
-	 * @param integer     $value        The values we have to compare. Null is only allowed when $compare is is_not_set.
+	 * @param integer     $value        The values we have to compare. 
 	 *
 	 * @return boolean
 	 */

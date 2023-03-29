@@ -21,6 +21,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 		parent::__construct();
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Buy X and Get Y discount', 'discount-deals' ) );
+		$this->set_category( __( 'BOGO discount', 'discount-deals' ) );
 		$this->set_description( __( 'If the customer buys product X, then give some quantities as discounts of product Y.', 'discount-deals' ) );
 	}//end __construct()
 
@@ -109,7 +110,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 			'post_status'    => 'publish',
 			'orderby'        => 'meta_value_num',
 			'meta_key'       => '_price',
-			'order'          => 'lowest' == $which ? 'asc' : 'desc'
+			'order'          => 'lowest' == $which ? 'asc' : 'desc',
 		);
 		$the_query     = new WP_Query( $args );
 		$product_posts = $the_query->get_posts();
@@ -240,7 +241,7 @@ class Discount_Deals_Workflow_Bxgy_Discount extends Discount_Deals_Workflow_Disc
 					'is_free'               => 'free' == $type,
 					'discount_on_same'      => false,
 					'show_eligible_message' => ! empty( $show_eligible_message ),
-					'discount_product'      => $discount_products
+					'discount_product'      => $discount_products,
 				);
 			}
 		}

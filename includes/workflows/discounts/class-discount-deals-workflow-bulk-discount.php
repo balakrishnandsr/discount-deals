@@ -22,6 +22,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Product quantity based discount', 'discount-deals' ) );
 		$this->set_short_title( __( 'Bulk discount', 'discount-deals' ) );
+		$this->set_category( __( 'Product discount', 'discount-deals' ) );
 		$this->set_description( __( 'Give dynamic discounts on products when customers buy the products in large quantities.', 'discount-deals' ) );
 	}//end __construct()
 
@@ -63,17 +64,22 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	/**
 	 * Load promotional message fields
 	 *
-	 * @return string
+	 * @param boolean $return Need to return the html.
+	 *
+	 * @return string|void
 	 */
-	public function load_promotion_fields() {
+	public function load_promotion_fields( $return = true ) {
 		$discount_details = $this->get_promotion_details();
-		ob_start();
+		if ( $return ) {
+			ob_start();
+		}
+		$promotion_enabled = discount_deals_get_value_from_array( $discount_details, 'enable', 'no' );
 		discount_deals_radio(
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_toggle_promotion',
 				'name'          => 'discount_deals_workflow[dd_promotion][enable]',
-				'value'         => discount_deals_get_value_from_array( $discount_details, 'enable', 'no' ),
+				'value'         => $promotion_enabled,
 				'label'         => __( 'Would you like to display promotional message in the storefront?', 'discount-deals' ),
 				'options'       => array(
 					'yes' => __( 'Yes', 'discount-deals' ),
@@ -84,31 +90,33 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 		);
 		discount_deals_select(
 			array(
-				'id'       => 'discount_deals_workflow_promotion_when',
-				'name'     => 'discount_deals_workflow[dd_promotion][when_to_show]',
-				'value'    => discount_deals_get_value_from_array( $discount_details, 'when_to_show', 'all_time' ),
-				'label'    => __( 'When to show this promotional message?', 'discount-deals' ),
-				'options'  => array(
+				'id'         => 'discount_deals_workflow_promotion_when',
+				'name'       => 'discount_deals_workflow[dd_promotion][when_to_show]',
+				'value'      => discount_deals_get_value_from_array( $discount_details, 'when_to_show', 'all_time' ),
+				'label'      => __( 'When to show this promotional message?', 'discount-deals' ),
+				'options'    => array(
 					'before_rule' => __( 'Before all workflow rules are passed', 'discount-deals' ),
 					'after_rule'  => __( 'After all workflow rules are passed', 'discount-deals' ),
 					'all_time'    => __( 'All time (Not checked against all rules)', 'discount-deals' ),
 				),
-				'required' => true,
+				'required'   => true,
+				'row_hidden' => 'no' === $promotion_enabled
 			)
 		);
 
 		discount_deals_select(
 			array(
-				'id'       => 'discount_deals_workflow_promotion_where',
-				'name'     => 'discount_deals_workflow[dd_promotion][where_to_show]',
-				'value'    => discount_deals_get_value_from_array( $discount_details, 'where_to_show', 'all_time' ),
-				'label'    => __( 'Where to show this promotional message?', 'discount-deals' ),
-				'options'  => array(
+				'id'         => 'discount_deals_workflow_promotion_where',
+				'name'       => 'discount_deals_workflow[dd_promotion][where_to_show]',
+				'value'      => discount_deals_get_value_from_array( $discount_details, 'where_to_show', 'all_time' ),
+				'label'      => __( 'Where to show this promotional message?', 'discount-deals' ),
+				'options'    => array(
 					'before_add_to_cart_button'    => __( 'Before "Add to cart" form', 'discount-deals' ),
 					'after_add_to_cart_button'     => __( 'After "Add to cart" form', 'discount-deals' ),
 					'after_single_product_summary' => __( 'Before product additional information', 'discount-deals' ),
 				),
-				'required' => true,
+				'required'   => true,
+				'row_hidden' => 'no' === $promotion_enabled
 			)
 		);
 
@@ -124,20 +132,13 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 					'no'  => __( 'No', 'discount-deals' ),
 				),
 				'required'      => true,
+				'row_hidden'    => 'no' === $promotion_enabled
 			)
 		);
 
-		discount_deals_editor(
-			array(
-				'id'       => 'discount_deals_workflow_promotion_message',
-				'name'     => 'discount_deals_workflow[dd_promotion][message]',
-				'value'    => discount_deals_get_value_from_array( $discount_details, 'message', '<p><b>Special Price</b> Purchase above 500$ and get extra 5% off. </p>', false ),
-				'label'    => __( 'Enter the promotional message that will be displayed to the customer', 'discount-deals' ),
-				'required' => true,
-			)
-		);
-
-		return ob_get_clean();
+		if ( $return ) {
+			return ob_get_clean();
+		}
 	}//end load_promotion_fields()
 
 
@@ -145,8 +146,8 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 	 * Calculate discount for the product
 	 *
 	 * @param mixed $data_item Calculate discount for which data item.
-	 * @param float $price     Calculate discount subsequently.
-	 * @param array $extra     Extra details for calculate discount.
+	 * @param float $price Calculate discount subsequently.
+	 * @param array $extra Extra details for calculate discount.
 	 *
 	 * @return integer
 	 */

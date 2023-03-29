@@ -1,5 +1,6 @@
-=== Discount Deals ===
-Contributors: discountdeals
+=== Discount Deals - Dynamic product pricing and discount rules ===
+Contributors: dynamicdiscountdeals
+Donate link: https://dynamicdiscount.deals/
 Tags: woocommerce, coupons, discounts, dynamic pricing, Buy One Get One Free, pricing deals, bulk discount, discount
 Requires at least: 4.4.1
 Tested up to: 6.1
@@ -274,9 +275,3 @@ Navigate to WooCommerce - > Discount Deals - > Add New Workflow. Select Buy X an
 4. Discounted price is applied in the Cart
 5. Creating a Buy X and Get Y discount
 6. Free product auto added in cart
-
-== Credits ==
-
-== Changelog ==
-
-== Upgrade notice ==

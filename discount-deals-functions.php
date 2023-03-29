@@ -13,22 +13,17 @@ if ( ! function_exists( 'discount_deals_get_data' ) ) {
 	/**
 	 * Get data from the GET request
 	 *
-	 * @param string  $key     Key of the array.
-	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
+	 * @param string $key     Key of the array.
+	 * @param mixed  $default If there is no data then return default value.
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_data( $key, $default = null, $clean = true ) {
-		if (empty($key)) {
+	function discount_deals_get_data( $key, $default = null ) {
+		if ( empty( $key ) ) {
 			wc_clean( wp_unslash( $_GET ) );
 		}
 		if ( isset( $_GET[ $key ] ) ) {
-			if ( $clean ) {
-				return wc_clean( wp_unslash( $_GET[ $key ] ) );
-			}
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			return $_GET[ $key ];
+			return wc_clean( wp_unslash( $_GET[ $key ] ) );
 		}
 
 		return $default;
@@ -40,22 +35,17 @@ if ( ! function_exists( 'discount_deals_get_request_data' ) ) {
 	/**
 	 * Get data from the REQUEST
 	 *
-	 * @param string  $key     Key of the array.
-	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
+	 * @param string $key     Key of the array.
+	 * @param mixed  $default If there is no data then return default value.
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_request_data( $key, $default = null, $clean = true ) {
-		if (empty($key)) {
+	function discount_deals_get_request_data( $key, $default = null ) {
+		if ( empty( $key ) ) {
 			wc_clean( wp_unslash( $_REQUEST ) );
 		}
 		if ( isset( $_REQUEST[ $key ] ) ) {
-			if ( $clean ) {
-				return wc_clean( wp_unslash( $_REQUEST[ $key ] ) );
-			}
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			return $_REQUEST[ $key ];
+			return wc_clean( wp_unslash( $_REQUEST[ $key ] ) );
 		}
 
 		return $default;
@@ -66,25 +56,13 @@ if ( ! function_exists( 'discount_deals_get_post_data' ) ) {
 	/**
 	 * Get data from the POST request
 	 *
-	 * @param string  $key     Key of the array.
-	 * @param mixed   $default If there is no data then return default value.
-	 * @param boolean $clean   Need to clean the output.
+	 * @param string $key     Key of the array.
+	 * @param mixed  $default If there is no data then return default value.
 	 *
 	 * @return mixed|string
 	 */
-	function discount_deals_get_post_data( $key, $default = null, $clean = true ) {
-		if (empty($key)) {
-			wc_clean( wp_unslash( $_POST ) );
-		}
-		if ( isset( $_POST[ $key ] ) ) {
-			if ( $clean ) {
-				return wc_clean( wp_unslash( $_POST[ $key ] ) );
-			}
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			return $_POST[ $key ];
-		}
-
-		return $default;
+	function discount_deals_get_post_data( $key, $default = null ) {
+		return wc_get_post_data_by_key( $key, $default );
 	}//end discount_deals_get_post_data()
 }
 
@@ -118,7 +96,7 @@ if ( ! function_exists( 'discount_deals_get_weekday' ) ) {
 }
 if ( ! function_exists( 'discount_deals_normalize_date' ) ) {
 	/**
-	 * Convert a date object to an instance of AutomateWoo\DateTime.
+	 * Convert a date object to an instance of Discount_Deals_Date_Time.
 	 *
 	 * WC_Datetime objects are converted to UTC timezone.
 	 *
@@ -159,7 +137,6 @@ if ( ! function_exists( 'discount_deals_normalize_date' ) ) {
 
 		return false;
 	}//end discount_deals_normalize_date()
-
 }
 
 if ( ! function_exists( 'discount_deals_get_product_discount' ) ) {
@@ -231,7 +208,6 @@ if ( ! function_exists( 'discount_deals_get_cart_discount' ) ) {
 	function discount_deals_get_cart_discount() {
 		return Discount_Deals_Workflows::calculate_cart_discount();
 	}//end discount_deals_get_cart_discount()
-
 }
 
 if ( ! function_exists( 'discount_deals_get_applied_workflows' ) ) {
@@ -243,7 +219,6 @@ if ( ! function_exists( 'discount_deals_get_applied_workflows' ) ) {
 	function discount_deals_get_applied_workflows() {
 		return Discount_Deals_Workflows::get_applied_workflows();
 	}//end discount_deals_get_applied_workflows()
-
 }
 
 if ( ! function_exists( 'discount_deals_get_applied_workflow_discounts' ) ) {
@@ -264,12 +239,15 @@ if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {
 	 * @return array
 	 */
 	function discount_deals_get_all_categories() {
-		$list = [];
+		$list = array();
 
-		$categories = get_terms( 'product_cat', [
-			'orderby'    => 'name',
-			'hide_empty' => false
-		] );
+		$categories = get_terms(
+			'product_cat',
+			array(
+				'orderby'    => 'name',
+				'hide_empty' => false,
+			)
+		);
 
 		foreach ( $categories as $category ) {
 			$list[ $category->term_id ] = $category->name;
@@ -277,7 +255,6 @@ if ( ! function_exists( 'discount_deals_get_all_categories' ) ) {
 
 		return $list;
 	}//end discount_deals_get_all_categories()
-
 }
 
 if ( ! function_exists( 'discount_deals_get_all_tags' ) ) {
@@ -287,12 +264,15 @@ if ( ! function_exists( 'discount_deals_get_all_tags' ) ) {
 	 * @return array
 	 */
 	function discount_deals_get_all_tags() {
-		$list = [];
+		$list = array();
 
-		$terms = get_terms( 'product_tag', [
-			'orderby'    => 'name',
-			'hide_empty' => false
-		] );
+		$terms = get_terms(
+			'product_tag',
+			array(
+				'orderby'    => 'name',
+				'hide_empty' => false,
+			)
+		);
 
 		foreach ( $terms as $term ) {
 			$list[ $term->term_id ] = $term->name;
@@ -300,36 +280,35 @@ if ( ! function_exists( 'discount_deals_get_all_tags' ) ) {
 
 		return $list;
 	}//end discount_deals_get_all_tags()
-
 }
 
 if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	/**
 	 * Search coupons
 	 *
-  * @param string  $term                 Term.
-  * @param boolean $exclude_personalized Exclude personalized.
-  *
+	 * @param string  $term                 Term.
+	 * @param boolean $exclude_personalized Exclude personalized.
+	 *
 	 * @return array
 	 */
 	function discount_deals_search_coupons( $term, $exclude_personalized ) {
-		$args = [
+		$args = array(
 			'post_type'      => 'shop_coupon',
 			'posts_per_page' => 50,
 			'no_found_rows'  => true,
-			'meta_query'     => [],
+			'meta_query'     => array(),
 			's'              => $term,
-		];
+		);
 
 		if ( $exclude_personalized ) {
-			$args['meta_query'][] = [
+			$args['meta_query'][] = array(
 				'key'     => '_is_discount_deals_coupon',
 				'compare' => 'NOT EXISTS',
-			];
+			);
 		}
 
 		$query   = new \WP_Query( $args );
-		$results = [];
+		$results = array();
 
 		foreach ( $query->posts as $coupon ) {
 			$code             = wc_format_coupon_code( $coupon->post_title );
@@ -338,7 +317,6 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 
 		return $results;
 	}//end discount_deals_search_coupons()
-
 }
 if ( ! function_exists( 'discount_deals_get_counted_order_statuses' ) ) {
 	/**
@@ -349,7 +327,8 @@ if ( ! function_exists( 'discount_deals_get_counted_order_statuses' ) ) {
 	 * @return array|mixed|string[]|void
 	 */
 	function discount_deals_get_counted_order_statuses( $include_prefix = true ) {
-		$default_statuses = array_merge( wc_get_is_paid_statuses(), [ 'on-hold' ] );
+		$default_statuses = array_merge( wc_get_is_paid_statuses(), array( 'on-hold' ) );
+
 		/**
 		 * Filter to modify counted order statuses.
 		 *
@@ -367,7 +346,6 @@ if ( ! function_exists( 'discount_deals_get_counted_order_statuses' ) ) {
 
 		return $statuses;
 	}//end discount_deals_get_counted_order_statuses()
-
 }
 if ( ! function_exists( 'discount_deals_add_order_status_prefix' ) ) {
 	/**
@@ -380,7 +358,6 @@ if ( ! function_exists( 'discount_deals_add_order_status_prefix' ) ) {
 	function discount_deals_add_order_status_prefix( $status ) {
 		return 'wc-' . $status;
 	}//end discount_deals_add_order_status_prefix()
-
 }
 
 if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
@@ -396,7 +373,6 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 
 		return isset( $countries[ $country_code ] ) ? $countries[ $country_code ] : false;
 	}//end discount_deals_get_country_name()
-
 }
 if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 	/**
@@ -418,12 +394,12 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 		$transient_name = 'discount_deals_cpp_' . $customer->get_id();
 		$products       = get_transient( $transient_name );
 		if ( false === $products ) {
-			$customer_data = [ $customer->get_email(), $customer->get_id() ];
+			$customer_data = array( $customer->get_email(), $customer->get_id() );
 			$customer_data = array_map( 'esc_sql', array_filter( $customer_data ) );
 			$statuses      = array_map( 'esc_sql', discount_deals_get_counted_order_statuses( true ) );
-
-			$query   =  "
-				SELECT im.meta_value FROM {$wpdb->posts} AS p
+			$result = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT im.meta_value FROM {$wpdb->posts} AS p
 				INNER JOIN {$wpdb->postmeta} AS pm ON p.ID = pm.post_id
 				INNER JOIN {$wpdb->prefix}woocommerce_order_items AS i ON p.ID = i.order_id
 				INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS im ON i.order_item_id = im.order_item_id
@@ -431,12 +407,10 @@ if ( ! function_exists( 'discount_deals_search_coupons' ) ) {
 				AND pm.meta_key IN ( '_billing_email', '_customer_user' )
 				AND im.meta_key IN ( '_product_id', '_variation_id' )
 				AND im.meta_value != 0
-				AND pm.meta_value IN ( %s )
-			";
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			$query   = $wpdb->prepare( $query, array(implode( "','", $statuses ),implode( "','", $customer_data )) );
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			$result = $wpdb->get_col($query);
+				AND pm.meta_value IN ( %s )",
+					array( implode( "','", $statuses ), implode( "','", $customer_data ) )
+				)
+			);
 			$products = array_unique( array_map( 'absint', $result ) );
 
 			set_transient( $transient_name, $result, DAY_IN_SECONDS * 7 );
@@ -460,7 +434,6 @@ if ( ! function_exists( 'discount_deals_get_state_name' ) ) {
 
 		return isset( $states[ $state_code ] ) ? $states[ $state_code ] : false;
 	}//end discount_deals_get_state_name()
-
 }
 if ( ! function_exists( 'discount_deals_get_user_tags' ) ) {
 	/**
@@ -469,12 +442,14 @@ if ( ! function_exists( 'discount_deals_get_user_tags' ) ) {
 	 * @return array
 	 */
 	function discount_deals_get_user_tags() {
-		$list = [];
+		$list = array();
 
-		$tags = get_terms( [
-			'taxonomy'   => 'user_tag',
-			'hide_empty' => false
-		] );
+		$tags = get_terms(
+			array(
+				'taxonomy'   => 'user_tag',
+				'hide_empty' => false,
+			)
+		);
 
 		foreach ( $tags as $tag ) {
 			$list[ $tag->term_id ] = $tag->name;
@@ -482,7 +457,6 @@ if ( ! function_exists( 'discount_deals_get_user_tags' ) ) {
 
 		return $list;
 	}//end discount_deals_get_user_tags()
-
 }
 if ( ! function_exists( 'discount_deals_arrange_discounts_by_quantity_range' ) ) {
 	/**
@@ -507,5 +481,26 @@ if ( ! function_exists( 'discount_deals_arrange_discounts_by_quantity_range' ) )
 			return 0;
 		}
 	}//end discount_deals_arrange_discounts_by_quantity_range()
+}
 
+if ( ! function_exists( 'discount_deals_get_cart_subtotal' ) ) {
+	/**
+	 * Get subtotal of the cart.
+	 *
+	 * @return float
+	 */
+	function discount_deals_get_cart_subtotal() {
+		$subtotal = WC()->cart->get_subtotal();
+		$subtotal_tax = WC()->cart->get_subtotal_tax();
+		if ( get_option( 'woocommerce_tax_display_cart' ) != 'excl' ) {
+			$subtotal += $subtotal_tax;
+		}
+
+		/**
+		 * Filter to modify cart subtotal.
+		 *
+		 * @since 1.0.0
+		 */
+		return apply_filters( 'discount_deals_cart_subtotal', $subtotal, $subtotal, $subtotal_tax );
+	}//end discount_deals_get_cart_subtotal()
 }

@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Preloaded select rule
+ *
+ * @credit Inspired by AutomateWoo
  */
 abstract class Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract extends Discount_Deals_Workflow_Rule_Select_Abstract {
 	/**
@@ -29,6 +31,7 @@ abstract class Discount_Deals_Workflow_Rule_Preloaded_Select_Abstract extends Di
 	 */
 	public function get_select_choices() {
 		if ( ! isset( $this->select_choices ) ) {
+
 			/**
 			 * Filter for change select choices
 			 *

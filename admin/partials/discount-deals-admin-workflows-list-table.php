@@ -33,7 +33,7 @@ $all_workflows_count = $workflows_db->count();
 		<a href="?page=<?php echo esc_attr( discount_deals_get_data( 'page', '' ) ); ?>&action=new"
 		   class="page-title-action"><?php esc_html_e( 'Add Workflow', 'discount-deals' ); ?></a>
 		<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=discount-deals-settings&section=general' ) ); ?>"
-		   class="page-title-action"><?php echo esc_html__( 'Settings', 'discount-deals' ); ?></a>
+		   class="page-title-action" target="_blank"><?php echo esc_html__( 'Settings', 'discount-deals' ); ?></a>
 		<hr class="wp-header-end">
 		<ul class="subsubsub">
 			<li>
@@ -46,7 +46,7 @@ $all_workflows_count = $workflows_db->count();
 			$i                  = count( $all_discount_types );
 			foreach ( $all_discount_types as $name => $discount_type ) {
 				$discount_obj = new $discount_type();
-				$count        = $workflows_db->count( "dd_type='$name'" );
+				$count        = $workflows_db->count( $name );
 				$workflow_id  = str_replace( '_', '-', $name );
 				?>
 				<li>

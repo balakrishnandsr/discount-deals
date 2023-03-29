@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Discount Deals - Dynamic product pricing & cart discounts
+ * Plugin Name:       Discount Deals - Dynamic product pricing and discount rules
  * Plugin URI:        https://dynamicdiscount.deals
  * Description:       Create simple to complex dynamic product pricing and discounts. A simple, flexible and powerful extension for dynamic discounts.
  * Version:           1.0.0
@@ -18,17 +18,19 @@
  */
 
 // If this file is called directly, abort.
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
+
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
 defined( 'DISCOUNT_DEALS_VERSION' ) || define( 'DISCOUNT_DEALS_VERSION', '1.0.0' );
 defined( 'DISCOUNT_DEALS_PLUGIN_FILE' ) || define( 'DISCOUNT_DEALS_PLUGIN_FILE', __FILE__ );
+defined( 'DISCOUNT_DEALS_PLUGIN_SLUG' ) || define( 'DISCOUNT_DEALS_PLUGIN_SLUG', 'discount-deals' );
 defined( 'DISCOUNT_DEALS_ABSPATH' ) || define( 'DISCOUNT_DEALS_ABSPATH', dirname( DISCOUNT_DEALS_PLUGIN_FILE ) . '/' );
 
 /**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-discount-deals-activator.php
+ * Do necessary things on plugin activation.
  *
  * @return void
  */
@@ -40,8 +42,7 @@ function activate_discount_deals() {
 register_activation_hook( __FILE__, 'activate_discount_deals' );
 
 /**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-discount-deals-deactivator.php
+ * Do necessary things on plugin de-activation.
  *
  * @return void
  */
@@ -52,6 +53,16 @@ function deactivate_discount_deals() {
 
 register_deactivation_hook( __FILE__, 'deactivate_discount_deals' );
 
+
+/**
+ * Declare that the Discount Deals supported WooCommerce High Performance Order Storage.
+ */
+add_action( 'before_woocommerce_init', function () {
+	if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+		FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
+} );
+
 /**
  * Load Discount Deals only if woocommerce is activated
  *
@@ -60,10 +71,11 @@ register_deactivation_hook( __FILE__, 'deactivate_discount_deals' );
 function discount_deals() {
 	require_once DISCOUNT_DEALS_ABSPATH . 'includes/class-discount-deals.php';
 	require_once DISCOUNT_DEALS_ABSPATH . 'discount-deals-functions.php';
+
 	return Discount_Deals::run();
 }//end discount_deals()
 
-//Don't run our plugin if WooCommerce plugin is not active.
+// Don't run our plugin if WooCommerce plugin is not active.
 $plugin_path = trailingslashit( WP_PLUGIN_DIR ) . 'woocommerce/woocommerce.php';
 if ( in_array( $plugin_path, wp_get_active_and_valid_plugins() ) || in_array( $plugin_path, wp_get_active_network_plugins() ) ) {
 	discount_deals();

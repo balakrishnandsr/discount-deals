@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Discount_Deals_Workflow_Rule_Cart_Total.
+ *
+ * @credit Inspired by AutomateWoo
  */
 class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Rule_Number_Abstract {
 
@@ -46,16 +48,7 @@ class Discount_Deals_Workflow_Rule_Cart_Total extends Discount_Deals_Workflow_Ru
 	 * @return boolean
 	 */
 	public function validate( $data_item, $compare_type, $value ) {
-		$subtotal      = WC()->cart->get_subtotal();
-		$subtotal_tax  = WC()->cart->get_subtotal_tax();
-		/**
-		 * Filter to modify cart subtotal.
-		 *
-		 * @since 1.0.0
-		 */
-		$cart_subtotal = apply_filters( 'discount_deals_cart_subtotal', ( $subtotal + $subtotal_tax ), $subtotal, $subtotal_tax );
-
-		return $this->validate_number( $cart_subtotal, $compare_type, $value );
+		return $this->validate_number( discount_deals_get_cart_subtotal(), $compare_type, $value );
 	}//end validate()
 
 

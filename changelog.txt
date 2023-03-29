@@ -1,0 +1,4 @@
+*** Discount Deals - Dynamic product pricing and discount rules Changelog ***
+
+2022-09-24 - version 1.0.0
+* Initial release

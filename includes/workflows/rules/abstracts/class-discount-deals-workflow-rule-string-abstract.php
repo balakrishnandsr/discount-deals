@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * String rule abstract
+ *
+ * @credit Inspired by AutomateWoo
  */
 abstract class Discount_Deals_Workflow_Rule_String_Abstract extends Discount_Deals_Workflow_Rule_Abstract {
 	/**

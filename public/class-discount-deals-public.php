@@ -87,30 +87,10 @@ class Discount_Deals_Public {
 	public $_free_cart_item_workflow_key = 'discount_deals_free_gift_by';
 
 	/**
-	 * The ID of this plugin.
-	 *
-	 * @var      string $plugin_slug The ID of this plugin.
-	 */
-	private $plugin_slug;
-
-	/**
-	 * The version of this plugin.
-	 *
-	 * @var      string $version The current version of this plugin.
-	 */
-	private $version;
-
-	/**
 	 * Initialize the class and set its properties.
-	 *
-	 * @param string $plugin_name The name of the plugin.
-	 * @param string $version     The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
-
-		$this->plugin_slug = $plugin_name;
-		$this->version     = $version;
-		if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
+	public function __construct() {
+		if ( ! is_admin() || defined( 'DOING_AJAX' ) && ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
@@ -139,21 +119,36 @@ class Discount_Deals_Public {
 		$save_text_position = Discount_Deals_Settings::get_settings( 'where_display_saving_text', 'disabled' );
 		if ( 'disabled' != $save_text_position ) {
 			if ( 'both_line_item_and_after_total' == $save_text_position || 'after_total' == $save_text_position ) {
-				add_filter( 'woocommerce_cart_totals_order_total_html', array(
-					$this,
-					'show_you_saved_text_in_cart_total'
-				), 99, 3 );
-				add_filter( 'woocommerce_get_formatted_order_total', array(
-					$this,
-					'order_formatted_subtotal'
-				), 99, 3 );
+				add_filter(
+					'woocommerce_cart_totals_order_total_html',
+					array(
+						$this,
+						'show_you_saved_text_in_cart_total',
+					),
+					99,
+					3
+				);
+				add_filter(
+					'woocommerce_get_formatted_order_total',
+					array(
+						$this,
+						'order_formatted_subtotal',
+					),
+					99,
+					3
+				);
 			}
 			if ( 'both_line_item_and_after_total' == $save_text_position || 'on_each_line_item' == $save_text_position ) {
 				add_filter( 'woocommerce_cart_item_subtotal', array( $this, 'show_you_saved_text' ), 99, 3 );
-				add_filter( 'woocommerce_order_formatted_line_subtotal', array(
-					$this,
-					'order_formatted_line_subtotal'
-				), 99, 3 );
+				add_filter(
+					'woocommerce_order_formatted_line_subtotal',
+					array(
+						$this,
+						'order_formatted_line_subtotal',
+					),
+					99,
+					3
+				);
 			}
 		}
 		$cart_discount_type = Discount_Deals_Settings::get_settings( 'apply_cart_discount_as', 'coupon' );
@@ -167,10 +162,13 @@ class Discount_Deals_Public {
 		}
 		// Free shipping.
 		add_filter( 'woocommerce_shipping_methods', array( $this, 'register_free_shipping_method' ) );
-		add_filter( 'woocommerce_shipping_discount_deals_free_shipping_is_available', array(
-			$this,
-			'is_free_shipping_available'
-		) );
+		add_filter(
+			'woocommerce_shipping_discount_deals_free_shipping_is_available',
+			array(
+				$this,
+				'is_free_shipping_available',
+			)
+		);
 		// BOGO.
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_and_add_bogo_discount' ), 97 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'remove_free_products_from_cart' ), 98 );
@@ -182,37 +180,57 @@ class Discount_Deals_Public {
 		add_filter( 'woocommerce_cart_item_price', array( $this, 'show_price_strikeout_for_bogo' ), 99, 3 );
 		add_filter( 'woocommerce_before_cart', array( $this, 'show_bxgy_eligible_notices' ), 99 );
 		// Promotional messages.
-		add_action( 'woocommerce_before_add_to_cart_form', array(
-			$this,
-			'show_promotional_message_before_add_to_cart'
-		) );
-		add_action( 'woocommerce_after_add_to_cart_form', array(
-			$this,
-			'show_promotional_message_after_add_to_cart'
-		) );
-		add_action( 'woocommerce_after_single_product_summary', array(
-			$this,
-			'show_promotional_message_after_product_summary'
-		) );
+		add_action(
+			'woocommerce_before_add_to_cart_form',
+			array(
+				$this,
+				'show_promotional_message_before_add_to_cart',
+			)
+		);
+		add_action(
+			'woocommerce_after_add_to_cart_form',
+			array(
+				$this,
+				'show_promotional_message_after_add_to_cart',
+			)
+		);
+		add_action(
+			'woocommerce_after_single_product_summary',
+			array(
+				$this,
+				'show_promotional_message_after_product_summary',
+			)
+		);
 		// Get product price by ajax.
-		add_action( 'wp_ajax_nopriv_discount_deals_get_product_discount_price', array(
-			$this,
-			'get_product_discount_price'
-		) );
-		add_action( 'wp_ajax_discount_deals_get_product_discount_price', array(
-			$this,
-			'get_product_discount_price'
-		) );
+		add_action(
+			'wp_ajax_nopriv_discount_deals_get_product_discount_price',
+			array(
+				$this,
+				'get_product_discount_price',
+			)
+		);
+		add_action(
+			'wp_ajax_discount_deals_get_product_discount_price',
+			array(
+				$this,
+				'get_product_discount_price',
+			)
+		);
 		// Remove unwanted stuffs after order placed.
 		add_action( 'woocommerce_new_order', array( $this, 'on_after_new_order' ), 99 );
 		// Show applied discounts.
 		add_action( 'woocommerce_before_cart', array( $this, 'show_applied_workflow_notices' ), 98 );
 		// Save discount information for orders.
-		add_action( 'woocommerce_checkout_create_order', array( $this, 'before_checkout_create_order' ), 99, 2 );
-		add_action( 'woocommerce_checkout_create_order_line_item', array(
-			$this,
-			'before_checkout_create_order_line_item'
-		), 99, 4 );
+		add_action( 'woocommerce_checkout_order_created', array( $this, 'checkout_order_created' ), 99 );
+		add_action(
+			'woocommerce_checkout_create_order_line_item',
+			array(
+				$this,
+				'before_checkout_create_order_line_item',
+			),
+			99,
+			4
+		);
 		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'update_order_review' ), 9 );
 	}//end init_public_hooks()
 
@@ -229,16 +247,18 @@ class Discount_Deals_Public {
 		}
 		$post = array();
 		wp_parse_str( $post_data, $post );
-		WC()->customer->set_props( array(
-			'billing_first_name'  => discount_deals_get_value_from_array( $post, 'billing_first_name' ),
-			'billing_last_name'   => discount_deals_get_value_from_array( $post, 'billing_last_name' ),
-			'billing_company'     => discount_deals_get_value_from_array( $post, 'billing_company' ),
-			'billing_email'       => discount_deals_get_value_from_array( $post, 'billing_email' ),
-			'billing_phone'       => discount_deals_get_value_from_array( $post, 'billing_phone' ),
-			'shipping_company'    => discount_deals_get_value_from_array( $post, 'billing_phone' ),
-			'shipping_first_name' => discount_deals_get_value_from_array( $post, 'billing_phone' ),
-			'shipping_last_name'  => discount_deals_get_value_from_array( $post, 'billing_phone' ),
-		) );
+		WC()->customer->set_props(
+			array(
+				'billing_first_name'  => discount_deals_get_value_from_array( $post, 'billing_first_name' ),
+				'billing_last_name'   => discount_deals_get_value_from_array( $post, 'billing_last_name' ),
+				'billing_company'     => discount_deals_get_value_from_array( $post, 'billing_company' ),
+				'billing_email'       => discount_deals_get_value_from_array( $post, 'billing_email' ),
+				'billing_phone'       => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+				'shipping_company'    => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+				'shipping_first_name' => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+				'shipping_last_name'  => discount_deals_get_value_from_array( $post, 'billing_phone' ),
+			)
+		);
 		// By default, price will be fetched from cache. Here we need to recalculate once again.
 		// So we are using this flag.
 		$this->force_fetch_price = true;
@@ -278,7 +298,7 @@ class Discount_Deals_Public {
 			return;
 		}
 		$props = array(
-			'dd_saved_amount' => $this->calculate_tax_for_cart_item( $product, $total_discount )
+			'dd_saved_amount' => $this->calculate_tax_for_cart_item( $product, $total_discount ),
 		);
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			$props['dd_type'] = 'free';
@@ -347,7 +367,6 @@ class Discount_Deals_Public {
 			}
 		}
 
-
 		return $total;
 	}//end order_formatted_subtotal()
 
@@ -356,15 +375,54 @@ class Discount_Deals_Public {
 	 * Save important information before placing order.
 	 *
 	 * @param WC_Order $order Order object.
-	 * @param array    $data  Extra information.
 	 *
 	 * @return void
 	 */
-	public function before_checkout_create_order( $order, $data ) {
+	public function checkout_order_created( $order ) {
 		$applied_discounts = discount_deals_get_applied_workflow_discounts();
 		if ( ! empty( $applied_discounts ) ) {
-			$order->update_meta_data( '_discount_deals_has_discount', 'yes' );
-			$order->update_meta_data( '_discount_deals_discount_details', $applied_discounts );
+			$analytics_db = new Discount_Deals_Analytics_DB();
+			foreach ( $applied_discounts as $discount ) {
+				if ( 'product' === $discount['extra_information']['type'] ) {
+					if ( is_array( $discount['discount_information'] ) ) {
+						$discount_amount   = $discount['discount_information']['discount'];
+						$discount_quantity = $discount['discount_information']['discount_quantity'];
+						$regular_price     = $discount['discount_information']['total'];
+						$sale_price        = $regular_price - $discount['discount_information']['discount'];
+						if ( $discount['discount_information']['discount_on_same'] ) {
+							$product_id = $discount['extra_information']['id'];
+						} else {
+							$product_id = ! empty( $discount['discount_information']['discount_product']['variation_id'] ) ? $discount['discount_information']['discount_product']['variation_id'] : $discount['discount_information']['discount_product']['product_id'];
+						}
+					} else {
+						$discount_amount   = $discount['discount_information'];
+						$discount_quantity = $discount['extra_information']['quantity'];
+						$regular_price     = $discount['extra_information']['price'];
+						$sale_price        = $regular_price - $discount['discount_information'];
+						$product_id        = $discount['extra_information']['id'];
+					}
+					$data_to_store = array(
+						'dd_product_id'    => $product_id,
+						'dd_regular_price' => $regular_price,
+						'dd_sale_price'    => $sale_price,
+						'dd_quantity'      => $discount_quantity,
+						'dd_total'         => $discount_quantity * $sale_price,
+						'dd_discount'      => $discount_amount,
+					);
+				} else {
+					$data_to_store = array(
+						'dd_product_id'    => 0,
+						'dd_regular_price' => 0,
+						'dd_sale_price'    => 0,
+						'dd_quantity'      => 1,
+						'dd_total'         => $order->get_subtotal(),
+						'dd_discount'      => $discount['discount_information'],
+					);
+				}
+				$data_to_store['dd_workflow_id'] = $discount['workflow_id'];
+				$data_to_store['dd_order_id']    = $order->get_id();
+				$analytics_db->insert_analytics( $data_to_store );
+			}
 		}
 	}//end before_checkout_create_order()
 
@@ -403,6 +461,7 @@ class Discount_Deals_Public {
 					}
 				}
 				$new_message = str_replace( '{{workflow_title}}', $titles, $message );
+
 				/**
 				 * Filter to modify applied workflows promotional messages.
 				 *
@@ -413,6 +472,7 @@ class Discount_Deals_Public {
 			} else {
 				foreach ( $applied_workflows as $workflow ) {
 					$new_message = str_replace( '{{workflow_title}}', $workflow->get_title(), $message );
+
 					/**
 					 * Filter to modify applied workflows promotional messages.
 					 *
@@ -470,22 +530,25 @@ class Discount_Deals_Public {
 		}
 
 		$discount = discount_deals_get_product_discount( $price, $product, $quantity_to_calculate, false );
+
 		/**
 		 * Filter to modify the bulk table item quantity count in cart.
 		 *
 		 * @since 1.0.0
 		 */
 		$items_in_cart_summary = 0 < $quantity_in_cart ? wp_kses_post( apply_filters( 'discount_deals_bulk_table_summary_items_in_cart_text', sprintf( '%s %d %s %d %s', __( 'Of', 'discount-deals' ), $quantity_to_calculate, __( 'quantities, ', 'discount-deals' ), $quantity_in_cart, __( 'quantities were already in the shopping cart.', 'discount-deals' ) ), $quantity_to_calculate, $quantity_in_cart, $product, $this ) ) : '';
-		wp_send_json( array(
-			'success'                   => true,
-			'price_html'                => wc_format_sale_price( $product->get_regular_price(), $discount ),
-			'new_quantity'              => $product_qty,
-			'quantity_in_cart'          => $quantity_in_cart,
-			'discount'                  => wc_price( $discount ),
-			'quantity_price_summary'    => $quantity_to_calculate . ' &times; ' . wc_price( $discount ),
-			'existing_quantity_summary' => $items_in_cart_summary,
-			'total_price_summary'       => wc_price( $quantity_to_calculate * $discount )
-		) );
+		wp_send_json(
+			array(
+				'success'                   => true,
+				'price_html'                => wc_format_sale_price( $product->get_regular_price(), $discount ),
+				'new_quantity'              => $product_qty,
+				'quantity_in_cart'          => $quantity_in_cart,
+				'discount'                  => wc_price( $discount ),
+				'quantity_price_summary'    => $quantity_to_calculate . ' &times; ' . wc_price( $discount ),
+				'existing_quantity_summary' => $items_in_cart_summary,
+				'total_price_summary'       => wc_price( $quantity_to_calculate * $discount ),
+			)
+		);
 	}//end get_product_discount_price()
 
 	/**
@@ -529,19 +592,25 @@ class Discount_Deals_Public {
 		$position          = 'before_add_to_cart_button';
 		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
 		$product_discounts = self::$product_discounts;
+
 		/**
 		 * Filter to modify promotional message that was shown before add to cart form.
 		 *
 		 * @since 1.0.0
 		 */
 		apply_filters( 'discount_deals_show_promotional_message_before_add_to_cart', $all_promotions, $product );
-		wc_get_template( 'discount-deals-product-promotional-messages.php', array(
-			'product'=>$product,
-			'position'=> $position,
-			'all_promotions'=>$all_promotions,
-			'product_discounts' =>$product_discounts,
-			'public_class'=>$this
-		), '', DISCOUNT_DEALS_ABSPATH . '/public/partials/' );
+		wc_get_template(
+			'discount-deals-product-promotional-messages.php',
+			array(
+				'product' => $product,
+				'position' => $position,
+				'all_promotions' => $all_promotions,
+				'product_discounts' => $product_discounts,
+				'public_class' => $this,
+			),
+			'',
+			DISCOUNT_DEALS_ABSPATH . '/public/partials/'
+		);
 	}//end show_promotional_message_before_add_to_cart()
 
 
@@ -555,19 +624,25 @@ class Discount_Deals_Public {
 		$position          = 'after_single_product_summary';
 		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
 		$product_discounts = self::$product_discounts;
+
 		/**
 		 * Filter to modify promotional message that was shown after product summary.
 		 *
 		 * @since 1.0.0
 		 */
 		apply_filters( 'discount_deals_show_promotional_message_after_product_summary', $all_promotions, $product );
-		wc_get_template( 'discount-deals-product-promotional-messages.php', array(
-			'product'=>$product,
-			'position'=> $position,
-			'all_promotions'=>$all_promotions,
-			'product_discounts' =>$product_discounts,
-			'public_class'=>$this
-		), '', DISCOUNT_DEALS_ABSPATH . '/public/partials/' );
+		wc_get_template(
+			'discount-deals-product-promotional-messages.php',
+			array(
+				'product' => $product,
+				'position' => $position,
+				'all_promotions' => $all_promotions,
+				'product_discounts' => $product_discounts,
+				'public_class' => $this,
+			),
+			'',
+			DISCOUNT_DEALS_ABSPATH . '/public/partials/'
+		);
 	}//end show_promotional_message_after_product_summary()
 
 
@@ -581,19 +656,25 @@ class Discount_Deals_Public {
 		$position          = 'after_add_to_cart_button';
 		$all_promotions    = Discount_Deals_Workflows::get_product_promotional_messages( $product, $position );
 		$product_discounts = self::$product_discounts;
+
 		/**
 		 * Filter to modify applied workflows promotional message.
 		 *
 		 * @since 1.0.0
 		 */
 		apply_filters( 'discount_deals_show_promotional_message_after_add_to_cart', $all_promotions, $product );
-		wc_get_template( 'discount-deals-product-promotional-messages.php', array(
-			'product'=>$product,
-			'position'=> $position,
-			'all_promotions'=>$all_promotions,
-			'product_discounts' =>$product_discounts,
-			'public_class'=>$this
-		), '', DISCOUNT_DEALS_ABSPATH . '/public/partials/' );
+		wc_get_template(
+			'discount-deals-product-promotional-messages.php',
+			array(
+				'product' => $product,
+				'position' => $position,
+				'all_promotions' => $all_promotions,
+				'product_discounts' => $product_discounts,
+				'public_class' => $this,
+			),
+			'',
+			DISCOUNT_DEALS_ABSPATH . '/public/partials/'
+		);
 	}//end show_promotional_message_after_add_to_cart()
 
 
@@ -625,10 +706,14 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function remove_free_products_from_cart() {
-		remove_action( 'woocommerce_before_calculate_totals', array(
-			$this,
-			'remove_free_products_from_cart'
-		), 98 );
+		remove_action(
+			'woocommerce_before_calculate_totals',
+			array(
+				$this,
+				'remove_free_products_from_cart',
+			),
+			98
+		);
 		if ( ! empty( self::$remove_products ) && is_array( self::$remove_products ) ) {
 			foreach ( self::$remove_products as $cart_item_key ) {
 				WC()->cart->remove_cart_item( $cart_item_key );
@@ -718,7 +803,7 @@ class Discount_Deals_Public {
 	public function highlight_free_gifts( $cart_item, $cart_item_key ) {
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			$message = Discount_Deals_Settings::get_settings( 'bogo_discount_highlight_message' );
-			echo wp_kses_post('<p class="dd-bogo-text" style="color: green;">' . $message . '</p>');
+			echo wp_kses_post( '<p class="dd-bogo-text" style="color: green;">' . $message . '</p>' );
 		}
 	}//end highlight_free_gifts()
 
@@ -836,8 +921,8 @@ class Discount_Deals_Public {
 								'variation'    => $cart_item['variation'],
 								'meta'         => array(
 									$this->_free_cart_item_key          => $cart_item_key,
-									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0]
-								)
+									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0],
+								),
 							);
 						} else {
 							$free_product_detail = array(
@@ -847,8 +932,8 @@ class Discount_Deals_Public {
 								'variation'    => $actual_discount['discount_product']['variation'],
 								'meta'         => array(
 									$this->_free_cart_item_key          => $cart_item_key,
-									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0]
-								)
+									$this->_free_cart_item_workflow_key => array_keys( $discount_details )[0],
+								),
 							);
 						}
 						self::$free_products[] = $free_product_detail;
@@ -886,6 +971,7 @@ class Discount_Deals_Public {
 						$quantity_in_cart            = $discounted_cart_item['quantity'];
 						$discount_quantity           = $actual_discount['discount_quantity'];
 						$original_price_quantity     = $quantity_in_cart - $discount_quantity;
+
 						/**
 						 * Filter to modify cart line item object.
 						 *
@@ -953,6 +1039,7 @@ class Discount_Deals_Public {
 				if ( is_a( $product, 'WC_Product' ) ) {
 					$discount_price   = wc_price( $eligible_bxgy_product['total'] );
 					$discount_message = "You are now eligible to get $discount_price discount on {$product->get_title()}, would you like to <a href='{$product->add_to_cart_url()}'>grab this offer?</a>";
+
 					/**
 					 * Filter to modify Buy X Get Y product is not found in cart. This filter can be used to change promotion message.
 					 *
@@ -1019,7 +1106,7 @@ class Discount_Deals_Public {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/discount-deals-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( DISCOUNT_DEALS_PLUGIN_SLUG, plugin_dir_url( __FILE__ ) . 'css/discount-deals-public.css', array(), DISCOUNT_DEALS_VERSION, 'all' );
 
 	}//end enqueue_styles()
 
@@ -1030,12 +1117,12 @@ class Discount_Deals_Public {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/discount-deals-public.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( DISCOUNT_DEALS_PLUGIN_SLUG, plugin_dir_url( __FILE__ ) . 'js/discount-deals-public.js', array( 'jquery' ), DISCOUNT_DEALS_VERSION, true );
 		$localize_params = array(
 			'ajax_url'            => admin_url( 'admin-ajax.php' ),
 			'product_price_nonce' => wp_create_nonce( 'discount-deals-bulk-discount' ),
 		);
-		wp_localize_script( $this->plugin_slug, 'discount_deals_params', $localize_params );
+		wp_localize_script( DISCOUNT_DEALS_PLUGIN_SLUG, 'discount_deals_params', $localize_params );
 
 	}//end enqueue_scripts()
 
@@ -1052,6 +1139,7 @@ class Discount_Deals_Public {
 		if ( $this->is_free_cart_item( $cart_item ) ) {
 			return $item_price;
 		}
+
 		/**
 		 * Filter to modify cart line item object.
 		 *
@@ -1064,6 +1152,7 @@ class Discount_Deals_Public {
 		 */
 
 		$sale_price          = $product->get_price();
+
 		/**
 		 * Filter to modify "From which price, we need to show strikeout for cart item".
 		 *
@@ -1084,7 +1173,7 @@ class Discount_Deals_Public {
 				if ( ! isset( self::$cart_item_discounts[ $cart_item_key ] ) ) {
 					self::$cart_item_discounts[ $cart_item_key ] = $regular_price - $sale_price;
 				}
-				$item_price = wc_format_sale_price( $this->calculate_tax_for_cart_item( $product, $regular_price, $cart_item['quantity'] ), $this->calculate_tax_for_cart_item( $product, $sale_price, $cart_item['quantity'] ) );
+				$item_price = wc_format_sale_price( $this->calculate_tax_for_cart_item( $product, $regular_price ), $this->calculate_tax_for_cart_item( $product, $sale_price ) );
 			}
 		}
 
@@ -1107,12 +1196,14 @@ class Discount_Deals_Public {
 		}
 		if ( array_key_exists( $cart_item_key, self::$priced_bogo_products ) ) {
 			$discount_details = self::$priced_bogo_products[ $cart_item_key ];
+
 			/**
 			 * Filter to modify cart line item object.
 			 *
 			 * @since 1.0.0
 			 */
 			$product             = apply_filters( 'discount_deals_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
 			/**
 			 * Filter to modify "From which price, we need to show strikeout for cart item".
 			 *
@@ -1222,6 +1313,7 @@ class Discount_Deals_Public {
 			if ( $this->is_free_cart_item( $cart_item ) ) {
 				continue;
 			}
+
 			/**
 			 * Filter to modify cart line item object.
 			 *
@@ -1274,17 +1366,11 @@ class Discount_Deals_Public {
 			return $price;
 		}
 		if ( ! $this->calculate_discount ) {
+			$this->calculate_discount = true;
 			return $price;
 		}
 		$product_id = $product->get_id();
-		// Getting price from cache causes some issue. So, here it is passes to again recalculate it.
-		// if ( array_key_exists( $product_id, self::$product_discounts ) && ! $this->force_fetch_price ) {
-		// if ( self::$product_discounts[ $product_id ]['quantity_while_calculation'] == $quantity ) {
-		// return self::$product_discounts[ $product_id ]['discounted_price'];
-		// }
-		// }.
 		$discounted_price = discount_deals_get_product_discount( $price, $product, $quantity );
-
 		if ( ! array_key_exists( $product_id, self::$product_discounts ) || $this->force_fetch_price ) {
 			self::$product_discounts[ $product_id ] = array(
 				'discounted_price'           => $discounted_price,
@@ -1292,14 +1378,6 @@ class Discount_Deals_Public {
 				'quantity_while_calculation' => $quantity,
 			);
 		}
-
-		// Temporary hide
-		// self::$product_discounts[ $product_id ] = array(
-		// 'discounted_price'           => $discounted_price,
-		// 'price_before_discount'      => $price,
-		// 'quantity_while_calculation' => $quantity,
-		// );
-		// Reset to force fetch false;.
 		$this->force_fetch_price = false;
 
 		return $discounted_price;
@@ -1477,17 +1555,6 @@ class Discount_Deals_Public {
 		return $coupon_html;
 	}//end hide_remove_coupon()
 
-
-	/**
-	 * Show the free shipping.
-	 *
-	 * @return void
-	 */
-	public function mayHaveFreeShipping() {
-		new Discount_Deals_Free_Shipping();
-	}//end mayHaveFreeShipping()
-
-
 	/**
 	 * Register the discount deals free shipping method.
 	 *
@@ -1530,13 +1597,26 @@ class Discount_Deals_Public {
 		if ( empty( $product ) || empty( $price ) || empty( $quantity ) ) {
 			return $price;
 		}
-		if ( get_option( 'woocommerce_tax_display_cart' ) === 'excl' ) {
-			$price_with_price = wc_get_price_excluding_tax( $product, array( 'qty' => $quantity, 'price' => $price ) );
+		if ( get_option( 'woocommerce_tax_display_cart' ) == 'excl' ) {
+			$price_with_price = wc_get_price_excluding_tax(
+				$product,
+				array(
+					'qty' => $quantity,
+					'price' => $price,
+				)
+			);
 		} else {
-			$price_with_price = wc_get_price_including_tax( $product, array( 'qty' => $quantity, 'price' => $price ) );
+			$price_with_price = wc_get_price_including_tax(
+				$product,
+				array(
+					'qty' => $quantity,
+					'price' => $price,
+				)
+			);
 		}
+
 		/**
-		 * Caculate tax for given product and quantity.
+		 * Calculate tax for given product and quantity.
 		 *
 		 * @since 1.0.0
 		 */

@@ -15,20 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Discount_Deals_Admin {
 
 	/**
-	 * The ID of this plugin.
-	 *
-	 * @var      string $plugin_slug The ID of this plugin.
-	 */
-	private $plugin_slug;
-
-	/**
-	 * The version of this plugin.
-	 *
-	 * @var      string $version The current version of this plugin.
-	 */
-	private $version;
-
-	/**
 	 * Workflow listing table of the plugin.
 	 *
 	 * @var  Discount_Deals_Workflow $_workflow Workflow details.
@@ -36,15 +22,16 @@ class Discount_Deals_Admin {
 	private $_workflow;
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Key to save the notices that should have shown to the users.
 	 *
-	 * @param string $plugin_name The name of this plugin.
-	 * @param string $version     The version of this plugin.
+	 * @var  string $_flash_notice_key Key to save the flash notices.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	private $_flash_notice_key = 'discount_deals_flash_notices';
 
-		$this->plugin_slug = $plugin_name;
-		$this->version     = $version;
+	/**
+	 * Initialize the class and set its properties.
+	 */
+	public function __construct() {
 
 		$this->include_required_files();
 
@@ -63,11 +50,73 @@ class Discount_Deals_Admin {
 		);
 		add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
 		add_action( 'admin_init', array( $this, 'maybe_save_workflow' ) );
+		add_action( 'wp_kses_allowed_html', array( $this, 'kses_allowed_html' ), 10, 2 );
+		add_action( 'admin_notices', array( $this, 'display_flash_notices' ), 99 );
 
 		Discount_Deals_Admin_Settings::init();
 		Discount_Deals_Admin_Ajax::init();
 
 	}//end __construct()
+
+	/**
+	 * Modify the allowed html tags to our requirements.
+	 *
+	 * @param array  $allowed_html Html that be allowed to prent in pages.
+	 * @param string $context      Which type of tags can be allowed.
+	 *
+	 * @return array
+	 */
+	public function kses_allowed_html( $allowed_html, $context ) {
+		global $allowedposttags;
+		if ( 'discount_deals' == $context ) {
+			$allowed_html = $allowedposttags;
+			$allowed_html['input'] = array(
+				'id'          => true,
+				'name'        => true,
+				'class'       => true,
+				'placeholder' => true,
+				'type'        => true,
+				'value'       => true,
+				'required'    => true,
+				'disabled'    => true,
+				'checked'     => true,
+				'step'        => true,
+				'data-*'      => true,
+				'selected'    => true,
+			);
+			$allowed_html['select'] = array(
+				'id'       => true,
+				'name'     => true,
+				'class'    => true,
+				'required' => true,
+				'disabled' => true,
+				'data-*'   => true,
+				'style'    => true,
+			);
+			$allowed_html['option'] = array(
+				'value'    => true,
+				'selected' => true,
+			);
+			$allowed_html['optgroup'] = array(
+				'label' => true,
+			);
+			$allowed_html['form'] = array(
+				'action'         => true,
+				'accept'         => true,
+				'accept-charset' => true,
+				'enctype'        => true,
+				'method'         => true,
+				'name'           => true,
+				'target'         => true,
+			);
+			$allowed_html['script'] = array(
+				'id'   => true,
+				'type' => 'text/template',
+			);
+		}
+		return $allowed_html;
+	}//end kses_allowed_html()
+
 
 	/**
 	 * Include required files of the admin
@@ -119,11 +168,67 @@ class Discount_Deals_Admin {
 
 
 	/**
+	 * Set temporary notices
+	 *
+	 * @param string  $notice      Message to shown to the users.
+	 * @param string  $type        Which type of notice is this.
+	 * @param boolean $dismissible Can we dismiss the message.
+	 *
+	 * @return boolean
+	 */
+	public function set_flash_notice( $notice = '', $type = 'warning', $dismissible = true ) {
+		$page = discount_deals_get_data( 'page', '' );
+		if ( 'discount-deals' != $page ) {
+			return false;
+		}
+		if ( empty( $notice ) ) {
+			return false;
+		}
+		$dismissible_text = ( $dismissible ) ? 'is-dismissible' : '';
+		$notices          = get_option( $this->_flash_notice_key, array() );
+		$notices[]        = array(
+			'notice'      => $notice,
+			'type'        => $type,
+			'dismissible' => $dismissible_text,
+		);
+
+		update_option( $this->_flash_notice_key, $notices );
+
+		return true;
+	}//end set_flash_notice()
+
+
+	/**
+	 * Here we check if there are notices on our database and display them, after that, we remove the option to prevent notices being displayed forever.
+	 *
+	 * @return void
+	 */
+	public function display_flash_notices() {
+		$page = discount_deals_get_data( 'page', '' );
+		if ( 'discount-deals' != $page ) {
+			return;
+		}
+		$notices = get_option( $this->_flash_notice_key, array() );
+		if ( empty( $notices ) ) {
+			return;
+		}
+		foreach ( $notices as $notice ) {
+			printf( '<div class="notice notice-%1$s %2$s"><p>%3$s</p></div>', esc_html( $notice['type'] ), esc_html( $notice['dismissible'] ), esc_html( $notice['notice'] ) );
+		}
+		delete_option( $this->_flash_notice_key );
+	}//end display_flash_notices()
+
+
+	/**
 	 * Save the Workflow into DB
 	 *
 	 * @return array|false|integer|string
 	 */
 	public function maybe_save_workflow() {
+		$page = discount_deals_get_data( 'page', '' );
+		if ( 'discount-deals' != $page ) {
+			return false;
+		}
 		if ( current_user_can( 'manage_woocommerce' ) ) {
 			$save_workflow = discount_deals_get_request_data( 'save_discount_deals_workflow' );
 			if ( ! $save_workflow ) {
@@ -133,14 +238,17 @@ class Discount_Deals_Admin {
 			if ( ! wp_verify_nonce( $workflow_nonce, 'discount-deals-workflow' ) ) {
 				return false;
 			}
-			$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array(), false );
+			$posted_data = discount_deals_get_request_data( 'discount_deals_workflow', array() );
 			$rules       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'rule_options', array() ) );
 			$discounts   = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_discounts', array() ) );
-			$promotions  = discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array(), false );
+			$promotions  = discount_deals_get_value_from_array( $posted_data, 'dd_promotion', array() );
 			$id          = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_id', 0 ) );
 			$type        = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_type', '' ) );
 			$title       = wc_clean( discount_deals_get_value_from_array( $posted_data, 'dd_title', '' ) );
 			$index       = $this->build_workflow_index( $rules );
+
+			$promotions['message'] = ! empty( $_POST['discount_deals_workflow']['dd_promotion']['message'] ) ? wp_kses_post( wp_unslash($_POST['discount_deals_workflow']['dd_promotion']['message']) ) : '';
+
 			if ( ! empty( $type ) ) {
 				$workflow_data = array(
 					'dd_title'     => $title,
@@ -162,6 +270,7 @@ class Discount_Deals_Admin {
 					if ( $workflow ) {
 						$workflow_updated = $workflow_db->update_workflow( $id, $workflow_data );
 						if ( ! $workflow_updated ) {
+							$this->set_flash_notice( __( 'Your workflow could not be saved. Please try again later.', 'discount-deals' ), 'error', true );
 							// Return false if update failed.
 							return false;
 						}
@@ -177,14 +286,19 @@ class Discount_Deals_Admin {
 						$redirect_url
 					);
 				}
+				$this->set_flash_notice( __( 'Your workflow has been saved successfully.', 'discount-deals' ), 'success', true );
+				remove_action( 'admin_notices', array( $this, 'display_flash_notices' ), 99 );
 				wp_safe_redirect( $redirect_url );
 
 				return $id;
 			}
 
+			$this->set_flash_notice( __( 'Your workflow could not be saved. Please try again later.', 'discount-deals' ), 'error', true );
+
 			return false;
 		}
 
+		$this->set_flash_notice( __( 'You do not have access to add/edit workflows. Please ask the administrator to get access.', 'discount-deals' ), 'error', true );
 		return false;
 	}//end maybe_save_workflow()
 
@@ -195,8 +309,8 @@ class Discount_Deals_Admin {
 	 * @return void
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( $this->plugin_slug . '-datetime-picker', plugin_dir_url( __FILE__ ) . 'css/jquery.datetimepicker.css', array(), $this->version );
-		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/discount-deals-admin.css', array(), $this->version );
+		wp_enqueue_style( DISCOUNT_DEALS_PLUGIN_SLUG . '-datetime-picker', plugin_dir_url( __FILE__ ) . 'css/jquery.datetimepicker.css', array(), DISCOUNT_DEALS_VERSION );
+		wp_enqueue_style( DISCOUNT_DEALS_PLUGIN_SLUG, plugin_dir_url( __FILE__ ) . 'css/discount-deals-admin.css', array(), DISCOUNT_DEALS_VERSION );
 	}//end enqueue_styles()
 
 	/**
@@ -216,7 +330,6 @@ class Discount_Deals_Admin {
 	}//end add_screen_ids()
 
 
-
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
@@ -227,7 +340,7 @@ class Discount_Deals_Admin {
 		$page   = discount_deals_get_data( 'page', '' );
 		$tab    = discount_deals_get_data( 'tab', '' );
 		if ( 'wc-settings' == $page && 'discount-deals-settings' == $tab ) {
-			wp_enqueue_script( $this->plugin_slug . '-settings', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-settings.js', array( 'jquery' ), $this->version );
+			wp_enqueue_script( DISCOUNT_DEALS_PLUGIN_SLUG . '-settings', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-settings.js', array( 'jquery' ), DISCOUNT_DEALS_VERSION );
 
 			return;
 		}
@@ -235,12 +348,20 @@ class Discount_Deals_Admin {
 			return;
 		}
 		if ( 'new' != $action && 'edit' != $action ) {
-			wp_enqueue_script( $this->plugin_slug . '-workflows', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-workflows.js', array( 'jquery' ), $this->version );
-			wp_localize_script( $this->plugin_slug . '-workflows', 'discount_deals_workflows_localize_script', array(
-				'nonce' => array(
-					'change_column_status' => wp_create_nonce( 'discount_deals_change_workflow_column_status' )
+			wp_enqueue_script( DISCOUNT_DEALS_PLUGIN_SLUG . '-workflows', plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-workflows.js', array( 'jquery' ), DISCOUNT_DEALS_VERSION );
+			wp_localize_script(
+				DISCOUNT_DEALS_PLUGIN_SLUG . '-workflows',
+				'discount_deals_workflows_localize_script',
+				array(
+					'nonce' => array(
+						'change_column_status' => wp_create_nonce( 'discount_deals_change_workflow_column_status' ),
+					),
+					'i18n'  => array(
+						'alert_bulk_delete' => __( 'Are you sure you want to delete multiple workflows? This action cannot be undone later.', 'discount-deals' ),
+						'alert_delete'      => __( 'Are you sure you want to delete workflow? This action cannot be undone later.', 'discount-deals' ),
+					),
 				)
-			) );
+			);
 
 			// Don't load meta boxes if it is not an add/edit workflow screen.
 			return;
@@ -249,7 +370,7 @@ class Discount_Deals_Admin {
 		if ( 'edit' === $action && 0 < $workflow_id ) {
 			$this->_workflow = Discount_Deals_Workflow::get_instance( $workflow_id );
 		}
-		wp_enqueue_script( $this->plugin_slug . '-datetime-picker', plugin_dir_url( __FILE__ ) . 'js/jquery.datetimepicker.js', array( 'jquery' ), $this->version );
+		wp_enqueue_script( DISCOUNT_DEALS_PLUGIN_SLUG . '-datetime-picker', plugin_dir_url( __FILE__ ) . 'js/jquery.datetimepicker.js', array( 'jquery' ), DISCOUNT_DEALS_VERSION );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'wc-enhanced-select' );
 		wp_enqueue_script( 'jquery-tiptip' );
@@ -257,7 +378,7 @@ class Discount_Deals_Admin {
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
 
 		wp_enqueue_script(
-			$this->plugin_slug . '-workflow',
+			DISCOUNT_DEALS_PLUGIN_SLUG . '-workflow',
 			plugin_dir_url( __FILE__ ) . 'js/discount-deals-admin-workflow.js',
 			array(
 				'jquery',
@@ -265,9 +386,9 @@ class Discount_Deals_Admin {
 				'backbone',
 				'underscore',
 			),
-			$this->version
+			DISCOUNT_DEALS_VERSION
 		);
-		wp_localize_script( $this->plugin_slug . '-workflow', 'discount_deals_workflow_localize_script', $this->get_js_data() );
+		wp_localize_script( DISCOUNT_DEALS_PLUGIN_SLUG . '-workflow', 'discount_deals_workflow_localize_script', $this->get_js_data() );
 
 	}//end enqueue_scripts()
 
