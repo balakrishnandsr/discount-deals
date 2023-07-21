@@ -115,7 +115,8 @@ class Discount_Deals_Admin_Settings {
 					'id'   => 'wc_settings_tab_discount_deals_general_settings',
 				),
 				'show_applied_discounts_message'    => array(
-					'name'    => __( 'Would you like to inform your customers about all applied discounts in their shopping cart?', 'discount-deals' ),
+					'name'    => __( 'Notify Customers About Applied Discounts', 'discount-deals' ),
+					'desc'    => __( 'Choose whether you want to inform your customers about all applied discounts in their shopping cart.', 'discount-deals' ),
 					'type'    => 'radio',
 					'options' => array(
 						'yes' => __( 'Yes', 'discount-deals' ),
@@ -125,7 +126,8 @@ class Discount_Deals_Admin_Settings {
 					'id'      => 'wc_settings_tab_discount_deals_show_applied_discounts_message',
 				),
 				'combine_applied_discounts_message' => array(
-					'name'    => __( 'Would you like to merge multiple message into single message?', 'discount-deals' ),
+					'name'    => __( 'Merge Multiple Messages into a Single Message', 'discount-deals' ),
+					'desc'    => __( 'Choose whether you want to combine multiple discount messages into a single message for your customers.', 'discount-deals' ),
 					'type'    => 'radio',
 					'options' => array(
 						'yes' => __( 'Yes', 'discount-deals' ),
@@ -135,12 +137,12 @@ class Discount_Deals_Admin_Settings {
 					'id'      => 'wc_settings_tab_discount_deals_combine_applied_discounts_message',
 				),
 				'applied_discount_message'          => array(
-					'name'  => __( 'Message to be displayed to your customers on the shopping cart page?', 'discount-deals' ),
+					'name'  => __( 'Message to be Displayed to Your Customers on the Shopping Cart Page', 'discount-deals' ),
 					'type'  => 'text',
 					'value' => Discount_Deals_Settings::get_settings( 'applied_discount_message' ),
 					'desc'  => sprintf(
 							// translators: %s workflow title.
-						__( 'Use %s placeholder to show workflow tittle in your message.', 'discount-deals' ),
+						__( 'Enter the message you want to display to your customers on the shopping cart page. Use the placeholder {{workflow_title}} to dynamically show the title of the applied discount workflow in the default message.', 'discount-deals' ),
 						'{{workflow_title}}'
 					),
 					'id'    => 'wc_settings_tab_discount_deals_applied_discount_message',
@@ -159,20 +161,20 @@ class Discount_Deals_Admin_Settings {
 					'id'   => 'wc_settings_tab_discount_deals_product_settings',
 				),
 				'calculate_discount_from'      => array(
-					'name'    => __( 'Calculate the discount from ', 'discount-deals' ),
+					'name'    => __( 'Calculate the Discount from ', 'discount-deals' ),
 					'type'    => 'select',
-					'desc'    => sprintf( '%s <br/> %s', __( 'For what price do you want to calculate the discount for the product?', 'discount-deals' ), __( 'Example: the regular price of product A is $50, and the retail price is $45. Which price should be taken into account when calculating the discount?', 'discount-deals' ) ),
+					'desc'    => sprintf( '%s <br/> %s', __( 'Choose whether you want to calculate the discount based on the regular price or the sale price of the product.', 'discount-deals' ), __( 'For example, if a product is on sale, you can decide which price should be considered when calculating the discount.', 'discount-deals' ) ),
 					'options' => array(
-						'sale_price'    => __( 'Sale price', 'discount-deals' ),
-						'regular_price' => __( 'Regular price', 'discount-deals' ),
+						'regular_price' => __( 'Regular Price', 'discount-deals' ),
+						'sale_price'    => __( 'Sale Price', 'discount-deals' ),
 					),
 					'value'   => Discount_Deals_Settings::get_settings( 'calculate_discount_from' ),
 					'id'      => 'wc_settings_tab_discount_deals_calculate_discount_from',
 				),
 				'apply_product_discount_to'    => array(
-					'name'    => __( 'Apply discount to', 'discount-deals' ),
+					'name'    => __( 'Apply Discount To', 'discount-deals' ),
 					'type'    => 'select',
-					'desc'    => sprintf( '%s <br/> %s', __( 'If one or more workflows are applied to the product, which workflow should be used to apply the discount?', 'discount-deals' ), __( 'Note: If you select "All matching workflows", all discounts will be applied to the product.', 'discount-deals' ) ),
+					'desc'    =>  __( 'Choose how you want to apply discounts to products with multiple matched workflows. Select the lowest or biggest discount from all matching workflows, or apply all matching workflows\' discounts to the product ', 'discount-deals' ),
 					'options' => array(
 						'lowest_matched'  => __( 'Lowest one from matched workflows', 'discount-deals' ),
 						'biggest_matched' => __( 'Biggest one from matched workflows', 'discount-deals' ),
@@ -183,19 +185,19 @@ class Discount_Deals_Admin_Settings {
 					'id'      => 'wc_settings_tab_discount_deals_apply_product_discount_to',
 				),
 				'apply_discount_subsequently'  => array(
-					'name'    => __( 'Calculate discount subsequently?', 'discount-deals' ),
+					'name'    => __( 'Calculate Discounts Subsequently?', 'discount-deals' ),
 					'type'    => 'radio',
 					'options' => array(
 						'yes' => __( 'Yes', 'discount-deals' ),
 						'no'  => __( 'No', 'discount-deals' ),
 					),
-					'desc'    => __( 'When calculating multiple discounts, calculate the first discount on the full price and the second discount on the discounted price and so on.', 'discount-deals' ),
+					'desc'    => __( 'Decide whether you want to calculate discounts sequentially. If enabled, the first discount will be applied to the full price, and subsequent discounts will be applied to the discounted price.', 'discount-deals' ),
 					'value'   => Discount_Deals_Settings::get_settings( 'apply_discount_subsequently' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_discount_subsequently',
 				),
 				'show_strikeout_price_in_cart' => array(
-					'name'    => __( 'Show strikeout on cart?', 'discount-deals' ),
-					'desc'    => __( 'Would you like to cross out the prices of each item to highlight the discount?', 'discount-deals' ),
+					'name'    => __( 'Show Strikeout on Cart?', 'discount-deals' ),
+					'desc'    => __( 'Choose whether you want to display a strikethrough on the prices of each item in the cart to highlight the discount.', 'discount-deals' ),
 					'type'    => 'radio',
 					'options' => array(
 						'yes' => __( 'Yes', 'discount-deals' ),
@@ -205,8 +207,8 @@ class Discount_Deals_Admin_Settings {
 					'id'      => 'wc_settings_tab_discount_deals_show_strikeout_price_in_cart',
 				),
 				'where_display_saving_text'    => array(
-					'name'    => __( 'Display you saved text', 'discount-deals' ),
-					'desc'    => __( 'Do you want to display the message "How much was saved on a customer\'s purchase?" If yes, where should the message be displayed?', 'discount-deals' ),
+					'name'    => __( 'Display "You Saved" Text', 'discount-deals' ),
+					'desc'    => __( 'Decide if you want to display the message "You Saved" on the storefront. If yes, choose where it should be displayed - after each line item\'s total, after the cart total, or both. Alternatively, you can choose not to display the message at all.', 'discount-deals' ),
 					'type'    => 'select',
 					'options' => array(
 						'disabled'                       => __( 'Don\'t show anywhere ', 'discount-deals' ),
@@ -218,8 +220,8 @@ class Discount_Deals_Admin_Settings {
 					'id'      => 'wc_settings_tab_discount_deals_where_display_saving_text',
 				),
 				'you_saved_text'               => array(
-					'name'  => __( 'You saved text', 'discount-deals' ),
-					'desc'  => sprintf( '%s <br/> %s <code>%s</code> %s', __( 'The message to highlight the customer\'s savings.', 'discount-deals' ), __( 'Use the ', 'discount-deals' ), '{{discount}}', __( ' shortcode to display the discount amount.', 'discount-deals' ) ),
+					'name'  => __( '"You Saved" Text', 'discount-deals' ),
+					'desc'  => __( 'Customize the message that highlights the customer\'s savings. Use the {{discount}} shortcode to dynamically display the discount amount.', 'discount-deals' ),
 					'type'  => 'text',
 					'value' => Discount_Deals_Settings::get_settings( 'you_saved_text' ),
 					'id'    => 'wc_settings_tab_discount_deals_you_saved_text',
@@ -239,7 +241,8 @@ class Discount_Deals_Admin_Settings {
 					'id'   => 'wc_settings_tab_discount_deals_cart_settings',
 				),
 				'apply_cart_discount_to'           => array(
-					'name'    => __( 'Apply discount to', 'discount-deals' ),
+					'name'    => __( 'Apply Discount To', 'discount-deals' ),
+					'desc'    => __( 'Choose how you want to apply discounts to the cart with multiple matched workflows. Select the biggest discount with or without free shipping, the lowest discount with or without free shipping, matched free shipping only, or apply all matching workflows\' discounts to the cart.', 'discount-deals' ),
 					'type'    => 'select',
 					'options' => array(
 						'biggest_with_free_shipping'    => __( 'Biggest one from matched workflows and matched free shipping together', 'discount-deals' ),
@@ -249,45 +252,44 @@ class Discount_Deals_Admin_Settings {
 						'free_shipping_only'            => __( 'Matched free shipping only and ignore other matched workflows', 'discount-deals' ),
 						'all_matched'                   => __( 'All matched workflows', 'discount-deals' ),
 					),
-					'desc'    => sprintf( '%s <br/> %s', __( 'If one or more workflows are applied to the cart, which workflow should be used to apply the discount?', 'discount-deals' ), __( 'Note: If you select "All matching workflows", all discounts will be applied to the cart.', 'discount-deals' ) ),
 					'value'   => Discount_Deals_Settings::get_settings( 'apply_cart_discount_to' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_cart_discount_to',
 				),
 				'apply_cart_discount_subsequently' => array(
-					'name'    => __( 'Calculate discount subsequently?', 'discount-deals' ),
+					'name'    => __( 'Calculate Discounts Subsequently?', 'discount-deals' ),
 					'type'    => 'radio',
 					'options' => array(
 						'yes' => __( 'Yes', 'discount-deals' ),
 						'no'  => __( 'No', 'discount-deals' ),
 					),
-					'desc'    => __( 'When calculating multiple discounts, calculate the first discount on the full price and the second discount on the discounted price and so on.', 'discount-deals' ),
+					'desc'    => __( 'Decide whether you want to calculate discounts sequentially. If enabled, the first discount will be applied to the full price, and subsequent discounts will be applied to the discounted price.', 'discount-deals' ),
 					'value'   => Discount_Deals_Settings::get_settings( 'apply_cart_discount_subsequently' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_cart_discount_subsequently',
 				),
 				'apply_cart_discount_as'           => array(
-					'name'    => __( 'Apply discount as ', 'discount-deals' ),
+					'name'    => __( 'Apply Discount As', 'discount-deals' ),
+					'desc'    => __( 'Choose the mode for applying the discount on the shopping cart. Our recommended mode is "Coupon".', 'discount-deals' ),
 					'type'    => 'radio',
 					'options' => array(
 						'coupon' => __( 'Coupon', 'discount-deals' ),
 						'fee'    => __( 'Fee', 'discount-deals' ),
 					),
-					'desc'    => sprintf( '%s <br/> %s', __( 'In which mode would you like to give a discount on the shopping cart? ', 'discount-deals' ), __( 'Note: Our recommended mode is “Coupon”.', 'discount-deals' ) ),
 					'value'   => Discount_Deals_Settings::get_settings( 'apply_cart_discount_as' ),
 					'id'      => 'wc_settings_tab_discount_deals_apply_cart_discount_as',
 				),
 				'apply_coupon_title'               => array(
-					'name'        => __( 'Coupon code', 'discount-deals' ),
+					'name'        => __( 'Coupon Code', 'discount-deals' ),
+					'desc'        => __( 'Create a coupon with a value of \'0\' in Marketing -> Coupons and then enter the coupon code you created in this field. Note: Do not delete or change the discount value of the coupon.', 'discount-deals' ),
 					'type'        => 'text',
-					'desc'        => sprintf( '%s <br/> %s', __( 'Create a coupon with a value of \'0\' in Marketing - > Coupons and then fill the above input field with the coupon code you created.', 'discount-deals' ), __( 'Note: Do not delete or change the discount value of the coupon.', 'discount-deals' ) ),
 					'placeholder' => __( 'Enter coupon code here...', 'discount-deals' ),
 					'value'       => Discount_Deals_Settings::get_settings( 'apply_coupon_title' ),
 					'id'          => 'wc_settings_tab_discount_deals_apply_coupon_title',
 				),
 				'apply_fee_title'                  => array(
-					'name'        => __( 'Fee text', 'discount-deals' ),
+					'name'        => __( 'Fee Text', 'discount-deals' ),
 					'type'        => 'text',
 					'placeholder' => __( 'Enter fee text here...', 'discount-deals' ),
-					'desc'        => __( 'The label for the discount that was charged as a fee.', 'discount-deals' ),
+					'desc'        => __( 'Customize the label for the discount that was charged as a fee.', 'discount-deals' ),
 					'value'       => Discount_Deals_Settings::get_settings( 'apply_fee_title' ),
 					'id'          => 'wc_settings_tab_discount_deals_apply_fee_title',
 				),
@@ -306,9 +308,9 @@ class Discount_Deals_Admin_Settings {
 					'id'   => 'wc_settings_tab_discount_deals_bogo_settings',
 				),
 				'apply_bogo_discount_to'          => array(
-					'name'    => __( 'Apply discount to?', 'discount-deals' ),
+					'name'    => __( 'Apply Discount To', 'discount-deals' ),
 					'type'    => 'select',
-					'desc'    => __( 'If one or more workflows are applied to the product, which workflow should be used to provide the discount?', 'discount-deals' ),
+					'desc'    => __( 'Choose whether you want to provide the discount on the product with the lowest or biggest discount among the matched workflows.', 'discount-deals' ),
 					'options' => array(
 						'lowest_matched'  => __( 'Lowest one from matched workflows', 'discount-deals' ),
 						'biggest_matched' => __( 'Biggest one from matched workflows', 'discount-deals' ),
@@ -317,8 +319,8 @@ class Discount_Deals_Admin_Settings {
 					'id'      => 'wc_settings_tab_discount_deals_apply_bogo_discount_to',
 				),
 				'bogo_discount_highlight_message' => array(
-					'name'  => __( 'Free item text', 'discount-deals' ),
-					'desc'  => sprintf( '%s <br/> %s', __( 'The message to highlight the free items in the shopping cart.', 'discount-deals' ), __( 'Note: This message should clearly indicate that the product is free.', 'discount-deals' ) ),
+					'name'  => __( 'Free Item Label', 'discount-deals' ),
+					'desc'  => __( 'Customize the message to highlight the free items in the shopping cart. Make sure the message clearly indicates that the product is free.', 'discount-deals' ),
 					'type'  => 'text',
 					'value' => Discount_Deals_Settings::get_settings( 'bogo_discount_highlight_message' ),
 					'id'    => 'wc_settings_tab_discount_deals_bogo_discount_highlight_message',

@@ -31,11 +31,11 @@ if ( empty( $discount_details ) ) {
 <table class="cart-discount-details-table discount-deals-fw-table">
 	<thead class="discount-deals-text-left">
 	<tr>
-		<th><?php esc_html_e( 'Min Qty.', 'discount-deals' ); ?></th>
-		<th><?php esc_html_e( 'Max Qty.', 'discount-deals' ); ?></th>
+		<th><?php esc_html_e( 'Minimum Quantity', 'discount-deals' ); ?></th>
+		<th><?php esc_html_e( 'Maximum Quantity', 'discount-deals' ); ?></th>
 		<th><?php esc_html_e( 'Discount Type', 'discount-deals' ); ?></th>
 		<th><?php esc_html_e( 'Discount Value', 'discount-deals' ); ?></th>
-		<th><?php esc_html_e( 'Discount Limit', 'discount-deals' ); ?></th>
+		<th><?php esc_html_e( 'Maximum Discount ', 'discount-deals' ); ?></th>
 		<th></th>
 	</tr>
 	</thead>
@@ -70,14 +70,14 @@ if ( empty( $discount_details ) ) {
 						data-default-val="flat"
 						class="discount-deals-w150 cart-discount-type"
 						data-name="discount_deals_workflow[dd_discounts][--rule_id--][type]">
-					<option value="flat" 
+					<option value="flat"
 					<?php
 					if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'flat' ) {
 						echo ' selected';
 					}
 					?>
 					><?php esc_html_e( 'Fixed Discount', 'discount-deals' ); ?></option>
-					<option value="percent" 
+					<option value="percent"
 					<?php
 					if ( discount_deals_get_value_from_array( $discount_detail, 'type', '' ) == 'percent' ) {
 						echo ' selected';
@@ -124,7 +124,7 @@ if ( empty( $discount_details ) ) {
 			</td>
 			<td>
 				<button type="button"
-						class="discount-deals-remove-cart-discount button discount-deals-cart-discount__remove 
+						class="discount-deals-remove-cart-discount button discount-deals-cart-discount__remove
 						<?php
 						if ( $count <= 1 ) {
 							echo 'discount-deals-hidden';
@@ -149,33 +149,46 @@ if ( empty( $discount_details ) ) {
 		</td>
 	</tr>
 	<tr>
-		<td colspan="6">
-			<div class="discount-deals-notice">
-				<div>
-					<strong><?php esc_html_e( 'Important notes:', 'discount-deals' ); ?></strong>
-				</div>
-				<ol>
-					<li>
-						<?php esc_html_e( 'When calculating the discount, the quantity details of the respective item in the shopping cart will be taken into account and compared with the "discount ranges" you have created.', 'discount-deals' ); ?>
-					</li>
-					<li>
-						<?php esc_html_e( 'If your discount type is "Percentage Discount", then you can limit the discount for that product to a certain amount.', 'discount-deals' ); ?>
-					</li>
-				</ol>
-			</div>
-		</td>
+        <td colspan="6">
+            <div class="discount-deals-notice">
+                <div>
+                    <strong><?php esc_html_e( 'How It Works for Customers:', 'discount-deals' ); ?></strong>
+                </div>
+                <br/>
+                <div>
+					<?php esc_html_e( 'As customers shop on your online store and add products to their cart, the Product Quantity Based Discount feature will automatically take effect. The plugin will recognize the quantity of each product added to the cart and apply the relevant discount based on the quantity ranges and rules you set.', 'discount-deals' ); ?>
+                </div>
+            </div>
+        </td>
 	</tr>
 	<tr>
-		<td colspan="6" class="discount-deals-text-left">
-			<p>
-				<b><?php esc_html_e( 'How it Works?', 'discount-deals' ); ?></b> <?php esc_html_e( 'Create multiple discount ranges by entering minimum purchase quantity, maximum purchase quantity and discount details. If the product quantity matches one of the discount ranges, the discount will be applied to that product accordingly.', 'discount-deals' ); ?>
-			</p>
-			<b><?php esc_html_e( 'Use cases: ', 'discount-deals' ); ?></b>
-			<ol>
-				<li><?php esc_html_e( 'You can give a 20% discount to customers who buy 5 to 10 quantities of a product.', 'discount-deals' ); ?></li>
-				<li><?php esc_html_e( 'You can give a fixed discount on products to wholesale customers.', 'discount-deals' ); ?></li>
-			</ol>
-		</td>
+        <td colspan="6" class="discount-deals-text-left">
+            <h3><?php esc_html_e( 'How To Configure?', 'discount-deals' ); ?></h3>
+            <ul>
+                <li>
+                    <b><?php esc_html_e( 'Define Quantity Ranges:', 'discount-deals' ); ?></b> <?php esc_html_e( 'Here, you can specify the quantity ranges for which you want to apply discounts. For instance, you can create a discount for products with 1 to 2 quantities, another discount for products with 3 to 5 quantities, and yet another for products with 6 to 20 quantities.', 'discount-deals' ); ?>
+                </li>
+                <li>
+                    <b><?php esc_html_e( 'Choose Discount Type:', 'discount-deals' ); ?></b> <?php esc_html_e( 'Next, you can choose the type of discount you want to apply. You have two options:', 'discount-deals' ); ?>
+                    <ol>
+                        <li><?php esc_html_e( 'Fixed Discount: Set a fixed amount to be deducted from the original product price.', 'discount-deals' ); ?></li>
+                        <li><?php esc_html_e( 'Percentage Discount: Apply a percentage reduction based on the original product price.', 'discount-deals' ); ?></li>
+                    </ol>
+                </li>
+                <li>
+                    <b><?php esc_html_e( 'Specify Discount Value:', 'discount-deals' ); ?></b> <?php esc_html_e( 'Based on your chosen discount type, enter the appropriate value. For a fixed discount, enter the amount to be deducted (e.g., $10 off). For a percentage discount, enter the percentage to be discounted (e.g., 5% off).', 'discount-deals' ); ?>
+                </li>
+                <li>
+                    <b><?php esc_html_e( 'Maximum Applicable Discount (for Percentage Discounts):', 'discount-deals' ); ?></b> <?php esc_html_e( 'If you opt for a percentage discount, you can set a maximum limit to control the discount amount. For example, if the calculated percentage discount exceeds $5, the discount will be capped at $5 for that specific quantity range.', 'discount-deals' ); ?>
+                </li>
+            </ul>
+            <h3><?php esc_html_e( 'Example Scenario:', 'discount-deals' ); ?></h3>
+            <div>
+                <p><?php esc_html_e( 'For example, let\'s say you have set up a discount of 2% for products with 1 to 2 quantities, $10 off for products with 3 to 5 quantities, and 10% (with a maximum discount of $5) for products with 6 to 20 quantities.', 'discount-deals' ); ?></p>
+                <p><?php esc_html_e( 'If a customer adds two units of a product to their cart, the plugin will calculate a 2% discount based on the product\'s original price and apply it to the cart. If another customer adds four units of a product to their cart, the plugin will apply a fixed discount of $10, resulting in a new discounted price.', 'discount-deals' ); ?></p>
+                <p><?php esc_html_e( 'By offering bulk discounts based on the quantity of products purchased, you can encourage customers to buy more, boost sales, and enhance the shopping experience on your WooCommerce store.', 'discount-deals' ); ?></p>
+            </div>
+        </td>
 	</tr>
 	</tfoot>
 </table>

@@ -236,7 +236,7 @@ abstract class Discount_Deals_Workflow_Discount {
 				'id'            => 'discount_deals_workflow_toggle_promotion',
 				'name'          => 'discount_deals_workflow[dd_promotion][enable]',
 				'value'         => $promotion_enabled,
-				'label'         => __( 'Would you like to display promotional message in the storefront?', 'discount-deals' ),
+				'label'         => __( 'Display Promotional Message in Storefront?', 'discount-deals' ),
 				'options'       => array(
 					'yes' => __( 'Yes', 'discount-deals' ),
 					'no'  => __( 'No', 'discount-deals' ),
@@ -249,7 +249,7 @@ abstract class Discount_Deals_Workflow_Discount {
 				'id'         => 'discount_deals_workflow_promotion_when',
 				'name'       => 'discount_deals_workflow[dd_promotion][when_to_show]',
 				'value'      => discount_deals_get_value_from_array( $discount_details, 'when_to_show', 'all_time' ),
-				'label'      => __( 'When to show this promotional message?', 'discount-deals' ),
+				'label'      => __( 'Show Promotional Message', 'discount-deals' ),
 				'options'    => array(
 					'before_rule' => __( 'Before all workflow rules are passed', 'discount-deals' ),
 					'after_rule'  => __( 'After all workflow rules are passed', 'discount-deals' ),
@@ -265,7 +265,7 @@ abstract class Discount_Deals_Workflow_Discount {
 				'id'         => 'discount_deals_workflow_promotion_where',
 				'name'       => 'discount_deals_workflow[dd_promotion][where_to_show]',
 				'value'      => discount_deals_get_value_from_array( $discount_details, 'where_to_show', 'all_time' ),
-				'label'      => __( 'Where to show this promotional message?', 'discount-deals' ),
+				'label'      => __( 'Promotional Message Placement', 'discount-deals' ),
 				'options'    => array(
 					'before_add_to_cart_button'    => __( 'Before "Add to cart" form', 'discount-deals' ),
 					'after_add_to_cart_button'     => __( 'After "Add to cart" form', 'discount-deals' ),

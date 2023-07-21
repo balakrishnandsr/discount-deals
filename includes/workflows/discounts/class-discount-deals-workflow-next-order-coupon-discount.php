@@ -52,7 +52,7 @@ class Discount_Deals_Workflow_Next_Order_Coupon_Discount extends Discount_Deals_
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
+				'label'         => __( 'Configure Customer Discounts', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)

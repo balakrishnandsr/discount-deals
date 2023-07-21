@@ -1,4 +1,4 @@
-# Copyright (C) 2022 Discount Deals
+# Copyright (C) 2023 Discount Deals
 # This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-12-26T07:50:23+00:00\n"
+"POT-Creation-Date: 2023-07-21T07:36:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: discount-deals\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
-msgid "https://dynamicdiscount.deals"
+msgid "https://inperks.org"
 msgstr ""
 
 #. Description of the plugin
@@ -44,35 +44,39 @@ msgid "General"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:43
-#: admin/class-discount-deals-admin-settings.php:156
+#: admin/class-discount-deals-admin-settings.php:158
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:25
 #: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:25
 msgid "Product discount"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:44
-#: admin/class-discount-deals-admin-settings.php:236
+#: admin/class-discount-deals-admin-settings.php:238
 #: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:24
 #: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:25
 msgid "Cart discount"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:45
-#: admin/class-discount-deals-admin-settings.php:303
+#: admin/class-discount-deals-admin-settings.php:305
 #: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:24
 #: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:24
 msgid "BOGO discount"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:118
-msgid "Would you like to inform your customers about all applied discounts in their shopping cart?"
+msgid "Notify Customers About Applied Discounts"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:121
-#: admin/class-discount-deals-admin-settings.php:131
-#: admin/class-discount-deals-admin-settings.php:189
-#: admin/class-discount-deals-admin-settings.php:201
-#: admin/class-discount-deals-admin-settings.php:260
+#: admin/class-discount-deals-admin-settings.php:119
+msgid "Choose whether you want to inform your customers about all applied discounts in their shopping cart."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:122
+#: admin/class-discount-deals-admin-settings.php:133
+#: admin/class-discount-deals-admin-settings.php:191
+#: admin/class-discount-deals-admin-settings.php:203
+#: admin/class-discount-deals-admin-settings.php:262
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:85
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:131
 #: includes/workflows/discounts/class-discount-deals-workflow-discount.php:241
@@ -80,11 +84,11 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:122
-#: admin/class-discount-deals-admin-settings.php:132
-#: admin/class-discount-deals-admin-settings.php:190
-#: admin/class-discount-deals-admin-settings.php:202
-#: admin/class-discount-deals-admin-settings.php:261
+#: admin/class-discount-deals-admin-settings.php:123
+#: admin/class-discount-deals-admin-settings.php:134
+#: admin/class-discount-deals-admin-settings.php:192
+#: admin/class-discount-deals-admin-settings.php:204
+#: admin/class-discount-deals-admin-settings.php:263
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:86
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:132
 #: includes/workflows/discounts/class-discount-deals-workflow-discount.php:242
@@ -92,222 +96,196 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:128
-msgid "Would you like to merge multiple message into single message?"
+#: admin/class-discount-deals-admin-settings.php:129
+msgid "Merge Multiple Messages into a Single Message"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:138
-msgid "Message to be displayed to your customers on the shopping cart page?"
+#: admin/class-discount-deals-admin-settings.php:130
+msgid "Choose whether you want to combine multiple discount messages into a single message for your customers."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:140
+msgid "Message to be Displayed to Your Customers on the Shopping Cart Page"
 msgstr ""
 
 #. translators: %s workflow title.
-#: admin/class-discount-deals-admin-settings.php:143
-msgid "Use %s placeholder to show workflow tittle in your message."
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:162
-msgid "Calculate the discount from "
+#: admin/class-discount-deals-admin-settings.php:145
+msgid "Enter the message you want to display to your customers on the shopping cart page. Use the placeholder {{workflow_title}} to dynamically show the title of the applied discount workflow in the default message."
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:164
-msgid "For what price do you want to calculate the discount for the product?"
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:164
-msgid "Example: the regular price of product A is $50, and the retail price is $45. Which price should be taken into account when calculating the discount?"
+msgid "Calculate the Discount from "
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:166
-msgid "Sale price"
+msgid "Choose whether you want to calculate the discount based on the regular price or the sale price of the product."
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:167
-msgid "Regular price"
+#: admin/class-discount-deals-admin-settings.php:166
+msgid "For example, if a product is on sale, you can decide which price should be considered when calculating the discount."
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:173
-#: admin/class-discount-deals-admin-settings.php:242
-msgid "Apply discount to"
+#: admin/class-discount-deals-admin-settings.php:168
+msgid "Regular Price"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:169
+msgid "Sale Price"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:175
-msgid "If one or more workflows are applied to the product, which workflow should be used to apply the discount?"
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:175
-msgid "Note: If you select \"All matching workflows\", all discounts will be applied to the product."
+#: admin/class-discount-deals-admin-settings.php:244
+#: admin/class-discount-deals-admin-settings.php:311
+msgid "Apply Discount To"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:177
-#: admin/class-discount-deals-admin-settings.php:313
+msgid "Choose how you want to apply discounts to products with multiple matched workflows. Select the lowest or biggest discount from all matching workflows, or apply all matching workflows' discounts to the product "
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:179
+#: admin/class-discount-deals-admin-settings.php:315
 msgid "Lowest one from matched workflows"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:178
-#: admin/class-discount-deals-admin-settings.php:314
+#: admin/class-discount-deals-admin-settings.php:180
+#: admin/class-discount-deals-admin-settings.php:316
 msgid "Biggest one from matched workflows"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:180
+#: admin/class-discount-deals-admin-settings.php:182
 msgid "All matching workflows"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:186
-#: admin/class-discount-deals-admin-settings.php:257
-msgid "Calculate discount subsequently?"
+#: admin/class-discount-deals-admin-settings.php:188
+#: admin/class-discount-deals-admin-settings.php:259
+msgid "Calculate Discounts Subsequently?"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:192
-#: admin/class-discount-deals-admin-settings.php:263
-msgid "When calculating multiple discounts, calculate the first discount on the full price and the second discount on the discounted price and so on."
+#: admin/class-discount-deals-admin-settings.php:194
+#: admin/class-discount-deals-admin-settings.php:265
+msgid "Decide whether you want to calculate discounts sequentially. If enabled, the first discount will be applied to the full price, and subsequent discounts will be applied to the discounted price."
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:197
-msgid "Show strikeout on cart?"
+#: admin/class-discount-deals-admin-settings.php:199
+msgid "Show Strikeout on Cart?"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:198
-msgid "Would you like to cross out the prices of each item to highlight the discount?"
+#: admin/class-discount-deals-admin-settings.php:200
+msgid "Choose whether you want to display a strikethrough on the prices of each item in the cart to highlight the discount."
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:208
-msgid "Display you saved text"
+#: admin/class-discount-deals-admin-settings.php:210
+msgid "Display \"You Saved\" Text"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:209
-msgid "Do you want to display the message \"How much was saved on a customer's purchase?\" If yes, where should the message be displayed?"
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:212
-msgid "Don't show anywhere "
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:213
-msgid "On after each line item's total"
+#: admin/class-discount-deals-admin-settings.php:211
+msgid "Decide if you want to display the message \"You Saved\" on the storefront. If yes, choose where it should be displayed - after each line item's total, after the cart total, or both. Alternatively, you can choose not to display the message at all."
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:214
-msgid "On after cart total"
+msgid "Don't show anywhere "
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:215
+msgid "On after each line item's total"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:216
+msgid "On after cart total"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:217
 msgid "On both line item's total and cart total"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:221
-msgid "You saved text"
+#: admin/class-discount-deals-admin-settings.php:223
+msgid "\"You Saved\" Text"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:222
-msgid "The message to highlight the customer's savings."
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:222
-msgid "Use the "
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:222
-msgid " shortcode to display the discount amount."
+#: admin/class-discount-deals-admin-settings.php:224
+msgid "Customize the message that highlights the customer's savings. Use the {{discount}} shortcode to dynamically display the discount amount."
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:245
-msgid "Biggest one from matched workflows and matched free shipping together"
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:246
-msgid "Biggest one from matched workflows and ignore matched free shipping"
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:247
-msgid "Lowest one from matched workflows and matched free shipping together"
+msgid "Choose how you want to apply discounts to the cart with multiple matched workflows. Select the biggest discount with or without free shipping, the lowest discount with or without free shipping, matched free shipping only, or apply all matching workflows' discounts to the cart."
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:248
-msgid "Lowest one from matched workflows and ignore matched free shipping"
+msgid "Biggest one from matched workflows and matched free shipping together"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:249
-msgid "Matched free shipping only and ignore other matched workflows"
+msgid "Biggest one from matched workflows and ignore matched free shipping"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:250
+msgid "Lowest one from matched workflows and matched free shipping together"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:251
+msgid "Lowest one from matched workflows and ignore matched free shipping"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:252
+msgid "Matched free shipping only and ignore other matched workflows"
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:253
 msgid "All matched workflows"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:252
-msgid "If one or more workflows are applied to the cart, which workflow should be used to apply the discount?"
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:252
-msgid "Note: If you select \"All matching workflows\", all discounts will be applied to the cart."
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:268
-msgid "Apply discount as "
+#: admin/class-discount-deals-admin-settings.php:270
+msgid "Apply Discount As"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:271
+msgid "Choose the mode for applying the discount on the shopping cart. Our recommended mode is \"Coupon\"."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:274
 msgid "Coupon"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:272
+#: admin/class-discount-deals-admin-settings.php:275
 msgid "Fee"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:274
-msgid "In which mode would you like to give a discount on the shopping cart? "
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:274
-msgid "Note: Our recommended mode is “Coupon”."
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:279
-msgid "Coupon code"
-msgstr ""
-
 #: admin/class-discount-deals-admin-settings.php:281
-msgid "Create a coupon with a value of '0' in Marketing - > Coupons and then fill the above input field with the coupon code you created."
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:281
-msgid "Note: Do not delete or change the discount value of the coupon."
+#: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:33
+msgid "Coupon Code"
 msgstr ""
 
 #: admin/class-discount-deals-admin-settings.php:282
+msgid "Create a coupon with a value of '0' in Marketing -> Coupons and then enter the coupon code you created in this field. Note: Do not delete or change the discount value of the coupon."
+msgstr ""
+
+#: admin/class-discount-deals-admin-settings.php:284
 msgid "Enter coupon code here..."
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:287
-msgid "Fee text"
+#: admin/class-discount-deals-admin-settings.php:289
+msgid "Fee Text"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:289
+#: admin/class-discount-deals-admin-settings.php:291
 msgid "Enter fee text here..."
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:290
-msgid "The label for the discount that was charged as a fee."
+#: admin/class-discount-deals-admin-settings.php:292
+msgid "Customize the label for the discount that was charged as a fee."
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:309
-msgid "Apply discount to?"
+#: admin/class-discount-deals-admin-settings.php:313
+msgid "Choose whether you want to provide the discount on the product with the lowest or biggest discount among the matched workflows."
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:311
-msgid "If one or more workflows are applied to the product, which workflow should be used to provide the discount?"
+#: admin/class-discount-deals-admin-settings.php:322
+msgid "Free Item Label"
 msgstr ""
 
-#: admin/class-discount-deals-admin-settings.php:320
-msgid "Free item text"
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:321
-msgid "The message to highlight the free items in the shopping cart."
-msgstr ""
-
-#: admin/class-discount-deals-admin-settings.php:321
-msgid "Note: This message should clearly indicate that the product is free."
+#: admin/class-discount-deals-admin-settings.php:323
+msgid "Customize the message to highlight the free items in the shopping cart. Make sure the message clearly indicates that the product is free."
 msgstr ""
 
 #: admin/class-discount-deals-admin-workflows-list-table.php:28
@@ -566,7 +544,6 @@ msgstr ""
 msgid "View detailed documentation from %s."
 msgstr ""
 
-#. Translators: Link to the Affiliate For WooCommerce documentation.
 #: admin/partials/discount-deals-welcome-doc.php:118
 msgid "here"
 msgstr ""
@@ -574,13 +551,13 @@ msgstr ""
 #: admin/partials/discounts/discount-deals-bulk-discount.php:34
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:35
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:49
-msgid "Min Qty."
+msgid "Minimum Quantity"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:35
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:36
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:50
-msgid "Max Qty."
+msgid "Maximum Quantity"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:37
@@ -596,27 +573,26 @@ msgstr ""
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:40
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:66
 #: admin/partials/discounts/discount-deals-cart-discount.php:38
-#: admin/partials/discounts/discount-deals-product-discount.php:38
-msgid "Discount Limit"
+msgid "Maximum Discount "
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:54
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:56
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:76
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:85
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:128
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:86
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:130
 msgid "E.g. 1"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:64
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:66
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:95
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:97
 msgid "E.g. 10"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:79
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:98
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:150
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:152
 #: admin/partials/discounts/discount-deals-cart-discount.php:88
 #: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:48
 #: admin/partials/discounts/discount-deals-product-discount.php:81
@@ -625,7 +601,7 @@ msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:86
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:105
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:157
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:159
 #: admin/partials/discounts/discount-deals-cart-discount.php:95
 #: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:55
 #: admin/partials/discounts/discount-deals-product-discount.php:88
@@ -634,7 +610,7 @@ msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:96
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:120
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:172
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:174
 #: admin/partials/discounts/discount-deals-cart-discount.php:110
 #: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:65
 #: admin/partials/discounts/discount-deals-product-discount.php:103
@@ -643,7 +619,7 @@ msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:121
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:145
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:197
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:199
 #: admin/partials/discounts/discount-deals-cart-discount.php:136
 #: admin/partials/discounts/discount-deals-product-discount.php:128
 msgid "E.g. 20.00"
@@ -651,7 +627,7 @@ msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:147
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:171
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:309
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:311
 #: admin/partials/discounts/discount-deals-cart-discount.php:162
 #: admin/partials/discounts/discount-deals-product-discount.php:154
 msgid "+ Add Discount Range"
@@ -659,83 +635,171 @@ msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:155
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:179
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:317
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:319
 #: admin/partials/discounts/discount-deals-cart-discount.php:170
-#: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:100
 #: admin/partials/discounts/discount-deals-product-discount.php:162
-msgid "Important notes:"
+msgid "How It Works for Customers:"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:159
-msgid "When calculating the discount, the quantity details of the respective item in the shopping cart will be taken into account and compared with the \"discount ranges\" you have created."
+msgid "As customers shop on your online store and add products to their cart, the Product Quantity Based Discount feature will automatically take effect. The plugin will recognize the quantity of each product added to the cart and apply the relevant discount based on the quantity ranges and rules you set."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bulk-discount.php:162
-#: admin/partials/discounts/discount-deals-product-discount.php:169
-msgid "If your discount type is \"Percentage Discount\", then you can limit the discount for that product to a certain amount."
+#: admin/partials/discounts/discount-deals-bulk-discount.php:166
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:190
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:330
+#: admin/partials/discounts/discount-deals-cart-discount.php:181
+#: admin/partials/discounts/discount-deals-product-discount.php:173
+msgid "How To Configure?"
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bulk-discount.php:171
-#: admin/partials/discounts/discount-deals-bxgx-discount.php:195
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:333
-#: admin/partials/discounts/discount-deals-cart-discount.php:186
-#: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:116
-#: admin/partials/discounts/discount-deals-product-discount.php:178
-msgid "How it Works?"
+#: admin/partials/discounts/discount-deals-bulk-discount.php:169
+msgid "Define Quantity Ranges:"
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bulk-discount.php:171
-msgid "Create multiple discount ranges by entering minimum purchase quantity, maximum purchase quantity and discount details. If the product quantity matches one of the discount ranges, the discount will be applied to that product accordingly."
+#: admin/partials/discounts/discount-deals-bulk-discount.php:169
+msgid "Here, you can specify the quantity ranges for which you want to apply discounts. For instance, you can create a discount for products with 1 to 2 quantities, another discount for products with 3 to 5 quantities, and yet another for products with 6 to 20 quantities."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bulk-discount.php:173
-#: admin/partials/discounts/discount-deals-bxgx-discount.php:197
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:335
-#: admin/partials/discounts/discount-deals-cart-discount.php:188
-#: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:118
-#: admin/partials/discounts/discount-deals-product-discount.php:180
-msgid "Use cases: "
+#: admin/partials/discounts/discount-deals-bulk-discount.php:172
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:199
+#: admin/partials/discounts/discount-deals-cart-discount.php:187
+#: admin/partials/discounts/discount-deals-product-discount.php:179
+msgid "Choose Discount Type:"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:172
+#: admin/partials/discounts/discount-deals-product-discount.php:179
+msgid "Next, you can choose the type of discount you want to apply. You have two options:"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:174
+#: admin/partials/discounts/discount-deals-product-discount.php:181
+msgid "Fixed Discount: Set a fixed amount to be deducted from the original product price."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bulk-discount.php:175
-msgid "You can give a 20% discount to customers who buy 5 to 10 quantities of a product."
+#: admin/partials/discounts/discount-deals-product-discount.php:182
+msgid "Percentage Discount: Apply a percentage reduction based on the original product price."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bulk-discount.php:176
-msgid "You can give a fixed discount on products to wholesale customers."
+#: admin/partials/discounts/discount-deals-bulk-discount.php:179
+#: admin/partials/discounts/discount-deals-product-discount.php:186
+msgid "Specify Discount Value:"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:179
+#: admin/partials/discounts/discount-deals-product-discount.php:186
+msgid "Based on your chosen discount type, enter the appropriate value. For a fixed discount, enter the amount to be deducted (e.g., $10 off). For a percentage discount, enter the percentage to be discounted (e.g., 5% off)."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:182
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:207
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:358
+#: admin/partials/discounts/discount-deals-cart-discount.php:195
+#: admin/partials/discounts/discount-deals-product-discount.php:189
+msgid "Maximum Applicable Discount (for Percentage Discounts):"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:182
+msgid "If you opt for a percentage discount, you can set a maximum limit to control the discount amount. For example, if the calculated percentage discount exceeds $5, the discount will be capped at $5 for that specific quantity range."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:185
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:209
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:361
+#: admin/partials/discounts/discount-deals-cart-discount.php:197
+#: admin/partials/discounts/discount-deals-product-discount.php:192
+msgid "Example Scenario:"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:187
+msgid "For example, let's say you have set up a discount of 2% for products with 1 to 2 quantities, $10 off for products with 3 to 5 quantities, and 10% (with a maximum discount of $5) for products with 6 to 20 quantities."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:188
+msgid "If a customer adds two units of a product to their cart, the plugin will calculate a 2% discount based on the product's original price and apply it to the cart. If another customer adds four units of a product to their cart, the plugin will apply a fixed discount of $10, resulting in a new discounted price."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bulk-discount.php:189
+msgid "By offering bulk discounts based on the quantity of products purchased, you can encourage customers to buy more, boost sales, and enhance the shopping experience on your WooCommerce store."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:37
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:57
-msgid "Discount Qty."
+msgid "Discount Quantity"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:91
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:143
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:145
 msgid "Free"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:183
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:321
-msgid "When calculating the discount, the quantity details of the respective item in the shopping cart are taken into account and compared with the \"discount ranges\" you have created."
+msgid "As customers add qualifying quantities of a product to their cart, the Buy X and Get X Discount feature will automatically apply the BOGO discounts. The plugin will recognize when the conditions for each discount range are met and offer the corresponding discount to the customer's cart."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgx-discount.php:186
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:324
-msgid "If your discount type is \"Percentage Discount\", then you can limit the discount for that product to a certain amount. Here, the \"discount quantity\" of the range will be taken into account to limit the discount."
-msgstr ""
-
-#: admin/partials/discounts/discount-deals-bxgx-discount.php:195
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:193
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:333
-msgid " Create multiple discount ranges by specifying the minimum and maximum product quantity and discount details. If the product quantity matches one of the discount ranges, the discount will be applied to that product accordingly. "
+msgid "Define Product Quantity Ranges:"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:193
+msgid "Here, you can set up specific product quantity ranges for which you want to apply the BOGO discounts. For instance, you can create a discount for customers buying 3 to 5 caps, another discount for customers buying 9 to 10 caps, and yet another for customers buying 20 to 100 caps."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:196
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:344
+msgid "Define Discount Quantity:"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:196
+msgid "For each product quantity range, you'll specify how many units of the product the customer needs to buy to qualify for the discount. For example, customers need to buy 2 caps to get the discount when they purchase 3 to 5 caps."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgx-discount.php:199
-msgid "Buy two or more t-shirts and get one t-shirt for free as a discount."
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:347
+#: admin/partials/discounts/discount-deals-cart-discount.php:187
+msgid "Next, you have three discount types to choose from:"
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgx-discount.php:200
-msgid "Give a 50% discount on a quantity of product X if the customer buys product X in five or more quantities. "
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:201
+msgid "Free: Provide a certain number of free items based on the purchased quantity."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:202
+msgid "Fixed Discount: Set a fixed amount to be deducted from the product price for each eligible set of items."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:203
+msgid "Percentage Discount: Apply a percentage reduction based on the product price for each eligible set of items."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:206
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:355
+#: admin/partials/discounts/discount-deals-cart-discount.php:194
+msgid "Specify Discount Value (for Fixed and Percentage Discounts):"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:206
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:355
+msgid "Depending on your chosen discount type, enter the appropriate value. For a fixed discount, enter the amount to be deducted (e.g., $10 off). For a percentage discount, enter the percentage to be discounted (e.g., 10% off)."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:207
+msgid "If you opt for a percentage discount, you can set a maximum limit to control the discount amount. For instance, if the calculated percentage discount exceeds a certain value, the discount will be capped at that value for the eligible set of items."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:211
+msgid "For example, let's say you have set up a $10 discount for customers buying 2 caps when they purchase 3 to 5 caps, a 10% discount for customers buying 5 caps when they purchase 9 to 10 caps, and a free 5 caps for customers buying 20 to 100 caps."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:212
+msgid "If a customer adds 4 caps to their cart, the plugin will automatically apply a $10 discount, reducing the total price for the 4 caps. If another customer adds 10 caps to their cart, the plugin will apply a 10% discount to 5 of those caps. If a third customer adds 25 caps to their cart, the plugin will automatically add 5 free caps to the order."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgx-discount.php:213
+msgid "By offering these enticing BOGO discounts, you can incentivize customers to buy more and increase their cart value while creating a more engaging shopping experience on your WooCommerce store."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:36
@@ -743,11 +807,11 @@ msgid "Cheapest item in the Cart"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:37
-msgid "Expensive item in the Cart"
+msgid "Costlier item in the Cart"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:38
-msgid "Select discount product manually"
+msgid "Specific Product"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:54
@@ -755,43 +819,99 @@ msgstr ""
 msgid "Discount"
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:210
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:212
 msgid "Select category to pick free product"
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:216
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:354
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:218
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:384
 msgid "Search category..."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:245
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:247
 msgid "Select free products"
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:251
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:347
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:253
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:377
 #: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-product-select-abstract.php:34
 msgid "Search products..."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:283
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:285
 msgid "Would you like to show \"Eligible for discount\" message, if the above product not found in cart? "
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-bxgy-discount.php:337
-msgid "Buy two or more t-shirts and get one cap for free as a discount."
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:323
+msgid "As customers add qualifying quantities of the main product (X) to their cart, the Buy X and Get Y Discount feature will automatically apply the BOGO discounts. The plugin will recognize when the conditions for each discount range are met and add the specified discount product (Y) to the customer's cart."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:333
+msgid "Here, you can set up specific product quantity ranges for which you want to apply the BOGO discounts. For example, you can create a discount for customers buying 3 to 5 caps or a discount for customers purchasing 1 laptop."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:336
+msgid "Define Discount Product:"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:336
+msgid "For each product quantity range, you'll specify the type of discount product (Y) the customer will receive. You have three options:"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-bxgy-discount.php:338
-msgid "Give a 50% discount on a quantity of product Y if the customer buys product X in five or more quantities. "
+msgid "Cheapest in the Cart: Offer a discount on the cheapest product in the cart based on the defined quantity range."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:339
+msgid "Costlier in the Cart: Offer a discount on the costlier product in the cart based on the defined quantity range."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:340
+msgid "Specific Product: Specify a particular product that customers will receive as a discount when they meet the required quantity."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:344
+msgid "For each product quantity range, you'll also specify the quantity of the discount product (Y) that the customer will receive. For example, customers need to buy 2 belts to get a $10 discount when they purchase 3 to 5 caps."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:347
+msgid "Choose Discount Type"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:349
+msgid "Free: Provide the discount product (Y) for free when the customer meets the required quantity of the main product (X)."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:350
+msgid "Fixed Discount: Set a fixed amount to be deducted from the price of the discount product (Y)."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:351
+msgid "Percentage Discount: Apply a percentage reduction based on the price of the discount product (Y)."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:358
+msgid "If you opt for a percentage discount, you can set a maximum limit to control the discount amount. For example, if the calculated percentage discount exceeds a certain value, the discount will be capped at that value for the discount product (Y)."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:364
+msgid "If a customer adds 4 caps to their cart, and you've set up a BOGO discount of $10 for 2 belts when customers purchase 3 to 5 caps, the plugin will automatically add 2 belts to the customer's cart, and the price of the belts will be discounted by $10."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:365
+msgid "If another customer adds 1 laptop to their cart, and you've set up a BOGO discount of 1 free laptop bag when customers purchase 1 laptop, the plugin will automatically add 1 laptop bag to the customer's cart, and the laptop bag will be provided for free."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-bxgy-discount.php:367
+msgid "By offering these attractive BOGO discounts, you can encourage customers to purchase more products and increase their cart value while creating a more engaging shopping experience on your WooCommerce store."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-cart-discount.php:34
-msgid "Min Subtotal"
+msgid "Minimum Subtotal"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-cart-discount.php:35
-msgid "Max Subtotal"
+msgid "Maximum Subtotal"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-cart-discount.php:55
@@ -809,39 +929,59 @@ msgid "Free Shipping"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-cart-discount.php:174
-msgid "When calculating the discount, the subtotal of the shopping cart will be taken into account in order to compare it with the \"discount ranges\" given above."
+msgid "As customers shop on your online store and add items to their cart, the Cart Subtotal Based Discount feature will automatically apply discounts based on the cart subtotal. The plugin will recognize the total value of items in the cart and offer the relevant discount based on the configured subtotal ranges and rules."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-cart-discount.php:177
-msgid "If your discount type is \"Percentage Discount\", then you can limit the discount for that cart to a certain amount."
+#: admin/partials/discounts/discount-deals-cart-discount.php:184
+msgid "Define Cart Subtotal Ranges:"
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-cart-discount.php:186
-msgid " Create multiple discount ranges by specifying the minimum cart subtotal, maximum cart subtotal, and discount details. If the cart subtotal matches one of the discount ranges, the discount will be applied to that cart accordingly. In the settings you can specify the mode for applying the discount. By default, the discount is applied as a fee. However, we recommend you to change the mode to Coupon."
+#: admin/partials/discounts/discount-deals-cart-discount.php:184
+msgid "Here, you can set up specific cart subtotal ranges for which you want to apply discounts. For instance, you can create a discount for carts with a subtotal between $100 and $500, another discount for carts with a subtotal between $501 and $5000, and yet another for carts with a subtotal between $5001 and $10000."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:189
+msgid "Free Shipping: Provide free shipping for carts falling into the specified subtotal range."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-cart-discount.php:190
-msgid "You can give free shipping for the cart whose subtotal is between 100$ and 500$. "
+msgid "Fixed Discount: Set a fixed amount to be deducted from the cart subtotal."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-cart-discount.php:191
-msgid "You can give a fixed discount of 20$ for the shopping cart if the subtotal of the shopping cart is between 500$ and 1000$. "
+msgid "Percentage Discount: Apply a percentage reduction based on the cart subtotal."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-cart-discount.php:192
-msgid "You can also apply a 25% discount to the cart if the cart subtotal is over $1500. You can also limit the discount on products by entering the maximum discount value. "
+#: admin/partials/discounts/discount-deals-cart-discount.php:194
+msgid "Depending on your chosen discount type, enter the appropriate value. For a fixed discount, enter the amount to be deducted (e.g., $100 off). For a percentage discount, enter the percentage to be discounted (e.g., 10% off)."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:195
+msgid "If you select a percentage discount, you can set a maximum limit to control the discount amount. For example, if the calculated percentage discount exceeds $5, the discount will be capped at $5 for that specific cart subtotal range."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:199
+msgid "For example, let's say you have set up a free shipping discount for carts with a subtotal between $100 and $500, a $100 discount for carts with a subtotal between $501 and $5000, and a 25% discount (with a maximum discount of $5) for carts with a subtotal between $5001 and $10000."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:200
+msgid "If a customer's cart subtotal is $120, the plugin will automatically apply free shipping to their order. If another customer's cart subtotal is $600, the plugin will deduct $100 from the cart subtotal, resulting in a new discounted subtotal. If a third customer's cart subtotal is $7000, the plugin will calculate a 25% discount (capped at $5), and the customer will see the updated discounted subtotal."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-cart-discount.php:201
+msgid "By offering these dynamic discounts based on the cart subtotal, you can incentivize customers to increase their order value and create a more engaging shopping experience on your WooCommerce store."
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:32
 msgid "Expires In (days)"
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:33
-msgid "Coupon Code"
-msgstr ""
-
 #: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:84
 msgid "E.g. 14"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:100
+msgid "Important notes:"
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:104
@@ -853,7 +993,15 @@ msgid "Create a coupon with a value of '0' in Marketing - > Coupons and then fil
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:116
+msgid "How it Works?"
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:116
 msgid "Create and send unique one use coupons to your customers for their next purchase."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:118
+msgid "Use cases: "
 msgstr ""
 
 #: admin/partials/discounts/discount-deals-next-order-coupon-discount.php:120
@@ -872,36 +1020,64 @@ msgstr ""
 msgid "Max Price"
 msgstr ""
 
+#: admin/partials/discounts/discount-deals-product-discount.php:38
+msgid "Maximum Discount"
+msgstr ""
+
 #: admin/partials/discounts/discount-deals-product-discount.php:166
-msgid "When calculating the discount, the price of the product will be taken into account to compare it with the \"discount ranges\" you have created."
+msgid "When customers visit your online store and add products to their cart, the Product Price Based Discount feature will automatically kick in. The plugin will identify the product's price and apply the corresponding discount based on the price range it falls into and the discount rules you set."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-product-discount.php:178
-msgid " Create multiple discount ranges by specifying the minimum product price, maximum product price, and discount details. If the product price matches one of the discount ranges, the discount will be applied to that product accordingly. "
+#: admin/partials/discounts/discount-deals-product-discount.php:176
+msgid "Define Price Ranges:"
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-product-discount.php:182
-msgid "You can give a fixed discount of 2$ on products whose price is between 5$ and 20$."
+#: admin/partials/discounts/discount-deals-product-discount.php:176
+msgid "Here, you can enter specific price ranges for which you want to offer discounts. For example, you can create a discount for products priced between $10 and $50, another discount for products priced between $51 and $500, and yet another for products priced between $501 and $1000."
 msgstr ""
 
-#: admin/partials/discounts/discount-deals-product-discount.php:183
-msgid "You can also give a 25% discount on products priced between $50 and $150. You can also limit the discount by entering the maximum discount value. "
+#: admin/partials/discounts/discount-deals-product-discount.php:189
+msgid "If you select a percentage discount, you can set a maximum limit to control the discount amount. For instance, if the calculated percentage discount exceeds $75, the discount will be capped at $75 for that specific price range."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-product-discount.php:194
+msgid "For instance, let's say you have set up a discount of 2% for products priced between $10 and $50, $10 off for products priced between $51 and $500, and 10% (with a maximum discount of $75) for products priced between $501 and $1000."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-product-discount.php:195
+msgid "If a customer adds a product priced at $35 to their cart, the plugin will calculate a 2% discount of $0.70 and display the new discounted price. If another customer adds a product priced at $150 to their cart, the plugin will apply a fixed discount of $10, resulting in a new discounted price."
+msgstr ""
+
+#: admin/partials/discounts/discount-deals-product-discount.php:196
+msgid "This way, you can offer personalized and attractive discounts to your customers based on the price of the products they purchase, enhancing their shopping experience on your WooCommerce store."
 msgstr ""
 
 #: admin/partials/meta_boxes/workflow-meta-box-discounts.php:25
 msgid "[ Select ]"
 msgstr ""
 
-#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:42
-msgid "Workflow type"
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:37
+msgid "Next Order Coupons (Upcoming Release)"
 msgstr ""
 
-#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:48
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:38
+msgid "Points and Rewards (Upcoming Release)"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:39
+msgid "Scratch Cards (Upcoming Release)"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:45
+msgid "Discount Workflow Type"
+msgstr ""
+
+#: admin/partials/meta_boxes/workflow-meta-box-discounts.php:51
 msgid "What type of discount that you are planning to create for your customers."
 msgstr ""
 
 #: admin/partials/meta_boxes/workflow-meta-box-promotions.php:39
-msgid "Enter the promotional message that will be displayed to the customer"
+msgid "Enter Your Promotional Message"
 msgstr ""
 
 #: admin/partials/meta_boxes/workflow-meta-box-promotions.php:55
@@ -993,7 +1169,7 @@ msgid "Bulk discount"
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:26
-msgid "Give dynamic discounts on products when customers buy the products in large quantities."
+msgid "In this discount workflow, you, as the store owner, can offer attractive bulk discounts based on the quantity of products added to the cart."
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:55
@@ -1002,17 +1178,17 @@ msgstr ""
 #: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:56
 #: includes/workflows/discounts/class-discount-deals-workflow-next-order-coupon-discount.php:55
 #: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:55
-msgid "Configure the discount you want to give to your customers"
+msgid "Configure Customer Discounts"
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:83
 #: includes/workflows/discounts/class-discount-deals-workflow-discount.php:239
-msgid "Would you like to display promotional message in the storefront?"
+msgid "Display Promotional Message in Storefront?"
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:96
 #: includes/workflows/discounts/class-discount-deals-workflow-discount.php:252
-msgid "When to show this promotional message?"
+msgid "Show Promotional Message"
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:98
@@ -1032,7 +1208,7 @@ msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:112
 #: includes/workflows/discounts/class-discount-deals-workflow-discount.php:268
-msgid "Where to show this promotional message?"
+msgid "Promotional Message Placement"
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bulk-discount.php:114
@@ -1059,7 +1235,7 @@ msgid "Buy X and Get X discount"
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bxgx-discount.php:25
-msgid "If the customer buys product X, then give some quantities as discounts on the same product."
+msgid "In this discount workflow, you, as the store owner, can offer Buy X and Get X discounts, commonly known as BOGO (Buy One, Get One) discounts. "
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:23
@@ -1067,7 +1243,7 @@ msgid "Buy X and Get Y discount"
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-bxgy-discount.php:25
-msgid "If the customer buys product X, then give some quantities as discounts of product Y."
+msgid "In this discount workflow, you, as the store owner, can offer Buy X and Get Y discounts, where customers can get a discount on a specific product (Y) when they buy a certain quantity of another product (X). "
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:23
@@ -1075,7 +1251,7 @@ msgid "Cart subtotal based discount"
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-cart-discount.php:26
-msgid "Give discounts on shopping cart subtotal with coupons and fees."
+msgid "In this discount workflow, you, as the store owner, can offer various discounts based on the total value of the items in the customer's cart (cart subtotal). "
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-next-order-coupon-discount.php:23
@@ -1103,7 +1279,7 @@ msgid "Simple discount"
 msgstr ""
 
 #: includes/workflows/discounts/class-discount-deals-workflow-simple-discount.php:26
-msgid "Give dynamic discounts to all products in your store."
+msgid "In this discount workflow, you, as the store owner, have the flexibility to set up dynamic discounts based on the price ranges of your products."
 msgstr ""
 
 #: includes/workflows/rules/abstracts/class-discount-deals-workflow-rule-abstract.php:112

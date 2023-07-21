@@ -23,7 +23,7 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 		$this->set_title( __( 'Cart subtotal based discount', 'discount-deals' ) );
 		$this->set_short_title( __( 'Cart discount', 'discount-deals' ) );
 		$this->set_category( __( 'Cart discount', 'discount-deals' ) );
-		$this->set_description( __( 'Give discounts on shopping cart subtotal with coupons and fees.', 'discount-deals' ) );
+		$this->set_description( __( 'In this discount workflow, you, as the store owner, can offer various discounts based on the total value of the items in the customer\'s cart (cart subtotal). ', 'discount-deals' ) );
 	}//end __construct()
 
 
@@ -53,7 +53,7 @@ class Discount_Deals_Workflow_Cart_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
+				'label'         => __( 'Configure Customer Discounts', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)

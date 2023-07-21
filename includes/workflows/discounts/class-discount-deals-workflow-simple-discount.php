@@ -23,7 +23,7 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 		$this->set_title( __( 'Product price based discount', 'discount-deals' ) );
 		$this->set_short_title( __( 'Simple discount', 'discount-deals' ) );
 		$this->set_category( __( 'Product discount', 'discount-deals' ) );
-		$this->set_description( __( 'Give dynamic discounts to all products in your store.', 'discount-deals' ) );
+		$this->set_description( __( 'In this discount workflow, you, as the store owner, have the flexibility to set up dynamic discounts based on the price ranges of your products.', 'discount-deals' ) );
 	}//end __construct()
 
 
@@ -52,7 +52,7 @@ class Discount_Deals_Workflow_Simple_Discount extends Discount_Deals_Workflow_Di
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
+				'label'         => __( 'Configure Customer Discounts', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)

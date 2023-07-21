@@ -77,7 +77,11 @@ function discount_deals_select( $field ) {
 						<optgroup label="<?php echo esc_attr( $key ); ?>">
 							<?php
 							foreach ( $value as $option_key => $option_value ) {
-								echo '<option value="' . esc_attr( $option_key ) . '"' . wc_selected( $option_key, $field['value'] ) . '>' . esc_html( $option_value ) . '</option>';
+                                $disabled = "";
+                                if (str_starts_with($option_key,'disabled_')){
+	                                $disabled = "disabled";
+                                }
+								echo '<option value="' . esc_attr( $option_key ) . '"' . wc_selected( $option_key, $field['value'] ) . ' ' . $disabled . '>' . esc_html( $option_value ) . '</option>';
 							}
 							?>
 						</optgroup>

@@ -22,7 +22,7 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 		$this->set_supplied_data_items();
 		$this->set_title( __( 'Buy X and Get X discount', 'discount-deals' ) );
 		$this->set_category( __( 'BOGO discount', 'discount-deals' ) );
-		$this->set_description( __( 'If the customer buys product X, then give some quantities as discounts on the same product.', 'discount-deals' ) );
+		$this->set_description( __( 'In this discount workflow, you, as the store owner, can offer Buy X and Get X discounts, commonly known as BOGO (Buy One, Get One) discounts. ', 'discount-deals' ) );
 	}//end __construct()
 
 	/**
@@ -51,7 +51,7 @@ class Discount_Deals_Workflow_Bxgx_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
+				'label'         => __( 'Configure Customer Discounts', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)

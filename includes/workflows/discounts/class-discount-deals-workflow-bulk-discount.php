@@ -23,7 +23,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 		$this->set_title( __( 'Product quantity based discount', 'discount-deals' ) );
 		$this->set_short_title( __( 'Bulk discount', 'discount-deals' ) );
 		$this->set_category( __( 'Product discount', 'discount-deals' ) );
-		$this->set_description( __( 'Give dynamic discounts on products when customers buy the products in large quantities.', 'discount-deals' ) );
+		$this->set_description( __( 'In this discount workflow, you, as the store owner, can offer attractive bulk discounts based on the quantity of products added to the cart.', 'discount-deals' ) );
 	}//end __construct()
 
 	/**
@@ -52,7 +52,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 			array(
 				'wrapper_class' => 'discount-options-field-container',
 				'id'            => 'discount_deals_workflow_discount_type',
-				'label'         => __( 'Configure the discount you want to give to your customers', 'discount-deals' ),
+				'label'         => __( 'Configure Customer Discounts', 'discount-deals' ),
 				'html'          => $discount_details_html,
 				'required'      => true,
 			)
@@ -80,7 +80,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 				'id'            => 'discount_deals_workflow_toggle_promotion',
 				'name'          => 'discount_deals_workflow[dd_promotion][enable]',
 				'value'         => $promotion_enabled,
-				'label'         => __( 'Would you like to display promotional message in the storefront?', 'discount-deals' ),
+				'label'         => __( 'Display Promotional Message in Storefront?', 'discount-deals' ),
 				'options'       => array(
 					'yes' => __( 'Yes', 'discount-deals' ),
 					'no'  => __( 'No', 'discount-deals' ),
@@ -93,7 +93,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 				'id'         => 'discount_deals_workflow_promotion_when',
 				'name'       => 'discount_deals_workflow[dd_promotion][when_to_show]',
 				'value'      => discount_deals_get_value_from_array( $discount_details, 'when_to_show', 'all_time' ),
-				'label'      => __( 'When to show this promotional message?', 'discount-deals' ),
+				'label'      => __( 'Show Promotional Message', 'discount-deals' ),
 				'options'    => array(
 					'before_rule' => __( 'Before all workflow rules are passed', 'discount-deals' ),
 					'after_rule'  => __( 'After all workflow rules are passed', 'discount-deals' ),
@@ -109,7 +109,7 @@ class Discount_Deals_Workflow_Bulk_Discount extends Discount_Deals_Workflow_Disc
 				'id'         => 'discount_deals_workflow_promotion_where',
 				'name'       => 'discount_deals_workflow[dd_promotion][where_to_show]',
 				'value'      => discount_deals_get_value_from_array( $discount_details, 'where_to_show', 'all_time' ),
-				'label'      => __( 'Where to show this promotional message?', 'discount-deals' ),
+				'label'      => __( 'Promotional Message Placement', 'discount-deals' ),
 				'options'    => array(
 					'before_add_to_cart_button'    => __( 'Before "Add to cart" form', 'discount-deals' ),
 					'after_add_to_cart_button'     => __( 'After "Add to cart" form', 'discount-deals' ),
