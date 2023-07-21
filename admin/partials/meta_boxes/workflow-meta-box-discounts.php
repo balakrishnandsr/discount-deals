@@ -34,9 +34,9 @@ $workflow = $this->get_workflow();
 		}
 		$all_valid_discount_types[ $group ][ $name ] = $discount_title;
 	}
-	$all_valid_discount_types["Order Discounts"]["disabled_noc"] = __("Next Order Coupons (Upcoming Release)","discount-deals");
-	$all_valid_discount_types["Order Discounts"]["disabled_pnr"] = __("Points and Rewards (Upcoming Release)","discount-deals");
-	$all_valid_discount_types["Order Discounts"]["disabled_sc"] = __("Scratch Cards (Upcoming Release)","discount-deals");
+	$all_valid_discount_types['Order Discounts']['disabled_noc'] = __('Next Order Coupons (Upcoming Release)', 'discount-deals');
+	$all_valid_discount_types['Order Discounts']['disabled_pnr'] = __('Points and Rewards (Upcoming Release)', 'discount-deals');
+	$all_valid_discount_types['Order Discounts']['disabled_sc'] = __('Scratch Cards (Upcoming Release)', 'discount-deals');
 	discount_deals_select(
 		array(
 			'id'                    => 'discount_deals_workflow_type',
